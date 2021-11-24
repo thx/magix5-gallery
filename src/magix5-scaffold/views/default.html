@@ -1,0 +1,17 @@
+default html...
+
+{{each list as e}}
+
+<div class="list-color">{{=e.month}}</div>
+
+{{/each}}
+
+<mx-grid.row></mx-grid.row>
+
+<mx-test *params="123" *p1="{{#this}}"/>
+
+<input value="{{:user.name&{refresh:true}}}"/>
+
+<div>{{=user.name}}</div>
+
+<button mx-click="log()" mx-ref="{{= $viewId}}_btn">查看数据</button>
