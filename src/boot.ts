@@ -5,7 +5,7 @@
 (() => {
   const node = document.getElementById('boot') as HTMLScriptElement;
   const src = node.src.replace('/boot.js', '')
-  const projectName = 'magix5-scaffold';
+  const projectName = 'magix5-gallery';
   let seajs = window.seajs;
   seajs.config({
     paths: {
@@ -20,9 +20,9 @@
         location.href = 'index.html?mxredirectUrl=' + encodeURIComponent(location.href) + '#!/login/index'
       }
     });
-    Magix.applyStyle('@:{mx-style.group}', 'style@:./magix5-scaffold/gallery/mx-style/group.less');
-    Magix.applyStyle('@:{mx-style.normalize}', 'style@:./magix5-scaffold/gallery/mx-style/normalize.less');
-    Magix.applyStyle('@:{mx-style.icons}', 'style@:./magix5-scaffold/gallery/mx-style/icons.less');
+    Magix.applyStyle('@:{mx-style.group}', 'style@:./magix5-gallery/gallery/mx-style/group.less');
+    Magix.applyStyle('@:{mx-style.normalize}', 'style@:./magix5-gallery/gallery/mx-style/normalize.less');
+    Magix.applyStyle('@:{mx-style.icons}', 'style@:./magix5-gallery/gallery/mx-style/icons.less');
     // Magix.applyStyle('@global.style')
 
     // medusa：国际版配置

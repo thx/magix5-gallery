@@ -58,8 +58,8 @@ let send = (sendUrl, options) => {
     });
 };
 let sync = (bag, callback) => {
-    let UserInfo = Magix.config<UserInfo>('magix5-scaffold.user') || <UserInfo>{};
-    let ApiHost = Magix.config<string>('magix5-scaffold.api.host') || '';
+    let UserInfo = Magix.config<UserInfo>('magix5-gallery.user') || <UserInfo>{};
+    let ApiHost = Magix.config<string>('magix5-gallery.api.host') || '';
     let dataType = bag.get('dataType') || 'json';
     let data = bag.get('params') || {};
     let urlParams = bag.get('urlParams');

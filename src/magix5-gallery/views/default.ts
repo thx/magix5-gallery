@@ -15,7 +15,7 @@ export default ProjectView.extend({
     if (renderMark()) {
       await this.digest({
         user: {
-          name: 'magix5-scaffold'
+          name: 'magix5-gallery'
         },
         list
       })

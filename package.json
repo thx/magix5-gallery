@@ -1,131 +1,131 @@
 {
-    "name": "magix5-gallery",
-    "version": "1.0.0",
-    "scripts": {
-        "c": "mm sl; git add -A; git commit -m 'dev'; git push;",
-        "a": "git add -A; git commit -m 'dev';"
-    },
-    "rmxConfig": {
-        "kit": "magix"
-    },
-    "magixCliConfig": {
-        "magixVersion": "5",
-        "preloadModuleList": true,
-        "closeInspector": true,
-        "closeDesiger": true,
-        "closeDocs": false,
-        "closeHmr": false,
-        "magixJsTranspile": "esnext",
-        "esBuildTarget": [
-            "es2018"
-        ],
-        "gitlabUrl": "https://gitlab.alibaba-inc.com/thx/magix5-scaffold",
-        "rapVersion": "2",
-        "rapProjectId": "671",
-        "logkey": "alimama.99.dmp",
-        "spma": "a2e3k",
-        "dataPlusConfigPath": "./src/magix5-scaffold/dataplus/config.js",
-        "modelsPath": "src/magix5-scaffold/services/models.js",
-        "galleries": [
-            {
-                "name": "@ali/zs-gallery",
-                "path": "src/magix5-scaffold/gallery"
-            }
-        ],
-        "magixCombineConfig": {
-            "loaderType": "cmd_es",
-            "galleries": {
-                "mxRoot": "magix5-scaffold/gallery/"
-            }
-        },
-        "magixDesigerTemplate": "@ali/magix-desiger-bptemplate",
-        "chartParkId": "48",
-        "chartParkIndexPath": "src/magix5-scaffold/chartpark/index.js",
-        "ipConfig": {
-            "线上": "106.11.211.220|https://dmp.taobao.com:443/index_new.html",
-            "预发一套": "140.205.215.168|https://pre-dmp.taobao.com:443/index_new.html"
-        },
-        "jsExtension": ".ts",
-        "autoOpenUrl": "https://localhost:443/index.html",
-        "apiMatch": [
-            "api/",
-            ".json",
-            ".action"
-        ],
-        "indexMatch": [
-            "index.html",
-            "indexbp.html",
-            "login.html"
-        ],
-        "scopedCss": [
-            "./src/magix5-scaffold/assets/base.less"
-        ],
-        "galleriesMxRoot": "magix5-scaffold/gallery/",
-        "galleriesLgRoot": "magix5-scaffold/gallery-local/",
-        "spmFolder": "src/magix5-scaffold/views",
-        "srcFolder": "src",
-        "buildFolder": "build",
-        "rootAppName": "magix5-scaffold",
-        "cloudBuild": true,
-        "defId": "2439",
-        "iconfontId": "30",
-        "iconfontScanPath": "src",
-        "iconfontPath": "src/magix5-scaffold/assets/iconfont.less",
-        "dynamicProjectName": true,
-        "rapper": false
-    },
-    "devDependencies": {
-        "magix": "3.8.14",
-        "@ali/magix-desiger-bptemplate": "^1.0.0",
-        "@types/jquery": "3.3.4"
-    },
-    "dependencies": {
-        "blueimp-md5": "^2.18.0"
-    },
-    "contributors.bak": [
-        {
-            "id": "71147",
-            "name": "浩添"
-        },
-        {
-            "id": "252254",
-            "name": "奇贤"
-        },
-        {
-            "id": "086270",
-            "name": "宫卫"
-        },
-        {
-            "id": "064856",
-            "name": "释剑"
-        },
-        {
-            "id": "024880",
-            "name": "逢春"
-        },
-        {
-            "id": "195417",
-            "name": "梵墨"
-        },
-        {
-            "id": "083123",
-            "name": "虞佳"
-        },
-        {
-            "id": "050763",
-            "name": "崇志"
-        },
-        {
-            "id": "050971",
-            "name": "左莫"
-        },
-        {
-            "id": "058782",
-            "name": "行列"
-        }
+  "name": "magix5-gallery",
+  "version": "1.0.0",
+  "scripts": {
+    "c": "mm sl; git add -A; git commit -m 'dev'; git push;",
+    "a": "git add -A; git commit -m 'dev';"
+  },
+  "rmxConfig": {
+    "kit": "magix"
+  },
+  "magixCliConfig": {
+    "magixVersion": "5",
+    "preloadModuleList": true,
+    "closeInspector": true,
+    "closeDesiger": true,
+    "closeDocs": false,
+    "closeHmr": false,
+    "magixJsTranspile": "esnext",
+    "esBuildTarget": [
+      "es2018"
     ],
-    "repository": {
-        "type": "git",
-        "url": "git@gitlab.alibaba-inc.com:mm/magix5-gallery.git"
+    "gitlabUrl": "http://gitlab.alibaba-inc.com/mm/magix5-gallery",
+    "rapVersion": "2",
+    "rapProjectId": "",
+    "logkey": "alimama.99.dmp",
+    "spma": "a2e1wz",
+    "dataPlusConfigPath": "./src/magix5-gallery/dataplus/config.js",
+    "modelsPath": "src/magix5-gallery/services/models.js",
+    "galleries": [
+      {
+        "name": "@ali/zs-gallery",
+        "path": "src/magix5-gallery/gallery"
+      }
+    ],
+    "magixCombineConfig": {
+      "loaderType": "cmd_es",
+      "galleries": {
+        "mxRoot": "magix5-gallery/gallery/"
+      }
+    },
+    "magixDesigerTemplate": "@ali/magix-desiger-bptemplate",
+    "chartParkId": 1389,
+    "chartParkIndexPath": "src/magix5-gallery/chartpark/index.js",
+    "ipConfig": {
+      "线上": "106.11.211.220|https://dmp.taobao.com:443/index_new.html",
+      "预发一套": "140.205.215.168|https://pre-dmp.taobao.com:443/index_new.html"
+    },
+    "jsExtension": ".ts",
+    "autoOpenUrl": "https://localhost:443/index.html",
+    "apiMatch": [
+      "api/",
+      ".json",
+      ".action"
+    ],
+    "indexMatch": [
+      "index.html",
+      "indexbp.html",
+      "login.html"
+    ],
+    "scopedCss": [
+      "./src/magix5-gallery/assets/base.less"
+    ],
+    "galleriesMxRoot": "magix5-gallery/gallery/",
+    "galleriesLgRoot": "magix5-gallery/gallery-local/",
+    "spmFolder": "src/magix5-gallery/views",
+    "srcFolder": "src",
+    "buildFolder": "build",
+    "rootAppName": "magix5-gallery",
+    "cloudBuild": true,
+    "defId": 213084,
+    "iconfontId": "",
+    "iconfontScanPath": "src",
+    "iconfontPath": "src/magix5-gallery/assets/iconfont.less",
+    "dynamicProjectName": true,
+    "rapper": false
+  },
+  "devDependencies": {
+    "magix": "3.8.14",
+    "@ali/magix-desiger-bptemplate": "^1.0.0",
+    "@types/jquery": "3.3.4"
+  },
+  "dependencies": {
+    "blueimp-md5": "^2.18.0"
+  },
+  "contributors.bak": [
+    {
+      "id": "71147",
+      "name": "浩添"
+    },
+    {
+      "id": "252254",
+      "name": "奇贤"
+    },
+    {
+      "id": "086270",
+      "name": "宫卫"
+    },
+    {
+      "id": "064856",
+      "name": "释剑"
+    },
+    {
+      "id": "024880",
+      "name": "逢春"
+    },
+    {
+      "id": "195417",
+      "name": "梵墨"
+    },
+    {
+      "id": "083123",
+      "name": "虞佳"
+    },
+    {
+      "id": "050763",
+      "name": "崇志"
+    },
+    {
+      "id": "050971",
+      "name": "左莫"
+    },
+    {
+      "id": "058782",
+      "name": "行列"
     }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.alibaba-inc.com:mm/magix5-gallery.git"
+  }
 }
