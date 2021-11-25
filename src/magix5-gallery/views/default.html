@@ -1,17 +1,50 @@
-default html...
-
-{{each list as e}}
-
-<div class="list-color">{{=e.month}}</div>
-
-{{/each}}
-
-<mx-grid.row></mx-grid.row>
-
-<mx-test *params="123" *p1="{{#this}}"/>
-
-<input value="{{:user.name&{refresh:true}}}"/>
-
-<div>{{=user.name}}</div>
-
-<button mx-click="log()" mx-ref="{{= $viewId}}_btn">查看数据</button>
+<div class="base-header">
+    <div class="base-logo">
+        <img class="logo-img" src="https://img.alicdn.com/tfs/TB1qRnywVzqK1RjSZFoXXbfcXXa-432-355.png">
+        <span class="logo-name">Magix5 Gallery</span>
+    </div>
+    <div class="header-tabs mx5-clearfix">
+        {{each headers as h}}
+        <a href="#{{=h.path}}" class="header-tab {{if h.cur}} cur {{/if}}" data-spm-click="gostr=/alimama.99.dmp;locaid=d71e92279">{{=h.name}}</a>
+        {{/each}}
+    </div>
+</div>
+<div class="base {{if count == 1}} close {{/if}}">
+    <div class="base-left {{if fixed}} fixed {{/if}}" style="height: {{=minHeight}}px;">
+        {{each list as item}}
+        <div class="group">
+            {{if item.name}}
+            <div class="title" x-html="{{=item.name}}"></div>
+            {{/if}}
+            {{each item.subs as sub}}
+            <a class="{{if sub.child}} child {{else}} nav {{/if}} {{if (sub.path == path)}} cur-nav {{/if}}"
+                href="#{{=sub.path}}" x-html="{{=sub.name}}" data-spm-click="gostr=/alimama.99.dmp;locaid=db4021666"></a>
+            {{/each}}
+        </div>
+        {{/each}}
+    </div>
+    <div class="base-main">
+        <div class="content mx5-clearfix">
+            <mx-title *content="{{=cur.name}}??" *tip="{{=cur.tip}}??" />
+            <div mx-view="{{=view}}" data-spm="c5eca9ce4">
+                <mx-loading />
+            </div>
+        </div>
+        {{if count > 1}}
+        <div class="contexts mx5-clearfix">
+            {{if prev.path}}
+            <a href="#{{=prev.path}}" class="prev" data-spm-click="gostr=/alimama.99.dmp;locaid=dc42db42c">
+                <i class="mx5-iconfont context-icon">&#xe63a;</i>
+                上一篇：{{=prev.name}}
+            </a>
+            {{/if}}
+            {{if next.path}}
+            <a href="#{{=next.path}}" class="next" data-spm-click="gostr=/alimama.99.dmp;locaid=d02dd812f">
+                <i class="mx5-iconfont context-icon">&#xe63a;</i>
+                下一篇：{{=next.name}}
+            </a>
+            {{/if}}
+        </div>
+        {{/if}}
+    </div>
+</div>

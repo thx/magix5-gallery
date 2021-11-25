@@ -1,0 +1,64 @@
+<div class="wrapper">
+    <div class="content-subs {{if fixed}} subs-fixed {{/if}} ">
+    {{each list as item}}
+        <a class="sub-link" href="javascript:;" mx-click="@:{to}({key:'{{=item.value}}'})" x-html="{{=item.text}}" data-spm-click="gostr=/alimama.99.dmp;locaid=d4042a3f6"></a>
+        {{if (item.subs && item.subs.length)}}
+            {{each item.subs as sub}}
+            <a class="sub-link mx5-pl10" href="javascript:;" mx-click="@:{to}({key:'{{=sub.value}}'})" x-html="{{=sub.text}}" data-spm-click="gostr=/alimama.99.dmp;locaid=dcec079e1"></a>
+            {{/each}}
+        {{/if}}
+    {{/each}}
+    </div>
+    
+    <mx-title *mode="second" *content="使用示例" data-target="{{=$viewId}}_demo"/>
+    <div class="mx5-clearfix mx5-pb20">
+        {{if (columns && columns.length)}}
+            {{each columns as d}}
+            <div class="example {{if (highlightId == d.highlightId)}} example-highlight {{/if}}" 
+                mx-view="{{=path}}/{{=d.value}}" data-spm="c1d66a8e0"></div>
+            {{/each}}
+        {{/if}}
+        {{if (lefts && lefts.length && rights && rights.length)}}
+        <div class="mx5-clearfix">
+            <div class="flw50 mx5-pr20">
+                {{each lefts as d}}
+                <div class="example {{if (highlightId == d.highlightId)}} example-highlight {{/if}}" 
+                    mx-view="{{=path}}/{{=d.value}}" data-spm="c4974ae6f"></div>
+                {{/each}}
+            </div>
+            <div class="flw50">
+                {{each rights as d}}
+                <div class="example {{if (highlightId == d.highlightId)}} example-highlight {{/if}}" 
+                    mx-view="{{=path}}/{{=d.value}}" data-spm="c6b517bc5"></div>
+                {{/each}}
+            </div>
+        </div>
+        {{/if}}
+    </div>
+
+    {{if (apis && apis.length)}}
+    <mx-title *mode="second" *content="API" data-target="{{=$viewId}}_api"/>
+    <div class="custom-table">
+        <table class="mx5-table">
+            <thead>
+                <tr>
+                    <th width="90">可配参数</th>
+                    <th width="280">说明</th>
+                    <th width="80">类型</th>
+                    <th width="100">默认值</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{each apis as api}}
+                <tr>
+                    <td x-html="{{=api.value}}"></td>
+                    <td x-html="{{=api.text}}"></td>
+                    <td x-html="{{=api.type}}"></td>
+                    <td x-html="{{=api.def}}"></td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+    {{/if}}
+</div>

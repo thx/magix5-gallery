@@ -1,3 +1,207 @@
-.list-color {
-  color: red;
+@base-header-height: 52px;
+@base-left-width: 220px;
+
+.base-header {
+    position: relative;
+    height: @base-header-height;
+    padding-top: 10px;
+    box-shadow: 0 2px 4px rgba(51, 51, 51, 0.08);
+    background-color: #fff;
+
+    .base-logo {
+        float: left;
+        display: inline-flex;
+        align-items: center;
+        width: @base-left-width;
+        padding-left: 24px;
+
+        .logo-img {
+            width: 38px;
+            height: 32px;
+            margin-right: 8px;
+            background-color: var(--mx5-color-brand);
+        }
+
+        .logo-name {
+            font-size: 18px;
+        }
+    }
+
+    .header-tabs {
+        position: relative;
+        float: right;
+        margin-right: 120px;
+        line-height: 32px;
+
+        .header-tab {
+            position: relative;
+            float: left;
+            margin: 0 10px;
+            padding: 0 20px 8px 20px;
+            font-size: 14px;
+            border-bottom: 2px solid transparent;
+            cursor: pointer;
+            transition: all var(--mx5-animation-duration);
+
+            &.cur {
+                color: var(--mx5-color-brand);
+                border-bottom: 2px solid var(--mx5-color-brand);
+            }
+        }
+    }
+}
+
+.base-left {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 19;
+    width: @base-left-width;
+    padding-bottom: 10px;
+    border-right: 1px solid var(--mx5-border-color);
+    overflow-y: auto;
+    transition: left var(--mx5-animation-duration);
+
+    .group {
+        margin-bottom: 16px;
+    }
+
+    .nav,
+    .title,
+    .child {
+        position: relative;
+        display: flex;
+        width: 100%;
+        align-items: center;
+        padding-left: 10px;
+        border-left: 4px solid transparent;
+        white-space: nowrap;
+        font-size: 12px;
+        transition: background-color var(--mx5-animation-duration), height var(--mx5-animation-duration), color var(--mx5-animation-duration);
+    }
+
+    .title {
+        height: 32px;
+        color: #999;
+    }
+
+    .nav,
+    .child {
+        height: 38px;
+        cursor: pointer;
+
+        &:hover {
+            color: var(--mx5-color-brand);
+        }
+
+        &.cur-nav {
+            color: var(--mx5-color-brand);
+            border-left: 4px solid var(--mx5-color-brand);
+            background-color: var(--mx5-color-brand-opacity);
+        }
+    }
+
+    .child {
+        padding-left: 36px;
+
+        &::after,
+        &::before {
+            content: ' ';
+            position: absolute;
+            border-style: dashed;
+            border-color: #ccc;
+        }
+
+        &::after {
+            top: -50%;
+            left: 20px;
+            width: 0;
+            height: 100%;
+            border-width: 0 1px 0 0;
+        }
+
+        &::before {
+            top: 50%;
+            left: 20px;
+            width: 10px;
+            height: 0;
+            border-width: 1px 0 0 0;
+        }
+    }
+
+    .nav+.child {
+        &::after {
+            top: -15%;
+            height: 65%;
+        }
+    }
+
+    &.fixed {
+        position: fixed;
+    }
+}
+
+
+.base {
+    position: relative;
+    margin-top: 20px;
+    padding-left: @base-left-width;
+    transition: padding-left var(--mx5-animation-duration);
+
+    &.close {
+        padding-left: 0;
+
+        .base-left {
+            opacity: 0;
+            left: (0px - @base-left-width);
+        }
+    }
+}
+
+
+.base-main {
+    .content {
+        padding: 0px 20px;
+    }
+
+    .contexts {
+        margin-right: 20px;
+        margin-left: 20px;
+        padding: 20px 0 40px 0;
+        border-top: 1px solid var(--mx5-border-color);
+
+        .prev,
+        .next {
+            position: relative;
+            height: 22px;
+            line-height: 22px;
+            color: var(--mx5-color-brand);
+
+            .context-icon {
+                position: absolute;
+                top: 0;
+                line-height: 22px;
+            }
+        }
+
+        .prev {
+            float: left;
+            padding-left: 20px;
+
+            .context-icon {
+                left: 0;
+                transform: rotate(-90deg);
+            }
+        }
+
+        .next {
+            float: right;
+            padding-right: 20px;
+
+            .context-icon {
+                right: 0;
+                transform: rotate(90deg);
+            }
+        }
+    }
 }

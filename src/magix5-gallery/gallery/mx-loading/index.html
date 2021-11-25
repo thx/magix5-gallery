@@ -1,0 +1,33 @@
+<div class="wrapper">
+    <svg class="bg" 
+        width="36" 
+        height="36" 
+        viewBox="18 18 36 36"
+        xmlns="http://www.w3.org/2000/svg" 
+        version="1.1"
+        xmlns:xlink="http://www.w3.org/1999/xlink" >
+        <defs>
+            <lineargradient id="{{=loadingId}}_colors" x1="0%" y1="0%" x2="100%" y2="64.9%">
+                <stop offset="0%" stop-color="{{=colorGradient}}"></stop>
+                <stop offset="100%" stop-color="{{=color}}"></stop>
+            </lineargradient>
+        </defs>
+        <circle
+            cx="36"
+            cy="36"
+            r="16"
+            fill="none" 
+            stroke="{{=colorBg}}"
+            stroke-width="4" 
+            stroke-miterlimit="10"/>
+        <circle  class="path" 
+            cx="36"
+            cy="36"
+            r="16"
+            fill="none" 
+            stroke="url(#{{=loadingId}}_colors)"
+            stroke-width="4"
+            stroke-miterlimit="10"/>
+    </svg>
+    <div class="text" x-html="{{=content}}"></div>
+</div>

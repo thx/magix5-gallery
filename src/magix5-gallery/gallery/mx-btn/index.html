@@ -1,0 +1,15 @@
+<button type="button" 
+    id="{{=$viewId}}_btn" 
+    style="{{=styles}}; {{if width}} width: {{=width}}px; {{else}} width: 100%; {{/if}}"
+    class="{{if type}} btn--{{=type}} {{/if}}"
+    mx-click="@:{anim}()">
+    <span class="text" x-html="{{=content}}"></span>
+</button>
+<!-- {{if loading}}
+<mx-loading mx-click="@:{stop}()" 
+    class="load"
+    style="{{if small}} height: 250%; transform: scale(0.4); {{else}} height: 200%; transform: scale(0.5); {{/if}}"
+    color-bg="{{=((type == 'primary') ? 'rgba(222,225,232,.2)' : '#DEE1E8')}}"
+    color-gradient="{{=((type == 'primary') ? '#ffffff' : 'var(--color-brand)')}}" 
+    color="{{=((type == 'primary') ? '#ffffff' : 'var(--color-brand)')}}"/>
+{{/if}} -->

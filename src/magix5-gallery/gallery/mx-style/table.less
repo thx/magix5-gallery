@@ -1,34 +1,20 @@
-/* @dependent: ./index.less */
-
-.table {
+.mx5-table {
     width: 100%;
+    font-size: var(--mx5-font-size);
+    border-collapse: collapse;
+    border-spacing: 0;
 
     thead {
-        background-color: var(--color-bg);
+        background-color: var(--mx5-table-head-bg-color);
 
         tr {
             th {
-                height: 60px;
-                padding: 0 var(--mx-table-ceil-h-gap);
-                color: #999;
+                height: var(--mx5-table-head-height);
+                padding: 0 var(--mx5-table-ceil-h-gap);
+                color: var(--mx5-table-head-font-color);
                 border: none;
-
-                &.field-group {
-                    height: 30px;
-                    padding: 2px var(--mx-table-ceil-h-gap) 0;
-
-                    .group-name {
-                        line-height: 26px;
-                        padding-bottom: 2px;
-                        border-bottom: 1px solid var(--color-border);
-                    }
-                }
-
-                &.field-item {
-                    height: 30px;
-                    padding: 0 var(--mx-table-ceil-h-gap);
-                    white-space: nowrap;
-                }
+                font-weight: normal;
+                text-align: left;
             }
         }
     }
@@ -38,27 +24,12 @@
 
         tr {
             td {
-                padding: var(--mx-table-ceil-v-gap) var(--mx-table-ceil-h-gap);
+                padding: var(--mx5-table-ceil-v-gap) var(--mx5-table-ceil-h-gap);
                 color: #333;
-                border-top: 1px solid var(--color-border);
+                border-top: 1px solid var(--mx5-border-color);
                 border-bottom: none;
-                transition: background-color var(--duration) ease-out;
-
-                &.sub-mask {
-                    background-color: #fff;
-                    border-right: 1px solid var(--color-brand-light);
-                    border-top: 0 none;
-                }
-
-                &.sub-mask-first {
-                    border-top: 1px solid var(--color-border);
-                    border-bottom: 0 none;
-                }
-
-                .operations {
-                    opacity: 0;
-                    transition: opacity var(--duration) ease-out;
-                }
+                word-break: break-all;
+                transition: background-color var(--mx5-animation-duration) ease-out;
             }
 
             &:first-child {
@@ -67,78 +38,9 @@
                 }
             }
 
-            &:hover,
-            &.hover-tr {
+            &:hover {
                 td {
-                    background-color: var(--color-brand-opacity);
-
-                    &.sub-mask {
-                        background-color: #fff;
-                    }
-
-                    .operations {
-                        opacity: 1;
-                    }
-                }
-            }
-
-            &.empty-tr {
-
-                &,
-                &:hover,
-                &.hover-tr,
-                &.hover-tr:hover {
-                    td {
-                        height: 200px;
-                        text-align: center;
-                        color: #999;
-                        background-color: var(--color-bg);
-
-                        .no-data {
-                            font-size: 60px;
-                            color: #ccc;
-                        }
-                    }
-                }
-            }
-
-            &.operation-tr {
-                display: none;
-
-                td {
-                    padding: calc(var(--mx-table-ceil-v-gap) / 3 * 2) calc(var(--mx-table-ceil-h-gap) * 2);
-                    border-top: 0 none;
-                    background-color: var(--color-brand-light);
-
-                    &.sub-mask {
-                        background-color: #fff;
-                    }
-                }
-
-                &.operation-tr-open {
-                    display: table-row;
-                }
-            }
-
-            &.thead {
-
-                &,
-                &:hover,
-                &.hover-tr {
-                    background-color: var(--color-bg);
-
-                    td {
-                        height: 60px;
-                        padding: 0 var(--mx-table-ceil-h-gap);
-                        color: #999;
-                        border-top: 1px solid var(--color-border);
-                        border-bottom: 0 none;
-                        background-color: transparent;
-
-                        &.sub-mask {
-                            background-color: #fff;
-                        }
-                    }
+                    background-color: var(--mx5-color-brand-opacity);
                 }
             }
         }
@@ -147,26 +49,9 @@
     tfoot {
         tr {
             td {
-                padding: calc(var(--mx-table-ceil-v-gap) / 3 * 4) var(--mx-table-ceil-h-gap);
-                background-color: var(--color-bg);
+                padding: calc(var(--mx5-table-ceil-v-gap) / 3 * 4) var(--mx5-table-ceil-h-gap);
+                background-color: var(--mx5-table-head-bg-color);
                 border: none;
-            }
-        }
-    }
-
-    &.table-no-hover {
-        tbody {
-            tr {
-                td {
-                    background-color: #fff;
-                }
-
-                &:hover,
-                .hover-tr {
-                    td {
-                        background-color: #fff;
-                    }
-                }
             }
         }
     }

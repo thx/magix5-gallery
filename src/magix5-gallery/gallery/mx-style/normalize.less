@@ -4,11 +4,11 @@ html,
 body {
     margin: 0;
     padding: 0;
-    color: #333;
+    color: var(--mx5-font-color);
+    font-family: var(--mx5-font-family);
+    font-size: var(--mx5-font-size);
+    line-height: var(--mx5-line-height);
     -webkit-font-smoothing: antialiased;
-    font-family: var(--font-family);
-    font-size: var(--font-size);
-    line-height: var(--line-height);
 }
 
 body,
@@ -47,17 +47,19 @@ ol {
 }
 
 a {
-    text-decoration: none;
-    background-color: transparent;
-}
+    color: var(--mx5-font-color);
+    transition: all var(--mx5-animation-duration);
 
-a:active,
-a:hover {
-    outline-width: 0;
-}
-
-a:focus {
-    outline: 0 none;
+    &,
+    &:link,
+    &:visited,
+    &:hover,
+    &:focus,
+    &:active {
+        outline: 0;
+        text-decoration: none;
+        background-color: transparent;
+    }
 }
 
 h1,
@@ -223,7 +225,7 @@ textarea {
 
 @media screen and (-webkit-min-device-pixel-ratio:0) {
     input {
-        line-height: normal !important;
+        line-height: normal;
     }
 }
 
@@ -259,27 +261,9 @@ button:focus {
     resize: none;
 }
 
-a {
-    color: #333;
-    text-decoration: none;
-    transition: all var(--duration);
-
-    &:hover {
-        color: var(--color-brand);
-    }
-
-    &:hover,
-    &:focus,
-    &:active,
-    &:visited {
-        outline: 0;
-        text-decoration: none;
-    }
-}
-
 label {
-    cursor: pointer;
     display: inline-block;
+    cursor: pointer;
     max-width: 100%;
     font-weight: 400;
 }
@@ -287,7 +271,7 @@ label {
 /*文字选中样式*/
 ::selection,
 ::-moz-selection {
-    background-color: var(--color-brand-opacity);
+    background-color: var(--mx5-color-brand-opacity);
     color: white;
 }
 
@@ -297,8 +281,4 @@ label {
 ::-webkit-input-placeholder {
     opacity: 1;
     color: #999;
-}
-
-#app {
-    min-width: var(--app-min-width);
 }

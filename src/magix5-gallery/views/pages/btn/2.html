@@ -1,0 +1,39 @@
+<div class="eg-content">
+    <mx-btn *content="次要按钮" *type="secondary"/>
+</div>
+<div class="mx5-clearfix">
+    <div class="eg-desc flw50">
+        <div class="eg-title">HTML Code</div>
+        <div class="desc-oper" 
+            mx-click="@:{done}({id:1})" data-spm-click="gostr=/alimama.99.dmp;locaid=d1dbb9f6e">
+            <span class="desc-tip" x-html="{{=text1}}"></span>
+            <i class="mx5-iconfont desc-icon">&#xe610;</i>
+        </div>
+        <!-- <mx-copy class="desc-oper" 
+            *copy-node="{{=$viewId}}_text_1" 
+            mx-success="@:{done}({id:1})">
+            <span class="desc-tip">{{!text1}}</span>
+            <i class="mx5-iconfont desc-icon">&#xe610;</i>
+        </mx-copy> -->
+        <pre id="{{=$viewId}}_text_1">
+TODO  
+        </pre>
+    </div>
+    <div class="eg-desc flw50 mx5-blc">
+        <div class="eg-title">JS Code</div>
+        <div class="desc-oper" 
+            mx-click="@:{done}({id:2})" data-spm-click="gostr=/alimama.99.dmp;locaid=d43ebd9d9">
+            <span class="desc-tip" x-html="{{=text2}}"></span>
+            <i class="mx5-iconfont desc-icon">&#xe610;</i>
+        </div>
+        <!-- <mx-copy class="desc-oper" 
+            *copy-node="{{=$viewId}}_text_1" 
+            mx-success="@:{done}({id:1})">
+            <span class="desc-tip">{{!text1}}</span>
+            <i class="mx5-iconfont desc-icon">&#xe610;</i>
+        </mx-copy> -->
+        <pre id="{{=$viewId}}_text_2">
+TODO
+        </pre>
+    </div>
+</div>

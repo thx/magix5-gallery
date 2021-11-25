@@ -1,5 +1,5 @@
-import Magix from 'magix5';
-let { has, mark, toMap, applyStyle, task, isObject, isArray } = Magix;
+import Magix5 from 'magix5';
+let { has, mark, toMap, applyStyle, task, isObject, isArray } = Magix5;
 applyStyle('@:./sync.less');
 let emptyObject = {};
 let errorSelector = '@:./sync.less:error-input';

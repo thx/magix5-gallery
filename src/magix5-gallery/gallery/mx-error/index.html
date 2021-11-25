@@ -1,0 +1,10 @@
+<div class="error error--{{=mode}} bg--{{=bg}}">
+    <img class="img" src="{{=img}}" />
+    <div class="tip" x-html="{{=tip}}"></div>
+    {{if btns}}
+    <div class="custom-btns">
+        <mx-btn class="custom-btn" *content="回到首页"/>
+        <mx-btn class="custom-btn" *content="返回上一页" *type="secondary" mx-click="@:{back}()"/>
+    </div>
+    {{/if}}
+</div>

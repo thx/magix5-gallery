@@ -1,0 +1,203 @@
+[mx-view*="mx-btn/index"] {
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+/* 各种类型按钮样式，包含a标签的状态处理 */
+.btn--primary,
+.btn--primary:link,
+.btn--primary:visited,
+.btn--secondary,
+.btn--secondary:link,
+.btn--secondary:visited,
+.btn--white,
+.btn--white:link,
+.btn--white:visited,
+.btn--custom,
+.btn--custom:link,
+.btn--custom:visited {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: var(--mx5-btn-min-width);
+    height: var(--mx5-input-height);
+    margin-bottom: 0;
+    padding: 0 var(--mx5-btn-h-gap);
+    font-size: var(--mx5-btn-font-size);
+    font-weight: normal;
+    white-space: nowrap;
+    touch-action: manipulation;
+    cursor: pointer;
+    user-select: none;
+    outline: none;
+    border-radius: var(--mx5-btn-border-radius);
+    border-width: 1px;
+    border-style: solid;
+    transition: border-color var(--mx5-animation-duration), background-color var(--mx5-animation-duration), color var(--mx5-animation-duration);
+
+    &.btn--small {
+        min-width: 48px;
+        height: var(--mx5-input-small-height);
+    }
+
+    &[disabled],
+    &.btn--disabled {
+        cursor: not-allowed;
+
+        &::after {
+            opacity: .6;
+            content: ' ';
+            position: absolute;
+            top: -1px;
+            right: -1px;
+            bottom: -1px;
+            left: -1px;
+            z-index: 1;
+            border-radius: var(--mx5-btn-border-radius);
+            background-color: #fff;
+        }
+    }
+}
+
+/* 主要品牌色按钮 */
+.btn--primary {
+    --mx5-animation-expand-color: #fff;
+    border-color: var(--mx5-btn-brand);
+    background-color: var(--mx5-btn-brand);
+    color: var(--mx5-btn-brand-text);
+
+    &:hover,
+    &.hover,
+    &:active {
+        border-color: var(--mx5-btn-brand-hover);
+        background-color: var(--mx5-btn-brand-hover);
+        color: var(--mx5-btn-brand-text-hover);
+    }
+
+    &[disabled],
+    &.btn--disabled {
+
+        &:hover,
+        &.hover,
+        &:active {
+            border-color: var(--mx5-btn-brand);
+            background-color: var(--mx5-btn-brand);
+            color: var(--mx5-btn-brand-text);
+        }
+    }
+}
+
+/* 次要浅色按钮 */
+.btn--secondary {
+    border-color: var(--mx5-btn-border);
+    background-color: var(--mx5-btn-bg);
+    color: var(--mx5-btn-text);
+
+    &:hover,
+    &.hover,
+    &:active {
+        border-color: var(--mx5-btn-border-hover);
+        background-color: var(--mx5-btn-bg-hover);
+        color: var(--mx5-btn-text-hover);
+    }
+
+    &[disabled],
+    &.btn--disabled {
+
+        &:hover,
+        &.hover,
+        &:active {
+            border-color: var(--mx5-btn-border);
+            background-color: var(--mx5-btn-bg);
+            color: var(--mx5-btn-text);
+        }
+    }
+}
+
+.btn--white {
+    border-color: #fff;
+    background-color: #fff;
+    color: var(--mx5-btn-text);
+
+    &:hover,
+    &.hover,
+    &:active {
+        border-color: var(--mx5-color-bg);
+        background-color: var(--mx5-color-bg);
+        color: var(--mx5-btn-text-hover);
+    }
+
+    &[disabled],
+    &.btn--disabled {
+
+        &:hover,
+        &.hover,
+        &:active {
+            border-color: #fff;
+            background-color: #fff;
+            color: var(--mx5-btn-text);
+        }
+    }
+}
+
+.btn--custom {
+    border-color: var(--mx5-btn-custom-color);
+    background-color: var(--mx5-btn-custom-color);
+    color: var(--mx5-btn-custom-color-text);
+
+    &:hover,
+    &.hover,
+    &:active {
+        border-color: var(--mx5-btn-custom-color-hover);
+        background-color: var(--mx5-btn-custom-color-hover);
+        color: var(--mx5-btn-custom-color-hover-text);
+    }
+
+    &[disabled],
+    &.btn--disabled {
+
+        &:hover,
+        &.hover,
+        &:active {
+            border-color: var(--mx5-btn-custom-color);
+            background-color: var(--mx5-btn-custom-color);
+            color: var(--mx5-btn-custom-color-text);
+        }
+    }
+}
+
+
+
+.text {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.text-hide {
+    animation: mx5-fade-out var(--mx5-animation-duration);
+    animation-fill-mode: forwards;
+}
+
+.load {
+    position: absolute;
+    top: 0;
+    z-index: 2;
+    transform-origin: top;
+    cursor: not-allowed;
+    user-select: none;
+    animation: mx5-fade-in var(--mx5-animation-duration);
+    animation-fill-mode: forwards;
+}
+
+.pop-mask {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 3;
+    width: 100%;
+    height: 100%;
+    cursor: not-allowed;
+}

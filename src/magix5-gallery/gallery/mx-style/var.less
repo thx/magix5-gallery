@@ -1,0 +1,74 @@
+/* 默认值映射到magix3的变量配置 */
+:root {
+    /* 通用，字体相关参数，输入或下拉框高度  */
+    --mx5-line-height: var(--line-height, 1.5);
+    --mx5-font-color: var(--font-color, #333);
+    --mx5-font-size: var(--font-size, 12px);
+    --mx5-font-family: var(--font-family, Helvetica, Arial, "Microsoft Yahei", "Hiragino Sans GB", "Heiti SC", "WenQuanYi Micro Hei", sans-serif);
+    --mx5-font-number: var(--font-number, Tahoma);
+    --mx5-input-height: var(--input-height, 32px);
+    --mx5-input-small-height: var(--input-small-height, 26px);
+
+    /* 品牌色，gradient渐变预留 */
+    --mx5-color-brand: var(--color-brand, #385ACC);
+    --mx5-color-brand-gradient: var(--app-brand-gradient, var(--mx5-color-brand));
+    --mx5-color-brand-hover: var(--color-brand-hover, #2e4aa7);
+    --mx5-color-brand-vs: var(--color-brand-vs, #f7664d);
+    --mx5-color-brand-light: var(--color-brand-light, #d7def6);
+    --mx5-color-brand-opacity: var(--color-brand-opacity, #eff2fb);
+    --mx5-color-brand-text: var(--color-brand-text, #ffffff);
+    --mx5-color-brand-text-hover: var(--color-brand-text-hover, #ffffff);
+
+    /* 边框 */
+    --mx5-border-color: var(--color-border, #e6e6e6);
+    --mx5-border-radius: var(--border-radius, 4px);
+
+    /* 背景色 */
+    --mx5-bg-color: var(--color-bg, #f5f5f5);
+    --mx5-bg-color-hover: var(--color-bg-hover, var(--mx5-color-brand-opacity));
+    --mx5-bg-color-grey: var(--app-bg, #e8ebf2);
+    --mx5-bg-color-black: var(--app-nav-bg, #303a58);
+
+    /* 提示颜色 */
+    --mx5-color-error: var(--color-red, #d52112);
+    --mx5-color-pass: var(--color-green, #30ab66);
+    --mx5-color-warn: var(--color-warn, #ffb400);
+    --mx5-color-highlight: var(--color-blue, var(--mx5-color-brand));
+
+    /* trigger边框，背景色 */
+    --mx5-trigger-border-color: var(--border-highlight, #9095A1);
+    --mx5-trigger-border-color-hover: var(--border-highlight-hover, var(--color-brand));
+    --mx5-trigger-bg-color: var(--bg-highlight, #fff);
+    --mx5-trigger-bg-color-hover: var(--bg-highlight-hover, #fff);
+
+    /* 动画 */
+    --mx5-animation-duration: var(--duration, 0.2s);
+
+    /* trigger扩散动画相关参数 */
+    --mx5-animation-expand-color: var(--mx5-color-brand);
+    --mx5-animation-expand-timer: 300ms;
+    --mx5-animation-expand-ease: ease-out;
+
+    /* 按钮 */
+    --mx5-btn-font-size: var(--btn-font-size, var(--mx5-font-color));
+    --mx5-btn-border-radius: var(--btn-border-radius, var(--mx5-border-radius));
+    --mx5-btn-brand: var(--btn-brand, var(--mx5-color-brand));
+    --mx5-btn-brand-hover: var(--btn-brand-hover, var(--mx5-color-brand-hover));
+    --mx5-btn-brand-text: var(--btn-brand-text, var(--mx5-color-brand-text));
+    --mx5-btn-brand-text-hover: var(--btn-brand-text-hover, var(--mx5-color-brand-text-hover));
+    --mx5-btn-text: var(--btn-text, #333);
+    --mx5-btn-text-hover: var(--btn-text-hover, #333);
+    --mx5-btn-border: var(--btn-border, var(--mx5-color-brand));
+    --mx5-btn-border-hover: var(--btn-border-hover, var(--mx5-color-brand));
+    --mx5-btn-bg: var(--btn-bg, var(--mx5-color-brand-opacity));
+    --mx5-btn-bg-hover: var(--btn-bg-hover, var(--mx5-color-brand-light));
+    --mx5-btn-h-gap: var(--btn-h-gap, 8px);
+    --mx5-btn-min-width: var(--btn-min-width, 64px);
+
+    /* 表格参数 */
+    --mx5-table-ceil-h-gap: var(--mx-table-ceil-h-gap, 12px);
+    --mx5-table-ceil-v-gap: var(--mx-table-ceil-v-gap, 12px);
+    --mx5-table-head-height: var(--mx-table-head-height, 60px);
+    --mx5-table-head-font-color: var(--mx-table-head-font-color, #999);
+    --mx5-table-head-bg-color: var(--mx5-bg-color, #f5f5f5);
+}
