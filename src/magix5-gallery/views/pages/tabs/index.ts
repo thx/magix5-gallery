@@ -15,7 +15,5 @@ export default View.extend({
                 value: 1
             }],
         });
-
-        this.assign(options);
     },
 })

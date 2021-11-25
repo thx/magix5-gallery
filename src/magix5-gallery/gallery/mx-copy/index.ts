@@ -1,7 +1,8 @@
-'top@:./_clipboard.js';
 import Magix5 from 'magix5';
 import View from '../mx-base/view';
-Magix5.applyStyle('@:index.less');
+import * as Clipboard from './clipboard';
+let { applyStyle, node, dispatch } = Magix5;
+applyStyle('@:index.less');
 
 export default View.extend({
     init(options) {
@@ -10,26 +11,26 @@ export default View.extend({
             // 复制另外一个节点
             configs = {
                 target() {
-                    return Magix5.node(options.copyNode);
+                    return node(options.copyNode);
                 }
             };
 
         } else {
             // 复制本节点信息
             configs = {
-                text(trigger) {
+                text() {
                     return options.copyText;
                 }
             };
         }
-        let owner = this.root;
-        this['@:{clipboard}'] = new window.Clipboard(owner, configs);
+        let { root } = this;
+        this['@:{clipboard}'] = new Clipboard(root, configs);
         this['@:{clipboard}'].on('success', (e) => {
             e.clearSelection();
-            owner.trigger('success');
+            dispatch(root, 'success');
         });
         this['@:{clipboard}'].on('error', () => {
-            owner.trigger('error');
+            dispatch(root, 'error');
         });
 
         this.on('destroy', () => {

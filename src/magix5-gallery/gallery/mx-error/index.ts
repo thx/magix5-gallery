@@ -39,9 +39,9 @@ const ErrorImgs = {
 
 export default View.extend({
     tmpl: '@:index.html',
-    init(options) {
-        this.assign(options);
-    },
+    // init(options) {
+    //     this.assign(options);
+    // },
     assign(options) {
         // 尺寸 normal small xsmall
         let mode;

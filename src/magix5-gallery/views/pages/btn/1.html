@@ -3,17 +3,27 @@
 </div>
 <div class="eg-desc">
     <div class="eg-title">HTML Code</div>
-    <div class="desc-oper" 
+    <!-- <div class="desc-oper" 
         mx-click="@:{done}({id:1})" data-spm-click="gostr=/alimama.99.dmp;locaid=d9280fd3f">
-        <span class="desc-tip" x-html="{{=text1}}"></span>
+        <span class="desc-tip" mx-html="{{=text1}}"></span>
         <i class="mx5-iconfont desc-icon">&#xe610;</i>
     </div>
-    <!-- <mx-copy class="desc-oper" 
+    <mx-copy>ddd</mx-copy> -->
+    <!--使用mx-source标签可直接把标签内的html转义输出为文档内容，详情可查阅：https://github.com/thx/magix-composer/issues/1#issuecomment-978779987 -->
+    <mx-source whole="true" id="{{=$viewId}}_text_1">
+        <div class="eg-title">HTML Code</div>
+        <div class="desc-oper" 
+            mx-click="@:{done}({id:1})" data-spm-click="gostr=/alimama.99.dmp;locaid=d9280fd3f">
+            <span class="desc-tip" mx-html="{{=text1}}"></span>
+            <i class="mx5-iconfont desc-icon">&#xe610;</i>
+        </div>
+    </mx-source>
+    <mx-copy class="desc-oper" 
         *copy-node="{{=$viewId}}_text_1" 
         mx-success="@:{done}({id:1})">
-        <span class="desc-tip">{{!text1}}</span>
+        <span class="desc-tip" mx-html="{{=text1}}"></span>
         <i class="mx5-iconfont desc-icon">&#xe610;</i>
-    </mx-copy> -->
+    </mx-copy>
     <pre id="{{=$viewId}}_text_1">
 TODO
     </pre>

@@ -18,7 +18,7 @@ Magix5.applyStyle('@:index.less');
 export default View.extend({
     tmpl: '@:index.html',
     init(options) {
-        this.assign(options);
+        //this.assign(options);
 
         this.on('destroy', () => {
             if (this['@:{anim.timer}']) {

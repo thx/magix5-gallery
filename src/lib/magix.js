@@ -1,9 +1,9 @@
 /*
-version:5.0.2 Licensed MIT
+version:5.0.0-beta Licensed MIT
 author:kooboy_li@163.com
 loader:umd
-enables:mxevent,richVframe,xml,async,service,state,wait,lang,router,routerHash,routerTip,richView,innerView,recast,require,customTags,webc,xview,taskComplete,taskIdle,spreadMxViewParams
-optionals:routerState,routerTipLockUrl,checkAttr,lockSubWhenBusy
+enables:mxevent,richVframe,xml,async,service,wait,lang,router,routerHash,routerTip,richView,innerView,recast,require,xview,taskComplete,taskIdle,spreadMxViewParams,removeStyle,taskCancel,eventVframe,richVframeInvokeCancel,waitSelector,remold,rewrite,rebuild,load
+optionals:routerState,routerTipLockUrl,routerForceState,customTags,checkAttr,webc,lockSubWhenBusy,state
 */
 //magix-composer#snippet;
 //magix-composer#exclude = loader;
@@ -29,12 +29,12 @@ if (typeof DEBUG == 'undefined')
     let Undefined = void Counter;
     let Doc_Document = document;
     let Timeout = Doc_Window.setTimeout; //setTimeout;
+    let ClearTimeout = Doc_Window.clearTimeout;
     let Encode = encodeURIComponent;
     let Value = 'value';
     let Tag_Static_Key = '_';
     let Tag_View_Params_Key = '$';
     let Tag_Prop_Id = 'id';
-    let Tag_Prop_Is = 'is';
     let Hash_Key = '#';
     function Noop() { }
     let JSON_Stringify = JSON.stringify;
@@ -61,10 +61,20 @@ if (typeof DEBUG == 'undefined')
     let SetInnerHTML = (n, html) => n.innerHTML = html;
     let isRString = s => s[0] == Spliter;
     let Empty_Object = {};
+    /**
+     * require//加载模块前调用，可预加载其它模块
+     * rewrite//重写路由，比如从/xinglie/blog 变为 /blog?user=xinglie
+     * rebuild//重建路由，比如从/blog?user=xinglie变为/xinglie/blog
+     * recast //渲染根view时拦截，比如强制锁定显示某个view
+     * remold//事件拦截
+     * retard //magix是否繁忙
+     * request //magix是否请求模块资源
+     */
     let Mx_Cfg = {
         rootId: GUID(),
-        async require() { },
-        wait: Noop,
+        require: Noop,
+        retard: Noop,
+        request: Noop,
         error(e) {
             throw e;
         }
@@ -116,7 +126,11 @@ if (typeof DEBUG == 'undefined')
             for (let i = 0; i < key.length; i += 2) {
                 result.push(ApplyStyle(key[i], key[i + 1]));
             }
-            return result;
+            return () => {
+                for (let r of result) {
+                    r();
+                }
+            };
         }
         if (css && !ApplyStyle[key]) {
             ApplyStyle[key] = 1;
@@ -128,11 +142,19 @@ if (typeof DEBUG == 'undefined')
                 node.id = key;
                 SetInnerHTML(node, css);
                 Header.appendChild(node);
+                return () => {
+                    ApplyStyle[key] = Null;
+                    Header.removeChild(node);
+                };
             }
             else {
                 node = Doc_Document.createElement('style');
                 SetInnerHTML(node, css);
                 Header.appendChild(node);
+                return () => {
+                    ApplyStyle[key] = Null;
+                    Header.removeChild(node);
+                };
             }
         }
     };
@@ -316,8 +338,10 @@ if (typeof DEBUG == 'undefined')
             }
             if (rest) {
                 for (q of rest.split('&')) {
-                    [key, value = Empty] = q.split('=');
-                    po[Decode(key)] = isRString(value) ? value : Decode(value);
+                    if (q) {
+                        [key, value = Empty] = q.split('=');
+                        po[Decode(key)] = isRString(value) ? value : Decode(value);
+                    }
                 }
             }
             PathToObject.set(path, r = {
@@ -379,8 +403,8 @@ if (typeof DEBUG == 'undefined')
     let lastWaitState;
     let ns = navigator.scheduling;
     let StartCall = () => {
-        let last = Date_Now(), out = last + CallBreakTime, args, fn, context, wait = Mx_Cfg.wait;
-        for (;;) {
+        let last = Date_Now(), out = last + CallBreakTime, args, fn, context, wait = Mx_Cfg.retard;
+        for (; ;) {
             if (CallCurrent) { //有待执行的任务
                 if (DEBUG) {
                     CallFunction['@:{call.fn#current}']++;
@@ -392,7 +416,9 @@ if (typeof DEBUG == 'undefined')
                 context = CallCurrent['@:{call#context}'];
                 args = CallCurrent['@:{call#args}'];
                 fn = CallCurrent['@:{call#function}'];
-                ToTry(fn, args, context);
+                if (fn) {
+                    ToTry(fn, args, context);
+                }
                 CallCurrent = CallCurrent['@:{call#next}'];
                 CallCurrentExec = Null; //clear current;
                 if (CallCurrent && ((Date_Now() > out) ||
@@ -419,7 +445,7 @@ if (typeof DEBUG == 'undefined')
             }
         }
     };
-    let CallFunction = (fn, args, context, /*id?,*/ last, current) => {
+    let CallFunction = (fn, args, context, id, last, current) => {
         Call_Until_Stop();
         if (DEBUG) {
             if (!CallFunction['@:{call.fn#total}']) {
@@ -428,21 +454,8 @@ if (typeof DEBUG == 'undefined')
             }
             CallFunction['@:{call.fn#total}']++;
         }
-        // if (id &&
-        //     CallCurrent) {
-        //     current = CallCurrent['@:{call#next}'];
-        //     while (current) {
-        //         if (current['@:{call#id}'] == id) {
-        //             current['@:{call#function}'] =
-        //                 current['@:{call#context}'] =
-        //                 current['@:{call#args}'] =
-        //                 current['@:{call#id}'] = Null;
-        //         }
-        //         current = current['@:{call#next}'];
-        //     }
-        // }
         current = {
-            //'@:{call#id}': id,
+            '@:{call#id}': id,
             '@:{call#function}': fn,
             '@:{call#context}': context,
             '@:{call#args}': args
@@ -481,8 +494,23 @@ if (typeof DEBUG == 'undefined')
             Timeout(StartCall);
         }
     };
-    let LastCallFunction = (fn, args, context /*, id?*/) => {
-        CallFunction(fn, args, context /*, id*/, 1);
+    let LastCallFunction = (fn, args, context, id) => {
+        CallFunction(fn, args, context, id, 1);
+    };
+    let CallCancel = id => {
+        if (id &&
+            CallCurrent) {
+            let current = CallCurrent['@:{call#next}'];
+            while (current) {
+                if (current['@:{call#id}'] == id) {
+                    current['@:{call#function}'] =
+                        current['@:{call#context}'] =
+                        current['@:{call#args}'] =
+                        current['@:{call#id}'] = Null;
+                }
+                current = current['@:{call#next}'];
+            }
+        }
     };
     let Call_Until_Timer, Call_Until_Last_Time;
     let Call_Until_Head, Call_Until_Tail, Call_Until_Delay = 32;
@@ -518,7 +546,7 @@ if (typeof DEBUG == 'undefined')
     };
     let Call_Until_Stop = () => {
         if (Call_Until_Timer) {
-            clearTimeout(Call_Until_Timer);
+            ClearTimeout(Call_Until_Timer);
             Call_Until_Timer = 0;
         }
     };
@@ -540,16 +568,27 @@ if (typeof DEBUG == 'undefined')
             }
         });
     };
+    let resourcesLoadCount = 0;
     let isEsModule = o => o.__esModule || (window.Symbol && o[Symbol.toStringTag] === 'Module');
-    let Async_Require = (name, fn) => {
+    let Async_Require = async (name, fn) => {
         if (name) {
+            await Mx_Cfg.require(name);
             let a = [];
+            let load = Mx_Cfg.request;
+            if (!resourcesLoadCount) {
+                load(1);
+            }
+            resourcesLoadCount++;
             //if (window.seajs) {
             seajs.use(name, (...g) => {
                 for (let m of g) {
                     a.push(isEsModule(m) ? m.default : m);
                 }
                 CallFunction(fn, a);
+                resourcesLoadCount--;
+                if (!resourcesLoadCount) {
+                    load(0);
+                }
             });
             /*} else {
                 if (!Array.isArray(name)) {
@@ -714,7 +753,7 @@ if (typeof DEBUG == 'undefined')
         Router_WinLoc[replace ? 'replace' : 'assign'](Hash_Key + path);
     };
     let Router_Update = (path, params, loc, replace, silent, lQuery) => {
-        path = Router_PNR_Rebuild(path, params, lQuery);
+        path = Router_PNR_Rebuild(path, params, lQuery, loc);
         if (path != loc.srcHash) {
             Router_Silent = silent;
             Router_UpdateHash(path, replace);
@@ -814,13 +853,15 @@ if (typeof DEBUG == 'undefined')
     };
     let Router_AttachViewAndPath = (loc, view) => {
         if (!loc[Router_VIEW]) {
-            let path = loc.hash[Path];
+            let path;
+            path = loc.hash[Path];
             if (!path) {
                 path = Router_PNR_DefaultPath[Path];
                 Assign(loc[Params], Router_PNR_DefaultPath[Params]);
             }
+            loc.srcPath = path;
             if (Router_PNR_Rewrite) {
-                path = Router_PNR_Rewrite(path, loc[Params], Router_PNR_Routers);
+                path = Router_PNR_Rewrite(path, loc[Params], Router_PNR_Routers, loc);
             }
             view = Router_PNR_Routers[path] || Router_PNR_UnmatchView || Router_PNR_DefaultView;
             loc[Path] = path;
@@ -841,40 +882,35 @@ if (typeof DEBUG == 'undefined')
             }
         }
     };
+    let Router_SetDiffInfo = (key, result, oldParams, newParams, setObject) => {
+        let from = oldParams[key], to = newParams[key];
+        if (from != to) {
+            setObject[key] = {
+                from,
+                to
+            };
+            result.a = 1;
+        }
+    };
     let Router_GetChged = (oldLocation, newLocation) => {
         let oKey = oldLocation.href;
         let nKey = newLocation.href;
         let tKey = oKey + Spliter + nKey;
-        let result = Router_ChgdCache.get(tKey);
-        if (!result) {
-            let hasChanged, rps;
-            result = {
-                params: rps = {},
+        let cached = Router_ChgdCache.get(tKey);
+        if (!cached) {
+            let rps, result = {
+                [Params]: rps = {},
                 force: !oKey //是否强制触发的changed，对于首次加载会强制触发一次
-            };
-            let oldParams = oldLocation[Params], newParams = newLocation[Params], tArr = Keys(oldParams).concat(Keys(newParams)), key;
-            let setDiff = key => {
-                let from = oldParams[key], to = newParams[key];
-                if (from != to) {
-                    rps[key] = {
-                        from,
-                        to
-                    };
-                    hasChanged = 1;
-                }
+            }, oldParams = oldLocation[Params], newParams = newLocation[Params], tArr = Keys(oldParams).concat(Keys(newParams)), key;
+            cached = {
+                b: result
             };
             for (key of tArr) {
-                setDiff(key);
+                Router_SetDiffInfo(key, cached, oldParams, newParams, rps);
             }
-            oldParams = oldLocation;
-            newParams = newLocation;
-            rps = result;
-            setDiff(Path);
-            setDiff(Router_VIEW);
-            Router_ChgdCache.set(tKey, result = {
-                a: hasChanged,
-                b: result
-            });
+            Router_SetDiffInfo(Path, cached, oldLocation, newLocation, result);
+            Router_SetDiffInfo(Router_VIEW, cached, oldLocation, newLocation, result);
+            Router_ChgdCache.set(tKey, cached);
             if (DEBUG) {
                 let whiteList = {
                     params: 1,
@@ -889,7 +925,7 @@ if (typeof DEBUG == 'undefined')
                 });
             }
         }
-        return result;
+        return cached;
     };
     let Router_Parse = (href) => {
         href = href || Router_WinLoc.href;
@@ -995,13 +1031,25 @@ if (typeof DEBUG == 'undefined')
             vframe &&
             (view = vframe['@:{vframe#view.entity}']) &&
             view['@:{view#rendered}']) {
+            cs = vframe.children();
             if (View_IsObserveChanged(view)) { //检测view所关注的相应的参数是否发生了变化
                 //CallFunction(view['@:{view#render.short}'], Empty_Array, view);
+                /**
+                 * render返回promise与其它值
+                 * 如果render未返回promise，且render中有异步渲染界面
+                 * 　　比如a 渲染　b,b监听路由参数,a在render中异步返回后更新界面且销毁b。
+                 * 　　路由消息，通知完a后，再通知a的子节点b，理论上这就不对了。
+                 * 如果render返回promise，且render中有异步渲染界面
+                 * 　　比如a 渲染　b,b监听路由参数,a在render中异步返回后更新界面且创建b。
+                 * 　　路由消息，通知完a后，等待a渲染完成，再通知a的子节点b，理论上这也不对。
+                 *
+                 * 综上，渲染前保存a的子节点，渲染后只通知a上面还存在的子节点，删除及新增加的子节点不通知
+                 */
                 if (DEBUG) {
                     resolved = view['@:{view#render.short}']();
                     if (!resolved ||
                         !resolved.then) {
-                        console.error(vframe.path + ' render should return promise value!');
+                        console.info(vframe.path + ' `render` method recommand return promise value');
                     }
                     else {
                         await resolved;
@@ -1011,7 +1059,6 @@ if (typeof DEBUG == 'undefined')
                     await view['@:{view#render.short}']();
                 }
             }
-            cs = vframe.children();
             for (c of cs) {
                 CallFunction(Dispatcher_Update, [Vframe_Vframes[c], tag]);
             }
@@ -1036,6 +1083,10 @@ if (typeof DEBUG == 'undefined')
         if (src.includes(Spliter) &&
             (pVf = Vframe_Vframes[pId])) {
             TranslateData(pVf['@:{vframe#ref.data}'], params);
+            if (params[Spliter]) {
+                Assign(params, params[Spliter]);
+                delete params[Spliter];
+            }
         }
     };
     let Vframe_Root = (rootId, e) => {
@@ -1062,9 +1113,9 @@ if (typeof DEBUG == 'undefined')
     let Vframe_AddVframe = (id, vframe) => {
         if (!Has(Vframe_Vframes, id)) {
             Vframe_Vframes[id] = vframe;
-            // Vframe.fire('add', {
-            //     vframe
-            // });
+            Vframe.fire('add', {
+                vframe
+            });
         }
     };
     let Vframe_RemoveVframe = (id, vframe, root) => {
@@ -1074,9 +1125,9 @@ if (typeof DEBUG == 'undefined')
             root = vframe.root;
             root['@:{node#mounted.vframe}'] = 0;
             root['@:{node#vframe.id}'] = 0;
-            // Vframe.fire('remove', {
-            //     vframe
-            // });
+            Vframe.fire('remove', {
+                vframe
+            });
             vframe.id = vframe.root = vframe.pId = vframe['@:{vframe#children}'] = Null; //清除引用,防止被移除的view内部通过setTimeout之类的异步操作有关的界面，影响真正渲染的view
             if (DEBUG) {
                 let nodes = Doc_Document.querySelectorAll('#' + id);
@@ -1091,7 +1142,9 @@ if (typeof DEBUG == 'undefined')
         view = vf['@:{vframe#view.entity}'];
         while (list.length) {
             [name, args, resolve] = list.shift();
-            CallFunction(resolve, (fn = view[name]) && ToTry(fn, args, view));
+            if (name) {
+                CallFunction(resolve, (fn = view[name]) && ToTry(fn, args, view));
+            }
         }
     };
     let Vframe_CollectVframes = (start, vfs) => {
@@ -1148,8 +1201,7 @@ if (typeof DEBUG == 'undefined')
       * 销毁对应的view
       */
     let Vframe_unmountView = owner => {
-        let { '@:{vframe#view.entity}': v, '@:{vframe#invoke.list}': list, root } = owner;
-        list.length = 0;
+        let { '@:{vframe#view.entity}': v, root } = owner;
         if (v) {
             owner['@:{vframe#view.entity}'] = 0; //unmountView时，尽可能早的删除vframe上的$v对象，防止$v销毁时，再调用该 vfrmae的类似unmountZone方法引起的多次created
             if (v['@:{view#sign}']) {
@@ -1186,10 +1238,6 @@ if (typeof DEBUG == 'undefined')
             Vframe_TranslateQuery(pId, viewPath, params);
             owner['@:{vframe#view.path}'] = view;
             Assign(params, viewInitParams);
-            if (params[Spliter]) {
-                Assign(params, params[Spliter]);
-                delete params[Spliter];
-            }
             sign = owner['@:{vframe#sign}'];
             Async_Require(view, TView => {
                 if (sign == owner['@:{vframe#sign}']) { //有可能在view载入后，vframe已经卸载了
@@ -1268,8 +1316,7 @@ if (typeof DEBUG == 'undefined')
         byNode(node) {
             return Vframe_Vframes[node['@:{node#vframe.id}']];
         }
-    });
-    //    , MxEvent
+    }, MxEvent);
     Assign(Vframe[Prototype], {
         mount(node, viewPath, viewInitParams) {
             let me = this, vf, id = me.id, c = me['@:{vframe#children}'];
@@ -1290,9 +1337,9 @@ if (typeof DEBUG == 'undefined')
             node = node ? me['@:{vframe#children}'][isVframeId ? node : node['@:{node#vframe.id}']] : me.id;
             vf = Vframe_Vframes[node];
             if (vf) {
+                pId = vf.pId;
                 Vframe_unmountView(vf);
                 Vframe_RemoveVframe(node);
-                pId = vf.pId;
                 vf = Vframe_Vframes[pId];
                 if (vf && Has(vf['@:{vframe#children}'], node)) { //childrenMap
                     delete vf['@:{vframe#children}'][node]; //childrenMap
@@ -1300,9 +1347,8 @@ if (typeof DEBUG == 'undefined')
                 }
             }
         },
-        children(me) {
-            me = this;
-            return me['@:{vframe#children.list}'] || (me['@:{vframe#children.list}'] = Keys(me['@:{vframe#children}']));
+        children() {
+            return this['@:{vframe#children.list}'] || (this['@:{vframe#children.list}'] = Keys(this['@:{vframe#children}']));
         },
         parent(level, vf) {
             vf = this;
@@ -1324,35 +1370,42 @@ if (typeof DEBUG == 'undefined')
                 }
             });
         },
-        unloadTest() {
+        invokeCancel(name) {
+            let list = this['@:{vframe#invoke.list}'];
+            if (name) {
+                for (let e of list) {
+                    if (e[0] == name) {
+                        e[0] = '';
+                    }
+                }
+            }
+            else {
+                list.length = 0;
+            }
+        },
+        exitTest() {
             return new GPromise(async (resolve) => {
                 let suspend = 0;
                 let e = {
-                    stop(f) {
+                    stop() {
                         suspend = 1;
-                        if (!f) {
-                            resolve(0);
-                        }
                     },
                     resolve() {
-                        resolve(suspend = 1);
+                        suspend = 0;
                     },
                     reject() {
                         suspend = 1;
-                        resolve(0);
                     }
                 };
                 let vfs = [], vf;
                 Vframe_CollectVframes(this, vfs);
                 for (vf of vfs) {
-                    await vf.invoke('fire', ['unload', e]);
+                    await vf.invoke('fire', ['exit', e]);
                     if (suspend) {
                         break;
                     }
                 }
-                if (!suspend) {
-                    resolve(1);
-                }
+                resolve(suspend);
             });
         }
     });
@@ -1404,15 +1457,24 @@ if (typeof DEBUG == 'undefined')
     let Body_EvtInfoCache = new MxCache();
     let Body_EvtInfoReg = /^([\w\-]+)\x1e(\d+)?(\x1e)?([^(]+)\(([\s\S]*?)\)$/;
     let Body_RootEvents = {};
-    let Body_RootEvents_Modifier = {};
-    let Body_RootEvents_Passive = {};
-    let Body_RootEvents_Capture = {};
     let Body_SearchSelectorEvents = {};
-    let Body_Passive_Flag = 4;
-    let Body_Capture_Flag = 8;
-    let Body_Capture_Modifier = { capture: true };
-    let Body_Passive_Modifier = { passive: false };
-    let Body_Passive_Capture_Modifier = { passive: false, capture: true };
+    let Body_RootEvents_Modifier = {};
+    let Body_RootEvents_Flags = {};
+    let Body_Passive_True_Flag = 1;
+    let Body_Passive_False_Flag = 2;
+    let Body_Capture_True_Flag = 4;
+    let Body_Capture_False_Flag = 8;
+    let Body_Capture_True_Passive_False_Modifier = { capture: true, passive: false };
+    let Body_Capture_True_Passive_True_Modifier = { capture: true, passive: true };
+    let Body_Capture_False_Passive_False_Modifier = { capture: false, passive: false };
+    let Body_Capture_False_Passive_True_Modifier = { capture: false, passive: true };
+    /*
+        passive:false, capture:true
+        passive:true capture:true
+    
+        passive:false, capture:false,
+        passive:false capture:false
+    */
     let Body_FindVframeInfo = (current, eventType) => {
         let vf, tempId, selectorObject, eventSelector, eventInfos = [], begin = current, info = GetAttribute(current, MX_PREFIX + eventType), match, view, vfs, selectorVfId, backtrace;
         if (info) {
@@ -1516,17 +1578,16 @@ if (typeof DEBUG == 'undefined')
         return eventInfos;
     };
     let Body_DOMEventProcessor = domEvent => {
-        let { target, type, composed } = domEvent;
-        if (composed) {
-            target = domEvent.composedPath()[0];
-        }
+        let { target, type } = domEvent;
         let eventInfos;
         let ignore;
         let vframe, view, eventName, fn;
         //let lastVfId;
         let params, arr = [], offset;
+        let remold = Mx_Cfg.remold;
         while (target &&
             target != Doc_Body &&
+            (!remold || remold(target, type, domEvent)) &&
             !domEvent.cancelBubble &&
             (!(ignore = target['@:{node#ignore.events}']) || !ignore[type])) {
             offset = 1;
@@ -1609,26 +1670,34 @@ if (typeof DEBUG == 'undefined')
     };
     let Body_DOMEventBind = (type, searchSelector, remove, flags) => {
         let counter = Body_RootEvents[type] | 0;
-        let passiveCount = Body_RootEvents_Passive[type] | 0;
-        let captureCount = Body_RootEvents_Capture[type] | 0;
+        let flag = Body_RootEvents_Flags[type] || (Body_RootEvents_Flags[type] = {});
         let offset = (remove ? -1 : 1), fn = remove ? RemoveEventListener : AddEventListener;
-        if (flags & Body_Passive_Flag) {
-            passiveCount += offset;
-            Body_RootEvents_Passive[type] = passiveCount;
+        if (flags & Body_Capture_True_Flag) {
+            flag[Body_Capture_True_Flag] = (flag[Body_Capture_True_Flag] | 0) + offset;
         }
-        if (flags & Body_Capture_Flag) {
-            captureCount += offset;
-            Body_RootEvents_Capture[type] = captureCount;
+        if (flags & Body_Capture_False_Flag) {
+            flag[Body_Capture_False_Flag] = (flag[Body_Capture_False_Flag] | 0) + offset;
+        }
+        if (flags & Body_Passive_True_Flag) {
+            flag[Body_Passive_True_Flag] = (flag[Body_Passive_True_Flag] | 0) + offset;
+        }
+        if (flags & Body_Passive_False_Flag) {
+            flag[Body_Passive_False_Flag] = (flag[Body_Passive_False_Flag] | 0) + offset;
         }
         let mod, lastMod = Body_RootEvents_Modifier[type];
-        if (passiveCount && captureCount) {
-            mod = Body_Passive_Capture_Modifier;
+        if (flag[Body_Passive_False_Flag]) {
+            if (flag[Body_Capture_True_Flag]) {
+                mod = Body_Capture_True_Passive_False_Modifier;
+            }
+            else {
+                mod = Body_Capture_False_Passive_False_Modifier;
+            }
         }
-        else if (passiveCount) {
-            mod = Body_Passive_Modifier;
+        else if (flag[Body_Capture_True_Flag]) {
+            mod = Body_Capture_True_Passive_True_Modifier;
         }
-        else if (captureCount) {
-            mod = Body_Capture_Modifier;
+        else {
+            mod = Body_Capture_False_Passive_True_Modifier;
         }
         if (!counter || remove === counter) { // remove=1  counter=1
             fn(Doc_Body, type, Body_DOMEventProcessor, remove ? lastMod : mod);
@@ -1655,7 +1724,7 @@ if (typeof DEBUG == 'undefined')
                     }
                 }
                 if (hasParams && !found) {
-                    console.warn('[!use at to pass parameter] path:' + view.owner.path + ' at ' + (view.owner.parent().path));
+                    console.warn('[!use # to pass parameter] path:' + view.owner.path + ' at ' + (view.owner.parent().path));
                 }
             }
         };
@@ -1807,9 +1876,9 @@ if (typeof DEBUG == 'undefined')
         let token;
         if (tag) {
             props = props || Empty_Object;
-            let compareKey = Empty, unary = children == 1, mxvKeys = specials, hasSpecials = specials, prop, value, c, reused, reusedTotal = 0, 
-            //outerHTML = '<' + tag,
-            attrs = `<${tag}`, innerHTML = Empty, newChildren, prevNode, mxView = 0;
+            let compareKey = Empty, unary = children == 1, mxvKeys = specials, hasSpecials = specials, prop, value, c, reused, reusedTotal = 0,
+                //outerHTML = '<' + tag,
+                attrs = `<${tag}`, innerHTML = Empty, newChildren, prevNode, mxView = 0;
             if (children &&
                 children != 1) {
                 for (c of children) {
@@ -1868,8 +1937,7 @@ if (typeof DEBUG == 'undefined')
                 }
                 if ((prop == Hash_Key ||
                     prop == Tag_Prop_Id ||
-                    prop == Tag_Static_Key ||
-                    prop == Tag_Prop_Is) &&
+                    prop == Tag_Static_Key) &&
                     !compareKey) {
                     compareKey = value;
                     if (prop != Tag_Prop_Id) {
@@ -1897,10 +1965,6 @@ if (typeof DEBUG == 'undefined')
                 else {
                     attrs += ` ${prop}="${value && Updater_Encode(value)}"`;
                 }
-            }
-            //自定义标签
-            if (!compareKey && tag.includes('-')) {
-                compareKey = tag;
             }
             //attrs += outerHTML;
             //outerHTML += unary ? '/>' : `>${innerHTML}</${tag}>`;
@@ -1933,9 +1997,9 @@ if (typeof DEBUG == 'undefined')
             let index = 0;
             if (vNodes.length &&
                 vNodes[0]['@:{v#node.tag}'] != Spliter) {
-                for (let e of realNodes) {
-                    if (e.nodeName.toLowerCase() != vNodes[index]['@:{v#node.tag}'].toLowerCase()) {
-                        console.error('real not match virtual!');
+                for (let e of vNodes) {
+                    if (realNodes[index].nodeName.toLowerCase() != e['@:{v#node.tag}'].toLowerCase()) {
+                        console.error('virtual not match real nodes!');
                     }
                     index++;
                 }
@@ -2059,10 +2123,10 @@ if (typeof DEBUG == 'undefined')
             }
         }
     };
-    let V_Insert_Node_Task = (realNode, oc, nodes, offset, view, ref, ready) => {
+    let V_Insert_Node_Task = (realNode, oc, nodes, offset, view, ref, vframe, ready) => {
         if (view['@:{view#sign}']) {
             if (oc['@:{v#node.tag}'] == Spliter) {
-                Vframe_UnmountZone(realNode);
+                Vframe_UnmountZone(vframe, realNode);
                 SetInnerHTML(realNode, oc['@:{v#node.html}']);
             }
             else {
@@ -2226,7 +2290,7 @@ if (typeof DEBUG == 'undefined')
                             if (newStartNode['@:{v#node.tag}'] == Spliter ||
                                 oldStartNode['@:{v#node.tag}'] == Spliter) {
                                 ref['@:{updater-ref#changed}'] = 1;
-                                Vframe_UnmountZone(realNode);
+                                Vframe_UnmountZone(vframe, realNode);
                                 if (newStartNode['@:{v#node.tag}'] == Spliter) {
                                     realNodeRangeEnd = 0;
                                     SetInnerHTML(realNode, newStartNode['@:{v#node.html}']);
@@ -2367,7 +2431,7 @@ if (typeof DEBUG == 'undefined')
                         oc = newChildren[i];
                         ref['@:{updater-ref#changed}'] = 1;
                         ref['@:{updater-ref#async.count}']++;
-                        CallFunction(V_Insert_Node_Task, [realNode, oc, nodes, realNodeRangeEnd + oi, view, ref, ready]);
+                        CallFunction(V_Insert_Node_Task, [realNode, oc, nodes, realNodeRangeEnd + oi, view, ref, vframe, ready]);
                         // if (oc['@:{v#node.tag}'] == Spliter) {
                         //     Vframe_UnmountZone(realNode);
                         //     SetInnerHTML(realNode, oc['@:{v#node.html}']);
@@ -2486,9 +2550,9 @@ if (typeof DEBUG == 'undefined')
                                 if (DEBUG) {
                                     let result = ToTry(assign, [params, newHTML], /*[params, uri],*/ view);
                                     if (result !== false) {
-                                        if (assign == View.prototype.assign) {
-                                            console.error(`override ${uri[Path]} "assign" method and make sure returned true or false value`);
-                                        }
+                                        // if (assign == View.prototype.assign) {
+                                        //     console.error(`override ${uri[Path]} "assign" method and make sure returned true or false value`);
+                                        // }
                                         ref['@:{updater-ref#view.renders}'].push(view);
                                     }
                                 }
@@ -2538,19 +2602,6 @@ if (typeof DEBUG == 'undefined')
             CallFunction(ready);
         }
     };
-    let State_Data = {};
-    let State = Assign({
-        get(key) {
-            return key ? State_Data[key] : State_Data;
-        },
-        /**
-         * 设置数据
-         * @param {Object} data 数据对象
-         */
-        set(data) {
-            Assign(State_Data, data);
-        }
-    }, MxEvent);
     //like 'login<click>' or '$<click>' or '$win<scroll>' or '$win<scroll>&{capture:true}'
     let View_EvtMethodReg = /^(\$?)([^<]*)<([^>]+)>(?:\s*&(.+))?$/;
     let View_Tip_Suspend;
@@ -2621,7 +2672,7 @@ if (typeof DEBUG == 'undefined')
                 else if (DEBUG &&
                     exist &&
                     fn != exist) { //只在开发中提示
-                    Mx_Cfg.error(Error('plugins duplicate property:' + p));
+                    console.warn('plugins duplicate property:' + p);
                 }
                 temp[p] = fn;
             }
@@ -2631,7 +2682,7 @@ if (typeof DEBUG == 'undefined')
                 proto[p] = temp[p];
             }
             else if (DEBUG) {
-                console.error('already exist ' + p + ',avoid override it!');
+                console.warn('already exist ' + p + ',avoid override it!');
             }
         }
     };
@@ -2672,16 +2723,23 @@ if (typeof DEBUG == 'undefined')
                 matches = p.match(View_EvtMethodReg);
                 if (matches) {
                     [, isSelector, selectorOrCallback, events, modifiers] = matches;
-                    mod = modifiers ? ToObject(modifiers) : Empty_Object;
+                    mod = modifiers ? ToObject(modifiers) : Body_Capture_False_Passive_True_Modifier;
                     events = events.split(Comma);
                     for (item of events) {
                         node = View_Globals[selectorOrCallback];
-                        mask = 1;
-                        if (mod.passive === false) {
-                            mask |= Body_Passive_Flag;
+                        mask = 0;
+                        if (mod.passive ||
+                            mod.passive == Null) {
+                            mask |= Body_Passive_True_Flag;
+                        }
+                        else {
+                            mask |= Body_Passive_False_Flag;
                         }
                         if (mod.capture) {
-                            mask |= Body_Capture_Flag;
+                            mask |= Body_Capture_True_Flag;
+                        }
+                        else {
+                            mask |= Body_Capture_False_Flag;
                         }
                         if (isSelector) {
                             if (node) {
@@ -2696,7 +2754,6 @@ if (typeof DEBUG == 'undefined')
                             if (node === Empty) {
                                 selectorOrCallback = Empty;
                             }
-                            mask |= 2;
                             node = selectorObject[item];
                             if (!node) {
                                 node = selectorObject[item] = [];
@@ -2758,16 +2815,16 @@ if (typeof DEBUG == 'undefined')
         init: Noop,
         render: Noop,
         assign: Noop,
-        leaveTip(msg, fn) {
+        observeExit(msg, fn) {
             let me = this;
             let changeListener = e => {
                 console.log('view suspend', View_Tip_Suspend);
                 if (View_Tip_Suspend) {
                     e.stop();
                 }
-                else if (fn(e)) {
+                else if (fn()) {
                     e.stop(View_Tip_Suspend = 1);
-                    me.leaveConfirm(msg, () => {
+                    me.exitConfirm(msg, () => {
                         View_Tip_Suspend = 0;
                         e.resolve();
                     }, () => {
@@ -2786,7 +2843,7 @@ if (typeof DEBUG == 'undefined')
                 // } else if (!e['@:{router-tip#suspend}'] && fn()) {
                 //     e.stop();
                 //     changeListener[b] = 1;
-                //     me.leaveConfirm(msg, () => {
+                //     me.exitConfirm(msg, () => {
                 //         changeListener[b] = 0;
                 //         e.resolve();
                 //     }, () => {
@@ -2796,16 +2853,17 @@ if (typeof DEBUG == 'undefined')
                 // }
             };
             let unloadListener = e => {
-                if (!e['@:{page-tip#msg}'] && fn(e)) {
+                if (!e['@:{page-tip#msg}'] && fn()) {
                     e['@:{page-tip#msg}'] = msg;
                 }
             };
             Router.on(Change, changeListener);
             Router.on(Page_Unload, unloadListener);
-            me.on('unload', changeListener);
+            me.on('exit', changeListener);
             me.on('destroy', () => {
                 Router.off(Change, changeListener);
                 Router.off(Page_Unload, unloadListener);
+                me.off('exit', changeListener);
             });
         },
         observeLocation(params, isObservePath) {
@@ -2828,15 +2886,14 @@ if (typeof DEBUG == 'undefined')
             }
             return result;
         },
-        set(newData, force) {
+        set(newData, onlyChanged) {
             let me = this, oldData = me['@:{view#updater.data}'], keys = me['@:{view#updater.keys}'];
-            let changed = me['@:{view#updater.data.changed}'], now, old, p;
+            let changed = me['@:{view#updater.data.changed}'], now, old, p, c;
             for (p in newData) {
                 now = newData[p];
                 old = oldData[p];
-                if (!IsPrimitive(now) ||
-                    old != now ||
-                    force) {
+                c = onlyChanged ? Has(onlyChanged, p) : !IsPrimitive(now) || old != now;
+                if (c) {
                     keys[p] = 1;
                     changed = 1;
                 }
@@ -2845,8 +2902,8 @@ if (typeof DEBUG == 'undefined')
             me['@:{view#updater.data.changed}'] = changed;
             return me;
         },
-        digest(data, force) {
-            data = this.set(data, force);
+        digest(data, changed) {
+            data = this.set(data, changed);
             /*
                 view:
                 <div>
@@ -2891,21 +2948,21 @@ if (typeof DEBUG == 'undefined')
         },
         changed() {
             if (DEBUG) {
-                return Boolean(this['@:{view#updater.data.changed}']);
+                return !!(this['@:{view#updater.data.changed}']);
             }
             return this['@:{view#updater.data.changed}'];
         },
-        snapshot() {
-            let me = this;
-            me['@:{view#updater.data.string}'] = JSON_Stringify(me['@:{view#updater.data}']);
-            return me;
-        },
-        altered() {
-            let me = this;
-            if (me['@:{view#updater.data.string}']) {
-                return me['@:{view#updater.data.string}'] != JSON_Stringify(me['@:{view#updater.data}']);
-            }
-        },
+        // snapshot() {
+        //     let me = this;
+        //     me['@:{view#updater.data.string}'] = JSON_Stringify(me['@:{view#updater.data}']);
+        //     return me;
+        // },
+        // altered() {
+        //     let me = this;
+        //     if (me['@:{view#updater.data.string}']) {
+        //         return me['@:{view#updater.data.string}'] != JSON_Stringify(me['@:{view#updater.data}']);
+        //     }
+        // },
         translate(data) {
             return TranslateData(this.owner['@:{vframe#ref.data}'], data);
         },
@@ -3267,6 +3324,7 @@ if (typeof DEBUG == 'undefined')
         };
     };
     let Magix = {
+        version: '5.0.0-beta',
         config(cfg, ...args) {
             let r = Mx_Cfg;
             if (cfg) {
@@ -3303,7 +3361,28 @@ if (typeof DEBUG == 'undefined')
         isFunction: IsFunction,
         isString: IsString,
         isNumber: IsNumber,
-        //isPrimitive:IsPrimitive,
+        isPrimitive: IsPrimitive,
+        waitSelector(selector, timeout, context) {
+            context = context || document;
+            timeout = timeout || 30 * Thousand;
+            let target, check, failed, timer = Timeout(() => failed = 1, timeout);
+            return new GPromise((resolve, reject) => {
+                check = () => {
+                    target = context.querySelector(selector);
+                    if (target) {
+                        ClearTimeout(timer);
+                        resolve(target);
+                    }
+                    else if (failed) {
+                        reject();
+                    }
+                    else {
+                        Timeout(check, CallBreakTime);
+                    }
+                };
+                Timeout(check, CallBreakTime);
+            });
+        },
         attach: EventListen,
         detach: EventUnlisten,
         mix: Assign,
@@ -3322,7 +3401,6 @@ if (typeof DEBUG == 'undefined')
         Cache: MxCache,
         View,
         Vframe,
-        State,
         Service,
         Event: MxEvent,
         Router,
@@ -3341,6 +3419,7 @@ if (typeof DEBUG == 'undefined')
         delay(time) {
             return new GPromise(r => Timeout(r, time));
         },
+        taskCancel: CallCancel,
         /**
          * let checkIfReady=Matix.taskComplete((a,b,c)=>{
          *  console.log(a,b,c);

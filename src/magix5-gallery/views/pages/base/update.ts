@@ -3,9 +3,9 @@ import View from 'magix5-gallery/view';
 
 export default View.extend({
     tmpl: '@:update.html',
-    init(options) {
-        this.assign(options);
-    },
+    // init(options) {
+    //     this.assign(options);
+    // },
     assign(options) {
         this.set(options);
     },

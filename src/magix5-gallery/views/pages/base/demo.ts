@@ -10,7 +10,7 @@ export default View.extend({
         }
         this.set(d);
 
-        this.assign(options);
+        //this.assign(options);
     },
     assign(options) {
         this.set(options);
@@ -18,7 +18,7 @@ export default View.extend({
     render() {
         this.digest();
     },
-    async '@:{done}<click>'(e) {
+    async '@:{done}<click,success>'(e) {
         let that = this;
         let id = e.params.id;
         await that.digest({

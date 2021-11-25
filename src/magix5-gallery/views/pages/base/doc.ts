@@ -5,7 +5,7 @@ Magix5.applyStyle('@:doc.less');
 export default View.extend({
     tmpl: '@:doc.html',
     init(options) {
-        this.assign(options);
+        //this.assign(options);
     },
     assign(options) {
         let viewId = this.id;

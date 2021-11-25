@@ -4,9 +4,9 @@ Magix5.applyStyle('@:index.less');
 
 export default View.extend({
     tmpl: '@:index.html',
-    init(options) {
-        this.assign(options);
-    },
+    // init(options) {
+    //     this.assign(options);
+    // },
     assign(options) {
         this.set({
             mode: options.mode || 'first',

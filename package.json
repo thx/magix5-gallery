@@ -28,10 +28,6 @@
     "dataPlusConfigPath": "./src/magix5-gallery/dataplus/config.js",
     "modelsPath": "src/magix5-gallery/services/models.js",
     "galleries": [
-      {
-        "name": "@ali/zs-gallery",
-        "path": "src/magix5-gallery/gallery"
-      }
     ],
     "magixCombineConfig": {
       "loaderType": "cmd_es",

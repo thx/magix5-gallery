@@ -1,10 +1,10 @@
-/*!5.0.2 Licensed MIT*/
+/*!5.0.0-beta Licensed MIT*/
 /*
 author:kooboy_li@163.com
 loader:umd
-enables:mxevent,richVframe,xml,async,service,state,wait,lang,router,routerHash,routerTip,richView,innerView,recast,require,customTags,webc,xview,taskComplete,taskIdle,spreadMxViewParams
+enables:__version,mxevent,richVframe,xml,async,service,wait,lang,router,routerHash,routerTip,richView,innerView,recast,require,xview,taskComplete,taskIdle,spreadMxViewParams,removeStyle,taskCancel,eventVframe,richVframeInvokeCancel,waitSelector,remold,rewrite,rebuild,load
 
-optionals:routerState,routerTipLockUrl,checkAttr,lockSubWhenBusy
+optionals:routerState,routerTipLockUrl,routerForceState,customTags,checkAttr,webc,lockSubWhenBusy,state
 */
 declare namespace Magix5 {
     /**
@@ -88,6 +88,12 @@ declare namespace Magix5 {
          * @param params 参数对象
          */
         rewrite?: (pathname: string, params: { [key: string]: string }) => string
+        /**
+         * 重写把路径和参数转换成url的逻辑
+         * @param pathname 路径信息
+         * @param params 参数对象
+         */
+        rebuild?: (pathname: string, params: { [key: string]: any }) => string
         
         /**
          * 路径变化渲染前拦截
@@ -98,10 +104,33 @@ declare namespace Magix5 {
         
         
         /**
+         * 拦截事件处理方法，返回false时中止事件的处理
+         * @param taget 当前事件dom对象
+         * @param type 事件类型
+         * @param e 事件对象
+         */
+        remold?: (target: HTMLElement, type: string, e: Event) => boolean
+        
+        
+        /**
          * 在异步加载模块前执行的方法
          * @param modules 模块列表
          */
         require?: (modules: string[]) => Promise<void>
+        
+        
+        /**
+         * 是否有等待中的任务
+         * @param flag 1有0没有
+         */
+        retard?: (flag: number) => void
+        
+        
+        /**
+         * 是否有网络请求
+         * @param falg 1有0没有
+         */
+        request?: (flag: number) => void
         
         /**
          * 其它配置项
@@ -260,10 +289,8 @@ declare namespace Magix5 {
          * 派发事件
          * @param name 事件名称
          * @param data 事件参数
-         * @param remove 是否移除所有的事件监听
-         * @param lastToFirst 是否倒序派发列表中的监听
          */
-        fire(name: string, data?: object, remove?: boolean, lastToFirst?: boolean): this
+        fire(name: string, data?: object): this
     }
     
     /**
@@ -297,10 +324,6 @@ declare namespace Magix5 {
          * 添加的接口元信息名称，需要确保在一个Service中唯一
          */
         name: string
-        /**
-         * 逗号分割的字符串，用来清除其它接口的缓存，如该接口是一个添加新数据的接口，这个接口调用成功后，应该把所有获取相关数据的缓存接口给清理掉，否则将获取不到新数据
-         */
-        cleans?: string | string[]
         /**
          * 接口在请求发送前调用，可以在该方法内对数据进行加工处理
          */
@@ -340,7 +363,7 @@ declare namespace Magix5 {
         /**
          * 阻止url改变
          */
-        prevent: () => void
+        stop: () => void
     }
     /**
      * view监听location接口
@@ -461,12 +484,6 @@ declare namespace Magix5 {
          * @param key 缓存的资源key
          */
         has(key: string): boolean
-        /**
-         * 遍历缓存对象中的所有资源
-         * @param callback 回调
-         * @param options 回调时传递的额外对象
-         */
-        each<TResourceType = any, TOptionsType = any>(callback: (resource: TResourceType, options: TOptionsType, cache: this) => void, options?: TOptionsType): void
     }
     /**
      * 缓存类
@@ -487,7 +504,7 @@ declare namespace Magix5 {
     /**
      * Vframe类原型
      */
-    interface Vframe extends Event<Vframe> {
+    interface Vframe {
         /**
          * 当前vframe的唯一id
          */
@@ -561,6 +578,19 @@ declare namespace Magix5 {
          * @param args 传递的参数
          */
         invoke<TReturnType>(name: string, args?: any[]): Promise<TReturnType>
+
+        /**
+         * 取消invoke中未执行的方法
+         * @param name 方法名称
+         */
+        invokeCancel(name?: string): void
+        
+        /**
+         * 检测当前vframe下面的子或孙view是否有阻止销毁的动作存在
+         */
+        exitTest(): Promise<number>
+        
+
     }
     /**
      * Vframe类，开发者绝对不需要继承、实例化该类！
@@ -660,18 +690,18 @@ declare namespace Magix5 {
         
         
         /**
-         * 离开确认方法，需要开发者实现离开的界面和逻辑
-         * @param msg 调用leaveTip时传递的离开消息
+         * 离开确认方法，该方法magix内部并未实现，需要开发者实现相关离开的界面和逻辑
+         * @param msg 调用observeExit时传递的离开消息
          * @param resolve 确定离开时调用该方法，通知magix离开
          * @param reject 留在当前界面时调用的方法，通知magix不要离开
          */
-        leaveConfirm(resolve: () => void, reject: () => void, msg: string): void
+        exitConfirm(resolve: () => void, reject: () => void, msg: string): void
         /**
-         * 离开提醒，比如表单有变化且未保存，我们可以提示用户是直接离开，还是保存后再离开
+         * 关注当前view的离开(销毁)动作，允许用户拦截取消。比如表单有变化且未保存，我们可以提示用户是直接离开，还是保存后再离开
          * @param msg 离开提示消息
-         * @param hasChanged 是否显示提示消息的方法，返回true表示需要提示用户
+         * @param hasChanged 是否显示提示信息，返回true表示需要提示用户
          */
-        leaveTip(msg: string, hasChanged: () => boolean): void
+        observeExit(msg: string, hasChanged: () => boolean): void
         
         /**
          * 获取设置的数据，当key未传递时，返回整个数据对象
@@ -698,15 +728,6 @@ declare namespace Magix5 {
          * 等待界面异步渲染结束
          */
         finale(): Promise<void>
-        /**
-         * 获取当前数据状态的快照，配合altered方法可获得数据是否有变化
-         */
-        snapshot(): this
-
-        /**
-         * 检测数据是否有变动
-         */
-        altered(): boolean
         /**
          * 得到模板中@符号对应的原始数据
          * @param data 数据对象
@@ -736,7 +757,7 @@ declare namespace Magix5 {
          * 扩展到Magix.View原型上的对象
          * @param props 包含可选的ctor方法的对象
          */
-        merge(...args: TExtendPropertyDescriptor<View | (ViewConstructor & object)>[]): this
+        merge<TProps extends object>(...args: TExtendPropertyDescriptor<TProps & View>[]): this
         /**
          * 静态方法
          * @param args 静态方法对象
@@ -872,7 +893,7 @@ declare namespace Magix5 {
          * 设置配置信息
          * @param sources 配置信息参数对象
          */
-        config(...sources: any[]): any
+        config(...sources: any[]): any & Config
 
         /**
          * 应用初始化入口
@@ -1024,7 +1045,13 @@ declare namespace Magix5 {
         * 等待最后的任务完成
         */
         lowTaskFinale<TContext>(): Promise<TContext>
-
+        
+        /**
+         * 取消任务
+         * @param id 任务id
+         */
+        taskCancel(id: string): void,
+        
         /**
          * 检测某个任务是否完成
          * @param fn 完成后执行的函数
@@ -1123,10 +1150,17 @@ declare namespace Magix5 {
         */
         isNumber(o): boolean,
         /**
+         * 等待相应的选择器就绪
+         * @param selector 选择器
+         * @param timeout 超时时间，默认30s
+         * @param context 上下文，默认document
+         */
+        waitSelector(selector: string, timeout?: number, context?: Element): Promise<Element>
+        /**
          * 是否为原始值
          * @param o 检测对象
          */
-        //isPrimitive(o): boolean,
+        isPrimitive(o): boolean,
         
 
         /**
@@ -1137,11 +1171,6 @@ declare namespace Magix5 {
          * 缓存类
          */
         Cache: CacheConstructor
-        
-        /**
-         * 状态对象
-         */
-        State: State
         
         
         /**
@@ -1158,4 +1187,13 @@ declare namespace Magix5 {
          */
         Vframe: VframeConstructor
     }
+}
+declare namespace Magix5 {
+    interface Magix {
+        default: this
+    }
+}
+declare module "magix5" {
+    const Magix: Magix5.Magix;
+    export = Magix
 }

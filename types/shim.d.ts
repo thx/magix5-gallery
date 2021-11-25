@@ -10,10 +10,6 @@ interface Seajs {
     config(cfg: object): void
     use(deps: string[], factory: any): void
 }
-declare module 'magix5' {
-    const M: Magix5.Magix;
-    export = M;
-}
 
 interface Window {
     seajs: Seajs

@@ -89,7 +89,5 @@ export default View.extend({
                 value: 5
             }]
         });
-
-        this.assign(options);
     },
 })

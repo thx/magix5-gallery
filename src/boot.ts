@@ -1,6 +1,6 @@
 // magix-composer#loader=none;
-'@:./lib/sea.js'
-'@:./lib/magix.js';
+'src@:./lib/sea.js'
+'src@:./lib/magix.js';
 
 (() => {
 	const node = document.getElementById('boot') as HTMLScriptElement;
@@ -18,16 +18,14 @@
 
 	seajs.use(['magix5', 'magix5-gallery/menu'], (Magix: Magix5.Magix, Menu) => {
 		// 全局样式，不编译
-		let globalStyle = `style@:./magix5-gallery/gallery/mx-style/index.less`;
-		Magix.applyStyle('@:moduleId' + 'ext.style', globalStyle);
+		Magix.applyStyle(`as@:./magix5-gallery/gallery/mx-style/index.less`);
 
 		// 变量覆盖 todo
 		// let varsString = `style@:./magix5-gallery/assets/group_override.less`;
 		// Magix.applyStyle('@:moduleId' + 'ext.style', varsString);
 
 		// 项目全局，项目前缀
-		let scopedStype = `style@:./magix5-gallery/assets/base.less`;
-		Magix.applyStyle('@:scoped.style', scopedStype);
+		Magix.applyStyle('@:./magix5-gallery/assets/base.less');
 
 		// 国际版方案todo
 		//      组件里面会优先读取magix.config配置的语言环境
