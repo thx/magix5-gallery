@@ -3,8 +3,8 @@
 'src@:./lib/magix.js';
 
 (() => {
-	const node = document.getElementById('boot') as HTMLScriptElement;
-	const src = node.src.replace('/boot.js', '')
+	const node = document.currentScript as HTMLScriptElement;
+	const src = node.src.replace(/[^\/]+$/, '');
 	const projectName = 'magix5-gallery';
 	const defaultView = `${projectName}/views/default`,
 		emptyView = `${projectName}/views/empty`;
@@ -12,7 +12,7 @@
 	let seajs = window.seajs;
 	seajs.config({
 		paths: {
-			[projectName]: src + '/' + projectName
+			[projectName]: src + projectName
 		}
 	})
 
@@ -64,6 +64,7 @@
 				unmatchView: `${projectName}/gallery/mx-error/index`,
 				routes,
 				rootId: 'app',
+				projectName,
 				error(e) {
 					console.error(e);
 				}

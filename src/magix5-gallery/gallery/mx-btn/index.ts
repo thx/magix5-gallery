@@ -99,8 +99,8 @@ export default View.extend({
         }
 
         // 只记录状态不digest
-        let ms = '@:../mx-style/var.less:--mx5-animation-duration';
-        debugger
+        // let ms = '@:../mx-style/var.less:--mx5-animation-duration';
+        // debugger
         that.digest({ animing: true });
         that['@:{anim.timer}'] = setTimeout(() => {
             that.digest({ animing: false });

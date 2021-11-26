@@ -65,7 +65,7 @@
     "iconfontId": 2921776,
     "iconfontScanPath": "src",
     "iconfontPath": "src/magix5-gallery/assets/iconfont.less",
-    "dynamicProjectName": false,
+    "dynamicProjectName": true,
     "rapper": false
   },
   "devDependencies": {

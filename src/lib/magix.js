@@ -2,8 +2,8 @@
 version:5.0.0-beta Licensed MIT
 author:kooboy_li@163.com
 loader:umd
-enables:mxevent,richVframe,xml,async,service,wait,lang,router,routerHash,routerTip,richView,innerView,recast,require,xview,taskComplete,taskIdle,spreadMxViewParams,removeStyle,taskCancel,eventVframe,richVframeInvokeCancel,waitSelector,remold,rewrite,rebuild,load
-optionals:routerState,routerTipLockUrl,routerForceState,customTags,checkAttr,webc,lockSubWhenBusy,state
+enables:mxevent,richVframe,xml,async,service,wait,lang,router,routerHash,routerTip,richView,innerView,recast,require,xview,taskComplete,taskIdle,spreadMxViewParams,removeStyle,taskCancel,eventVframe,richVframeInvokeCancel,waitSelector,remold,rewrite,rebuild,load,state
+optionals:routerState,routerTipLockUrl,routerForceState,customTags,checkAttr,webc,lockSubWhenBusy
 */
 //magix-composer#snippet;
 //magix-composer#exclude = loader;
@@ -87,7 +87,7 @@ if (typeof DEBUG == 'undefined')
                 try {
                     r = (b.compareDocumentPosition(a) & 16) == 16;
                 }
-                catch (_magix) { }
+                catch { }
             }
         }
         return r;
@@ -97,7 +97,7 @@ if (typeof DEBUG == 'undefined')
         if (me[k] != 0) {
             host = me[k] || (me[k] = {});
             if (!Has(host, key)) {
-                host[key] = 0;
+                host[key] = Date_Now();
             }
             m = ++host[key];
         }
@@ -404,7 +404,7 @@ if (typeof DEBUG == 'undefined')
     let ns = navigator.scheduling;
     let StartCall = () => {
         let last = Date_Now(), out = last + CallBreakTime, args, fn, context, wait = Mx_Cfg.retard;
-        for (; ;) {
+        for (;;) {
             if (CallCurrent) { //有待执行的任务
                 if (DEBUG) {
                     CallFunction['@:{call.fn#current}']++;
@@ -505,8 +505,8 @@ if (typeof DEBUG == 'undefined')
                 if (current['@:{call#id}'] == id) {
                     current['@:{call#function}'] =
                         current['@:{call#context}'] =
-                        current['@:{call#args}'] =
-                        current['@:{call#id}'] = Null;
+                            current['@:{call#args}'] =
+                                current['@:{call#id}'] = Null;
                 }
                 current = current['@:{call#next}'];
             }
@@ -764,7 +764,7 @@ if (typeof DEBUG == 'undefined')
         let lastHash = Router_Parse().srcHash;
         let newHash, suspend;
         AddEventListener(Doc_Window, 'hashchange', Router_Tip_Hashchange = (e, loc, resolve) => {
-            if (suspend == 1) {
+            if (suspend) {
                 return;
             }
             loc = Router_Parse();
@@ -786,11 +786,10 @@ if (typeof DEBUG == 'undefined')
                     resolve,
                     stop(f) {
                         e['@:{router-tip#suspend}'] = 1;
+                        suspend = 1;
                         if (f) {
-                            suspend = 1;
                         }
                         else {
-                            suspend = 2;
                             Router_UpdateHash(lastHash);
                         }
                     }
@@ -1358,7 +1357,7 @@ if (typeof DEBUG == 'undefined')
             }
             return vf;
         },
-        invoke(name, args) {
+        invoke(name, ...args) {
             let vf = this, view, fn, list = vf['@:{vframe#invoke.list}'];
             return new GPromise(resolve => {
                 if ((view = vf['@:{vframe#view.entity}']) &&
@@ -1383,30 +1382,31 @@ if (typeof DEBUG == 'undefined')
                 list.length = 0;
             }
         },
-        exitTest() {
-            return new GPromise(async (resolve) => {
-                let suspend = 0;
-                let e = {
-                    stop() {
-                        suspend = 1;
-                    },
-                    resolve() {
-                        suspend = 0;
-                    },
-                    reject() {
-                        suspend = 1;
-                    }
-                };
-                let vfs = [], vf;
-                Vframe_CollectVframes(this, vfs);
-                for (vf of vfs) {
-                    await vf.invoke('fire', ['exit', e]);
-                    if (suspend) {
-                        break;
-                    }
+        async exitTest() {
+            let suspend = 0;
+            let e = {
+                stop() {
+                    suspend = 1;
+                    e['@:{router-tip#suspend}'] = 1;
+                },
+                resolve() {
+                    e['@:{router-tip#suspend}'] = 1;
+                    suspend = 0;
+                },
+                reject() {
+                    e['@:{router-tip#suspend}'] = 1;
+                    suspend = 1;
                 }
-                resolve(suspend);
-            });
+            };
+            let vfs = [], vf;
+            Vframe_CollectVframes(this, vfs);
+            for (vf of vfs) {
+                await vf.invoke('@:{~view#exit.listener}', e);
+                if (suspend) {
+                    break;
+                }
+            }
+            return suspend;
         }
     });
     /*
@@ -1876,9 +1876,9 @@ if (typeof DEBUG == 'undefined')
         let token;
         if (tag) {
             props = props || Empty_Object;
-            let compareKey = Empty, unary = children == 1, mxvKeys = specials, hasSpecials = specials, prop, value, c, reused, reusedTotal = 0,
-                //outerHTML = '<' + tag,
-                attrs = `<${tag}`, innerHTML = Empty, newChildren, prevNode, mxView = 0;
+            let compareKey = Empty, unary = children == 1, mxvKeys = specials, hasSpecials = specials, prop, value, c, reused, reusedTotal = 0, 
+            //outerHTML = '<' + tag,
+            attrs = `<${tag}`, innerHTML = Empty, newChildren, prevNode, mxView = 0;
             if (children &&
                 children != 1) {
                 for (c of children) {
@@ -2602,9 +2602,21 @@ if (typeof DEBUG == 'undefined')
             CallFunction(ready);
         }
     };
+    let State_Data = {};
+    let State = Assign({
+        get(key) {
+            return key ? State_Data[key] : State_Data;
+        },
+        /**
+         * 设置数据
+         * @param {Object} data 数据对象
+         */
+        set(data) {
+            Assign(State_Data, data);
+        }
+    }, MxEvent);
     //like 'login<click>' or '$<click>' or '$win<scroll>' or '$win<scroll>&{capture:true}'
     let View_EvtMethodReg = /^(\$?)([^<]*)<([^>]+)>(?:\s*&(.+))?$/;
-    let View_Tip_Suspend;
     let processMixinsSameEvent = (exist, additional, temp) => {
         if (exist['@:{viewmixin#list}']) {
             temp = exist;
@@ -2817,54 +2829,54 @@ if (typeof DEBUG == 'undefined')
         assign: Noop,
         observeExit(msg, fn) {
             let me = this;
-            let changeListener = e => {
-                console.log('view suspend', View_Tip_Suspend);
-                if (View_Tip_Suspend) {
-                    e.stop();
-                }
-                else if (fn()) {
-                    e.stop(View_Tip_Suspend = 1);
-                    me.exitConfirm(msg, () => {
-                        View_Tip_Suspend = 0;
-                        e.resolve();
-                    }, () => {
-                        View_Tip_Suspend = 0;
-                        e.reject();
-                    });
-                }
-                // let a = '@:{leave#router.change}', // a for router change
-                //     b = '@:{leave#view.unload}'; // b for viewunload change
-                // if (e.type != Change) {
-                //     a = '@:{leave#view.unload}';
-                //     b = '@:{leave#router.change}';
-                // }
-                // if (changeListener[a]) {
-                //     e.stop();
-                // } else if (!e['@:{router-tip#suspend}'] && fn()) {
-                //     e.stop();
-                //     changeListener[b] = 1;
-                //     me.exitConfirm(msg, () => {
-                //         changeListener[b] = 0;
-                //         e.resolve();
-                //     }, () => {
-                //         changeListener[b] = 0;
-                //         e.reject();
-                //     });
-                // }
-            };
-            let unloadListener = e => {
-                if (!e['@:{page-tip#msg}'] && fn()) {
-                    e['@:{page-tip#msg}'] = msg;
-                }
-            };
-            Router.on(Change, changeListener);
-            Router.on(Page_Unload, unloadListener);
-            me.on('exit', changeListener);
-            me.on('destroy', () => {
-                Router.off(Change, changeListener);
-                Router.off(Page_Unload, unloadListener);
-                me.off('exit', changeListener);
-            });
+            if (!me['@:{~view#exit.listener}']) {
+                let changeListener = e => {
+                    if (!e['@:{router-tip#suspend}'] &&
+                        !e['@:{router-tip#processed}'] &&
+                        fn()) {
+                        e.stop(1);
+                        me.exitConfirm(msg, () => {
+                            e['@:{router-tip#processed}'] = 1;
+                            e.resolve();
+                        }, () => {
+                            e['@:{router-tip#processed}'] = 1;
+                            e.reject();
+                        });
+                    }
+                    // let a = '@:{leave#router.change}', // a for router change
+                    //     b = '@:{leave#view.unload}'; // b for viewunload change
+                    // if (e.type != Change) {
+                    //     a = '@:{leave#view.unload}';
+                    //     b = '@:{leave#router.change}';
+                    // }
+                    // if (changeListener[a]) {
+                    //     e.stop();
+                    // } else if (!e['@:{router-tip#suspend}'] && fn()) {
+                    //     e.stop();
+                    //     changeListener[b] = 1;
+                    //     me.exitConfirm(msg, () => {
+                    //         changeListener[b] = 0;
+                    //         e.resolve();
+                    //     }, () => {
+                    //         changeListener[b] = 0;
+                    //         e.reject();
+                    //     });
+                    // }
+                };
+                let unloadListener = e => {
+                    if (!e['@:{page-tip#msg}'] &&
+                        fn()) {
+                        e['@:{page-tip#msg}'] = msg;
+                    }
+                };
+                Router.on(Change, changeListener);
+                Router.on(Page_Unload, unloadListener);
+                me['@:{~view#exit.listener}'] = changeListener;
+                me.on('destroy', () => {
+                    Router.off(Change, changeListener);
+                    Router.off(Page_Unload, unloadListener);
+                });
+            }
         },
         observeLocation(params, isObservePath) {
             let me = this, loc;
@@ -3401,6 +3413,7 @@ if (typeof DEBUG == 'undefined')
         Cache: MxCache,
         View,
         Vframe,
+        State,
         Service,
         Event: MxEvent,
         Router,

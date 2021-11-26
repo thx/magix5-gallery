@@ -108,6 +108,12 @@ export default {
                 path: '/form/style',
                 child: true,
             }]
+        }, {
+            name: '实用功能',
+            subs: [{
+                name: '离开提醒',
+                path: '/feature/exit'
+            }]
         }]
     }]
 }

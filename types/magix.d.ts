@@ -695,7 +695,7 @@ declare namespace Magix5 {
          * @param resolve 确定离开时调用该方法，通知magix离开
          * @param reject 留在当前界面时调用的方法，通知magix不要离开
          */
-        exitConfirm(resolve: () => void, reject: () => void, msg: string): void
+         exitConfirm(msg: string, resolve: () => void, reject: () => void): void
         /**
          * 关注当前view的离开(销毁)动作，允许用户拦截取消。比如表单有变化且未保存，我们可以提示用户是直接离开，还是保存后再离开
          * @param msg 离开提示消息
