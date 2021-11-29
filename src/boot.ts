@@ -25,7 +25,7 @@
 		// Magix.applyStyle('@:moduleId' + 'ext.style', varsString);
 
 		// 项目全局，项目前缀
-		Magix.applyStyle('@:./magix5-gallery/assets/base.less');
+		Magix.applyStyle('@:scoped.style');
 
 		// 国际版方案todo
 		//      组件里面会优先读取magix.config配置的语言环境

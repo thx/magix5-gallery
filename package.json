@@ -27,8 +27,7 @@
     "spma": "a2e1wz",
     "dataPlusConfigPath": "./src/magix5-gallery/dataplus/config.js",
     "modelsPath": "src/magix5-gallery/services/models.js",
-    "galleries": [
-    ],
+    "galleries": [],
     "magixCombineConfig": {
       "loaderType": "cmd_es",
       "galleries": {
@@ -53,6 +52,9 @@
       "index.html",
       "indexbp.html",
       "login.html"
+    ],
+    "scopedCss": [
+      "./src/magix5-gallery/assets/base.less"
     ],
     "galleriesMxRoot": "magix5-gallery/gallery/",
     "galleriesLgRoot": "magix5-gallery/gallery-local/",
