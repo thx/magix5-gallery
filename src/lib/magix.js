@@ -9,14 +9,7 @@ optionals:routerState,routerTipLockUrl,routerForceState,customTags,checkAttr,web
 //magix-composer#exclude = loader;
 if (typeof DEBUG == 'undefined')
     window.DEBUG = true;
-(factory => {
-    if (window.define) {
-        define('magix5', factory);
-    }
-    else {
-        window.Magix = factory();
-    }
-})(() => {
+define('magix5', () => {
     //VARS
     let Counter = 0;
     let Empty = '';
@@ -36,7 +29,7 @@ if (typeof DEBUG == 'undefined')
     let Tag_View_Params_Key = '$';
     let Tag_Prop_Id = 'id';
     let Hash_Key = '#';
-    function Noop() { }
+    function Noop(...args) { }
     let JSON_Stringify = JSON.stringify;
     let Header = Doc_Document.head;
     let Doc_Body;
@@ -570,40 +563,42 @@ if (typeof DEBUG == 'undefined')
     };
     let resourcesLoadCount = 0;
     let isEsModule = o => o.__esModule || (window.Symbol && o[Symbol.toStringTag] === 'Module');
-    let Async_Require = async (name, fn) => {
-        if (name) {
-            await Mx_Cfg.require(name);
+    let Async_Require = (...names) => {
+        return new GPromise(async (r) => {
             let a = [];
-            let load = Mx_Cfg.request;
-            if (!resourcesLoadCount) {
-                load(1);
-            }
-            resourcesLoadCount++;
-            //if (window.seajs) {
-            seajs.use(name, (...g) => {
-                for (let m of g) {
-                    a.push(isEsModule(m) ? m.default : m);
-                }
-                CallFunction(fn, a);
-                resourcesLoadCount--;
+            try {
+                await Mx_Cfg.require(...names);
+                let load = Mx_Cfg.request;
                 if (!resourcesLoadCount) {
-                    load(0);
+                    load(1);
                 }
-            });
-            /*} else {
-                if (!Array.isArray(name)) {
-                    name = [name];
-                }
-                for (let n of name) {
-                    let m = require(n);
-                    a.push(isEsModule(m) ? m.default : m);
-                }
-                CallFunction(fn, a);
-            }*/
-        }
-        else {
-            CallFunction(fn);
-        }
+                resourcesLoadCount++;
+                //if (window.seajs) {
+                seajs.use(names, (...g) => {
+                    for (let m of g) {
+                        a.push(isEsModule(m) ? m.default : m);
+                    }
+                    resourcesLoadCount--;
+                    if (!resourcesLoadCount) {
+                        load(0);
+                    }
+                    r(a);
+                });
+                /*} else {
+                    if (!Array.isArray(name)) {
+                        name = [name];
+                    }
+                    for (let n of name) {
+                        let m = require(n);
+                        a.push(isEsModule(m) ? m.default : m);
+                    }
+                    CallFunction(fn, a);
+                }*/
+            }
+            catch (ex) {
+                Mx_Cfg.error(ex);
+            }
+        });
     };
     let Extend = (ctor, base, props, cProto) => {
         //bProto.constructor = base;
@@ -615,7 +610,7 @@ if (typeof DEBUG == 'undefined')
         ctor[Prototype] = cProto;
         return ctor;
     };
-    let Safeguard = data => data;
+    let Safeguard = (data, allowDeep, setter, prefix) => data;
     if (DEBUG && window.Proxy) {
         let ProxiesPool = new Map();
         Safeguard = (data, allowDeep, setter, prefix = '') => {
@@ -836,7 +831,7 @@ if (typeof DEBUG == 'undefined')
     let Router_TrimQueryReg = /^[^#]*#?/;
     let Router_PNR_Routers, Router_PNR_UnmatchView, Router_PNR_DefaultView, Router_PNR_DefaultPath;
     let Router_PNR_Rewrite;
-    let Router_PNR_Rebuild = ToUri;
+    let Router_PNR_Rebuild;
     let Router_PNR_Recast;
     let Router_Init_PNR = () => {
         if (!Router_PNR_Routers) {
@@ -846,7 +841,7 @@ if (typeof DEBUG == 'undefined')
             //支持默认配置带参数的情况
             Router_PNR_DefaultPath = ParseUri(Mx_Cfg.defaultPath || '/');
             Router_PNR_Rewrite = Mx_Cfg.rewrite;
-            Router_PNR_Rebuild = Mx_Cfg.rebuild || Router_PNR_Rebuild;
+            Router_PNR_Rebuild = Mx_Cfg.rebuild || ToUri;
             Router_PNR_Recast = Mx_Cfg.recast;
         }
     };
@@ -1220,7 +1215,7 @@ if (typeof DEBUG == 'undefined')
         }
         owner['@:{vframe#sign}']++; //增加signature，阻止相应的回调，见mountView
     };
-    let Vframe_mountView = (owner, viewPath, viewInitParams /*,keepPreHTML*/) => {
+    let Vframe_mountView = async (owner, viewPath, viewInitParams /*,keepPreHTML*/) => {
         let { id, root } = owner;
         let po, sign, view, params, pId;
         if (!owner['@:{vframe#alter.node}'] && root) { //alter
@@ -1238,55 +1233,54 @@ if (typeof DEBUG == 'undefined')
             owner['@:{vframe#view.path}'] = view;
             Assign(params, viewInitParams);
             sign = owner['@:{vframe#sign}'];
-            Async_Require(view, TView => {
-                if (sign == owner['@:{vframe#sign}']) { //有可能在view载入后，vframe已经卸载了
-                    if (TView) {
-                        View_Prepare(TView);
-                        view = new TView(id, root, owner, params);
-                        if (DEBUG) {
-                            let viewProto = TView.prototype;
-                            let importantProps = {
-                                id: 1,
-                                owner: 1,
-                                root: 1,
-                                '@:{view#observe.router}': 1,
-                                '@:{view#resource}': 1,
-                                '@:{view#sign}': 1,
-                                '@:{view#updater.data}': 1,
-                                '@:{view#updater.digesting.list}': 1
-                            };
-                            for (let p in view) {
-                                if (Has(view, p) && viewProto[p]) {
-                                    throw new Error(`avoid write ${p} at file ${viewPath}!`);
-                                }
+            let [TView] = await Async_Require(view);
+            if (sign == owner['@:{vframe#sign}']) { //有可能在view载入后，vframe已经卸载了
+                if (TView) {
+                    View_Prepare(TView);
+                    view = new TView(id, root, owner, params);
+                    if (DEBUG) {
+                        let viewProto = TView.prototype;
+                        let importantProps = {
+                            id: 1,
+                            owner: 1,
+                            root: 1,
+                            '@:{view#observe.router}': 1,
+                            '@:{view#resource}': 1,
+                            '@:{view#sign}': 1,
+                            '@:{view#updater.data}': 1,
+                            '@:{view#updater.digesting.list}': 1
+                        };
+                        for (let p in view) {
+                            if (Has(view, p) && viewProto[p]) {
+                                throw new Error(`avoid write ${p} at file ${viewPath}!`);
                             }
-                            view = Safeguard(view, true, (key, value) => {
-                                if (Has(viewProto, key) ||
-                                    (Has(importantProps, key) &&
-                                        (key != '@:{view#sign}' || !isFinite(value)) &&
-                                        ((key != 'owner' && key != 'root') || value !== Null))) {
-                                    throw new Error(`avoid write ${key} at file ${viewPath}!`);
-                                }
-                            });
                         }
-                        owner['@:{vframe#view.entity}'] = view;
-                        //me['@:{vframe#update.tag}'] = Dispatcher_UpdateTag;
-                        View_DelegateEvents(view);
-                        ToTry(view.init, params, view);
-                        ToTry(view['@:{view#assign.fn}'], [params, owner['@:{vframe#template}']], view);
-                        view['@:{view#render.short}']();
-                        if (!view['@:{view#template}'] &&
-                            !view['@:{view#rendered}']) { //无模板且未触发渲染
-                            View_EndUpdate(view);
-                        }
+                        view = Safeguard(view, true, (key, value) => {
+                            if (Has(viewProto, key) ||
+                                (Has(importantProps, key) &&
+                                    (key != '@:{view#sign}' || !isFinite(value)) &&
+                                    ((key != 'owner' && key != 'root') || value !== Null))) {
+                                throw new Error(`avoid write ${key} at file ${viewPath}!`);
+                            }
+                        });
                     }
-                    else {
-                        //if (DEBUG) {
-                        Mx_Cfg.error(Error(`${id} cannot load:${view}`));
-                        //}
+                    owner['@:{vframe#view.entity}'] = view;
+                    //me['@:{vframe#update.tag}'] = Dispatcher_UpdateTag;
+                    View_DelegateEvents(view);
+                    ToTry(view.init, params, view);
+                    ToTry(view['@:{view#assign.fn}'], [params, owner['@:{vframe#template}']], view);
+                    view['@:{view#render.short}']();
+                    if (!view['@:{view#template}'] &&
+                        !view['@:{view#rendered}']) { //无模板且未触发渲染
+                        View_EndUpdate(view);
                     }
                 }
-            });
+                else {
+                    //if (DEBUG) {
+                    Mx_Cfg.error(Error(`${id} cannot load:${view}`));
+                    //}
+                }
+            }
         }
     };
     let Vframe_GetVfId = node => node['@:{node#vframe.id}'] || (node['@:{node#vframe.id}'] = GUID(Vframe_RootId));
