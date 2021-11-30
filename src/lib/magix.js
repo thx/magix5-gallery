@@ -1228,7 +1228,7 @@ define('magix5', () => {
             view = po[Path];
             owner[Path] = viewPath;
             params = po[Params];
-            pId = GetAttribute(root, MX_OWNER);
+            pId = GetAttribute(root, MX_FROM);
             Vframe_TranslateQuery(pId, viewPath, params);
             owner['@:{vframe#view.path}'] = view;
             Assign(params, viewInitParams);
