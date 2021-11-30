@@ -9,20 +9,7 @@ export default View.extend({
             d[`text${i}`] = CopyText;
         }
         this.set(d);
-        // this.observeExit('abc', () => {
-        //     return true;
-        // });
-        //this.assign(options);
     },
-    // async exitConfirm(abc, resolve, reject) {
-    //     //await Magix5.delay(100);
-    //     console.log('msg', abc);
-    //     if (confirm(abc)) {
-    //         resolve();
-    //     } else {
-    //         reject();
-    //     }
-    // },
     assign(options) {
         this.set(options);
     },

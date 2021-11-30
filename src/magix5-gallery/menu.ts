@@ -60,7 +60,7 @@ export default {
                 path: '/dropdown/multi',
             }, {
                 name: 'mx-copy 复制',
-                tip: '该组件引入了第三方 <a rel="noopener noreferrer" target="_blank" href="https://clipboardjs.com/" class="mx5-color-brand">https://clipboardjs.com/</a> 代码',
+                tip: '该组件引入了第三方插件 <a rel="noopener noreferrer" target="_blank" href="https://clipboardjs.com/" class="mx5-color-brand">https://clipboardjs.com/</a>',
                 path: '/copy/index',
             }]
         }, {

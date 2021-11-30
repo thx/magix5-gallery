@@ -1,0 +1,85 @@
+<div class="eg-content">
+    <div class="mx5-mb20">
+        <span class="mx5-color-9">以下示例：</span>
+        被复制内容不需要显示，直接配置 text 即可
+    </div>
+    <div class="mx5-mb20 mx5-clearfix">
+        <mx-copy 
+            *text="Magix2棒棒的！" 
+            mx-success="copy()"
+            mx-error="copy()">
+            <mx-btn *content="点此复制"/>
+        </mx-copy>
+        {{if success}}
+        <span class="mx5-color-pass mx5-ml10 vmt"><i class="mx5-iconfont mx5-mr5">&#xe729;</i>复制成功</span>
+        {{/if}}
+        {{if error}}
+        <span class="mx5-color-error mx5-ml10 vmt"><i class="mx5-iconfont mx5-mr5">&#xe727;</i>复制失败</span>
+        {{/if}}
+    </div>
+</div>
+<div class="mx5-clearfix">
+    <div class="eg-desc flw50">
+        <div class="eg-title">HTML Code</div>
+        <mx-copy class="desc-oper" 
+            *copy-node="{{=$viewId}}_text_1" 
+            mx-success="@:{done}({id:1})">
+            <span class="desc-tip" mx-html="{{=text1}}"></span>
+            <i class="mx5-iconfont desc-icon">&#xe610;</i>
+        </mx-copy>
+        <mx-source whole="true" id="{{=$viewId}}_text_1">
+            <mx-copy 
+                *text="Magix2棒棒的！" 
+                mx-success="copy()"
+                mx-error="copy()">
+                <mx-btn *content="点此复制"/>
+            </mx-copy>
+            {{if success}}
+            <span class="mx5-color-pass mx5-ml10">
+                <i class="mx5-iconfont mx5-mr5">&#xe729;</i>复制成功
+            </span>
+            {{/if}}
+            {{if error}}
+            <span class="mx5-color-error mx5-ml10">
+                <i class="mx5-iconfont mx5-mr5">&#xe727;</i>复制失败
+            </span>
+            {{/if}}
+        </mx-source>
+    </div>
+    <div class="eg-desc flw50 mx5-blc">
+        <div class="eg-title">JS Code</div>
+        <mx-copy class="desc-oper" 
+            *copy-node="{{=$viewId}}_text_2" 
+            mx-success="@:{done}({id:2})">
+            <span class="desc-tip" mx-html="{{=text2}}"></span>
+            <i class="mx5-iconfont desc-icon">&#xe610;</i>
+        </mx-copy>
+        <mx-source whole="true" id="{{=$viewId}}_text_2">
+            import Magix5 from 'magix5';
+            export default Magix5.View.extend({
+                tmpl: '@:index.html',
+                init(options) {
+
+                },
+                assign(options) {
+                    this.set(options);
+                },
+                render() {
+                    this.digest();
+                },
+                'copy<success>'(e) {
+                    this.digest({
+                        success: true,
+                        error: false,
+                    })
+                },
+                'copy<error>'(e) {
+                    this.digest({
+                        success: false,
+                        error: true,
+                    })
+                }
+            })
+        </mx-source>
+    </div>
+</div>

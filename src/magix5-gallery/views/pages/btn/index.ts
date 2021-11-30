@@ -72,21 +72,21 @@ export default View.extend({
             }],
             columns: [{
                 text: '主要品牌按钮',
-                value: 1
+                path: 1
             }, {
                 text: '次要按钮',
-                value: 2
+                path: 2
             }],
             lefts: [{
                 text: 'demo3',
-                value: 3
+                path: 3
             }, {
                 text: 'demo4',
-                value: 4
+                path: 4
             }],
             rights: [{
                 text: 'demo5',
-                value: 5
+                path: 5
             }]
         });
     },
