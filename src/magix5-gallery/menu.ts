@@ -25,7 +25,7 @@ export default {
             name: '通用',
             subs: [{
                 name: 'mx-btn 按钮',
-                tip: '点击查看<a rel="noopener noreferrer" target="_blank" href="https://done.alibaba-inc.com/file/BfeHD00VvQXv/ROf2KIXCwf3UfVd6/preview?aid=0F362069-A45F-4B3E-AB2B-F4B17371AE14" class="mx5-color-brand">按钮交互规范</a>',
+                tip: '点击查看<a rel="noopener noreferrer" target="_blank" href="https://done.alibaba-inc.com/file/BfeHD00VvQXv/ROf2KIXCwf3UfVd6/preview?aid=0F362069-A45F-4B3E-AB2B-F4B17371AE14" class="mx5-link-brand">按钮交互规范</a>',
                 path: '/btn/index',
             }, {
                 name: 'mx-radio 单选',
@@ -107,10 +107,18 @@ export default {
                 fullName: 'mx-form 表单样式',
                 path: '/form/style',
                 child: true,
+            }, {
+                name: 'mx-tree 树状结构',
+                tip: '支持纯展示，单选，多选',
+                path: '/tree/index'
             }]
         }, {
             name: '反馈',
             subs: [{
+                name: 'mx-popover 气泡通知',
+                tip: '默认使用span标签生成，支持自定义展示view',
+                path: '/popover/index'
+            }, {
                 name: 'mx-loading 加载',
                 path: '/loading/index',
             }]

@@ -1,3 +1,36 @@
+/* 链接样式 */
+.mx5-link-9 {
+    color: #999;
+
+    &:hover {
+        color: #333;
+    }
+}
+
+.mx5-link-6 {
+    color: #666;
+
+    &:hover {
+        color: #333;
+    }
+}
+
+.mx5-link-3 {
+    color: #333;
+
+    &:hover {
+        color: var(--mx5-color-brand);
+    }
+}
+
+.mx5-link-brand {
+    color: var(--mx5-color-brand);
+
+    &:hover {
+        color: var(--mx5-color-brand-hover);
+    }
+}
+
 /* 常用字号 mx5-fs12, mx5-fs14 ~ mx5-fs40 */
 .mx5-fontsize-loop(@n, @i: 12) when (@i <=@n) {
     .mx5-fs@{i} {

@@ -17,6 +17,7 @@
 	})
 
 	seajs.use(['magix5', 'magix5-gallery/menu'], (Magix5: Magix5.Magix, Menu) => {
+		// 动态加载
 		Magix5.View.merge({
 			ctor() {
 				this.set({

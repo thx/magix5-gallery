@@ -1,1 +1,48 @@
-TODO
+{{each list as item index}}
+<div class="update">
+    {{if (index < expand)}}
+        <div class="ver">
+            <span class="vt">{{=item.version}}<span class="vi">{{=item.time}}</span></span>
+        </div>  
+        <div class="mx5-pt10 mx5-pb30">
+        {{each item.subs as s}}
+            <div class="line mx5-pl20">
+                {{if s.type == 'notice'}}
+                <i class="line-icon mx5-iconfont mx5-color-warn">&#xe66f;</i>
+                <span class="mx5-fs14">{{=(s.text || '重要通知')}}</span>
+                {{/if}}
+
+                {{if s.type == 'bug'}}
+                <i class="line-icon mx5-iconfont mx5-color-error">&#xe63d;</i>
+                <span class="mx5-fs14">{{=(s.text || 'bug修复')}}</span>
+                {{/if}}
+
+                {{if s.type == 'add'}}
+                <i class="line-icon mx5-iconfont mx5-color-pass">&#xe616;</i>
+                <span class="mx5-fs14">{{=(s.text || '功能上新')}}</span>
+                {{/if}}
+            </div>
+
+            {{each s.subs as ss}}
+            <div class="mx5-pl45">
+                <div class="line dot" mx-html="{{=ss.text}}"></div>
+
+                {{if (ss.subs && ss.subs.length > 0)}}
+                <div class="mx5-pl20">
+                    {{each ss.subs as sss}}
+                    <div class="line dot" mx-html="{{=sss.text}}"></div>
+                    {{/each}}
+                </div>
+                {{/if}}
+            </div>
+            {{/each}}
+        {{/each}}
+        </div>
+    {{/if}}
+</div>
+{{/each}}
+<div class="update">
+    <div class="ver">
+        <span class="vt">更多历史版本<i mx-click="@:{expand}()" class="vi mx5-iconfont">&#xe61b;</i></span>
+    </div>
+</div>
