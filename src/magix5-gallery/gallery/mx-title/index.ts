@@ -4,12 +4,16 @@ Magix5.applyStyle('@:index.less');
 
 export default View.extend({
     tmpl: '@:index.html',
-    // init(options) {
-    //     this.assign(options);
-    // },
     assign(options) {
+        let defMode = 'first';
+        let mode = options.mode || defMode;
+        let allowedModes = { first: true, second: true };
+        if (!allowedModes[mode]) {
+            mode = defMode;
+        }
+
         this.set({
-            mode: options.mode || 'first',
+            mode,
             content: options.content || '',
             tip: options.tip || '',
         });
