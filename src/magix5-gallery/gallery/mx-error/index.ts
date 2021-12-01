@@ -39,9 +39,6 @@ const ErrorImgs = {
 
 export default View.extend({
     tmpl: '@:index.html',
-    // init(options) {
-    //     this.assign(options);
-    // },
     assign(options) {
         // 尺寸 normal small xsmall
         let mode;
@@ -52,7 +49,7 @@ export default View.extend({
             // 容器宽度小于160且高度小于160：mode=xsmall（仅展示文案不显示图片）
             // 容器宽度160 ~ 360或者高度160 ~ 360：mode=small（图文120*120）
             try {
-                let { clientWidth, clientHeight } = document.getElementById(this.owner.pId);
+                let { clientWidth, clientHeight } = this.owner.root;
                 if (clientWidth > 360 && clientHeight > 360) {
                     mode = 'normal';
                 } else if (clientWidth < 160 && clientHeight < 160) {
@@ -65,17 +62,8 @@ export default View.extend({
             }
         }
 
+        // 异常类型
         let type = (options.type || 'not-found') + '';
-        // 历史配置 兼容
-        switch (type) {
-            case '404':
-                type = 'not-found';
-                break;
-            case '500':
-            case '502':
-                type = 'network-error';
-                break;
-        }
 
         // 默认配置
         let config = ErrorImgs[type] || ErrorImgs['not-found'];

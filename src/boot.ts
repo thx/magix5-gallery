@@ -16,16 +16,25 @@
 		}
 	})
 
-	seajs.use(['magix5', 'magix5-gallery/menu'], (Magix: Magix5.Magix, Menu) => {
+	seajs.use(['magix5', 'magix5-gallery/menu'], (Magix5: Magix5.Magix, Menu) => {
+		Magix5.View.merge({
+			ctor() {
+				this.set({
+					pkgName: projectName,
+					galleryName: 'gallery',
+				});
+			}
+		});
+
 		// 全局样式，不编译
-		Magix.applyStyle(`as@:./magix5-gallery/gallery/mx-style/index.less`);
+		Magix5.applyStyle(`as@:./magix5-gallery/gallery/mx-style/index.less`);
 
 		// 变量覆盖 todo
 		// let varsString = `style@:./magix5-gallery/assets/group_override.less`;
 		// Magix.applyStyle('@:moduleId' + 'ext.style', varsString);
 
 		// 项目全局，项目前缀
-		Magix.applyStyle('@:scoped.style');
+		Magix5.applyStyle('@:scoped.style');
 
 		// 国际版方案todo
 		//      组件里面会优先读取magix.config配置的语言环境
@@ -58,7 +67,7 @@
 		})
 
 		usePrepare().then(() => {
-			Magix.boot({
+			Magix5.boot({
 				defaultPath: '/btn/index',
 				defaultView: '/default',
 				unmatchView: `${projectName}/gallery/mx-error/index`,
