@@ -109,6 +109,12 @@ export default {
                 child: true,
             }]
         }, {
+            name: '反馈',
+            subs: [{
+                name: 'mx-loading 加载',
+                path: '/loading/index',
+            }]
+        }, {
             name: '实用功能',
             subs: [{
                 name: '离开提醒',

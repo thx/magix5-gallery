@@ -10,6 +10,21 @@ export default View.extend({
                 type: 'string',
                 def: ''
             }, {
+                value: 'brand',
+                text: '是否为品牌色按钮',
+                type: 'boolean',
+                def: 'false'
+            }, {
+                value: 'white',
+                text: '是否为白色按钮',
+                type: 'boolean',
+                def: 'false'
+            }, {
+                value: 'hollow',
+                text: '是否为默认普通按钮，hover品牌色按钮',
+                type: 'boolean',
+                def: 'false'
+            }, {
                 value: 'disabled',
                 text: '是否禁用',
                 type: 'boolean',
@@ -20,25 +35,15 @@ export default View.extend({
                 type: 'string',
                 def: ''
             }, {
-                value: 'disabled-width',
-                text: '禁用时hover显示禁用原因浮层宽度',
-                type: 'number',
-                def: '200'
-            }, {
-                value: 'disabled-placement',
-                text: '禁用时hover提示框在目标的方位，top，bottom，left，right<br/>与目标距离10px',
-                type: 'string',
-                def: 'bottom'
-            }, {
                 value: 'small',
                 text: '是否为小号尺寸按钮',
                 type: 'boolean',
                 def: 'false'
             }, {
                 value: 'loading',
-                text: 'loading状态，可选dot（三点），circle（圆形转圈）',
-                type: 'string',
-                def: ''
+                text: '是否loading中',
+                type: 'boolean',
+                def: 'false'
             }, {
                 value: 'color',
                 text: '按钮背景颜色',
@@ -69,6 +74,21 @@ export default View.extend({
                 text: '打标颜色，品牌色按钮默认红色，禁用按钮默认灰色，其他默认品牌色',
                 type: '合法色值',
                 def: ''
+            }, {
+                value: 'link-href',
+                text: '规定链接指向的页面的 URL',
+                type: 'URL',
+                def: ''
+            }, {
+                value: 'link-target',
+                text: `<pre>规定在何处打开链接文档，可选值同a标签target：
+_blank
+_parent
+_self
+_top
+framename</pre>`,
+                type: 'string',
+                def: '_blank',
             }],
             columns: [{
                 text: '主要品牌按钮',
