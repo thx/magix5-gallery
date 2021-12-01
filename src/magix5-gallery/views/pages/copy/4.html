@@ -1,20 +1,24 @@
 <div class="eg-content">
-    <div class="mx5-mb20">
-        <span class="mx5-color-9">以下示例：</span>
-        被复制内容不需要显示，直接配置 text 即可
+    <div class="mx5-mb20 mx5-clearfix">
+        <div class="mx5-fl mx5-color-9">以下示例：</div>
+        <div class="mx5-fl">
+            <div>需要异步获取复制内容，可在当前view上merge mx-copy/fn，该方式会在当前 view 上绑定 mxCopy 方法</div>
+            <div>mxCopy 返回一个 Promise 对象</div>
+        </div>
     </div>
     <div class="mx5-mb20 mx5-clearfix">
-        <mx-copy 
-            *text="Magix2棒棒的！" 
-            mx-success="copy()"
-            mx-error="copy()">
-            <mx-btn *content="点此复制"/>
-        </mx-copy>
+        <mx-btn *content="点此复制" mx-click="copy()"/>
+
         {{if success}}
-        <span class="mx5-color-pass mx5-ml10 vmt"><i class="mx5-iconfont mx5-mr5">&#xe729;</i>复制成功</span>
+        <span class="mx5-color-pass mx5-ml10 vmt">
+            <i class="mx5-iconfont mx5-mr5">&#xe729;</i>复制成功
+        </span>
         {{/if}}
+
         {{if error}}
-        <span class="mx5-color-error mx5-ml10 vmt"><i class="mx5-iconfont mx5-mr5">&#xe727;</i>复制失败</span>
+        <span class="mx5-color-error mx5-ml10 vmt">
+            <i class="mx5-iconfont mx5-mr5">&#xe727;</i>复制失败
+        </span>
         {{/if}}
     </div>
 </div>
@@ -28,19 +32,14 @@
             <i class="mx5-iconfont desc-icon">&#xe610;</i>
         </mx-copy>
         <mx-source whole="true" id="{{=$viewId}}_text_1">
-            <mx-copy 
-                *text="Magix2棒棒的！" 
-                mx-success="copy()"
-                mx-error="copy()">
-                <mx-btn *content="点此复制"/>
-            </mx-copy>
+            <mx-btn *content="点此复制" mx-click="copy()"/>
 
             {{if success}}
             <span class="mx5-color-pass mx5-ml10">
                 <i class="mx5-iconfont mx5-mr5">&#xe729;</i>复制成功
             </span>
             {{/if}}
-            
+
             {{if error}}
             <span class="mx5-color-error mx5-ml10">
                 <i class="mx5-iconfont mx5-mr5">&#xe727;</i>复制失败
@@ -58,6 +57,8 @@
         </mx-copy>
         <mx-source whole="true" id="{{=$viewId}}_text_2">
             import Magix5 from 'magix5';
+            import Copy from '../gallery/mx-copy/fn';
+
             export default Magix5.View.extend({
                 tmpl: '@:index.html',
                 init(options) {
@@ -69,19 +70,20 @@
                 render() {
                     this.digest();
                 },
-                'copy<success>'(e) {
-                    this.digest({
-                        success: true,
-                        error: false,
+                'copy<click>'(e) {
+                    this.mxCopy('测试复制').then(() => {
+                        this.digest({
+                            success: true,
+                            error: false,
+                        })
+                    }, () => {
+                        this.digest({
+                            success: false,
+                            error: true,
+                        })
                     })
                 },
-                'copy<error>'(e) {
-                    this.digest({
-                        success: false,
-                        error: true,
-                    })
-                }
-            })
+            }).merge(Copy);
         </mx-source>
     </div>
 </div>

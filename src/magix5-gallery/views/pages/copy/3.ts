@@ -6,20 +6,20 @@ export default View.extend({
     assign(options) {
         this.set({
             textFn: (trigger) => {
-                debugger
+                return trigger.innerText;
             }
         });
     },
     'copy<success>'(e) {
         this.digest({
-            success: true,
-            error: false,
+            successText: e.text,
+            errorText: '',
         })
     },
     'copy<error>'(e) {
         this.digest({
-            success: false,
-            error: true,
+            successText: '',
+            errorText: e.text,
         })
     }
-})
+});

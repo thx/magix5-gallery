@@ -1,20 +1,32 @@
 <div class="eg-content">
-    <div class="mx5-mb20">
-        <span class="mx5-color-9">以下示例：</span>
-        被复制内容不需要显示，直接配置 text 即可
+    <div class="mx5-mb20 mx5-clearfix">
+        <div class="mx5-fl mx5-color-9">以下示例：</div>
+        <div class="mx5-fl">
+            <div>被复制内容需要根据操作动态判断，则可配置 text-fn 传入一个 function 处理</div>
+            <div class="mx5-color-brand">注意：text-fn 暂不支持包含异步处理逻辑</div>
+        </div>
     </div>
     <div class="mx5-mb20 mx5-clearfix">
+        <mx-copy class="mx5-mr10"
+            *text-fn="{{#textFn}}" 
+            mx-success="copy()"
+            mx-error="copy()">
+            <mx-btn *content="复制1"/>
+        </mx-copy>
+
         <mx-copy 
             *text-fn="{{#textFn}}" 
             mx-success="copy()"
             mx-error="copy()">
-            <mx-btn *content="点此复制"/>
+            <mx-btn *content="复制2"/>
         </mx-copy>
-        {{if success}}
-        <span class="mx5-color-pass mx5-ml10 vmt"><i class="mx5-iconfont mx5-mr5">&#xe729;</i>复制成功</span>
+
+        {{if successText}}
+        <span class="mx5-color-pass mx5-ml10 vmt"><i class="mx5-iconfont mx5-mr5">&#xe729;</i>{{=successText}}成功</span>
         {{/if}}
-        {{if error}}
-        <span class="mx5-color-error mx5-ml10 vmt"><i class="mx5-iconfont mx5-mr5">&#xe727;</i>复制失败</span>
+
+        {{if errorText}}
+        <span class="mx5-color-error mx5-ml10 vmt"><i class="mx5-iconfont mx5-mr5">&#xe727;</i>{{=errorText}}失败</span>
         {{/if}}
     </div>
 </div>
@@ -28,20 +40,29 @@
             <i class="mx5-iconfont desc-icon">&#xe610;</i>
         </mx-copy>
         <mx-source whole="true" id="{{=$viewId}}_text_1">
-            <mx-copy 
-                *text="Magix2棒棒的！" 
+            <mx-copy class="mx5-mr10"
+                *text-fn="{{#textFn}}" 
                 mx-success="copy()"
                 mx-error="copy()">
-                <mx-btn *content="点此复制"/>
+                <mx-btn *content="复制1"/>
             </mx-copy>
-            {{if success}}
+
+            <mx-copy 
+                *text-fn="{{#textFn}}" 
+                mx-success="copy()"
+                mx-error="copy()">
+                <mx-btn *content="复制2"/>
+            </mx-copy>
+
+            {{if successText}}
             <span class="mx5-color-pass mx5-ml10">
-                <i class="mx5-iconfont mx5-mr5">&#xe729;</i>复制成功
+                <i class="mx5-iconfont mx5-mr5">&#xe729;</i>{{=successText}}成功
             </span>
             {{/if}}
-            {{if error}}
+
+            {{if errorText}}
             <span class="mx5-color-error mx5-ml10">
-                <i class="mx5-iconfont mx5-mr5">&#xe727;</i>复制失败
+                <i class="mx5-iconfont mx5-mr5">&#xe727;</i>{{=errorText}}失败
             </span>
             {{/if}}
         </mx-source>
@@ -62,21 +83,25 @@
 
                 },
                 assign(options) {
-                    this.set(options);
+                    this.set({
+                        textFn: (trigger) => {
+                            return trigger.innerText;
+                        }
+                    });
                 },
                 render() {
                     this.digest();
                 },
                 'copy<success>'(e) {
                     this.digest({
-                        success: true,
-                        error: false,
+                        successText: e.text,
+                        errorText: '',
                     })
                 },
                 'copy<error>'(e) {
                     this.digest({
-                        success: false,
-                        error: true,
+                        successText: '',
+                        errorText: e.text,
                     })
                 }
             })

@@ -14,6 +14,16 @@ export default View.extend({
                 text: '不需要显示复制内容时，可直接配置 text ',
                 type: 'string',
                 def: ''
+            }, {
+                value: 'text-fn',
+                text: `自定义处理复制function<pre>
+text-fn: (trigger) => {
+    // trigger 当前节点
+    return '复制内容';
+}
+</pre>`,
+                type: 'function',
+                def: ''
             }],
             events: [{
                 type: 'success',
@@ -39,8 +49,11 @@ export default View.extend({
                 text: '静态隐式复制',
                 path: 2
             }, {
-                text: '动态复制',
+                text: '动态同步复制',
                 path: 3
+            }, {
+                text: '动态异步复制',
+                path: 4
             }],
         });
     },

@@ -44,5 +44,5 @@ export default View.extend({
                 this['@:{clipboard}'].destroy();
             }
         });
-    },
+    }
 });
