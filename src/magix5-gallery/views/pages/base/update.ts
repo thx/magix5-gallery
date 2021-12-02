@@ -11,7 +11,7 @@ export default View.extend({
             subs: [{
                 type: 'add',
                 subs: [{
-                    text: 'mx-btn：支持配置link-href，link-target外链参数，<a href="#/btn/index" class="mx5-link-brand">点击查看</a>'
+                    text: 'mx-btn：支持配置link-href，link-target外链参数，<a href="#/btn/index" class="mx5-link-brand" data-spm-click="gostr=/alimama.99.dmp;locaid=d107cfc2f">点击查看</a>'
                 }, {
                     text: 'todo',
                 }]
@@ -22,7 +22,7 @@ export default View.extend({
             subs: [{
                 type: 'add',
                 subs: [{
-                    text: 'mx-btn：支持配置link-href，link-target外链参数，<a href="#/btn/index" class="mx5-link-brand">点击查看</a>'
+                    text: 'mx-btn：支持配置link-href，link-target外链参数，<a href="#/btn/index" class="mx5-link-brand" data-spm-click="gostr=/alimama.99.dmp;locaid=d11254a3c">点击查看</a>'
                 }, {
                     text: 'todo',
                 }]
