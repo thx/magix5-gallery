@@ -47,7 +47,6 @@ export default View.extend({
         let tagContent = options.tagContent || '';
         let tagColor = options.tagColor || '';
 
-
         // 优先级，自定义颜色 > 预置颜色
         let styles = [], type;
         if (color) {

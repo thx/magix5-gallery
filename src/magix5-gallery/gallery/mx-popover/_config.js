@@ -1,6 +1,7 @@
 //magix-composer#gallery-config
+
 module.exports = {
-    'mx-btn': {
+    'mx-popover': {
         tag: 'span'
     }
-};
+}

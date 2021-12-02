@@ -12,18 +12,16 @@ export default {
                 name: '相关文档链接',
                 path: '/base/links',
             }]
-        },
-        // {
-        //     name: '样式',
-        //     subs: [{
-        //         name: 'mx-grid 栅格',
-        //         path: '/grid/index',
-        //     }, {
-        //         name: 'mx-layout 布局',
-        //         path: '/layout/index',
-        //     }]
-        // }, 
-        {
+        }, {
+            name: '样式',
+            subs: [{
+                name: 'mx-grid 栅格',
+                path: '/grid/index',
+            }, {
+                name: 'mx-layout 布局',
+                path: '/layout/index',
+            }]
+        }, {
             name: '通用',
             subs: [{
                 name: 'mx-btn 按钮',
@@ -124,22 +122,22 @@ export default {
         // }, 
         {
             name: '反馈',
-            subs: [
-                // {
-                //     name: 'mx-popover 气泡通知',
-                //     tip: '默认使用span标签生成，支持自定义展示view',
-                //     path: '/popover/index'
-                // },
-                {
-                    name: 'mx-loading 加载',
-                    path: '/loading/index',
-                }]
-        }, {
-            name: '实用功能',
             subs: [{
-                name: '离开提醒',
-                path: '/feature/exit'
+                name: 'mx-popover 气泡通知',
+                tip: '默认使用span标签生成，支持自定义展示view',
+                path: '/popover/index'
+            }, {
+                name: 'mx-loading 加载',
+                path: '/loading/index',
             }]
-        }]
+        }
+            //     , {
+            //     name: '实用功能',
+            //     subs: [{
+            //         name: '离开提醒',
+            //         path: '/feature/exit'
+            //     }]
+            // }
+        ]
     }]
 }
