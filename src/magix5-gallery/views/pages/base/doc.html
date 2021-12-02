@@ -1,10 +1,10 @@
 <div class="wrapper">
     <div class="content-subs {{if fixed}} subs-fixed {{/if}} ">
     {{each list as item}}
-        <a class="sub-link" href="javascript:;" mx-click="@:{to}({key:'{{=item.value}}'})" mx-html="{{=item.text}}" data-spm-click="gostr=/alimama.99.dmp;locaid=d4042a3f6"></a>
+        <a class="sub-link" href="javascript:;" mx-click="@:{to}({highlightValue:'{{=item.value}}'})" mx-html="{{=item.text}}" data-spm-click="gostr=/alimama.99.dmp;locaid=d4042a3f6"></a>
         {{if (item.subs && item.subs.length)}}
             {{each item.subs as sub}}
-            <a class="sub-link mx5-pl10" href="javascript:;" mx-click="@:{to}({key:'{{=sub.value}}'})" mx-html="{{=sub.text}}" data-spm-click="gostr=/alimama.99.dmp;locaid=dcec079e1"></a>
+            <a class="sub-link mx5-pl10" href="javascript:;" mx-click="@:{to}({highlightValue:'{{=sub.value}}'})" mx-html="{{=sub.text}}" data-spm-click="gostr=/alimama.99.dmp;locaid=dcec079e1"></a>
             {{/each}}
         {{/if}}
     {{/each}}
@@ -14,22 +14,22 @@
     <div class="mx5-clearfix mx5-pb20">
         {{if (columns && columns.length)}}
             {{each columns as d}}
-            <div class="example {{if (highlightId == d.highlightId)}} example-highlight {{/if}}" 
-                mx-view="{{=path}}/{{=d.value}}" data-spm="c1d66a8e0"></div>
+            <div class="example {{if (highlightValue == d.value)}} example-highlight {{/if}}" 
+                mx-view="{{=path}}/{{=d.path}}" data-spm="c1d66a8e0"></div>
             {{/each}}
         {{/if}}
         {{if (lefts && lefts.length && rights && rights.length)}}
         <div class="mx5-clearfix">
             <div class="flw50 mx5-pr20">
                 {{each lefts as d}}
-                <div class="example {{if (highlightId == d.highlightId)}} example-highlight {{/if}}" 
-                    mx-view="{{=path}}/{{=d.value}}" data-spm="c4974ae6f"></div>
+                <div class="example {{if (highlightValue == d.value)}} example-highlight {{/if}}" 
+                    mx-view="{{=path}}/{{=d.path}}" data-spm="c4974ae6f"></div>
                 {{/each}}
             </div>
             <div class="flw50">
                 {{each rights as d}}
-                <div class="example {{if (highlightId == d.highlightId)}} example-highlight {{/if}}" 
-                    mx-view="{{=path}}/{{=d.value}}" data-spm="c6b517bc5"></div>
+                <div class="example {{if (highlightValue == d.value)}} example-highlight {{/if}}" 
+                    mx-view="{{=path}}/{{=d.path}}" data-spm="c6b517bc5"></div>
                 {{/each}}
             </div>
         </div>
@@ -42,10 +42,10 @@
         <table class="mx5-table">
             <thead>
                 <tr>
-                    <th width="90">可配参数</th>
+                    <th width="70">可配参数</th>
                     <th width="280">说明</th>
-                    <th width="80">类型</th>
-                    <th width="100">默认值</th>
+                    <th width="70">类型</th>
+                    <th width="200">默认值</th>
                 </tr>
             </thead>
             <tbody>
@@ -56,6 +56,38 @@
                     <td mx-html="{{=api.type}}"></td>
                     <td mx-html="{{=api.def}}"></td>
                 </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+    {{/if}}
+
+    {{if (events && events.length)}}
+    <mx-title *mode="second" *content="Event" data-target="{{=$viewId}}_event"/>
+    <div class="custom-table">
+        <table class="mx5-table">
+            <thead>
+                <tr>
+                    <th width="70">事件</th>
+                    <th width="120">事件说明</th>
+                    <th width="90">返回参数</th>
+                    <th width="200">参数说明</th>
+                    <th width="80">参数类型</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{each events as e}}
+                    {{each e.params as p i}}
+                    <tr>
+                        {{if (i == 0)}}
+                        <td rowspan="{{=e.params.length}}" mx-html="{{=e.type}}"></td>
+                        <td rowspan="{{=e.params.length}}" mx-html="{{=e.text}}"></td>
+                        {{/if}} 
+                        <td mx-html="{{=p.value}}"></td>
+                        <td mx-html="{{=p.text}}"></td>
+                        <td mx-html="{{=p.type}}"></td>
+                    </tr>
+                    {{/each}}
                 {{/each}}
             </tbody>
         </table>

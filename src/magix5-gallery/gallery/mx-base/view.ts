@@ -7,7 +7,10 @@ export default Magix5.View.extend({
 }).merge(FormSync, Refs, {
     ctor() {
         let attrs = this.root ? this.root.attributes : {};
-        let spm = (attrs['data-spm-click'] || {})['value'] || '';
+
+        // 埋点
+        let spm = attrs['data-spm-click']?.value || '';
+
         this.set({
             spm
         });

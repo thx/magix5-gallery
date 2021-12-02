@@ -5,14 +5,17 @@ export default View.extend({
     init(options) {
         this.set({
             apis: [{
-                value: 'key',
-                text: '描述',
-                type: 'array',
-                def: '[]'
+                value: 'brand',
+                text: '是否为m动画',
+                type: 'boolean',
+                def: 'false'
             }],
             columns: [{
-                text: 'demo',
-                value: 1
+                text: '品牌色loading',
+                path: 2
+            }, {
+                text: '统一品牌m动画',
+                path: 1
             }],
         });
     },

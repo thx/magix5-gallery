@@ -1,4 +1,13 @@
-<div class="wrapper">
+<div class="wrapper" style="height: {{=height}};">
+    {{if brand}}
+    <!-- m动画 -->
+    <picture class="m-img">
+        <source class="m-img" type="image/webp" srcset="https://img.alicdn.com/imgextra/i4/O1CN01UlNpXg1pByutEZSoc_!!6000000005323-49-tps-96-96.webp">
+        <source class="m-img" type="image/png" srcset="https://img.alicdn.com/imgextra/i2/O1CN01YkLhgX1TS5IDT9kJJ_!!6000000002380-54-tps-96-96.apng">
+        <img class="m-img" src="https://img.alicdn.com/imgextra/i2/O1CN01DpsTcB1Kdgmtb59n5_!!6000000001187-1-tps-48-48.gif" />
+    </picture>
+    {{else}}
+    <!-- 品牌色转圈loading -->
     <svg class="bg" 
         width="36" 
         height="36" 
@@ -29,5 +38,6 @@
             stroke-width="4"
             stroke-miterlimit="10"/>
     </svg>
-    <div class="text" x-html="{{=content}}"></div>
+    <div class="text" mx-html="{{=content}}"></div>
+    {{/if}}
 </div>

@@ -3,7 +3,7 @@
     style="{{=styles}}; {{if width}} width: {{=width}}px; {{else}} width: 100%; {{/if}}"
     class="{{if type}} btn--{{=type}} {{/if}}"
     mx-click="@:{anim}()">
-    <span class="text" x-html="{{=content}}"></span>
+    <span class="text" mx-html="{{=content}}"></span>
 </button>
 <!-- {{if loading}}
 <mx-loading mx-click="@:{stop}()" 

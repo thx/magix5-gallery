@@ -12,7 +12,7 @@ export default View.extend({
             }],
             columns: [{
                 text: 'demo',
-                value: 1
+                path: 1
             }],
         });
     },

@@ -14,10 +14,7 @@ export default View.extend({
     ctor() {
         let attrs = this.root ? this.root.attributes : {};
         let spm = (attrs['data-spm-click'] || {})['value'] || '';
-        let projectName = config<string>('projectName');
         this.set({
-            pkgName: projectName,
-            galleryName: 'gallery',
             spm
         });
     }

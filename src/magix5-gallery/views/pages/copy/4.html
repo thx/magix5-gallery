@@ -1,0 +1,86 @@
+<div class="eg-content">
+    <div class="mx5-mb20 mx5-clearfix">
+        <div class="mx5-fl mx5-color-9">以下示例：</div>
+        <div class="mx5-fl">
+            <div>需要异步获取复制内容，可在当前view上merge mx-copy/fn，该方式会在当前 view 上绑定 mxCopy 方法</div>
+            <div>mxCopy 返回一个 Promise 对象</div>
+        </div>
+    </div>
+    <div class="mx5-mb20 mx5-clearfix">
+        <mx-btn *content="点此复制" mx-click="copy()" data-spm-click="gostr=/alimama.99.dmp;locaid=d4603e7f9"/>
+
+        {{if success}}
+        <span class="mx5-color-pass mx5-ml10 vmt">
+            <i class="mx5-iconfont mx5-mr5">&#xe729;</i>复制成功
+        </span>
+        {{/if}}
+
+        {{if error}}
+        <span class="mx5-color-error mx5-ml10 vmt">
+            <i class="mx5-iconfont mx5-mr5">&#xe727;</i>复制失败
+        </span>
+        {{/if}}
+    </div>
+</div>
+<div class="mx5-clearfix">
+    <div class="eg-desc flw50">
+        <div class="eg-title">HTML Code</div>
+        <mx-copy class="desc-oper" 
+            *copy-node="{{=$viewId}}_text_1" 
+            mx-success="@:{done}({id:1})">
+            <span class="desc-tip" mx-html="{{=text1}}"></span>
+            <i class="mx5-iconfont desc-icon">&#xe610;</i>
+        </mx-copy>
+        <mx-source whole="true" id="{{=$viewId}}_text_1">
+            <mx-btn *content="点此复制" mx-click="copy()" data-spm-click="gostr=/alimama.99.dmp;locaid=d1195d4b4"/>
+
+            {{if success}}
+            <span class="mx5-color-pass mx5-ml10">
+                <i class="mx5-iconfont mx5-mr5">&#xe729;</i>复制成功
+            </span>
+            {{/if}}
+
+            {{if error}}
+            <span class="mx5-color-error mx5-ml10">
+                <i class="mx5-iconfont mx5-mr5">&#xe727;</i>复制失败
+            </span>
+            {{/if}}
+        </mx-source>
+    </div>
+    <div class="eg-desc flw50 mx5-blc">
+        <div class="eg-title">JS Code</div>
+        <mx-copy class="desc-oper" 
+            *copy-node="{{=$viewId}}_text_2" 
+            mx-success="@:{done}({id:2})">
+            <span class="desc-tip" mx-html="{{=text2}}"></span>
+            <i class="mx5-iconfont desc-icon">&#xe610;</i>
+        </mx-copy>
+        <mx-source whole="true" id="{{=$viewId}}_text_2">
+            import Magix5 from 'magix5';
+            import Copy from '../gallery/mx-copy/fn';
+
+            export default Magix5.View.extend({
+                tmpl: '@:index.html',
+                assign(options) {
+                    this.set(options);
+                },
+                render() {
+                    this.digest();
+                },
+                'copy<click>'(e) {
+                    this.mxCopy('测试复制').then(() => {
+                        this.digest({
+                            success: true,
+                            error: false,
+                        })
+                    }, () => {
+                        this.digest({
+                            success: false,
+                            error: true,
+                        })
+                    })
+                },
+            }).merge(Copy);
+        </mx-source>
+    </div>
+</div>

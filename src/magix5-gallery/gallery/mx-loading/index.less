@@ -1,18 +1,17 @@
 [mx5-view*="mx-loading/index"] {
     display: table;
     width: 100%;
-    height: 200px;
     text-align: center;
-    margin: auto;
 }
 
 .wrapper {
     display: table-cell;
+    height: 200px;
     vertical-align: middle;
     line-height: 0;
 }
 
-@keyframes rotate {
+@keyframes mx5-loading-rotate {
     100% {
         transform: rotate(360deg);
     }
@@ -21,11 +20,11 @@
 .bg {
     margin-top: 10px;
     margin-bottom: 10px;
-    animation: rotate 1s linear infinite;
+    animation: mx5-loading-rotate 1s linear infinite;
     transform-origin: center center;
 }
 
-@keyframes dashpath {
+@keyframes mx5-loading-dashpath {
     0% {
         stroke-dasharray: 0, 150;
         stroke-dashoffset: 0;
@@ -43,7 +42,7 @@
 }
 
 .path {
-    animation: dashpath 1s ease-in-out infinite;
+    animation: mx5-loading-dashpath 1s ease-in-out infinite;
     stroke-dasharray: 10, 150;
     stroke-dashoffset: 0;
     stroke-linecap: round;
@@ -53,4 +52,9 @@
     max-width: 80%;
     margin: auto;
     line-height: 22px;
+}
+
+.m-img {
+    width: 48px;
+    height: 48px;
 }

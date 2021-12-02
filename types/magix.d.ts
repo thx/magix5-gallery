@@ -2,9 +2,9 @@
 /*
 author:kooboy_li@163.com
 loader:umd
-enables:__version,mxevent,richVframe,xml,async,service,wait,lang,router,routerHash,routerTip,richView,innerView,recast,require,xview,taskComplete,taskIdle,spreadMxViewParams,removeStyle,taskCancel,eventVframe,richVframeInvokeCancel,waitSelector,remold,rewrite,rebuild,load
+enables:mxevent,richVframe,xml,async,service,wait,lang,router,routerHash,routerTip,richView,innerView,recast,require,xview,taskComplete,taskIdle,spreadMxViewParams,removeStyle,taskCancel,eventVframe,richVframeInvokeCancel,waitSelector,remold,rewrite,rebuild,load,state
 
-optionals:routerState,routerTipLockUrl,routerForceState,customTags,checkAttr,webc,lockSubWhenBusy,state
+optionals:routerState,routerTipLockUrl,routerForceState,customTags,checkAttr,webc,lockSubWhenBusy
 */
 declare namespace Magix5 {
     /**
@@ -39,6 +39,21 @@ declare namespace Magix5 {
      */
     type HTMLElementOrEventTarget = HTMLElement | EventTarget;
     /**
+     * 路由配置对象
+     */
+    interface RoutesConfig {
+        [key: string]: string | {
+            /**
+             * 浏览器标题
+             */
+            title: string
+            /**
+             * 加载的view
+             */
+            view: string
+        }
+    }
+    /**
      * 配置信息接口
      */
     interface Config {
@@ -53,18 +68,7 @@ declare namespace Magix5 {
         /**
          * path与view关系映射对象或方法
          */
-        routes?: {
-            [key: string]: string | {
-                /**
-                 * 浏览器标题
-                 */
-                title: string
-                /**
-                 * 加载的view
-                 */
-                view: string
-            }[]
-        }
+        routes?: RoutesConfig
         /**
          * 在routes里找不到匹配时使用的view，比如显示404
          */
@@ -86,14 +90,18 @@ declare namespace Magix5 {
          * 重写地址栏解析后的对象
          * @param pathname 路径信息
          * @param params 参数对象
+         * @param routes 路由信息
+         * @param loc 解析后的地址栏对象
          */
-        rewrite?: (pathname: string, params: { [key: string]: string }) => string
+        rewrite?: (pathname: string, params: { [key: string]: string }, routes: RoutesConfig, loc: RouterParse) => string
         /**
          * 重写把路径和参数转换成url的逻辑
          * @param pathname 路径信息
          * @param params 参数对象
+         * @param lastQuery hash前的参数对象
+         * @param loc 解析后的地址栏对象
          */
-        rebuild?: (pathname: string, params: { [key: string]: any }) => string
+        rebuild?: (pathname: string, params: { [key: string]: any }, lastQuery: { [key: string]: string }, loc: RouterParse) => string
         
         /**
          * 路径变化渲染前拦截
@@ -116,7 +124,7 @@ declare namespace Magix5 {
          * 在异步加载模块前执行的方法
          * @param modules 模块列表
          */
-        require?: (modules: string[]) => Promise<void>
+        require?: (...modules: string[]) => Promise<void>
         
         
         /**
@@ -434,7 +442,7 @@ declare namespace Magix5 {
      * 继承对象接口
      */
     interface ExtendPropertyDescriptor<T> {
-        [key: string]: string | number | undefined | boolean | RegExp | symbol | object | null | ((this: T, ...args: any[]) => any)
+        [key: string]: ((this: T, ...args: any[]) => any) | any
     }
 
     /**
@@ -577,7 +585,7 @@ declare namespace Magix5 {
          * @param name 方法名
          * @param args 传递的参数
          */
-        invoke<TReturnType>(name: string, args?: any[]): Promise<TReturnType>
+        invoke<TReturnType>(name: string, ...args: any): Promise<TReturnType>
 
         /**
          * 取消invoke中未执行的方法
@@ -695,7 +703,7 @@ declare namespace Magix5 {
          * @param resolve 确定离开时调用该方法，通知magix离开
          * @param reject 留在当前界面时调用的方法，通知magix不要离开
          */
-         exitConfirm(msg: string, resolve: () => void, reject: () => void): void
+        exitConfirm(msg: string, resolve: () => void, reject: () => void): void
         /**
          * 关注当前view的离开(销毁)动作，允许用户拦截取消。比如表单有变化且未保存，我们可以提示用户是直接离开，还是保存后再离开
          * @param msg 离开提示消息
@@ -757,7 +765,7 @@ declare namespace Magix5 {
          * 扩展到Magix.View原型上的对象
          * @param props 包含可选的ctor方法的对象
          */
-        merge<TProps extends object>(...args: TExtendPropertyDescriptor<TProps & View>[]): this
+        merge<TProps extends object>(...args: TExtendPropertyDescriptor<TProps>[]): this
         /**
          * 静态方法
          * @param args 静态方法对象
@@ -962,9 +970,8 @@ declare namespace Magix5 {
         /**
          * 使用加载器的加载模块功能
          * @param deps 模块id
-         * @param callback 回调
          */
-        use<T extends object>(deps: string | string[], callback: (...args: T[]) => any): void
+        use<T extends object>(...deps: string[]): Promise<T>
 
         /**
          * 保护对象不被修改
@@ -1171,6 +1178,11 @@ declare namespace Magix5 {
          * 缓存类
          */
         Cache: CacheConstructor
+        
+        /**
+         * 状态对象
+         */
+        State: State
         
         
         /**
