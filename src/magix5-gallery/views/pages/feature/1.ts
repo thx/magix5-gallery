@@ -17,7 +17,9 @@ export default View.extend<{
             return nowState != this['@:{current.state}'];
         });
     },
-    exitConfirm(msg, resolve, reject) {
+    async exitConfirm(msg, resolve, reject) {
+        //模拟异步场景
+        await Magix5.delay(300);
         if (window.confirm(msg)) {
             resolve();
         } else {

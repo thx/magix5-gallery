@@ -73,9 +73,9 @@ define('magix5', () => {
         }
     };
     let IsPrimitive = args => !args || typeof args != 'object';
-    let NodeIn = (a, b, r) => {
+    let NodeIn = (a, b, ignoreSelf, r) => {
         if (a && b) {
-            r = a == b;
+            r = !ignoreSelf && a == b;
             if (!r) {
                 try {
                     r = (b.compareDocumentPosition(a) & 16) == 16;
@@ -1149,18 +1149,18 @@ define('magix5', () => {
             Vframe_CollectVframes(vf, vfs);
         }
     };
-    let Vframe_UnmountZone = (owner, root, onlyInnerView) => {
+    let Vframe_UnmountZone = (owner, root, onlyInnerView, deep) => {
         let p, vf, unmount;
         for (p in owner['@:{vframe#children}']) {
             if (root) {
                 vf = Vframe_Vframes[p];
-                unmount = vf && NodeIn(vf.root, root) && (!onlyInnerView || vf.root != root);
+                unmount = vf && NodeIn(vf.root, root, onlyInnerView);
             }
             else {
                 unmount = 1;
             }
             if (unmount) {
-                owner.unmount(p, unmount);
+                owner.unmount(p, unmount, deep);
             }
         }
     };
@@ -1194,41 +1194,48 @@ define('magix5', () => {
     /**
       * 销毁对应的view
       */
-    let Vframe_unmountView = owner => {
-        let { '@:{vframe#view.entity}': v, root } = owner;
+    let Vframe_unmountView = (owner, deep) => {
+        let { '@:{vframe#view.entity}': v, root, pId } = owner;
         if (v) {
             owner['@:{vframe#view.entity}'] = 0; //unmountView时，尽可能早的删除vframe上的$v对象，防止$v销毁时，再调用该 vfrmae的类似unmountZone方法引起的多次created
             if (v['@:{view#sign}']) {
                 v['@:{view#sign}'] = 0;
                 Unmark(v);
-                Vframe_UnmountZone(owner);
+                if (v['@:{view#template}']) {
+                    Vframe_UnmountZone(owner, 0, 0, 1);
+                }
                 v.fire('destroy');
                 View_DelegateEvents(v, 1);
                 //v.owner = v.root = Null;
-                if (root && owner['@:{vframe#alter.node}'] /*&&!keepPreHTML*/) { //如果$v本身是没有模板的，也需要把节点恢复到之前的状态上：只有保留模板且$v有模板的情况下，这条if才不执行，否则均需要恢复节点的html，即$v安装前什么样，销毁后把节点恢复到安装前的情况
+                if (root &&
+                    owner['@:{vframe#alter.node}'] &&
+                    v['@:{view#template}']) {
                     SetInnerHTML(root, owner['@:{vframe#template}']);
-                    if (owner.pId) {
-                        Vframe_MountZone(Vframe_Vframes[owner.pId], root);
+                    if (pId &&
+                        owner['@:{vframe#template}'] &&
+                        !deep) {
+                        Vframe_MountZone(Vframe_Vframes[pId], root);
                     }
                 }
             }
         }
         owner['@:{vframe#sign}']++; //增加signature，阻止相应的回调，见mountView
     };
-    let Vframe_mountView = async (owner, viewPath, viewInitParams /*,keepPreHTML*/) => {
-        let { id, root } = owner;
-        let po, sign, view, params, pId;
-        if (!owner['@:{vframe#alter.node}'] && root) { //alter
+    let Vframe_mountView = async (owner, viewPath, viewInitParams, deep) => {
+        let { id, root, pId } = owner;
+        let po, sign, view, params;
+        if (!owner['@:{vframe#alter.node}'] &&
+            root) { //alter
             owner['@:{vframe#alter.node}'] = 1;
             owner['@:{vframe#template}'] = root.innerHTML;
         }
-        Vframe_unmountView(owner);
+        Vframe_unmountView(owner, deep);
         if (root && viewPath) {
             po = ParseUri(viewPath);
             view = po[Path];
             owner[Path] = viewPath;
             params = po[Params];
-            pId = GetAttribute(root, MX_FROM);
+            pId = GetAttribute(root, MX_OWNER);
             Vframe_TranslateQuery(pId, viewPath, params);
             owner['@:{vframe#view.path}'] = view;
             Assign(params, viewInitParams);
@@ -1311,7 +1318,7 @@ define('magix5', () => {
         }
     }, MxEvent);
     Assign(Vframe[Prototype], {
-        mount(node, viewPath, viewInitParams) {
+        mount(node, viewPath, viewInitParams, deep) {
             let me = this, vf, id = me.id, c = me['@:{vframe#children}'];
             let vfId = Vframe_GetVfId(node);
             vf = Vframe_Vframes[vfId];
@@ -1322,16 +1329,16 @@ define('magix5', () => {
                 c[vfId] = vfId; //map
                 vf = new Vframe(node, id);
             }
-            Vframe_mountView(vf, viewPath, viewInitParams);
+            Vframe_mountView(vf, viewPath, viewInitParams, deep);
             return vf;
         },
-        unmount(node, isVframeId) {
+        unmount(node, isVframeId, deep) {
             let me = this, vf, pId;
             node = node ? me['@:{vframe#children}'][isVframeId ? node : node['@:{node#vframe.id}']] : me.id;
             vf = Vframe_Vframes[node];
             if (vf) {
                 pId = vf.pId;
-                Vframe_unmountView(vf);
+                Vframe_unmountView(vf, deep);
                 Vframe_RemoveVframe(node);
                 vf = Vframe_Vframes[pId];
                 if (vf && Has(vf['@:{vframe#children}'], node)) { //childrenMap
@@ -2544,9 +2551,9 @@ define('magix5', () => {
                                 if (DEBUG) {
                                     let result = ToTry(assign, [params, newHTML], /*[params, uri],*/ view);
                                     if (result !== false) {
-                                        // if (assign == View.prototype.assign) {
-                                        //     console.error(`override ${uri[Path]} "assign" method and make sure returned true or false value`);
-                                        // }
+                                        if (assign == View.prototype.assign) {
+                                            console.warn(`${uri[Path]} need "assign" method for receive parameters changed`, params, newHTML);
+                                        }
                                         ref['@:{updater-ref#view.renders}'].push(view);
                                     }
                                 }

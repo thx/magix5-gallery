@@ -1,5 +1,65 @@
-<div>
-    <div class="color-6">修改下面的输入框后，如果未点击保存离开，则会有离开提醒</div>
+<div class="eg-content">
+    <div class="color-6">修改下面的输入框后，如果未点击保存离开，则会有离开确认提醒</div>
     <input class="mx5-input" value="{{:user.name}}" />
+    <mx-btn *content="保存" mx-click="save()" data-spm-click="gostr=/alimama.99.dmp;locaid=d01efc3fd"/>
 </div>
-<mx-btn *content="保存" mx-click="save()" data-spm-click="gostr=/alimama.99.dmp;locaid=d01efc3fd"/>
+<div class="mx5-clearfix">
+    <div class="eg-desc flw50">
+        <div class="eg-title">HTML Code</div>
+        <mx-copy class="desc-oper" 
+            *copy-node="{{=$viewId}}_text_1" 
+            mx-success="@:{done}({id:1})">
+            <span class="desc-tip" mx-html="{{=text1}}"></span>
+            <i class="mx5-iconfont desc-icon">&#xe610;</i>
+        </mx-copy>
+        <mx-source whole="true" id="{{=$viewId}}_text_1">
+            <div class="color-6">修改下面的输入框后，如果未点击保存离开，则会有离开确认提醒</div>
+            <input class="mx5-input" value="{{:user.name}}" />
+            <mx-btn *content="保存" mx-click="save()" />
+        </mx-source>
+    </div>
+    <div class="eg-desc flw50 mx5-blc">
+        <div class="eg-title">JS Code</div>
+        <mx-copy class="desc-oper" 
+            *copy-node="{{=$viewId}}_text_2" 
+            mx-success="@:{done}({id:2})">
+            <span class="desc-tip" mx-html="{{=text2}}"></span>
+            <i class="mx5-iconfont desc-icon">&#xe610;</i>
+        </mx-copy>
+        <mx-source whole="true" id="{{=$viewId}}_text_2">
+            import Magix5 from 'magix5';
+            export default View.extend<{
+                getSnapshot(): string
+            }>({
+                tmpl: '@:exit-test.html',
+                init() {
+                    this.set({
+                        user: {
+                            name: 'xl'
+                        }
+                    });
+                    this['@:{current.state}'] = this.getSnapshot();
+                    this.observeExit('您修改了内容，尚未保存，确认离开吗？', () => {
+                        let nowState = this.getSnapshot();
+                        return nowState != this['@:{current.state}'];
+                    });
+                },
+                async exitConfirm(msg, resolve, reject) {
+                    //模拟异步场景
+                    await Magix5.delay(300);
+                    if (window.confirm(msg)) {
+                        resolve();
+                    } else {
+                        reject();
+                    }
+                },
+                getSnapshot() {
+                    return JSON.stringify(this.get());
+                },
+                'save<click>'() {
+                    this['@:{current.state}'] = this.getSnapshot();
+                }
+            })
+        </mx-source>
+    </div>
+</div>
