@@ -22,9 +22,9 @@ export default View.extend({
         // type 样式
         // dark 深底色
         // white 白底色
-        let type = options.type || 'dark';
+        let type = options.type || 'white';
         if (['white', 'dark'].indexOf(type) < 0) {
-            type = 'dark';
+            type = 'white';
         }
 
         // placement：定位，默认下居中
@@ -197,12 +197,12 @@ export default View.extend({
 
     '@:{init}'() {
         let that = this;
-        let { popId, type, width, zIndex } = that.get();
+        let { popId, type, placement, width, zIndex } = that.get();
         let popNode;
         if (!Magix5.node(popId)) {
             popNode = document.createElement('div');
             popNode.id = popId;
-            popNode.className = '@:index.less:mx5-popover--white @:index.less:mx5-popover--bc';
+            popNode.className = `@:index.less:mx5-popover--${type} @:index.less:mx5-popover--${placement}`;
             popNode.setAttribute('style', `width: ${width}px; z-index: ${zIndex};`);
             document.body.appendChild(popNode);
         }

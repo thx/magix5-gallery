@@ -7,7 +7,9 @@
         </div>
     </div>
     <div class="mx5-mb20 mx5-clearfix">
-        <mx-btn *content="点此复制" mx-click="copy()" data-spm-click="gostr=/alimama.99.dmp;locaid=d4603e7f9"/>
+        <mx-btn 
+            *content="点此复制" 
+            mx-click="copy()" />
 
         {{if success}}
         <span class="mx5-color-pass mx5-ml10 vmt">
@@ -32,7 +34,9 @@
             <i class="mx5-iconfont desc-icon">&#xe610;</i>
         </mx-copy>
         <mx-source whole="true" id="{{=$viewId}}_text_1">
-            <mx-btn *content="点此复制" mx-click="copy()" data-spm-click="gostr=/alimama.99.dmp;locaid=d1195d4b4"/>
+            <mx-btn 
+                *content="点此复制" 
+                mx-click="copy()" />
 
             {{if success}}
             <span class="mx5-color-pass mx5-ml10">
@@ -55,9 +59,10 @@
             <span class="desc-tip" mx-html="{{=text2}}"></span>
             <i class="mx5-iconfont desc-icon">&#xe610;</i>
         </mx-copy>
+        
         <mx-source whole="true" id="{{=$viewId}}_text_2">
             import Magix5 from 'magix5';
-            import Copy from '../gallery/mx-copy/fn';
+            <mx-source-origin><span class="mx5-color-brand">import Copy from '../gallery/mx-copy/fn';</span></mx-source-origin>
 
             export default Magix5.View.extend({
                 tmpl: '@:index.html',
@@ -80,7 +85,7 @@
                         })
                     })
                 },
-            }).merge(Copy);
+            })<mx-source-origin><span class="mx5-color-brand">.merge(Copy)</span></mx-source-origin>;
         </mx-source>
     </div>
 </div>
