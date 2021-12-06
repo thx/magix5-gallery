@@ -190,11 +190,9 @@ export default View.extend({
             left = winWidth - contentWidth;
         }
 
-        this['@:{mx.styles.add}'](popNode, {
-            top: top + 'px',
-            left: left + 'px',
-        });
-        this['@:{mx.class.add}'](popNode, '@:index.less:mx5-popover-show');
+        popNode.style.top = top + 'px';
+        popNode.style.left = left + 'px';
+        popNode.classList.add('@:index.less:mx5-popover-show');
     },
 
     '@:{init}'() {
@@ -268,8 +266,7 @@ export default View.extend({
 
             // 样式隐藏
             let { popId } = that.get();
-            let popNode = Magix5.node(popId);
-            that['@:{mx.class.remove}'](popNode, '@:index.less:mx5-popover-show');
+            document.getElementById(popId).classList.remove('@:index.less:mx5-popover-show');
         }, that.get('hideDelay'));
     },
 

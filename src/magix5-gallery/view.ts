@@ -5,17 +5,7 @@
  */
 import Magix from 'magix5';
 import ProjectService from "./services/service";
-import FormSync from './gallery/mx-form/sync';
-import Refs from "./gallery/mx-form/refs";
-let { View, config } = Magix;
+import View from './gallery/mx-base/view';
 export default View.extend({
 
-}).merge(ProjectService, FormSync, Refs, {
-    ctor() {
-        let attrs = this.root ? this.root.attributes : {};
-        let spm = (attrs['data-spm-click'] || {})['value'] || '';
-        this.set({
-            spm
-        });
-    }
-});
+}).merge(ProjectService);
