@@ -1,0 +1,27 @@
+{{if text}}
+<label class="radio-label">
+    <input class="radio" type="radio" 
+        checked="{{=checked}}??"
+        disabled="{{=disabled}}??"
+        name="{{=name}}"
+        value="{{=value}}" />
+    {{if text}}
+    <span class="radio-text" mx-html="{{=text}}"></span>
+    {{/if}}
+    {{if tagContent}}
+    <span class="radio-tag mx5-tag {{if disabled}} mx5-tag-disabled {{/if}}" 
+        {{if tagColor}} style="background-color: {{=tagColor}}; border: 1px solid {{=tagColor}};" {{/if}}>
+        <span class="mx5-tag-name" mx-html="{{=tagContent}}"></span>
+    </span>
+    {{/if}}
+    {{if tip}}
+    <mx-popover class="radio-pop mx5-iconfont mx5-iconfont-tip" *content="{{=tip}}">&#xe72f;</mx-popover>
+    {{/if}}
+</label>
+{{else}}
+<input class="radio" type="radio" 
+    checked="{{=checked}}??"
+    disabled="{{=disabled}}??"
+    name="{{=name}}"
+    value="{{=value}}" />
+{{/if}}

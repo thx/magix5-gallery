@@ -1,0 +1,29 @@
+{{if text}}
+    <label class="checkbox-label">
+        <input class="checkbox {{if indeterminate}} indeterminate {{/if}}" type="checkbox" 
+            {{if checked}} checked {{/if}}
+            {{if disabled}} disabled {{/if}}
+            name="{{=name}}"
+            value="{{=value}}"
+            mx-change="@:{change}()"/>
+        {{if text}}
+        <span class="checkbox-text">{{!text}}</span>
+        {{/if}}
+        {{if tagContent}}
+        <span class="mx5-tag {{if disabled}} mx5-tag-disabled {{/if}}" 
+            {{if tagColor}} style="background-color: {{=tagColor}}; border: 1px solid {{=tagColor}};" {{/if}}>
+            <span class="mx5-tag-name">{{!tagContent}}</span>
+        </span>
+        {{/if}}
+    </label>
+    {{if tip}}
+    <mx-popover class="mx5-iconfont" *content="{{=tip}}">&#xe72f;</mx-popover>
+    {{/if}}
+{{else}}
+<input class="checkbox {{if indeterminate}} indeterminate {{/if}}" type="checkbox" 
+    {{if checked}} checked {{/if}}
+    {{if disabled}} disabled {{/if}}
+    name="{{=name}}"
+    value="{{=value}}"
+    mx-change="@:{change}()"/>
+{{/if}}
