@@ -15,25 +15,27 @@ export default View.extend({
         }
 
         this.digest({
-            viewId: this.id,
             list,
             selected1: [1, 2, 3],
-            selected2: '1,2,3',
+            selected2: [1, 2, 3],
             selected3: [1, 2, 3],
             selected4: [1, 2, 3],
             selected5: [1, 2, 3],
             selected6: [1, 2, 3],
-            num: 4,
-            line: 4,
-            page: 1,
-            checkboxes: []
         });
     },
 
     'change<change>'(e) {
         let { index, value } = e.params;
+        let selected = this.get(`selected${index}`);
+        if (e.target.checked) {
+            selected.push(value);
+        } else {
+            let i = selected.indexOf(value);
+            selected.splice(i, 1);
+        };
         this.digest({
-            [`selected${index}`]: value
+            [`selected${index}`]: selected
         })
     }
 });

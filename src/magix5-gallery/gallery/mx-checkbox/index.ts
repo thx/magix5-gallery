@@ -25,20 +25,5 @@ export default View.extend({
             checked: e.target.checked,
             indeterminate: false
         })
-    },
-    /**
-     * 外部直接里调用
-     */
-    setData(data) {
-        this.digest(data);
-
-        let { disabled } = this.updater.get();
-        this.root.setAttribute('mx-checkbox-disabled', disabled);
-    },
-    /**
-     * 外部直接里调用
-     */
-    getData() {
-        return this.get();
-    },
+    }
 });

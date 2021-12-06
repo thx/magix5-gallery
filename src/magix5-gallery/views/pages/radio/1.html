@@ -112,6 +112,13 @@
         <i class="mx5-iconfont desc-icon">&#xe610;</i>
     </mx-copy>
     <mx-source whole="true" id="{{=$viewId}}_text_1">
-        <mx-btn *content="主要按钮"/>    
+        <mx-radio class="mx5-mr30"
+            *name="{{=$viewId}}_radios" 
+            *disabled="{{=item.disabled}}"
+            *value="{{=item.value}}" 
+            *text="{{=item.text}}"
+            *tip="{{=item.tip}}"
+            *tag-content="{{=item.tag}}"
+            *checked="{{=(item.value == selected)}}" />  
     </mx-source>
 </div>
