@@ -7,14 +7,27 @@
         </div>
     </div>
     <div class="dark-bg-wrapper">
-        <mx-layout>
-            <mx-layout.title *content="标题" *tip="提示" *icon-tip="小问号提示信息">
-                <mx-btn *content="按钮"/>
-            </mx-layout.title>
-            <mx-layout.body>
-                test
-            </mx-layout.body>
+        <mx-layout class="mx5-mb20">
+            <mx-layout.title 
+                *border="false"
+                *content="标题" 
+                *tip="提示信息" />
         </mx-layout>
+
+        <mx-layout class="mx5-mb20">
+            <mx-layout.title 
+                *border="false" 
+                *content="{{=img}}" />
+        </mx-layout>
+
+        <mx-layout class="mx5-mb20">
+            <mx-layout.title 
+                *border="false"
+                *content="标题" 
+                *icon-tip="小问号提示信息" 
+                *tip="{{=link}}" />
+        </mx-layout>
+            
     </div>
 </div>
 <div class="eg-desc">

@@ -30,49 +30,41 @@ let ProcessAttr = (attrs, style, ignores, className) => {
 };
 module.exports = {
     'mx-layout'(i) {
-        return `<div ${ProcessAttr(i.attrsKV, null, {}, 'mx5-grid')}>${i.content}</div>`;
+        return `<div ${ProcessAttr(i.attrsKV, null, {}, 'mx5-layout')}>${i.content}</div>`;
     },
     'mx-layout.title'(i) {
         let { content, attrsKV } = i;
 
         let styles = [
-            'padding: var(--mx-layout-title-v-gap, 10px) var(--mx-layout-title-h-gap, 24px)'
+            'padding: var(--mx5-layout-title-v-gap) var(--mx5-layout-title-h-gap)'
         ];
-        if ((attrsKV.border + '') !== 'none') {
-            styles.push('border-bottom: 1px solid var(--mx-layout-title-color-border, #e6e6e6)');
+        if ((attrsKV['*border'] + '') !== 'false') {
+            styles.push('border-bottom: 1px solid var(--mx5-layout-title-border-color)');
         }
 
         let tmpl = `<div ${ProcessAttr(attrsKV, styles.join(';'), {
-            icon: 1,
-            tip: 1,
-            'icon-tip': 1,
-            border: 1,
-            content: 1
-        }, 'clearfix')}>`;
+            '*content': 1,
+            '*icon-tip': 1,
+            '*tip': 1,
+            '*link': 1,
+            '*link-text': 1,
+            '*border': 1,
+        }, 'mx5-clearfix')}>
+            <div style="float: left; display: inline-flex; height: var(--mx5-input-height); overflow: hidden; align-items: center; justify-content: center;">
+                <span class="mx5-layout-title" mx-html="${attrsKV['*content']}"></span>
+                ${attrsKV['*icon-tip'] ? (`<mx-popover class="mx5-iconfont mx5-iconfont-tip" style="margin-left: 4px;" *content="${attrsKV['*icon-tip']}">&#xe72f;</mx-popover>`) : ''}
+                ${attrsKV['*tip'] ? (`<span style="margin-left: 16px; color: #999; font-size: 12px;" mx-html="${attrsKV['*tip']}"></span>`) : ''}
+                ${attrsKV['*link'] ? (`<a href="${attrsKV['*link']}" target="_blank" class="mx5-layout-title-link">${attrsKV['*link-text'] || '查看详情'}</a>`) : ''}
+            </div>
+            ${content || ''}
+        </div>`;
 
-        // 标题，提示，icon
-        tmpl += '<div style="float: left; display: inline-flex; height: var(--input-height); overflow: hidden; align-items: center; justify-content: center;">';
-        if (attrsKV.icon) {
-            tmpl += `<span style="margin-right: 4px; color: #ccc;">${attrsKV.icon}</span>`;
-        }
-        tmpl += `<span class="grid-title" style="margin-right: 16px;">${attrsKV.content}${attrsKV['icon-tip'] ? `<mx-popover class="mc-iconfont mc-tip-iconfont" tag="i" width="220" content="${attrsKV['icon-tip']}">&#xe72f;</mx-popover>` : ''}</span>`;
-        if (attrsKV.tip) {
-            tmpl += `<span style="margin-right: 16px; color: #999; font-size: 12px;">${attrsKV.tip}</span>`;
-        }
-        tmpl += '</div>';
-
-        // 筛选项
-        if (content) {
-            tmpl += `${content}`;
-        }
-
-        tmpl += '</div>';
         return tmpl;
     },
     'mx-layout.body'(i) {
         let { content, attrsKV } = i;
-        return `<div ${ProcessAttr(attrsKV, 'padding: var(--mx-layout-body-v-gap, 16px) var(--mx-layout-body-h-gap, 24px);', {
-            content: 1
-        }, 'clearfix')}>${content}</div>`;
+        return `<div ${ProcessAttr(attrsKV, 'padding: var(--mx5-layout-body-v-gap) var(--mx5-layout-body-h-gap);', {
+            '*content': 1
+        }, 'mx5-clearfix')}>${content}</div>`;
     }
 };
