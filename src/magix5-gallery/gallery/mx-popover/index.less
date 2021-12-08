@@ -5,29 +5,111 @@
     }
 }
 
+@keyframes mx5-popover-anim-show {
+    from {
+        opacity: 0;
+        transform: scale(0);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes mx5-popover-anim-hide {
+    from {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    to {
+        opacity: 0;
+        transform: scale(0);
+    }
+}
+
+@keyframes mx5-popover-direct-show {
+    from {
+        opacity: 0;
+        transform: scale(1);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes mx5-popover-direct-hide {
+    from {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    to {
+        opacity: 0;
+        transform: scale(1);
+    }
+}
+
 /**
  * popover下左 初始隐藏状态
  * 注意使用opacity控制popover的显示和隐藏，不要设置display: none
  */
-.mx5-popover--bl,
-.mx5-popover--br,
-.mx5-popover--bc,
-.mx5-popover--tl,
-.mx5-popover--tr,
-.mx5-popover--tc,
-.mx5-popover--rt,
-.mx5-popover--rb,
-.mx5-popover--rc,
-.mx5-popover--lt,
-.mx5-popover--lb,
-.mx5-popover--lc {
+.mx5-popover--white,
+.mx5-popover--dark {
     opacity: 0;
-    transition: transform 0.15s, opacity 0.15s;
-    transform: scale(0);
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -999999;
+    height: auto;
+    font-size: 12px;
+    line-height: 22px;
+    white-space: normal;
+    font-weight: normal;
+    font-family: var(--mx5-font-family);
+    border-radius: var(--mx5-border-radius);
+    border: 1px solid var(--mx5-shadow-border-color);
+    box-shadow: var(--mx5-shadow);
 
-    &.no-transform {
-        transition: transform 0s, opacity 0.15s;
+    .mx5-popover-content {
+        padding: var(--mx5-popover-v-gap) var(--mx5-popover-h-gap);
+        word-break: break-all;
     }
+
+    &.mx5-popover-anim-show {
+        animation: mx5-popover-anim-show 0.15s;
+        animation-fill-mode: forwards;
+    }
+
+    &.mx5-popover-anim-hide {
+        pointer-events: none;
+        animation: mx5-popover-anim-hide 0.15s;
+        animation-fill-mode: forwards;
+    }
+
+    &.mx5-popover-direct-show {
+        animation: mx5-popover-direct-show 0.15s;
+        animation-fill-mode: forwards;
+    }
+
+    &.mx5-popover-direct-hide {
+        pointer-events: none;
+        animation: mx5-popover-direct-hide 0.15s;
+        animation-fill-mode: forwards;
+    }
+}
+
+.mx5-popover--white {
+    background-color: #fff;
+    color: var(--mx5-font-color);
+}
+
+.mx5-popover--dark {
+    background-color: rgba(33, 33, 33, .72);
+    color: #fff;
 }
 
 .mx5-popover--bl {
@@ -76,43 +158,4 @@
 
 .mx5-popover--lc {
     transform-origin: 100% 50%;
-}
-
-.mx5-popover--white {
-    background-color: #fff;
-    color: var(--mx5-font-color);
-}
-
-.mx5-popover--dark {
-    background-color: rgba(33, 33, 33, .72);
-    color: #fff;
-}
-
-.mx5-popover--white,
-.mx5-popover--dark {
-    position: absolute;
-    z-index: 999999;
-    height: auto;
-    font-size: 12px;
-    line-height: 22px;
-    white-space: normal;
-    font-weight: normal;
-    font-family: var(--mx5-font-family);
-    border-radius: var(--mx5-border-radius);
-    border: 1px solid var(--mx5-shadow-border-color);
-    box-shadow: var(--mx5-shadow);
-
-    .mx5-popover-content {
-        padding: var(--mx5-popover-v-gap) var(--mx5-popover-h-gap);
-        word-break: break-all;
-    }
-
-    &.mx5-popover-show {
-        opacity: 1;
-        transform: scale(1);
-    }
-
-    &.mx5-popover-hide {
-        display: none;
-    }
 }

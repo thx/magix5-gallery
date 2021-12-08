@@ -1,5 +1,5 @@
 {{if (linkHref && !disabled && !loading)}}
-    <a href="{{=linkHref}}" target="{{=linkTarget}}"
+    <a href="{{=linkHref}}" target="{{=linkTarget}}" rel="noopener noreferrer"
         id="{{=$viewId}}_btn" 
         style="{{=styles}}; width: {{=(width ? (width + 'px') : '100%')}};"
         class="{{if type}} btn--{{=type}} {{/if}} {{if small}} btn--small {{/if}}">

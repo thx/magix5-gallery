@@ -16,10 +16,10 @@ export default View.extend({
                 def: 'false'
             }],
             columns: [{
-                text: '品牌色loading',
+                text: '模块加载loading',
                 path: 2
             }, {
-                text: '统一品牌m动画',
+                text: '页面加载loading',
                 path: 1
             }],
         });

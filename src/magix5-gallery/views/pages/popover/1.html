@@ -1,11 +1,67 @@
 <div class="eg-content">
-    <div class="mx5-mb20 mx5-clearfix">
+    <div class="mx5-mb40 mx5-clearfix">
         <div class="mx5-fl mx5-color-9">以下示例：</div>
         <div class="mx5-fl">
-            <div>默认下居中对齐</div>
+            <div>配置placement自定义相对定位，默认bc</div>
         </div>
     </div>
-    <mx-popover *content="提示信息" class="mx5-iconfont mx5-iconfont-tip mx5-cursor-help">&#xe72f;</mx-popover>
+
+    <div class="mx5-clearfix">
+        <div class="left">
+            <mx-popover class="mx5-mb20" *content="提示信息&lt;br/&gt;提示信息" *placement="lt">
+                <mx-btn class="mx5-w100" *content="左上对齐（lt）"/>
+            </mx-popover>
+
+            <mx-popover class="mx5-mb20" *content="提示信息&lt;br/&gt;提示信息" *placement="lc">
+                <mx-btn class="mx5-w100" *content="左中对齐（lc）"/>
+            </mx-popover>
+
+            <mx-popover class="mx5-mb20" *content="提示信息&lt;br/&gt;提示信息" *placement="lb">
+                <mx-btn class="mx5-w100" *content="左下对齐（lb）"/>
+            </mx-popover>
+        </div>
+        <div class="center">
+            <div class="center1">
+                <mx-popover class="mx5-mr20" *content="提示信息&lt;br/&gt;提示信息" *placement="tl">
+                    <mx-btn class="mx5-w100" *content="上左对齐（tl）"/>
+                </mx-popover>
+    
+                <mx-popover class="mx5-mr20" *content="提示信息&lt;br/&gt;提示信息" *placement="tc">
+                    <mx-btn class="mx5-w100" *content="上中对齐（tc）"/>
+                </mx-popover>
+    
+                <mx-popover class="mx5-mr20" *content="提示信息&lt;br/&gt;提示信息" *placement="tr">
+                    <mx-btn class="mx5-w100" *content="上右对齐（tr）"/>
+                </mx-popover>
+            </div>
+            <div class="center2">
+                <mx-popover class="mx5-mr20" *content="提示信息&lt;br/&gt;提示信息" *placement="bl">
+                    <mx-btn class="mx5-w100" *content="下左对齐（bl）"/>
+                </mx-popover>
+    
+                <mx-popover class="mx5-mr20" *content="提示信息&lt;br/&gt;提示信息" *placement="bc">
+                    <mx-btn class="mx5-w100" *content="下中对齐（bc）"/>
+                </mx-popover>
+    
+                <mx-popover class="mx5-mr20" *content="提示信息&lt;br/&gt;提示信息" *placement="br">
+                    <mx-btn class="mx5-w100" *content="下右对齐（br）"/>
+                </mx-popover>
+            </div>
+        </div>
+        <div class="right">
+            <mx-popover class="mx5-mb20" *content="提示信息&lt;br/&gt;提示信息" *placement="rt">
+                <mx-btn class="mx5-w100" *content="右上对齐（rt）"/>
+            </mx-popover>
+
+            <mx-popover class="mx5-mb20" *content="提示信息&lt;br/&gt;提示信息" *placement="rc">
+                <mx-btn class="mx5-w100" *content="右中对齐（rc）"/>
+            </mx-popover>
+
+            <mx-popover class="mx5-mb20" *content="提示信息&lt;br/&gt;提示信息" *placement="rb">
+                <mx-btn class="mx5-w100" *content="右下对齐（rb）"/>
+            </mx-popover>
+        </div>
+    </div>
 </div>
 <div class="eg-desc">
     <div class="eg-title">HTML Code</div>
@@ -16,6 +72,8 @@
         <i class="mx5-iconfont desc-icon">&#xe610;</i>
     </mx-copy>
     <mx-source whole="true" id="{{=$viewId}}_text_1">
-        <mx-popover *content="提示信息" class="mx5-iconfont mx5-iconfont-tip mx5-cursor-help">&#xe72f;</mx-popover>
+        <mx-popover *content="提示信息" *placement="lt">
+            <mx-btn class="mx5-w100" *content="左上对齐（lt）"/>
+        </mx-popover>
     </mx-source>
 </div>

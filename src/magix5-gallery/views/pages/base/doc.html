@@ -54,10 +54,10 @@
             <tbody>
                 {{each apis as api}}
                 <tr>
-                    <td mx-html="{{=api.value}}"></td>
-                    <td mx-html="{{=api.text}}"></td>
-                    <td mx-html="{{=api.type}}"></td>
-                    <td mx-html="{{=api.def}}"></td>
+                    <td mx-html="{{=(api.value || '')}}"></td>
+                    <td mx-html="{{=(api.text || '')}}"></td>
+                    <td mx-html="{{=(api.type || '')}}"></td>
+                    <td mx-html="{{=(api.def || '')}}"></td>
                 </tr>
                 {{/each}}
             </tbody>

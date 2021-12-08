@@ -1,5 +1,5 @@
 
-import Magix5 from 'magix5';
+import Magix5, { Vframe } from 'magix5';
 import View from '../mx-base/view';
 Magix5.applyStyle('@:index.less');
 
@@ -19,9 +19,7 @@ export default View.extend({
         let showDelay = options.showDelay || 100,
             hideDelay = options.hideDelay || 200;
 
-        // type 样式
-        // dark 深底色
-        // white 白底色
+        // type(样式)：dark 深底色，white 白底色
         let type = options.type || 'white';
         if (['white', 'dark'].indexOf(type) < 0) {
             type = 'white';
@@ -71,16 +69,10 @@ export default View.extend({
             showDelay,
             hideDelay,
             type,
-            placement,
-            top,
-            left,
-            offset,
-            width,
-            zIndex,
+            posConfigs: { placement, width, top, left, offset, zIndex, transform },
             content,
             view,
             viewData,
-            transform,
             auto,
         })
     },
@@ -97,113 +89,15 @@ export default View.extend({
         }
     },
 
-    '@:{set.pos}'(popNode) {
-        let root = this.root;
-        let { top: customTop, left: customLeft, offset: customOffset, placement } = this.get();
-
-        let width = root.offsetWidth,
-            height = root.offsetHeight,
-            offset = this['@:{mx.style.offset}'](root);
-        let contentWidth = popNode.offsetWidth,
-            contentHeight = popNode.offsetHeight;
-
-        // 默认下方居中
-        let gap = 10;
-        let top = offset.top + gap,
-            left = offset.left - (contentWidth - width) / 2;
-
-        if (isNaN(customTop) || isNaN(customLeft)) {
-            switch (placement) {
-                case 'tl':
-                    top = offset.top - contentHeight - gap;
-                    left = offset.left;
-                    break;
-
-                case 'tc':
-                    top = offset.top - contentHeight - gap;
-                    left = offset.left - (contentWidth - width) / 2
-                    break;
-
-                case 'tr':
-                    top = offset.top - contentHeight - gap;
-                    left = offset.left + width - contentWidth;
-                    break;
-
-                case 'bl':
-                    top = offset.top + height + gap;
-                    left = offset.left;
-                    break;
-
-                case 'bc':
-                    top = offset.top + height + gap;
-                    left = offset.left - (contentWidth - width) / 2
-                    break;
-
-                case 'br':
-                    top = offset.top + height + gap;
-                    left = offset.left + width - contentWidth;
-                    break;
-
-                case 'lt':
-                    top = offset.top;
-                    left = offset.left - contentWidth - gap;
-                    break;
-
-                case 'lc':
-                    top = offset.top - (contentHeight - height) / 2;
-                    left = offset.left - contentWidth - gap;
-                    break;
-
-                case 'lb':
-                    top = offset.top - (contentHeight - height);
-                    left = offset.left - contentWidth - gap;
-                    break;
-
-                case 'rt':
-                    top = offset.top;
-                    left = offset.left + width + gap;
-                    break;
-
-                case 'rc':
-                    top = offset.top - (contentHeight - height) / 2;
-                    left = offset.left + width + gap;
-                    break;
-
-                case 'rb':
-                    top = offset.top - (contentHeight - height);
-                    left = offset.left + width + gap;
-                    break;
-            }
-        } else {
-            top = customTop;
-            left = customLeft;
-        }
-
-        // 偏移修正
-        left += (+customOffset.left || 0);
-        top += (+customOffset.top || 0);
-
-        let winWidth = window.innerWidth;
-        if (left < 0) {
-            left = 0;
-        } else if (left + contentWidth > winWidth) {
-            left = winWidth - contentWidth;
-        }
-
-        popNode.style.top = top + 'px';
-        popNode.style.left = left + 'px';
-        popNode.classList.add('@:index.less:mx5-popover-show');
-    },
-
     '@:{init}'() {
         let that = this;
-        let { popId, type, placement, width, zIndex } = that.get();
+        let { popId, type, posConfigs } = that.get();
         let popNode;
         if (!Magix5.node(popId)) {
             popNode = document.createElement('div');
             popNode.id = popId;
-            popNode.className = `@:index.less:mx5-popover--${type} @:index.less:mx5-popover--${placement}`;
-            popNode.setAttribute('style', `width: ${width}px; z-index: ${zIndex};`);
+            popNode.className = `@:index.less:mx5-popover--${type} @:index.less:mx5-popover--${posConfigs.placement}`;
+            popNode.setAttribute('style', `width: ${posConfigs.width}px;`);
             document.body.appendChild(popNode);
         }
 
@@ -244,16 +138,14 @@ export default View.extend({
             that.set({ show: true });
 
             // 每次展开重新渲染内容
-            let { popId, content, view, viewData } = that.get();
+            let { popId, content, view, viewData, posConfigs } = that.get();
             let popNode = Magix5.node(popId);
-            that.owner.mount(popNode, '@:./content', {
+            that['@:{pop.vframe}'] = that.owner.mount(popNode, '@:./content', {
                 content,
                 view,
                 viewData,
+                posConfigs,
             });
-
-            // 每次show时都重新定位
-            that['@:{set.pos}'](popNode);
         }, that.get('showDelay'));
     },
 
@@ -264,9 +156,11 @@ export default View.extend({
             if (!that.get('show')) { return; }
             that.set({ show: false });
 
-            // 样式隐藏
-            let { popId } = that.get();
-            document.getElementById(popId).classList.remove('@:index.less:mx5-popover-show');
+            // 内容隐藏
+            let vf = that['@:{pop.vframe}'];
+            if (vf) {
+                vf.invoke('hide');
+            }
         }, that.get('hideDelay'));
     },
 
