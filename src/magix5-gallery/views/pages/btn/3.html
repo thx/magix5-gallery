@@ -1,20 +1,37 @@
 <div class="eg-content">
-    TODO
+    <div class="dark-bg-wrapper">
+        <div class="mx5-mb20">
+            <span class="mx5-mr20">大号按钮：</span>
+            <mx-btn class="mx5-mr30" *type="white" *content="白色按钮"/>
+            <mx-btn class="mx5-mr30" *type="white" *content="白色按钮" *tag-content="&lt;i class='mx5-iconfont'&gt;&#xe601;&lt;/i&gt;" /> 
+            <mx-btn class="mx5-mr30" *type="white" *tag-content="New" *tag-color="#ffb400"><i class="mx5-iconfont mx5-mr5">&#xe731;</i>白色按钮</mx-btn>
+            <mx-btn class="mx5-mr30" *type="white" *content="白色按钮禁用" *tag-content="New" *disabled="true" />
+            <mx-btn class="mx5-mr30" *type="white" *content="hover显示禁用原因" *tag-content="New" *disabled="true" *disabled-tip="禁用原因" />
+            <mx-btn class="mx5-mr30" *type="white" *content="白色按钮" *tag-content="New" *loading="true"/> 
+        </div>
+    
+        <div class="mx5-mb20">
+            <span class="mx5-mr20">小号按钮：</span>
+            <mx-btn class="mx5-mr30" *type="white" *small="true" *content="白色按钮"/>
+            <mx-btn class="mx5-mr30" *type="white" *small="true" *content="白色按钮" *tag-content="&lt;i class='mx5-iconfont'&gt;&#xe601;&lt;/i&gt;" /> 
+            <mx-btn class="mx5-mr30" *type="white" *small="true" *tag-content="New" *tag-color="#ffb400"><i class="mx5-iconfont mx5-mr5">&#xe731;</i>白色按钮</mx-btn>
+            <mx-btn class="mx5-mr30" *type="white" *small="true" *content="白色按钮禁用" *tag-content="New" *disabled="true" />
+            <mx-btn class="mx5-mr30" *type="white" *small="true" *content="hover显示禁用原因" *tag-content="New" *disabled="true" *disabled-tip="禁用原因" />
+            <mx-btn class="mx5-mr30" *type="white" *small="true" *content="白色按钮" *tag-content="New" *loading="true"/> 
+        </div>
+    </div>
 </div>
 <div class="eg-desc">
     <div class="eg-title">HTML Code</div>
-    <div class="desc-oper" 
-        mx-click="@:{done}({id:1})" data-spm-click="gostr=/alimama.99.dmp;locaid=d1e47bce0">
-        <span class="desc-tip" mx-html="{{=text1}}"></span>
-        <i class="mx5-iconfont desc-icon">&#xe610;</i>
-    </div>
-    <!-- <mx-copy class="desc-oper" 
+    <mx-copy class="desc-oper" 
         *copy-node="{{=$viewId}}_text_1" 
         mx-success="@:{done}({id:1})">
-        <span class="desc-tip">{{!text1}}</span>
+        <span class="desc-tip" mx-html="{{=text1}}"></span>
         <i class="mx5-iconfont desc-icon">&#xe610;</i>
-    </mx-copy> -->
-    <pre id="{{=$viewId}}_text_1">
-TODO
-    </pre>
+    </mx-copy>
+    <mx-source whole="true" id="{{=$viewId}}_text_1">
+        <mx-btn *type="white" *content="白色按钮"/>
+
+        <mx-btn *type="white" *small="true" *content="小号白色按钮"/>
+    </mx-source>
 </div>

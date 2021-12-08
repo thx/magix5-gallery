@@ -17,16 +17,10 @@ Magix5.applyStyle('@:index.less');
 
 export default View.extend({
     tmpl: '@:index.html',
-    init(options) {
-        this.on('destroy', () => {
-            if (this['@:{anim.timer}']) {
-                clearTimeout(this['@:{anim.timer}']);
-            }
-        });
-    },
-    assign(options) {
+    assign(options, context) {
         // 展示内容
-        let content = options.content || '';
+        // context: 标签包裹内容
+        let content = options.content || context || '';
 
         // 禁用按钮
         let disabled = (options.disabled + '' === 'true');
@@ -50,6 +44,8 @@ export default View.extend({
         // 优先级，自定义颜色 > 预置颜色
         let styles = [], type;
         if (color) {
+            type = 'custom';
+
             // 自定义按钮颜色
             styles.push(`--mx5-btn-custom-color: ${color}`);
             styles.push(`--mx5-btn-custom-color-text: ${colorText}`);
@@ -61,14 +57,23 @@ export default View.extend({
         } else {
             // primary：品牌色主要按钮
             // secondary：次要按钮
+            // white：白色按钮
+            let allowedTypes = { primary: true, secondary: true, white: true };
             type = options.type || 'primary';
-        }
+            if (!allowedTypes[type]) {
+                type = 'primary';
+            }
+        };
+
+        // 外链处理
+        let linkHref = options.linkHref,
+            linkTarget = options.linkTarget || '_blank';
 
         this.set({
             disabled,
             disabledTip: options.disabledTip || '',
             disabledWidth: options.disabledWidth || 200,
-            disabledPlacement: options.disabledPlacement || 'bottom',
+            disabledPlacement: options.disabledPlacement || 'bc',
             type,
             width: options.width,
             loading,
@@ -77,6 +82,8 @@ export default View.extend({
             tagContent,
             tagColor,
             styles: styles.join(';'),
+            linkHref,
+            linkTarget,
         });
     },
 
@@ -88,19 +95,27 @@ export default View.extend({
         e.stopPropagation();
     },
 
-    '@:{anim}<click>'(e) {
+    async '@:{anim}<click>'(e) {
         let that = this;
-        let { disabled, loading, animing } = that.get();
-        if (disabled || loading || animing) {
+        let { disabled, loading, animation } = that.get();
+        if (disabled || loading || (animation == 'expand')) {
             return;
         }
 
-        // 只记录状态不digest
-        // let ms = '@:../mx-style/var.less:--mx5-animation-duration';
-        // debugger
-        that.digest({ animing: true });
-        that['@:{anim.timer}'] = setTimeout(() => {
-            that.digest({ animing: false });
-        }, 300);
+        await that.digest({ animation: 'expand' });
+
+        if (!that.get('init')) {
+            that.set({ init: true });
+
+            // 动画结束移除标记
+            let clearAnim = () => {
+                that.digest({ animation: null });
+            }
+            let btnNode = document.querySelector(`#${that.id}_btn`);
+            Magix5.attach(btnNode, 'animationend', clearAnim);
+            that.on('destroy', () => {
+                Magix5.detach(btnNode, 'animationend', clearAnim);
+            });
+        }
     }
 });

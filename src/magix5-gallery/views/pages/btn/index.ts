@@ -10,19 +10,9 @@ export default View.extend({
                 type: 'string',
                 def: ''
             }, {
-                value: 'brand',
-                text: '是否为品牌色按钮',
-                type: 'boolean',
-                def: 'false'
-            }, {
-                value: 'white',
-                text: '是否为白色按钮',
-                type: 'boolean',
-                def: 'false'
-            }, {
-                value: 'hollow',
-                text: '是否为默认普通按钮，hover品牌色按钮',
-                type: 'boolean',
+                value: 'type',
+                text: '按钮类型',
+                type: 'string',
                 def: 'false'
             }, {
                 value: 'disabled',
@@ -66,7 +56,7 @@ export default View.extend({
                 def: '配置了color才生效<br/>默认=color-text'
             }, {
                 value: 'tag-content',
-                text: '打标文案',
+                text: '打标文案，支持html片段',
                 type: 'string',
                 def: ''
             }, {
@@ -91,22 +81,25 @@ framename</pre>`,
                 def: '_blank',
             }],
             columns: [{
-                text: '主要品牌按钮',
+                text: '主要按钮',
                 path: 1
             }, {
                 text: '次要按钮',
                 path: 2
-            }],
-            lefts: [{
-                text: 'demo3',
+            }, {
+                text: '白色按钮',
                 path: 3
             }, {
-                text: 'demo4',
+                text: '状态切换',
+                path: 5
+            }],
+            lefts: [{
+                text: '自定义颜色',
                 path: 4
             }],
             rights: [{
-                text: 'demo5',
-                path: 5
+                text: '外链',
+                path: 6
             }]
         });
     },

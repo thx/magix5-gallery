@@ -1,0 +1,28 @@
+<div class="eg-content">
+    <mx-btn class="mx5-mr30" 
+        *link-href="https://www.taobao.com/" 
+        *content="新开页" />
+    <mx-btn class="mx5-mr30" 
+        *link-href="https://www.taobao.com/" 
+        *link-target="_self" 
+        *content="本页跳转" /> 
+</div>
+<div class="eg-desc">
+    <div class="eg-title">HTML Code</div>
+    <mx-copy class="desc-oper" 
+        *copy-node="{{=$viewId}}_text_1" 
+        mx-success="@:{done}({id:1})">
+        <span class="desc-tip" mx-html="{{=text1}}"></span>
+        <i class="mx5-iconfont desc-icon">&#xe610;</i>
+    </mx-copy>
+    <mx-source whole="true" id="{{=$viewId}}_text_1">
+        <mx-btn 
+            *link-href="https://www.taobao.com/" 
+            *content="新开页" />
+            
+        <mx-btn 
+            *link-href="https://www.taobao.com/" 
+            *link-target="_self" 
+            *content="本页跳转" /> 
+    </mx-source>
+</div>

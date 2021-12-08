@@ -1,5 +1,23 @@
 <div class="eg-content">
-    <mx-btn *content="主要按钮"/>
+    <div class="mx5-mb20">
+        <span class="mx5-mr20">大号按钮：</span>
+        <mx-btn class="mx5-mr30" *content="主要按钮"/>
+        <mx-btn class="mx5-mr30" *content="主要按钮" *tag-content="&lt;i class='mx5-iconfont'&gt;&#xe601;&lt;/i&gt;" /> 
+        <mx-btn class="mx5-mr30" *tag-content="New" *tag-color="#ffb400"><i class="mx5-iconfont mx5-mr5">&#xe731;</i>主要按钮</mx-btn>
+        <mx-btn class="mx5-mr30" *content="主要按钮禁用" *tag-content="New" *disabled="true" />
+        <mx-btn class="mx5-mr30" *content="hover显示禁用原因" *tag-content="New" *disabled="true" *disabled-tip="禁用原因" />
+        <mx-btn class="mx5-mr30" *content="主要按钮" *tag-content="New" *loading="true"/> 
+    </div>
+
+    <div class="mx5-mb20">
+        <span class="mx5-mr20">小号按钮：</span>
+        <mx-btn class="mx5-mr30" *small="true" *content="主要按钮"/>
+        <mx-btn class="mx5-mr30" *small="true" *content="主要按钮" *tag-content="&lt;i class='mx5-iconfont'&gt;&#xe601;&lt;/i&gt;" /> 
+        <mx-btn class="mx5-mr30" *small="true" *tag-content="New" *tag-color="#ffb400"><i class="mx5-iconfont mx5-mr5">&#xe731;</i>主要按钮</mx-btn>
+        <mx-btn class="mx5-mr30" *small="true" *content="主要按钮禁用" *tag-content="New" *disabled="true" />
+        <mx-btn class="mx5-mr30" *small="true" *content="hover显示禁用原因" *tag-content="New" *disabled="true" *disabled-tip="禁用原因" />
+        <mx-btn class="mx5-mr30" *small="true" *content="主要按钮" *tag-content="New" *loading="true"/> 
+    </div>
 </div>
 <div class="eg-desc">
     <div class="eg-title">HTML Code</div>
@@ -10,6 +28,20 @@
         <i class="mx5-iconfont desc-icon">&#xe610;</i>
     </mx-copy>
     <mx-source whole="true" id="{{=$viewId}}_text_1">
-        <mx-btn *content="主要按钮"/>   
+        <mx-btn *content="主要按钮"/>
+
+        <mx-btn *content="主要按钮" *tag-content="&lt;i class='mx5-iconfont'&gt;&#xe601;&lt;/i&gt;" /> 
+
+        <mx-btn *tag-content="New" *tag-color="#ffb400">
+            <i class="mx5-iconfont mx5-mr5">&#xe731;</i>主要按钮
+        </mx-btn>
+
+        <mx-btn *content="主要按钮禁用" *tag-content="New" *disabled="true" />
+
+        <mx-btn *content="hover显示禁用原因" *tag-content="New" *disabled="true" *disabled-tip="禁用原因" />
+
+        <mx-btn *content="主要按钮" *tag-content="New" *loading="true"/> 
+
+        <mx-btn *small="true" *content="小号主要按钮"/>
     </mx-source>
 </div>

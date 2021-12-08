@@ -228,7 +228,7 @@ export default View.extend({
             // 移除节点
             that.owner.unmount(popNode);
             popNode.remove();
-        })
+        });
     },
 
     '@:{show}'() {
