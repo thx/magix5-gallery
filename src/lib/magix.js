@@ -563,11 +563,14 @@ define('magix5', () => {
     };
     let resourcesLoadCount = 0;
     let isEsModule = o => o.__esModule || (window.Symbol && o[Symbol.toStringTag] === 'Module');
-    let Async_Require = (...names) => {
+    let Async_Require = (names, params) => {
         return new GPromise(async (r) => {
             let a = [];
             try {
-                await Mx_Cfg.require(...names);
+                if (!IsArray(names)) {
+                    names = [names];
+                }
+                await Mx_Cfg.require(names, params);
                 let load = Mx_Cfg.request;
                 if (!resourcesLoadCount) {
                     load(1);
@@ -758,41 +761,30 @@ define('magix5', () => {
     let Router_Bind = () => {
         let lastHash = Router_Parse().srcHash;
         let newHash, suspend;
-        AddEventListener(Doc_Window, 'hashchange', Router_Tip_Hashchange = (e, loc, resolve) => {
+        AddEventListener(Doc_Window, 'hashchange', Router_Tip_Hashchange = (e, loc) => {
             if (suspend) {
                 return;
             }
             loc = Router_Parse();
             newHash = loc.srcHash;
             if (newHash != lastHash) {
-                resolve = () => {
-                    e['@:{router-tip#suspend}'] = 1;
-                    lastHash = newHash;
-                    suspend = Empty;
-                    Router_UpdateHash(newHash);
-                    Router_Diff();
-                };
                 e = {
                     reject() {
-                        e['@:{router-tip#suspend}'] = 1;
                         suspend = Empty;
                         Router_UpdateHash(lastHash);
                     },
-                    resolve,
-                    stop(f) {
-                        e['@:{router-tip#suspend}'] = 1;
+                    resolve() {
+                        lastHash = newHash;
+                        suspend = Empty;
+                        Router_UpdateHash(newHash);
+                        Router_Diff();
+                    },
+                    stop() {
                         suspend = 1;
-                        if (f) {
-                        }
-                        else {
-                            Router_UpdateHash(lastHash);
-                        }
                     }
                 };
                 Router.fire(Change, e);
-                if (!suspend && !e['@:{router-tip#suspend}']) {
-                    resolve();
-                }
+                View_RunExitList(e);
             }
         });
         AddEventListener(Doc_Window, 'beforeunload', Router_Tip_Beforeunload = (e, te, msg) => {
@@ -1240,7 +1232,7 @@ define('magix5', () => {
             owner['@:{vframe#view.path}'] = view;
             Assign(params, viewInitParams);
             sign = owner['@:{vframe#sign}'];
-            let [TView] = await Async_Require(view);
+            let [TView] = await Async_Require(view, params);
             if (sign == owner['@:{vframe#sign}']) { //有可能在view载入后，vframe已经卸载了
                 if (TView) {
                     View_Prepare(TView);
@@ -1383,31 +1375,18 @@ define('magix5', () => {
                 list.length = 0;
             }
         },
-        async exitTest() {
-            let suspend = 0;
+        exit(stop, resolve, reject) {
             let e = {
-                stop() {
-                    suspend = 1;
-                    e['@:{router-tip#suspend}'] = 1;
-                },
-                resolve() {
-                    e['@:{router-tip#suspend}'] = 1;
-                    suspend = 0;
-                },
-                reject() {
-                    e['@:{router-tip#suspend}'] = 1;
-                    suspend = 1;
-                }
+                stop,
+                resolve,
+                reject
             };
             let vfs = [], vf;
             Vframe_CollectVframes(this, vfs);
             for (vf of vfs) {
-                await vf.invoke('@:{~view#exit.listener}', e);
-                if (suspend) {
-                    break;
-                }
+                vf.invoke('@:{~view#exit.listener}', e);
             }
-            return suspend;
+            View_RunExitList(e);
         }
     });
     /*
@@ -2802,6 +2781,23 @@ define('magix5', () => {
             prop['@:{view#template}'] = prop.tmpl;
         }
     };
+    let View_ExitList = [];
+    let View_RunExitList = (e, idx = 0) => {
+        let head = View_ExitList[idx];
+        if (head) {
+            let [view, msg] = head;
+            view.exitConfirm(msg, () => {
+                View_RunExitList(e, idx + 1);
+            }, () => {
+                View_ExitList.length = 0;
+                e.reject();
+            });
+        }
+        else {
+            View_ExitList.length = 0;
+            e.resolve();
+        }
+    };
     function View(id, root, owner, params, me) {
         me = this;
         me.root = root;
@@ -2832,37 +2828,10 @@ define('magix5', () => {
             let me = this;
             if (!me['@:{~view#exit.listener}']) {
                 let changeListener = e => {
-                    if (!e['@:{router-tip#suspend}'] &&
-                        !e['@:{router-tip#processed}'] &&
-                        fn()) {
-                        e.stop(1);
-                        me.exitConfirm(msg, () => {
-                            e['@:{router-tip#processed}'] = 1;
-                            e.resolve();
-                        }, () => {
-                            e['@:{router-tip#processed}'] = 1;
-                            e.reject();
-                        });
+                    if (fn()) {
+                        e.stop();
+                        View_ExitList.push([me, msg]);
                     }
-                    // let a = '@:{leave#router.change}', // a for router change
-                    //     b = '@:{leave#view.unload}'; // b for viewunload change
-                    // if (e.type != Change) {
-                    //     a = '@:{leave#view.unload}';
-                    //     b = '@:{leave#router.change}';
-                    // }
-                    // if (changeListener[a]) {
-                    //     e.stop();
-                    // } else if (!e['@:{router-tip#suspend}'] && fn()) {
-                    //     e.stop();
-                    //     changeListener[b] = 1;
-                    //     me.exitConfirm(msg, () => {
-                    //         changeListener[b] = 0;
-                    //         e.resolve();
-                    //     }, () => {
-                    //         changeListener[b] = 0;
-                    //         e.reject();
-                    //     });
-                    // }
                 };
                 let unloadListener = e => {
                     if (!e['@:{page-tip#msg}'] &&
@@ -2899,13 +2868,13 @@ define('magix5', () => {
             }
             return result;
         },
-        set(newData, onlyChanged) {
+        set(newData) {
             let me = this, oldData = me['@:{view#updater.data}'], keys = me['@:{view#updater.keys}'];
             let changed = me['@:{view#updater.data.changed}'], now, old, p, c;
             for (p in newData) {
                 now = newData[p];
                 old = oldData[p];
-                c = onlyChanged ? Has(onlyChanged, p) : !IsPrimitive(now) || old != now;
+                c = !IsPrimitive(now) || old != now;
                 if (c) {
                     keys[p] = 1;
                     changed = 1;
@@ -2915,8 +2884,8 @@ define('magix5', () => {
             me['@:{view#updater.data.changed}'] = changed;
             return me;
         },
-        digest(data, changed) {
-            data = this.set(data, changed);
+        digest(data) {
+            data = this.set(data);
             /*
                 view:
                 <div>
@@ -2960,9 +2929,6 @@ define('magix5', () => {
             });
         },
         changed() {
-            if (DEBUG) {
-                return !!(this['@:{view#updater.data.changed}']);
-            }
             return this['@:{view#updater.data.changed}'];
         },
         // snapshot() {

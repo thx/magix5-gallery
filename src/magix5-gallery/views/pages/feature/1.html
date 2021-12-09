@@ -47,6 +47,9 @@
                 async exitConfirm(msg, resolve, reject) {
                     //模拟异步场景
                     await Magix5.delay(300);
+                    //这里可以换成自定义对话框等ui，示例使用系统的confirm示意下
+                    //调用reject明确告知停留在当前界面上
+                    //调用resolve则表示已经处理好相应的数据，可以离开
                     if (window.confirm(msg)) {
                         resolve();
                     } else {
