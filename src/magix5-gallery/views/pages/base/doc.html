@@ -10,11 +10,12 @@
     {{/each}}
     </div>
     
-    <mx-title *mode="second" *content="使用示例" data-target="{{=$viewId}}_demo"/>
+    <mx-title *mode="second" *content="使用示例" data-target="demo"/>
     <div class="mx5-clearfix mx5-pb20">
         {{if (columns && columns.length)}}
             {{each columns as d}}
             <div class="example {{if (highlightValue == d.value)}} example-highlight {{/if}}" 
+                data-target="{{=d.value}}"
                 mx-view="{{=path}}/{{=d.path}}" data-spm="c1d66a8e0"></div>
             {{/each}}
         {{/if}}
@@ -23,12 +24,14 @@
             <div class="flw50 mx5-pr20">
                 {{each lefts as d}}
                 <div class="example {{if (highlightValue == d.value)}} example-highlight {{/if}}" 
+                    data-target="{{=d.value}}"
                     mx-view="{{=path}}/{{=d.path}}" data-spm="c4974ae6f"></div>
                 {{/each}}
             </div>
             <div class="flw50">
                 {{each rights as d}}
                 <div class="example {{if (highlightValue == d.value)}} example-highlight {{/if}}" 
+                    data-target="{{=d.value}}"
                     mx-view="{{=path}}/{{=d.path}}" data-spm="c6b517bc5"></div>
                 {{/each}}
             </div>
@@ -37,7 +40,7 @@
     </div>
 
     {{if (apis && apis.length)}}
-    <mx-title *mode="second" *content="API" data-target="{{=$viewId}}_api"/>
+    <mx-title *mode="second" *content="API" data-target="api"/>
     <div class="custom-table">
         <table class="mx5-table">
             <thead>
@@ -51,10 +54,10 @@
             <tbody>
                 {{each apis as api}}
                 <tr>
-                    <td mx-html="{{=api.value}}"></td>
-                    <td mx-html="{{=api.text}}"></td>
-                    <td mx-html="{{=api.type}}"></td>
-                    <td mx-html="{{=api.def}}"></td>
+                    <td mx-html="{{=(api.value || '')}}"></td>
+                    <td mx-html="{{=(api.text || '')}}"></td>
+                    <td mx-html="{{=(api.type || '')}}"></td>
+                    <td mx-html="{{=(api.def || '')}}"></td>
                 </tr>
                 {{/each}}
             </tbody>
@@ -63,7 +66,7 @@
     {{/if}}
 
     {{if (events && events.length)}}
-    <mx-title *mode="second" *content="Event" data-target="{{=$viewId}}_event"/>
+    <mx-title *mode="second" *content="Event" data-target="event"/>
     <div class="custom-table">
         <table class="mx5-table">
             <thead>

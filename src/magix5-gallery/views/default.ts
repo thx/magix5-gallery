@@ -94,8 +94,8 @@ export default View.extend({
 
 	'$win<scroll>'(e) {
 		let bd = document.getElementsByClassName('@:default.less:base');
-		let rects = bd[0].getBoundingClientRect();
-		if (rects.top < 0) {
+		let { top } = bd[0].getBoundingClientRect() || {};
+		if (top < 0) {
 			if (this.get('fixed')) { return; };
 			this.digest({ fixed: true });
 		} else {

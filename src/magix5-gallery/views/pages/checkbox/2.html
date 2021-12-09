@@ -1,0 +1,45 @@
+<div class="eg-content">
+    <div class="mx5-mb20 mx5-clearfix">
+        <div class="mx5-fl mx5-color-9">使用说明：</div>
+        <div class="mx5-fl">
+            <div>建议使用 &lt;mx-checkbox /&gt; 替换原生 &lt;input type="checkbox" /&gt;</div>
+            <div>mx-checkbox使用上与原生无差别，但是包装了动效，文案、打标、部分选中态等等常用功能，简化使用</div>
+        </div>
+    </div>
+
+    <div class="mx5-mb20 mx5-clearfix">
+        <mx-checkbox class="mx5-mr30" name="{{=$viewId}}_test" *value="1" *text="选中" *checked="true" />
+        
+        <mx-checkbox class="mx5-mr30" name="{{=$viewId}}_test" *value="2" *text="选中禁选" *checked="true" *disabled="true" />
+        
+        <mx-checkbox class="mx5-mr30" name="{{=$viewId}}_test" *value="3" *text="非选中" />
+        
+        <mx-checkbox class="mx5-mr30" name="{{=$viewId}}_test" *value="4" *text="非选中禁选" *disabled="true" />
+        
+        <mx-checkbox class="mx5-mr30" name="{{=$viewId}}_test" *value="5" *text="indeterminate" *indeterminate="true" />
+        
+        <mx-checkbox class="mx5-mr30" name="{{=$viewId}}_test" *value="6" *text="indeterminate禁选" *indeterminate="true" *disabled="true" />
+    </div>
+</div>
+<div class="eg-desc">
+    <div class="eg-title">HTML Code</div>
+    <mx-copy class="desc-oper" 
+        *copy-node="{{=$viewId}}_text_1" 
+        mx-success="@:{done}({id:1})">
+        <span class="desc-tip" mx-html="{{=text1}}"></span>
+        <i class="mx5-iconfont desc-icon">&#xe610;</i>
+    </mx-copy>
+    <mx-source whole="true" id="{{=$viewId}}_text_1">
+        <mx-checkbox class="mx5-mr30" name="{{=$viewId}}_test" *value="1" *text="选中" *checked="true" />
+        
+        <mx-checkbox class="mx5-mr30" name="{{=$viewId}}_test" *value="2" *text="选中禁选" *checked="true" *disabled="true" />
+        
+        <mx-checkbox class="mx5-mr30" name="{{=$viewId}}_test" *value="3" *text="非选中" />
+        
+        <mx-checkbox class="mx5-mr30" name="{{=$viewId}}_test" *value="4" *text="非选中禁选" *disabled="true" />
+        
+        <mx-checkbox class="mx5-mr30" name="{{=$viewId}}_test" *value="5" *text="indeterminate" *indeterminate="true" />
+        
+        <mx-checkbox class="mx5-mr30" name="{{=$viewId}}_test" *value="6" *text="indeterminate禁选" *indeterminate="true" *disabled="true" />
+    </mx-source>
+</div>

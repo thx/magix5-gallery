@@ -1,7 +1,104 @@
 /* 组件通用样式 */
+[mx5-view*="mx-popover/index"],
 [mx5-view*="mx-btn/index"],
-[mx5-view*="mx-copy/index"] {
+[mx5-view*="mx-copy/index"],
+[mx5-view*="mx-radio/index"],
+[mx5-view*="mx-checkbox/index"] {
     position: relative;
     display: inline-block;
     vertical-align: middle;
+}
+
+
+/*卡片样式*/
+.mx5-layout {
+    background: #fff;
+    border-radius: var(--mx5-border-radius);
+    box-shadow: var(--mx5-shadow);
+    transition: box-shadow var(--mx5-animation-duration) ease-out;
+
+    &:hover {
+        box-shadow: var(--mx5-shadow-hover);
+    }
+}
+
+.mx5-layout-title {
+    display: inline-flex;
+    align-items: center;
+    font-size: var(--mx5-layout-title-font-size);
+    font-weight: var(--mx5-layout-title-font-weight);
+
+    >* {
+        max-height: var(--mx5-input-height);
+    }
+}
+
+.mx5-layout-title-link,
+.mx5-layout-title-link:link,
+.mx5-layout-title-link:visited {
+    float: right;
+    height: var(--mx5-input-height);
+    line-height: var(--mx5-input-height);
+    color: var(--mx5-layout-title-link-color);
+    font-size: var(--mx5-layout-title-link-font-size);
+    transition: color var(--mx5-animation-duration);
+    cursor: pointer;
+
+    &:hover {
+        color: var(--mx5-layout-title-link-color-hover);
+    }
+}
+
+/* 通用样式效果 */
+.mx5-tag {
+    position: relative;
+    display: inline-flex;
+    height: var(--mx5-tag-height);
+    padding: 0 var(--mx5-tag-h-gap);
+    border-radius: var(--mx5-tag-border-radius);
+    font-size: 0;
+    background-color: var(--mx5-color-brand);
+    border: 1px solid var(--mx5-color-brand);
+    color: #fff;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+    transition: background-color var(--mx5-animation-duration), color var(--mx5-animation-duration), border var(--mx5-animation-duration);
+
+    .mx5-tag-name {
+        display: inline-flex;
+        height: var(--mx5-tag-height);
+        font-size: 12px;
+        font-weight: var(--mx5-tag-font-weight);
+        transform: scale(var(--mx5-tag-font-scale));
+        white-space: nowrap;
+        -webkit-font-smoothing: subpixel-antialiased;
+        align-items: center;
+        justify-content: center;
+
+        >* {
+            font-size: 12px;
+        }
+
+        img {
+            display: inline-block;
+            height: calc(var(--mx5-tag-height) - 2px);
+            vertical-align: top;
+        }
+    }
+
+    &.mx5-tag-disabled {
+        &::after {
+            opacity: .6;
+            content: ' ';
+            position: absolute;
+            top: -1px;
+            right: -1px;
+            bottom: -1px;
+            left: -1px;
+            z-index: 1;
+            background-color: #fff;
+            border-radius: var(--mx5-tag-border-radius);
+        }
+    }
 }

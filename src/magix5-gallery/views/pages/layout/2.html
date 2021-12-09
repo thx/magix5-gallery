@@ -1,0 +1,44 @@
+<div class="eg-content">
+    <div class="mx5-mb20 mx5-clearfix">
+        <div class="mx5-fl mx5-color-9">以下示例：</div>
+        <div class="mx5-fl">
+            <div>被复制内容需要根据操作动态判断，则可配置 text-fn 传入一个 function 处理</div>
+            <div class="mx5-color-brand">注意：text-fn 暂不支持包含异步处理逻辑</div>
+        </div>
+    </div>
+    <div class="dark-bg-wrapper">
+        <mx-layout class="mx5-mb20">
+            <mx-layout.title 
+                *border="false"
+                *content="标题" 
+                *tip="提示信息" />
+        </mx-layout>
+
+        <mx-layout class="mx5-mb20">
+            <mx-layout.title 
+                *border="false" 
+                *content="{{=img}}" />
+        </mx-layout>
+
+        <mx-layout class="mx5-mb20">
+            <mx-layout.title 
+                *border="false"
+                *content="标题" 
+                *icon-tip="小问号提示信息" 
+                *tip="{{=link}}" />
+        </mx-layout>
+            
+    </div>
+</div>
+<div class="eg-desc">
+    <div class="eg-title">HTML Code</div>
+    <mx-copy class="desc-oper" 
+        *copy-node="{{=$viewId}}_text_1" 
+        mx-success="@:{done}({id:1})">
+        <span class="desc-tip" mx-html="{{=text1}}"></span>
+        <i class="mx5-iconfont desc-icon">&#xe610;</i>
+    </mx-copy>
+    <mx-source whole="true" id="{{=$viewId}}_text_1">
+        <mx-btn *content="主要按钮"/>    
+    </mx-source>
+</div>

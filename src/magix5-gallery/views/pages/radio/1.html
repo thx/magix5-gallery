@@ -1,20 +1,124 @@
 <div class="eg-content">
-    TODO
+    <div class="mx5-mb20 mx5-clearfix">
+        <div class="mx5-fl mx5-color-9">使用说明：</div>
+        <div class="mx5-fl">
+            <div>mx-radio支持配置text由组件来包装文案</div>
+            <div class="mx5-mb10">对于配置了text文案的mx-radio，会用label包裹input[type="radio"]，即&lt;mx-radio name="radios" text="文案" value="1"&gt;，最终生成的代码如下：</div>
+            <pre class="bg-wrapper mx5-mb10">
+&lt;label&gt;
+    &lt;input type="radio" name="radios" value="1" /&gt;文案
+&lt;/label&gt;</pre>
+            <div class="mx5-mb10">而对于未配置text文案的mx-radio，则只会有input[type="radio"]，即&lt;mx-radio name="radios" value="1"&gt;，最终生成的代码如下：</div>
+            <pre class="bg-wrapper mx5-mb10">
+&lt;input type="radio" name="radios" value="1" /&gt;</pre>
+        </div>
+    </div>
+
+    <div class="mx5-mb20 mx5-clearfix">
+        <div class="mx5-fl mx5-color-9">以下示例：</div>
+        <div class="mx5-fl">
+            <div>包含带文案，带打标，带提示的常用场景</div>
+        </div>
+    </div>
+    
+    <div class="mx5-mb20 mx5-clearfix">
+        <span class="mx5-inline-block mx5-vertical-align-middle mx5-w100">文案：</span>
+        {{each list as item}}
+        <mx-radio class="mx5-mr30"
+            *name="{{=$viewId}}_radios_1" 
+            *value="{{=item.value}}" 
+            *text="{{=item.text}}"
+            *checked="{{=(item.value == selected1)}}" 
+            mx-change="change({index: 1, value:{{=item.value}}})" data-spm-click="gostr=/alimama.99.dmp;locaid=dfb6b238d"/>
+        {{/each}}
+        <span>当前选中：{{=selected1}}</span>
+    </div>
+
+    <div class="mx5-mb20 mx5-clearfix">
+        <span class="mx5-inline-block mx5-vertical-align-middle mx5-w100">文案禁用：</span>
+        {{each list as item}}
+        <mx-radio class="mx5-mr30"
+            *name="{{=$viewId}}_radios_2" 
+            *disabled="true" 
+            *value="{{=item.value}}" 
+            *text="{{=item.text}}"
+            *checked="{{=(item.value == selected2)}}" />
+        {{/each}}
+    </div>
+
+    <div class="mx5-mb20 mx5-clearfix">
+        <span class="mx5-inline-block mx5-vertical-align-middle mx5-w100">提示：</span>
+        {{each list as item}}
+        <mx-radio class="mx5-mr30"
+            *name="{{=$viewId}}_radios_3" 
+            *value="{{=item.value}}" 
+            *text="{{=item.text}}"
+            *tip="{{=item.tip}}"
+            *checked="{{=(item.value == selected3)}}" 
+            mx-change="change({index: 3, value:{{=item.value}}})" data-spm-click="gostr=/alimama.99.dmp;locaid=d97932350"/>
+        {{/each}}
+        <span>当前选中：{{=selected3}}</span>
+    </div>
+
+    <div class="mx5-mb20 mx5-clearfix">
+        <span class="mx5-inline-block mx5-vertical-align-middle mx5-w100">提示禁用：</span>
+        {{each list as item}}
+        <mx-radio class="mx5-mr30"
+            *name="{{=$viewId}}_radios_4" 
+            *disabled="true"
+            *value="{{=item.value}}" 
+            *text="{{=item.text}}"
+            *tip="{{=item.tip}}"
+            *checked="{{=(item.value == selected4)}}" />
+        {{/each}}
+    </div>
+
+    <div class="mx5-mb20 mx5-clearfix">
+        <span class="mx5-inline-block mx5-vertical-align-middle mx5-w100">提示打标：</span>
+        {{each list as item}}
+        <mx-radio class="mx5-mr30"
+            *name="{{=$viewId}}_radios_5" 
+            *value="{{=item.value}}" 
+            *text="{{=item.text}}"
+            *tip="{{=item.tip}}"
+            *tag-content="{{=item.tag}}"
+            *checked="{{=(item.value == selected5)}}" 
+            mx-change="change({index: 5, value:{{=item.value}}})" data-spm-click="gostr=/alimama.99.dmp;locaid=d28e520af"/>
+        {{/each}}
+
+        <span>当前选中：{{=selected5}}</span>
+    </div>
+
+    <div class="mx5-mb20 mx5-clearfix">
+        <span class="mx5-inline-block mx5-vertical-align-middle mx5-w100">提示打标禁用：</span>
+        {{each list as item}}
+        <mx-radio class="mx5-mr30"
+            *name="{{=$viewId}}_radios_6" 
+            *disabled="true"
+            *value="{{=item.value}}" 
+            *text="{{=item.text}}"
+            *tip="{{=item.tip}}"
+            *tag-content="{{=item.tag}}"
+            *checked="{{=(item.value == selected6)}}" />
+        {{/each}}
+    </div>
 </div>
 <div class="eg-desc">
     <div class="eg-title">HTML Code</div>
-    <div class="desc-oper" 
-        mx-click="@:{done}({id:1})" data-spm-click="gostr=/alimama.99.dmp;locaid=d871f4e2a">
-        <span class="desc-tip" mx-html="{{=text1}}"></span>
-        <i class="mx5-iconfont desc-icon">&#xe610;</i>
-    </div>
-    <!-- <mx-copy class="desc-oper" 
+    <mx-copy class="desc-oper" 
         *copy-node="{{=$viewId}}_text_1" 
         mx-success="@:{done}({id:1})">
-        <span class="desc-tip">{{!text1}}</span>
+        <span class="desc-tip" mx-html="{{=text1}}"></span>
         <i class="mx5-iconfont desc-icon">&#xe610;</i>
-    </mx-copy> -->
-    <pre id="{{=$viewId}}_text_1">
-TODO
-    </pre>
+    </mx-copy>
+    <mx-source whole="true" id="{{=$viewId}}_text_1">
+        <mx-radio class="mx5-mr30"
+            *name="{{=$viewId}}_radios" 
+            *disabled="{{=item.disabled}}"
+            *value="{{=item.value}}" 
+            *text="{{=item.text}}"
+            *tip="{{=item.tip}}"
+            *tag-content="{{=item.tag}}"
+            *checked="{{=(item.value == selected)}}" />  
+    </mx-source>
 </div>

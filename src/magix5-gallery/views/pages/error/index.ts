@@ -52,8 +52,23 @@ loading：false</pre>`
                 def: 'transparent'
             }],
             columns: [{
-                text: 'demo',
+                text: '页面不存在',
                 path: 1,
+            }, {
+                text: '网络连接失败',
+                path: 2,
+            }, {
+                text: '暂无内容',
+                path: 3,
+            }, {
+                text: '暂无查询数据',
+                path: 4,
+            }, {
+                text: '暂无访问权限',
+                path: 5,
+            }, {
+                text: '数据计算中',
+                path: 6,
             }],
         });
     },

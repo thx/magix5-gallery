@@ -23,7 +23,7 @@ export default View.extend({
             color: options.color || 'var(--mx5-color-brand)',
             colorGradient: options.colorGradient || 'var(--mx5-color-brand)',
             colorBg: options.colorBg || '#DEE1E8',
-            content: options.content || '加载中...',
+            content: options.content,
         })
     },
     render() {

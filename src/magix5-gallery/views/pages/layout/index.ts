@@ -11,8 +11,14 @@ export default View.extend({
                 def: '[]'
             }],
             columns: [{
-                text: 'demo',
+                text: '标题+内容',
                 path: 1
+            }, {
+                text: '只标题区域',
+                path: 2
+            }, {
+                text: '只内容区域',
+                path: 3
             }],
         });
     },

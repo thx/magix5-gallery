@@ -5,16 +5,21 @@ export default View.extend({
     init(options) {
         this.set({
             apis: [{
+                value: 'content',
+                text: '提示文案',
+                type: 'string',
+                def: '',
+            }, {
                 value: 'brand',
                 text: '是否为m动画',
                 type: 'boolean',
                 def: 'false'
             }],
             columns: [{
-                text: '品牌色loading',
+                text: '模块加载loading',
                 path: 2
             }, {
-                text: '统一品牌m动画',
+                text: '页面加载loading',
                 path: 1
             }],
         });

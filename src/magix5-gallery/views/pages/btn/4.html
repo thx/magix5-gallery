@@ -1,20 +1,36 @@
 <div class="eg-content">
-    TODO
+    <mx-btn class="mx5-mr20" 
+        *content="自定义按钮" 
+        *color="#ffb400" 
+        *color-hover="#f1ab03"/>
+        
+    <mx-btn class="mx5-mr20" 
+        *content="自定义按钮"
+        *color="#333333" 
+        *color-text="#ffb400"
+        *color-hover="#333333"
+        *color-hover-text="#f1ab03" />
 </div>
 <div class="eg-desc">
     <div class="eg-title">HTML Code</div>
-    <div class="desc-oper" 
-        mx-click="@:{done}({id:1})" data-spm-click="gostr=/alimama.99.dmp;locaid=d6c3e2340">
-        <span class="desc-tip" mx-html="{{=text1}}"></span>
-        <i class="mx5-iconfont desc-icon">&#xe610;</i>
-    </div>
-    <!-- <mx-copy class="desc-oper" 
+    <mx-copy class="desc-oper" 
         *copy-node="{{=$viewId}}_text_1" 
         mx-success="@:{done}({id:1})">
-        <span class="desc-tip">{{!text1}}</span>
+        <span class="desc-tip" mx-html="{{=text1}}"></span>
         <i class="mx5-iconfont desc-icon">&#xe610;</i>
-    </mx-copy> -->
-    <pre id="{{=$viewId}}_text_1">
-TODO
-    </pre>
+    </mx-copy>
+    <mx-source whole="true" id="{{=$viewId}}_text_1">
+        <mx-btn  
+            *content="自定义按钮" 
+            *color="#ffb400" 
+            *color-hover="#f1ab03"/>
+            
+        <mx-btn  
+            *content="自定义按钮"
+            *color="#333333" 
+            *color-text="#ffb400"
+            *color-hover="#333333"
+            *color-hover-text="#f1ab03" />
+    </mx-source>
 </div>
+        
