@@ -75,6 +75,9 @@
 				routes,
 				rootId: 'app',
 				projectName,
+				// async require(...args){
+				// 	console.log(args);
+				// },
 				error(e) {
 					console.error(e);
 				}

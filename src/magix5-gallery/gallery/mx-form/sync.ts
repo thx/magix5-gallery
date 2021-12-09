@@ -145,10 +145,12 @@ export default {
     isValid() {
         debugger;
     },
-    '$[mx5-ctrl]<change,input,focusout>'(e: Magix5.MagixMixedEvent) {
+    '$[mx5-ctrl]<change,focusout>'(e: Magix5.MagixMixedEvent) {
         let { eventTarget, type } = e;
         let ownerId = eventTarget.getAttribute('mx5-host');
-        if (ownerId != this.id || e['@:{halt}']) return;
+        if (ownerId != this.id || e['@:{halt}']) {
+            return;
+        };
         e['@:{halt}'] = 1;
         let ctrls = eventTarget.getAttribute('mx5-ctrl');
 
@@ -254,6 +256,7 @@ export default {
             } else if ('value' in targetAsSelect) {
                 value = targetAsInput.value;
             }
+
             //处理多绑定时，值从event对象上读取
             if (has(e, a)) {
                 value = e[a];

@@ -1,29 +1,65 @@
 <div class="eg-content">
     <div class="mx5-mb20 mx5-clearfix">
-        <div class="mx5-fl mx5-color-9">以下示例：</div>
+        <div class="mx5-fl mx5-color-9">以下示例</div>
         <div class="mx5-fl">
-            <div>数值动画组件，配置内容支持包含非数字，只挑取其中的数字进行动画</div>
+            <div>大尺寸最小宽度64px，小尺寸最小宽度48px</div>
         </div>
     </div>
+
     <div class="mx5-mb20">
-        <mx-btn class="mx5-mr10" mx-click="add()" *content="加1423.08运行" />
-        <mx-btn class="mx5-mr10" mx-click="sub()" *content="减800.23运行" />
+        <span class="vmt mx5-w100 mx5-color-9">大尺寸：</span>
+        <mx-input class="mx5-w120 mx5-mr20" *value="{{=value1}}" *placeholder="请输入" mx-change="change({index: 1})"/>
+        <mx-input class="mx5-w120 mx5-mr20" *value="{{=value2}}" *placeholder="带一键清空" *show-delete="true" mx-change="change({index: 2})"/>
     </div>
-    <mx-number 
-        *num="{{=str}}"
-        *delay="{{=delay}}"
-        *duration="{{=duration}}"
-        *number-delay="{{=numberDelay}}"/>
+
+    <div class="mx5-mb20">
+        <span class="vmt mx5-w100 mx5-color-9">小尺寸：</span>
+        <mx-input class="mx5-w120 mx5-mr20" *small="true" *value="{{=value3}}" *placeholder="请输入" mx-change="change({index: 3})"/>
+        <mx-input class="mx5-w120 mx5-mr20" *small="true" *value="{{=value4}}" *placeholder="带一键清空" *show-delete="true" mx-change="change({index: 4})"/>
+    </div>
 </div>
-<div class="eg-desc">
-    <div class="eg-title">HTML Code</div>
-    <mx-copy class="desc-oper" 
-        *copy-node="{{=$viewId}}_text_1" 
-        mx-success="@:{done}({id:1})">
-        <span class="desc-tip" mx-html="{{=text1}}"></span>
-        <i class="mx5-iconfont desc-icon">&#xe610;</i>
-    </mx-copy>
-    <mx-source whole="true" id="{{=$viewId}}_text_1">
-        <mx-number *num="1,842.68" />
-    </mx-source>
+<div class="mx5-clearfix">
+    <div class="eg-desc flw50">
+        <div class="eg-title">HTML Code</div>
+        <mx-copy class="desc-oper" 
+            *copy-node="{{=$viewId}}_text_1" 
+            mx-success="@:{done}({id:1})">
+            <span class="desc-tip" mx-html="{{=text1}}"></span>
+            <i class="mx5-iconfont desc-icon">&#xe610;</i>
+        </mx-copy>
+        <mx-source whole="true" id="{{=$viewId}}_text_1">
+            <mx-input class="mx5-w120" 
+                *small="{{=small}}" 
+                *placeholder="{{=placeholder}}"
+                *show-delete="true"
+                *value="{{=value}}"   
+                mx-change="change()"/>
+        </mx-source>
+    </div>
+    <div class="eg-desc flw50 mx5-blc">
+        <div class="eg-title">JS Code</div>
+        <mx-copy class="desc-oper" 
+            *copy-node="{{=$viewId}}_text_2" 
+            mx-success="@:{done}({id:2})">
+            <span class="desc-tip" mx-html="{{=text2}}"></span>
+            <i class="mx5-iconfont desc-icon">&#xe610;</i>
+        </mx-copy>
+        <mx-source whole="true" id="{{=$viewId}}_text_2">
+            import Magix5 from 'magix5';
+
+            export default Magix5.View.extend({
+                tmpl: '@:index.html',
+                render() {
+                    this.digest({
+                        value: '',
+                    })
+                },
+                'change<change>'(e) {
+                    this.digest({
+                        value: e.value
+                    })
+                }
+            })
+        </mx-source>
+    </div>
 </div>

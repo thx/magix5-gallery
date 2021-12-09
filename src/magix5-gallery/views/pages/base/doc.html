@@ -39,30 +39,56 @@
         {{/if}}
     </div>
 
-    {{if (apis && apis.length)}}
-    <mx-title *mode="second" *content="API" data-target="api"/>
-    <div class="custom-table">
-        <table class="mx5-table">
-            <thead>
-                <tr>
-                    <th width="70">可配参数</th>
-                    <th width="280">说明</th>
-                    <th width="70">类型</th>
-                    <th width="200">默认值</th>
-                </tr>
-            </thead>
-            <tbody>
-                {{each apis as api}}
-                <tr>
-                    <td mx-html="{{=(api.value || '')}}"></td>
-                    <td mx-html="{{=(api.text || '')}}"></td>
-                    <td mx-html="{{=(api.type || '')}}"></td>
-                    <td mx-html="{{=(api.def || '')}}"></td>
-                </tr>
-                {{/each}}
-            </tbody>
-        </table>
-    </div>
+    {{if (apisList && apisList.length)}}
+        {{each apisList as a}}
+        <mx-title *mode="second" *content="{{=a.text}}" data-target="{{=a.value}}"/>
+        <div class="custom-table">
+            <table class="mx5-table">
+                <thead>
+                    <tr>
+                        <th width="70">可配参数</th>
+                        <th width="280">说明</th>
+                        <th width="70">类型</th>
+                        <th width="200">默认值</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{each a.list as api}}
+                    <tr>
+                        <td mx-html="{{=(api.value || '')}}"></td>
+                        <td mx-html="{{=(api.text || '')}}"></td>
+                        <td mx-html="{{=(api.type || '')}}"></td>
+                        <td mx-html="{{=(api.def || '')}}"></td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+        {{/each}}
+    {{else if (apis && apis.length)}}
+        <mx-title *mode="second" *content="API" data-target="api"/>
+        <div class="custom-table">
+            <table class="mx5-table">
+                <thead>
+                    <tr>
+                        <th width="70">可配参数</th>
+                        <th width="280">说明</th>
+                        <th width="70">类型</th>
+                        <th width="200">默认值</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{each apis as api}}
+                    <tr>
+                        <td mx-html="{{=(api.value || '')}}"></td>
+                        <td mx-html="{{=(api.text || '')}}"></td>
+                        <td mx-html="{{=(api.type || '')}}"></td>
+                        <td mx-html="{{=(api.def || '')}}"></td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
     {{/if}}
 
     {{if (events && events.length)}}

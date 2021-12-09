@@ -29,9 +29,6 @@ let ProcessAttr = (attrs, style, ignores, className) => {
     return attrStr;
 };
 module.exports = {
-    'mx-layout'(i) {
-        return `<div ${ProcessAttr(i.attrsKV, null, {}, 'mx5-layout')}>${i.content}</div>`;
-    },
     'mx-layout.title'(i) {
         let { content, attrsKV } = i;
 
@@ -54,17 +51,16 @@ module.exports = {
                 <span class="mx5-layout-title" mx-html="${attrsKV['*content']}"></span>
                 ${attrsKV['*icon-tip'] ? (`<mx-popover class="mx5-iconfont mx5-iconfont-tip" style="margin-left: 4px;" *content="${attrsKV['*icon-tip']}">&#xe72f;</mx-popover>`) : ''}
                 ${attrsKV['*tip'] ? (`<span style="margin-left: 16px; color: #999; font-size: 12px;" mx-html="${attrsKV['*tip']}"></span>`) : ''}
-                ${attrsKV['*link'] ? (`<a href="${attrsKV['*link']}" target="_blank" class="mx5-layout-title-link">${attrsKV['*link-text'] || '查看详情'}</a>`) : ''}
             </div>
+            ${attrsKV['*link'] ? (`<a href="${attrsKV['*link']}" target="_blank" class="mx5-layout-title-link">${attrsKV['*link-text'] || '查看详情'}</a>`) : ''}
             ${content || ''}
         </div>`;
-
         return tmpl;
     },
     'mx-layout.body'(i) {
         let { content, attrsKV } = i;
         return `<div ${ProcessAttr(attrsKV, 'padding: var(--mx5-layout-body-v-gap) var(--mx5-layout-body-h-gap);', {
             '*content': 1
-        }, 'mx5-clearfix')}>${content}</div>`;
+        }, 'mx5-clearfix')}>${attrsKV['*content'] || content}</div>`;
     }
 };

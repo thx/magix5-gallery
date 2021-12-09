@@ -5,7 +5,13 @@ export default View.extend({
         this.set({
             apis: [],
             columns: [{
-                text: '表单示例',
+                text: '页面切换示例',
+                path: 1
+            }, {
+                text: '对话框示例',
+                path: 1
+            }, {
+                text: 'Tab切换示例',
                 path: 1
             }],
             // lefts: [{

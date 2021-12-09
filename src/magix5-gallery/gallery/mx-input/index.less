@@ -1,48 +1,48 @@
+.prefix,
+.suffix,
+.input,
+.search-icon,
+.delete-icon {
+    display: inline-block;
+    box-sizing: border-box;
+    font-size: var(--mx5-font-size);
+    background-color: transparent;
+    vertical-align: middle;
+    line-height: var(--mx5-input-small-height);
+}
+
+.prefix {
+    white-space: nowrap;
+    padding-left: var(--mx5-trigger-h-gap);
+    color: #666;
+}
+
+.suffix {
+    white-space: nowrap;
+    padding-right: var(--mx5-trigger-h-gap);
+    color: #999;
+}
+
+/* width: 0;  fix flex中input 150px */
 .input,
 .input:hover,
 .input:focus {
-    box-sizing: border-box;
-    display: inline-block;
-    max-width: 100%;
-    height: var(--mx5-input-height);
-    line-height: var(--mx5-input-height);
-    font-size: var(--mx5-font-size);
+    flex: 1;
+    width: 0;
     padding: 0 var(--mx5-trigger-h-gap);
+    color: var(--mx5-font-color);
     outline: none;
     border: 0 none;
-    color: var(--mx5-font-color);
     box-shadow: none;
-
-    &.input-small {
-        height: var(--mx5-input-small-height);
-        line-height: var(--mx5-input-small-height);
-    }
-}
-
-.input-focus {
-    opacity: 0;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 0;
-    padding: 0;
-    border-radius: 100%;
-    background-color: var(--color-brand);
-    transform: translateX(-50%) translateY(-50%);
-    z-index: -1;
-    pointer-events: none;
 }
 
 .search-icon,
 .delete-icon {
-    width: var(--mx5-input-small-height);
-    height: var(--mx5-input-small-height);
-    line-height: var(--mx5-input-small-height);
-    transition: color var(--mx5-animation-duration);
-    text-align: center;
+    padding-right: var(--mx5-trigger-h-gap);
     user-select: none;
     color: #ccc;
     font-size: 16px;
+    transition: color var(--mx5-animation-duration);
 }
 
 .delete-icon {
@@ -53,77 +53,119 @@
     }
 }
 
-[mx5-view*="mx-input/index"] {
-    max-width: 100%;
-    font-size: 0;
-
+.input-border {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: -1;
     border-width: 1px;
     border-style: solid;
     border-radius: var(--mx5-border-radius);
     border-color: var(--mx5-trigger-border-color);
     background-color: var(--mx5-trigger-bg-color);
+    transition: border-color var(--mx5-animation-duration) ease-out,
+        background-color var(--mx5-animation-duration) ease-out;
+    pointer-events: none;
+}
 
-    transition: border-color var(--mx5-animation-duration) ease-out, background-color var(--mx5-animation-duration) ease-out;
+.input-focus {
+    opacity: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: -1;
+    width: 0;
+    padding: 0;
+    border-radius: 100%;
+    background-color: var(--mx5-color-brand);
+    transform: translateX(-50%) translateY(-50%);
+    pointer-events: none;
+}
+
+[mx5-view*="mx-input/index"] {
+    position: relative;
+    display: inline-flex;
+    min-width: var(--mx5-trigger-min-width);
+    height: var(--mx5-input-height);
+    align-items: center;
+    vertical-align: middle;
+    max-width: 100%;
+    font-size: 0;
     overflow: hidden;
 
-    // &:hover {
-    //     border-color: var(--border-highlight-hover);
-    //     background-color: var(--bg-highlight-hover);
-    // }
+    &[mx5-view*="small=true"] {
+        min-width: var(--mx5-trigger-small-min-width);
+        height: var(--mx5-input-small-height);
+    }
 
-    // &:focus {
-    //     border-color: var(--border-highlight-hover);
-    //     background-color: var(--bg-highlight-hover);
-    //     caret-color: var(--color-brand);
-    // }
+    &:hover {
+        .input-border {
+            border-color: var(--mx5-trigger-border-color-hover);
+            background-color: var(--mx5-trigger-bg-color-hover);
+        }
 
-    // .input {
-    //     &:focus {
-    //         &~.input-focus {
-    //             z-index: 10;
-    //             animation: trigger-expand var(--mx-comp-expand-amin-timer) var(--mx-comp-expand-amin-ease);
-    //             animation-fill-mode: backwards;
-    //         }
+        /* delete 不需要高亮 https://work.aone.alibaba-inc.com/issue/33906120 */
+        .search-icon {
+            color: #666;
+        }
+    }
 
-    //         /* delete 不需要高亮 https://work.aone.alibaba-inc.com/issue/33906120 */
-    //         &~.search-icon {
-    //             color: #666;
-    //         }
-    //     }
-    // }
+    .input:focus {
+        caret-color: var(--mx5-color-brand);
 
-    // &:hover {
+        &~.input-border {
+            border-color: var(--mx5-trigger-border-color-hover);
+            background-color: var(--mx5-trigger-bg-color-hover);
+        }
 
-    //     /* delete 不需要高亮 https://work.aone.alibaba-inc.com/issue/33906120 */
-    //     .search-icon {
-    //         color: #666;
-    //     }
-    // }
+        &~.input-focus {
+            z-index: 10;
+            animation: mx5-trigger-expand var(--mx5-animation-expand-timer) var(--mx5-animation-expand-ease);
+            animation-fill-mode: backwards;
+        }
 
-    // &[mx-view*="disabled=true"] {
-    //     cursor: not-allowed;
+        /* delete 不需要高亮 https://work.aone.alibaba-inc.com/issue/33906120 */
+        &~.search-icon {
+            color: #666;
+        }
+    }
 
-    //     &::after {
-    //         opacity: .6;
-    //         content: ' ';
-    //         position: absolute;
-    //         top: 0;
-    //         left: 0;
-    //         width: 100%;
-    //         height: 100%;
-    //         background-color: #fff;
-    //         border-radius: var(--border-radius);
-    //         z-index: 1;
-    //     }
+    &[mx5-view*="disabled=true"] {
+        cursor: not-allowed;
 
-    //     .input {
-    //         pointer-events: none;
-    //     }
+        &::after {
+            opacity: .6;
+            content: ' ';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #fff;
+            border-radius: var(--mx5-border-radius);
+            z-index: 1;
+        }
 
-    //     .search-icon,
-    //     .delete-icon {
-    //         pointer-events: none;
-    //         color: #ccc;
-    //     }
-    // }
+        .prefix,
+        .suffix,
+        .input,
+        .input-border {
+            pointer-events: none;
+        }
+
+        .search-icon,
+        .delete-icon {
+            pointer-events: none;
+            color: #ccc;
+        }
+
+        &:hover {
+            .input-border {
+                border-color: var(--mx5-trigger-border-color);
+                background-color: var(--mx5-trigger-bg-color);
+            }
+        }
+    }
 }

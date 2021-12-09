@@ -51,7 +51,7 @@
     <!-- 快捷翻页 -->
     {{if jump}}
     <span class="num-text">到第&nbsp;<input class="input input jump-input" 
-            id="{{=viewId}}_jump_input"
+            id="{{=$viewId}}_jump_input"
             value="{{=next}}"
             mx-change="@{stop}()"
             mx-focusin="@{stop}()"
@@ -120,7 +120,7 @@
         <span class="num-item jump">
             <span class="mr5">{{!tipJumpTo}}</span>
             <input class="mr5 input input-small jump-input"
-                id="{{=viewId}}_jump_input"
+                id="{{=$viewId}}_jump_input"
                 value="{{=next}}"
                 mx-change="@{stop}()"
                 mx-focusin="@{stop}()"

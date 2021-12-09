@@ -2,17 +2,16 @@
     <div class="mx5-mb20 mx5-clearfix">
         <div class="mx5-fl mx5-color-9">以下示例：</div>
         <div class="mx5-fl">
-            <div>被复制内容需要根据操作动态判断，则可配置 text-fn 传入一个 function 处理</div>
-            <div class="mx5-color-brand">注意：text-fn 暂不支持包含异步处理逻辑</div>
+            <div>完整的卡片标题+内容区域使用示例</div>
         </div>
     </div>
     <div class="dark-bg-wrapper">
         <mx-layout>
             <mx-layout.title *content="标题" *tip="提示" *icon-tip="小问号提示信息">
-                <mx-btn *content="按钮"/>
+                <mx-btn class="mx5-fr" *content="按钮"/>
             </mx-layout.title>
             <mx-layout.body>
-                test
+                <div>内容展示</div>
             </mx-layout.body>
         </mx-layout>
     </div>
@@ -26,6 +25,13 @@
         <i class="mx5-iconfont desc-icon">&#xe610;</i>
     </mx-copy>
     <mx-source whole="true" id="{{=$viewId}}_text_1">
-        <mx-btn *content="主要按钮"/>    
+        <mx-layout>
+            <mx-layout.title *content="标题" *tip="提示" *icon-tip="小问号提示信息">
+                <mx-btn class="mx5-fr" *content="按钮"/>
+            </mx-layout.title>
+            <mx-layout.body>
+                <div>内容展示</div>
+            </mx-layout.body>
+        </mx-layout>
     </mx-source>
 </div>

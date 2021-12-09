@@ -1,17 +1,25 @@
-<input type="text" class="input {{if small}} input-small {{/if}}"
-    id="{{=viewId}}_input"
-    style="width: {{=width}}; text-align: {{=textAlign}};"
+{{if prefix}}
+<span class="prefix" mx-html="{{=prefix}}"></span>
+{{/if}}
+<input class="input" id="{{=$viewId}}_input"
+    type="{{=displayType}}" 
     placeholder="{{=placeholder}}??"
     autocomplete="{{=autocomplete}}??"
     value="{{=value}}" 
     mx-keyup="@:{fire}()"
     mx-focusout="@:{fire}()"
     mx-change="@:{fire}()" />
+
+<!-- 动画占位 -->
 <span class="input-focus"></span>
+
+<!-- border样式占位符，为了直接使用css实现 -->
+<span class="input-border"></span>
+
 {{if (showDelete && value)}}
     <i class="mx5-iconfont delete-icon" mx-click="@:{clear}()">&#xe727;</i>
-{{else}}
-    {{if search}}
+{{else if (type == 'search')}}
     <i class="mx5-iconfont search-icon">&#xe6ef;</i>
-    {{/if}}
+{{else if suffix}}
+    <span class="suffix" mx-html="{{=suffix}}"></span>
 {{/if}}

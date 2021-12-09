@@ -15,11 +15,6 @@ export default View.extend({
                 type: 'string',
                 def: ''
             }, {
-                value: 'width',
-                text: '宽度',
-                type: 'number',
-                def: ''
-            }, {
                 value: 'small',
                 text: '是否展示位小尺寸',
                 type: 'boolean',
@@ -29,11 +24,6 @@ export default View.extend({
                 text: '类型可选值<br/>输入框：text<br/>搜索框：search<br/>密码输入框：password',
                 type: 'string',
                 def: 'text'
-            }, {
-                value: 'max-length',
-                text: 'value 的最大长度',
-                type: 'number',
-                def: ''
             }, {
                 value: 'show-delete',
                 text: '是否显示一键清除icon',
@@ -50,9 +40,27 @@ export default View.extend({
                 type: 'string',
                 def: ''
             }],
+            events: [{
+                type: 'change',
+                text: '输入内容有变化时触发',
+                params: [{
+                    value: 'value',
+                    text: '输入框内容',
+                    type: 'string'
+                }]
+            }],
             columns: [{
-                text: 'demo',
-                value: 1
+                text: '输入框',
+                path: 1
+            }, {
+                text: '搜索框',
+                path: 2
+            }, {
+                text: '前后缀',
+                path: 3
+            }, {
+                text: '禁用',
+                path: 4
             }],
         });
     },

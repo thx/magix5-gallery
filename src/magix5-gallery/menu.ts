@@ -25,7 +25,8 @@ export default {
                     //     path: '/grid/index',
                     // },
                     {
-                        name: 'mx-layout 布局',
+                        name: 'mx-layout 布局卡片',
+                        tip: '页面布局卡片样式，支持卡片吸顶功能',
                         path: '/layout/index',
                     }
                 ]
