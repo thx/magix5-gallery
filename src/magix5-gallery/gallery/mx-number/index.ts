@@ -2,7 +2,7 @@
  * 数字动画
  * 数据始终从下往上滚动 https://aone.alibaba-inc.com/req/33862458
  */
-import Magix5, { node } from 'magix5';
+import Magix5 from 'magix5';
 import View from '../mx-base/view';
 Magix5.applyStyle('@:index.less');
 

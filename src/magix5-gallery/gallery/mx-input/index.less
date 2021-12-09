@@ -1,103 +1,129 @@
-[mx-view*="mx-input/index"] {
-    position: relative;
+.input,
+.input:hover,
+.input:focus {
+    box-sizing: border-box;
     display: inline-block;
     max-width: 100%;
-    vertical-align: middle;
-    overflow: hidden;
-    font-size: 0;
+    height: var(--mx5-input-height);
+    line-height: var(--mx5-input-height);
+    font-size: var(--mx5-font-size);
+    padding: 0 var(--mx5-trigger-h-gap);
+    outline: none;
+    border: 0 none;
+    color: var(--mx5-font-color);
+    box-shadow: none;
 
-    .mx-input-search,
-    .mx-input-delete {
-        position: absolute;
-        top: 50%;
-        right: 1px;
-        width: var(--input-small-height);
-        height: var(--input-small-height);
-        margin-top: calc(0px - var(--input-small-height) / 2);
-        line-height: var(--input-small-height);
-        text-align: center;
-        transition: color var(--duration);
-        user-select: none;
-        color: #ccc;
+    &.input-small {
+        height: var(--mx5-input-small-height);
+        line-height: var(--mx5-input-small-height);
     }
+}
 
-    .mx-input-search {
-        font-size: 18px;
-    }
+.input-focus {
+    opacity: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    padding: 0;
+    border-radius: 100%;
+    background-color: var(--color-brand);
+    transform: translateX(-50%) translateY(-50%);
+    z-index: -1;
+    pointer-events: none;
+}
 
-    .mx-input-delete {
-        font-size: 12px;
-        cursor: pointer;
+.search-icon,
+.delete-icon {
+    width: var(--mx5-input-small-height);
+    height: var(--mx5-input-small-height);
+    line-height: var(--mx5-input-small-height);
+    transition: color var(--mx5-animation-duration);
+    text-align: center;
+    user-select: none;
+    color: #ccc;
+    font-size: 16px;
+}
 
-        &:hover {
-            color: #666;
-        }
-    }
-
-    .mx-input-focus {
-        opacity: 0;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 0;
-        padding: 0;
-        border-radius: 100%;
-        background-color: var(--color-brand);
-        transform: translateX(-50%) translateY(-50%);
-        z-index: -1;
-        pointer-events: none;
-    }
-
-    .mx-input {
-        width: 100%;
-
-        &:focus {
-            &~.mx-input-focus {
-                z-index: 10;
-                animation: trigger-expand var(--mx-comp-expand-amin-timer) var(--mx-comp-expand-amin-ease);
-                animation-fill-mode: backwards;
-            }
-
-            /* delete 不需要高亮 https://work.aone.alibaba-inc.com/issue/33906120 */
-            &~.mx-input-search {
-                color: #666;
-            }
-        }
-    }
+.delete-icon {
+    cursor: pointer;
 
     &:hover {
-
-        /* delete 不需要高亮 https://work.aone.alibaba-inc.com/issue/33906120 */
-        .mx-input-search {
-            color: #666;
-        }
+        color: #666;
     }
+}
 
-    &[mx-view*="disabled=true"],
-    &[mx-disabled] {
-        cursor: not-allowed;
+[mx5-view*="mx-input/index"] {
+    max-width: 100%;
+    font-size: 0;
 
-        &::after {
-            opacity: .6;
-            content: ' ';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #fff;
-            border-radius: var(--border-radius);
-            z-index: 1;
-        }
+    border-width: 1px;
+    border-style: solid;
+    border-radius: var(--mx5-border-radius);
+    border-color: var(--mx5-trigger-border-color);
+    background-color: var(--mx5-trigger-bg-color);
 
-        .mx-input {
-            pointer-events: none;
-        }
+    transition: border-color var(--mx5-animation-duration) ease-out, background-color var(--mx5-animation-duration) ease-out;
+    overflow: hidden;
 
-        .mx-input-search,
-        .mx-input-delete {
-            pointer-events: none;
-            color: #ccc;
-        }
-    }
+    // &:hover {
+    //     border-color: var(--border-highlight-hover);
+    //     background-color: var(--bg-highlight-hover);
+    // }
+
+    // &:focus {
+    //     border-color: var(--border-highlight-hover);
+    //     background-color: var(--bg-highlight-hover);
+    //     caret-color: var(--color-brand);
+    // }
+
+    // .input {
+    //     &:focus {
+    //         &~.input-focus {
+    //             z-index: 10;
+    //             animation: trigger-expand var(--mx-comp-expand-amin-timer) var(--mx-comp-expand-amin-ease);
+    //             animation-fill-mode: backwards;
+    //         }
+
+    //         /* delete 不需要高亮 https://work.aone.alibaba-inc.com/issue/33906120 */
+    //         &~.search-icon {
+    //             color: #666;
+    //         }
+    //     }
+    // }
+
+    // &:hover {
+
+    //     /* delete 不需要高亮 https://work.aone.alibaba-inc.com/issue/33906120 */
+    //     .search-icon {
+    //         color: #666;
+    //     }
+    // }
+
+    // &[mx-view*="disabled=true"] {
+    //     cursor: not-allowed;
+
+    //     &::after {
+    //         opacity: .6;
+    //         content: ' ';
+    //         position: absolute;
+    //         top: 0;
+    //         left: 0;
+    //         width: 100%;
+    //         height: 100%;
+    //         background-color: #fff;
+    //         border-radius: var(--border-radius);
+    //         z-index: 1;
+    //     }
+
+    //     .input {
+    //         pointer-events: none;
+    //     }
+
+    //     .search-icon,
+    //     .delete-icon {
+    //         pointer-events: none;
+    //         color: #ccc;
+    //     }
+    // }
 }
