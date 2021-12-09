@@ -2,7 +2,7 @@
 /*
 author:kooboy_li@163.com
 loader:umd
-enables:mxevent,richVframe,xml,async,service,wait,lang,router,routerHash,routerTip,richView,innerView,recast,require,xview,taskComplete,taskIdle,spreadMxViewParams,removeStyle,taskCancel,eventVframe,richVframeInvokeCancel,waitSelector,remold,rewrite,rebuild,load,state
+enables:mxevent,richVframe,xml,async,service,wait,lang,router,routerHash,routerTip,richView,innerView,recast,require,xview,taskComplete,taskIdle,spreadMxViewParams,removeStyle,taskCancel,eventVframe,richVframeInvokeCancel,waitSelector,remold,rewrite,rebuild,load,state,batchDOMEvent
 
 optionals:routerState,routerTipLockUrl,routerForceState,customTags,checkAttr,webc,lockSubWhenBusy
 */
@@ -598,10 +598,11 @@ declare namespace Magix5 {
         
         /**
          * 软退出当前vframe，如果子或孙view有调用observeExit且条件成立，则会触发相应的退出
+         * @param stop 通知外部应停止后续的代码调用
          * @param resolve 子view确认退出时执行的回调
          * @param reject 子view拒绝退出时执行的回调
          */
-        exit(resolve: () => void, reject: () => void): Promise<void>
+        exit(stop: () => void, resolve: () => void, reject: () => void): Promise<void>
         
 
     }
@@ -1102,7 +1103,7 @@ declare namespace Magix5 {
 
         /**
          * 监听事件
-         * @param target 被监听对象
+         * @param target 监听对象
          * @param type 监听类型
          * @param listener 监听回调
          * @param options 监听选项
@@ -1110,12 +1111,31 @@ declare namespace Magix5 {
         attach(target: Window | EventTarget, type: string, listener: EventListenerOrEventListenerObject | null, options?: AddEventListenerOptions | boolean): void
         /**
          * 解除监听事件
-         * @param target 被监听对象
+         * @param target 监听对象
          * @param type 监听类型
          * @param listener 监听回调
          * @param options 监听选项
          */
         detach(target: Window | EventTarget, type: string, listener: EventListenerOrEventListenerObject | null, options?: EventListenerOptions | boolean): void
+
+        
+        /**
+         * 批量监听事件
+         * @param targets 监听对象列表
+         * @param type 监听类型
+         * @param listener 监听回调
+         * @param options 监听选项
+         */
+        attachAll(targets: (Window | EventTarget)[], type: string, listener: EventListenerOrEventListenerObject | null, options?: AddEventListenerOptions | boolean): void
+        /**
+         * 解除监听事件
+         * @param targets 监听对象列表
+         * @param type 监听类型
+         * @param listener 监听回调
+         * @param options 监听选项
+         */
+        detachAll(target: (Window | EventTarget)[], type: string, listener: EventListenerOrEventListenerObject | null, options?: EventListenerOptions | boolean): void
+        
         /**
          * 推迟多少毫秒
          * @param time 以ms为单位的时间

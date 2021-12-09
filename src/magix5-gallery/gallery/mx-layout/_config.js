@@ -58,7 +58,6 @@ module.exports = {
             </div>
             ${content || ''}
         </div>`;
-
         return tmpl;
     },
     'mx-layout.body'(i) {

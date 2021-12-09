@@ -2,7 +2,7 @@
 version:5.0.0-beta Licensed MIT
 author:kooboy_li@163.com
 loader:umd
-enables:mxevent,richVframe,xml,async,service,wait,lang,router,routerHash,routerTip,richView,innerView,recast,require,xview,taskComplete,taskIdle,spreadMxViewParams,removeStyle,taskCancel,eventVframe,richVframeInvokeCancel,waitSelector,remold,rewrite,rebuild,load,state
+enables:mxevent,richVframe,xml,async,service,wait,lang,router,routerHash,routerTip,richView,innerView,recast,require,xview,taskComplete,taskIdle,spreadMxViewParams,removeStyle,taskCancel,eventVframe,richVframeInvokeCancel,waitSelector,remold,rewrite,rebuild,load,state,batchDOMEvent
 optionals:routerState,routerTipLockUrl,routerForceState,customTags,checkAttr,webc,lockSubWhenBusy
 */
 //magix-composer#snippet;
@@ -259,8 +259,8 @@ define('magix5', () => {
         element.dispatchEvent(e);
     };
     let AttachEventHandlers = [];
-    let EventListen = (element, type, fn, options) => element.addEventListener(type, fn, options);
-    let EventUnlisten = (element, type, fn, options) => element.removeEventListener(type, fn, options);
+    let EventListen = (element, ...args) => element.addEventListener(...args);
+    let EventUnlisten = (element, ...args) => element.removeEventListener(...args);
     let AddEventListener = (element, type, fn, eventOptions, viewId, view) => {
         let h = {
             '@:{dom#view.id}': viewId,
@@ -579,6 +579,9 @@ define('magix5', () => {
                 //if (window.seajs) {
                 seajs.use(names, (...g) => {
                     for (let m of g) {
+                        if (DEBUG && !m) {
+                            console.error('can not load', names);
+                        }
                         a.push(isEsModule(m) ? m.default : m);
                     }
                     resourcesLoadCount--;
@@ -1375,7 +1378,7 @@ define('magix5', () => {
                 list.length = 0;
             }
         },
-        exit(stop, resolve, reject) {
+        async exit(stop, resolve, reject) {
             let e = {
                 stop,
                 resolve,
@@ -1384,7 +1387,7 @@ define('magix5', () => {
             let vfs = [], vf;
             Vframe_CollectVframes(this, vfs);
             for (vf of vfs) {
-                vf.invoke('@:{~view#exit.listener}', e);
+                await vf.invoke('@:{~view#exit.listener}', e);
             }
             View_RunExitList(e);
         }
@@ -3364,6 +3367,16 @@ define('magix5', () => {
         },
         attach: EventListen,
         detach: EventUnlisten,
+        attachAll(targets, ...args) {
+            for (let t of targets) {
+                EventListen(t, ...args);
+            }
+        },
+        detachAll(targets, ...args) {
+            for (let t of targets) {
+                EventUnlisten(t, ...args);
+            }
+        },
         mix: Assign,
         toMap: ToMap,
         toTry: ToTry,
