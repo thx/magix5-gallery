@@ -32,7 +32,7 @@ export default Magix5.View.extend({
         let fixFn = n => {
             return (Math.round(n * power) / power).toFixed(precision);
         }
-        let base = parseInt(fixFn(number), 10) + '';
+        let base = Math.abs(parseInt(fixFn(number), 10)) + '';
         let mod = base.length > 3 ? base.length % 3 : 0;
 
         return negative + (mod ? base.substr(0, mod) + thousand : '') + base.substr(mod).replace(/(\d{3})(?=\d)/g, '$1' + thousand) + (precision ? decimal + fixFn(Math.abs(number)).split('.')[1] : '');

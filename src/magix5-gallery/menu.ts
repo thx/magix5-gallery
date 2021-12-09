@@ -110,7 +110,7 @@ export default {
                 subs: [
                     {
                         name: 'mx-number 数据展示',
-                        tip: '数值跳动动画',
+                        tip: '数值样式&nbsp;&&nbsp;格式化&nbsp;&&nbsp;跳动动画',
                         path: '/number/index',
                     },
                     // {
