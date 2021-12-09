@@ -1,0 +1,63 @@
+<div class="example">
+    <div class="eg-content">
+        <div class="mb20">
+            <span class="color-9">以下示例：</span>
+            <span>居中对齐，默认右对齐</span>
+        </div>
+        <mx-pagination class="text-center mb40"
+            jump="false"
+            simplify="true"
+            hide-total="true"
+            total="100" 
+            size="40" 
+            page="2"/>
+            
+        <div class="mb20">
+            <span class="color-9">以下示例：</span>
+            <span>左对齐，默认右对齐</span>
+        </div>
+        <mx-pagination class="text-left"
+            jump="false"
+            simplify="true"
+            hide-total="true"
+            total="100" 
+            size="40" 
+            page="2"/>
+    </div>
+    <div class="clearfix">
+        <div class="eg-desc half">
+            <div class="eg-title">居中对齐</div>
+            <mx-copy copy-node="{{=viewId}}_text_1" class="desc-oper" 
+                mx-success="done({id:1})">
+                <span class="desc-tip">{{!text1}}</span>
+                <i class="mc-iconfont desc-icon">&#xe610;</i>
+            </mx-copy>
+            <pre id="{{=viewId}}_text_1">
+&lt;mx-pagination class="text-center"
+    jump="false"
+    simplify="true"
+    hide-total="true"
+    total="100" 
+    size="40" 
+    page="2"/&gt;
+            </pre>
+        </div>
+        <div class="eg-desc half half-right">
+            <div class="eg-title">左对齐</div>
+            <mx-copy copy-node="{{=viewId}}_text_2" class="desc-oper" 
+                mx-success="done({id:2})">
+                <span class="desc-tip">{{!text2}}</span>
+                <i class="mc-iconfont desc-icon">&#xe610;</i>
+            </mx-copy>
+            <pre id="{{=viewId}}_text_2">
+&lt;mx-pagination class="text-left"
+    jump="false"
+    simplify="true"
+    hide-total="true"
+    total="100" 
+    size="40" 
+    page="2"/&gt;
+            </pre>
+        </div>
+    </div>
+</div>

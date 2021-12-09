@@ -1,10 +1,10 @@
 <div class="wrapper">
     <div class="content-subs {{if fixed}} subs-fixed {{/if}} ">
     {{each list as item}}
-        <a class="sub-link" href="javascript:;" mx-click="@:{to}({highlightValue:'{{=item.value}}'})" mx-html="{{=item.text}}" data-spm-click="gostr=/alimama.99.dmp;locaid=d4042a3f6"></a>
+        <a class="sub-link" href="javascript:;" mx-click="@:{to}({highlightValue:'{{=item.value}}'})" mx-html="{{=item.text}}"></a>
         {{if (item.subs && item.subs.length)}}
             {{each item.subs as sub}}
-            <a class="sub-link mx5-pl10" href="javascript:;" mx-click="@:{to}({highlightValue:'{{=sub.value}}'})" mx-html="{{=sub.text}}" data-spm-click="gostr=/alimama.99.dmp;locaid=dcec079e1"></a>
+            <a class="sub-link mx5-pl10" href="javascript:;" mx-click="@:{to}({highlightValue:'{{=sub.value}}'})" mx-html="{{=sub.text}}"></a>
             {{/each}}
         {{/if}}
     {{/each}}

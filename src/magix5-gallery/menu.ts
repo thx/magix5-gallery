@@ -89,9 +89,9 @@ export default {
                 name: '导航',
                 subs: [
                     {
-                        name: 'mx-pagination 翻页器',
+                        name: 'mx-pager 翻页器',
                         tip: '支持复杂模式，精简版和顺序翻页版本，pager支持双向绑定',
-                        path: '/pagination/index',
+                        path: '/pager/index',
                     },
                     // {
                     //     name: 'mx-tabs 底边线tab分组',

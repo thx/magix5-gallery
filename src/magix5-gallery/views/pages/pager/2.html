@@ -1,0 +1,27 @@
+<div class="example">
+    <div class="eg-content">
+        <div class="mb20">
+            <span class="color-9">以下示例：</span>
+            <span>只展示翻页器，不展示汇总数据</span>
+        </div>
+        <mx-pagination 
+            simplify="true"
+            total="100" 
+            size="40" 
+            page="2"/>
+    </div>
+    <div class="eg-desc">
+        <div class="eg-title">HTML Code</div>
+        <mx-copy copy-node="{{=viewId}}_text_1" class="desc-oper" 
+            mx-success="done({id:1})">
+            <span class="desc-tip">{{!text1}}</span>
+            <i class="mc-iconfont desc-icon">&#xe610;</i>
+        </mx-copy>
+        <pre id="{{=viewId}}_text_1">
+&lt;mx-pagination 
+    simplify="true"
+    total="100" 
+    size="40" 
+    page="2"/&gt;</pre>
+    </div>
+</div>
