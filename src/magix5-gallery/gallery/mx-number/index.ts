@@ -31,20 +31,24 @@ export default View.extend({
         let num = options.num || 0;
         let reg = /^[0-9]*$/, count = -1;
 
-        let arr = (num + '').split('').map(i => {
-            let isNumber = reg.test(i), inum = 0;
+        // 记录动画结束的节点
+        let numberIndexes = [];
+        let arr = (num + '').split('').map((n, i) => {
+            let isNumber = reg.test(n), inum = 0;
             if (isNumber) {
                 count++;
                 inum = Math.abs(count * numberDelay);
+                numberIndexes.push(i);
             }
 
             return {
                 isNumber,
                 numberDelay: inum,
-                num: isNumber ? (+i) : i,
+                num: isNumber ? (+n) : n,
             };
         });
 
+        let transitionendIndex = -1;
         if (numberDelay < 0) {
             let nds = 0 - count * numberDelay
             delay = delay - nds;
@@ -53,12 +57,23 @@ export default View.extend({
                     item.numberDelay = nds - item.numberDelay;
                 }
             })
+
+            // 负数第一个最后结束动画
+            if (numberIndexes.length > 0) {
+                transitionendIndex = numberIndexes[0];
+            }
+        } else {
+            // 正数最后一个最后结束动画
+            if (numberIndexes.length > 0) {
+                transitionendIndex = numberIndexes[numberIndexes.length - 1];
+            }
         }
         if (delay < 0) {
             delay = 0;
         }
 
         this.set({
+            transitionendIndex,
             color,
             fontSize,
             lineHeight,
@@ -89,7 +104,7 @@ export default View.extend({
 
     show(d) {
         let that = this;
-        let { delay } = that.get();
+        let { delay, transitionendIndex } = that.get();
 
         if (that['@{delay.show.timer}']) {
             clearTimeout(that['@{delay.show.timer}']);
@@ -111,15 +126,12 @@ export default View.extend({
                     })
                 }
 
-                // todo！！！改成attach的批量api
-                let nodes = that.root.querySelectorAll('[data-number]');
-                if (nodes && nodes.length) {
-                    for (let i = 0; i < nodes.length; i++) {
-                        Magix5.attach(nodes[i], 'transitionend', clearAnim);
-                        that.on('destroy', () => {
-                            Magix5.detach(nodes[i], 'transitionend', clearAnim);
-                        });
-                    }
+                let node = that.root.querySelector(`[data-index="${transitionendIndex}"]`);
+                if (transitionendIndex > -1 && node) {
+                    Magix5.attach(node, 'transitionend', clearAnim);
+                    that.on('destroy', () => {
+                        Magix5.detach(node, 'transitionend', clearAnim);
+                    });
                 }
             }
         }, delay)

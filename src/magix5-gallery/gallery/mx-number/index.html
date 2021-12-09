@@ -1,7 +1,6 @@
 <div class="clearfix numbers" style="height: {{=lineHeight}}px; font-size: {{=fontSize}}px; line-height: {{=lineHeight}}px; color: {{=color}};">
-    {{each arr as item}}
-    <div class="line" 
-        data-number="{{=item.isNumber}}?"
+    {{each arr as item index}}
+    <div class="line" data-index="{{=index}}"
         style="{{if (item.isNumber && firstRender)}} 
             {{if aim}} transition: all {{=duration}}ms ease-out {{=item.numberDelay}}ms;  {{/if}}
             transform: translate(0, -{{=(item.num * 5 + aimBase)}}%); 

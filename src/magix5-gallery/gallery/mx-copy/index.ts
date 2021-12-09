@@ -8,8 +8,9 @@ export default View.extend({
         if (options.copyNode) {
             // 复制另外一个节点
             configs = {
-                target(trigger) {
-                    return Magix5.node(options.copyNode);
+                text(trigger) {
+                    let node = document.getElementById(options.copyNode);
+                    return (node ? (node.value || node.innerText || node.innerHTML) : '');
                 }
             };
         } else {
