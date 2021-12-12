@@ -52,7 +52,7 @@ module.exports = {
                 ${attrsKV['*icon-tip'] ? (`<mx-popover class="mx5-iconfont mx5-iconfont-tip" style="margin-left: 4px;" *content="${attrsKV['*icon-tip']}">&#xe72f;</mx-popover>`) : ''}
                 ${attrsKV['*tip'] ? (`<span style="margin-left: 16px; color: #999; font-size: 12px;" mx-html="${attrsKV['*tip']}"></span>`) : ''}
             </div>
-            ${attrsKV['*link'] ? (`<a href="${attrsKV['*link']}" target="_blank" class="mx5-layout-title-link">${attrsKV['*link-text'] || '查看详情'}</a>`) : ''}
+            ${attrsKV['*link'] ? (`<a href="${attrsKV['*link']}" target="_blank" class="mx5-layout-title-link" rel="noopener noreferrer">${attrsKV['*link-text'] || '查看详情'}</a>`) : ''}
             ${content || ''}
         </div>`;
         return tmpl;

@@ -2,7 +2,7 @@ import Magix5 from 'magix5';
 import View from 'magix5-gallery/views/pages/base/demo';
 
 export default View.extend({
-    tmpl: '@:1.html',
+    tmpl: '@:5.html',
     render() {
         let list = [{
             value: 1,
@@ -20,8 +20,5 @@ export default View.extend({
         })
     },
     'change<change>'(e) {
-        this.digest({
-            selected: e.selected
-        })
     }
 })

@@ -40,7 +40,7 @@
 .delete-icon {
     padding-right: var(--mx5-trigger-h-gap);
     user-select: none;
-    color: #ccc;
+    color: var(--mx5-trigger-icon-color);
     font-size: 16px;
     transition: color var(--mx5-animation-duration);
 }
@@ -49,7 +49,7 @@
     cursor: pointer;
 
     &:hover {
-        color: #666;
+        color: var(--mx5-trigger-icon-color-hover);
     }
 }
 
@@ -108,7 +108,7 @@
 
         /* delete 不需要高亮 https://work.aone.alibaba-inc.com/issue/33906120 */
         .search-icon {
-            color: #666;
+            color: var(--mx5-trigger-icon-color-hover);
         }
     }
 
@@ -128,7 +128,7 @@
 
         /* delete 不需要高亮 https://work.aone.alibaba-inc.com/issue/33906120 */
         &~.search-icon {
-            color: #666;
+            color: var(--mx5-trigger-icon-color-hover);
         }
     }
 
@@ -158,7 +158,7 @@
         .search-icon,
         .delete-icon {
             pointer-events: none;
-            color: #ccc;
+            color: var(--mx5-trigger-icon-color);
         }
 
         &:hover {

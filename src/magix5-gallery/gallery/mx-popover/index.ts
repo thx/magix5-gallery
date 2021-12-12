@@ -81,11 +81,9 @@ export default View.extend({
         let that = this;
         await that.digest();
 
+        // 默认展开显示框
         if (that.get('auto')) {
-            // 延迟等待内容显示
-            that['@:{dealy.show.timer}'] = setTimeout(() => {
-                that['@:{show}']();
-            }, that.get('showDelay'));
+            that['@:{show}']();
         }
     },
 
@@ -129,8 +127,8 @@ export default View.extend({
         let that = this;
         that['@:{clear.timers}']();
         that['@:{dealy.show.timer}'] = setTimeout(() => {
-            if (!that.get('init')) {
-                that.set({ init: true });
+            if (!that['init.node']) {
+                that['init.node'] = true;
                 that['@:{init}']();
             }
 

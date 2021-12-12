@@ -37,6 +37,12 @@ export default Magix5.View.extend({
 
         return negative + (mod ? base.substr(0, mod) + thousand : '') + base.substr(mod).replace(/(\d{3})(?=\d)/g, '$1' + thousand) + (precision ? decimal + fixFn(Math.abs(number)).split('.')[1] : '');
     },
+    '@:{stop.propagation}<click,keyup,change,focusout>'(e) {
+        e.stopPropagation();
+    },
+    '@:{prevent.default}<click,keyup,change,focusout>'(e) {
+        e.preventDefault();
+    },
 }).merge(FormSync, Refs, {
     ctor() {
         let attrs = this.root ? this.root.attributes : {};

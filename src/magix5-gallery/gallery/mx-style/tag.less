@@ -1,0 +1,53 @@
+/* 通用样式效果 */
+.mx5-tag {
+    position: relative;
+    display: inline-flex;
+    height: var(--mx5-tag-height);
+    padding: 0 var(--mx5-tag-h-gap);
+    border-radius: var(--mx5-tag-border-radius);
+    font-size: 0;
+    background-color: var(--mx5-color-brand);
+    border: 1px solid var(--mx5-color-brand);
+    color: #fff;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+    transition: background-color var(--mx5-animation-duration), color var(--mx5-animation-duration), border var(--mx5-animation-duration);
+
+    .mx5-tag-name {
+        display: inline-flex;
+        height: var(--mx5-tag-height);
+        font-size: 12px;
+        font-weight: var(--mx5-tag-font-weight);
+        transform: scale(var(--mx5-tag-font-scale));
+        white-space: nowrap;
+        -webkit-font-smoothing: subpixel-antialiased;
+        align-items: center;
+        justify-content: center;
+
+        >* {
+            font-size: 12px;
+        }
+
+        img {
+            display: inline-block;
+            height: calc(var(--mx5-tag-height) - 2px);
+            vertical-align: top;
+        }
+    }
+
+    &.mx5-tag-disabled {
+        &::after {
+            opacity: .6;
+            content: ' ';
+            position: absolute;
+            top: -1px;
+            right: -1px;
+            bottom: -1px;
+            left: -1px;
+            z-index: 1;
+            background-color: #fff;
+            border-radius: var(--mx5-tag-border-radius);
+        }
+    }
+}

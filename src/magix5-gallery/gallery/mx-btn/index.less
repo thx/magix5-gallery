@@ -1,3 +1,23 @@
+@keyframes mx5-btn-fade-in {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes mx5-btn-fade-out {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
 /* 各种类型按钮样式，包含a标签的状态处理 */
 .btn--primary,
 .btn--primary:link,
@@ -201,7 +221,7 @@
 }
 
 .text-hide {
-    animation: mx5-fade-out var(--mx5-animation-duration);
+    animation: mx5-btn-fade-out var(--mx5-animation-duration);
     animation-fill-mode: forwards;
 }
 
@@ -212,7 +232,7 @@
     transform-origin: top;
     cursor: not-allowed;
     user-select: none;
-    animation: mx5-fade-in var(--mx5-animation-duration);
+    animation: mx5-btn-fade-in var(--mx5-animation-duration);
     animation-fill-mode: forwards;
     height: 200%;
     transform: scale(0.5);

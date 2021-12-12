@@ -4,103 +4,273 @@
 [mx5-view*="mx-copy/index"],
 [mx5-view*="mx-radio/index"],
 [mx5-view*="mx-checkbox/index"],
-[mx5-view*="mx-number/index"] {
+[mx5-view*="mx-number/index"],
+[mx5-view*="mx-dropdown/index"] {
     position: relative;
     display: inline-block;
     vertical-align: middle;
 }
 
+/*渐显下拉动画*/
+@keyframes mx5-trigger-fade-in {
+    0% {
+        z-index: 999999;
+        transform: translate(0, calc(0px - var(--mx5-trigger-v-gap)));
+        opacity: 0;
+    }
 
-/*卡片样式*/
-[mx5-view*="mx-layout/index"],
-.mx5-layout {
-    background: #fff;
-    border-radius: var(--mx5-border-radius);
-    box-shadow: var(--mx5-shadow);
-    transition: box-shadow var(--mx5-animation-duration) ease-out;
-
-    &:hover {
-        box-shadow: var(--mx5-shadow-hover);
+    100% {
+        z-index: 999999;
+        transform: translate(0, 0);
+        opacity: 1;
     }
 }
 
-.mx5-layout-title {
-    display: inline-flex;
-    align-items: center;
-    font-size: var(--mx5-layout-title-font-size);
-    font-weight: var(--mx5-layout-title-font-weight);
+/*渐显上拉动画*/
+@keyframes mx5-trigger-fade-out {
+    0% {
+        z-index: 999999;
+        transform: translate(0, 0);
+        opacity: 1;
+    }
 
-    >* {
-        max-height: var(--mx5-input-height);
+    100% {
+        z-index: -999999;
+        transform: translate(0, calc(0px - var(--mx5-trigger-v-gap)));
+        opacity: 0;
     }
 }
 
-.mx5-layout-title-link,
-.mx5-layout-title-link:link,
-.mx5-layout-title-link:visited {
-    float: right;
-    height: var(--mx5-input-height);
-    line-height: var(--mx5-input-height);
-    color: var(--mx5-layout-title-link-color);
-    font-size: var(--mx5-layout-title-link-font-size);
-    transition: color var(--mx5-animation-duration);
-    cursor: pointer;
-
-    &:hover {
-        color: var(--mx5-layout-title-link-color-hover);
-    }
-}
-
-/* 通用样式效果 */
-.mx5-tag {
+.mx5-trigger {
     position: relative;
     display: inline-flex;
-    height: var(--mx5-tag-height);
-    padding: 0 var(--mx5-tag-h-gap);
-    border-radius: var(--mx5-tag-border-radius);
-    font-size: 0;
-    background-color: var(--mx5-color-brand);
-    border: 1px solid var(--mx5-color-brand);
-    color: #fff;
+    width: 100%;
+    height: var(--mx5-input-height);
+    padding: 0 var(--mx5-trigger-h-gap);
     align-items: center;
-    justify-content: center;
+    vertical-align: middle;
+    cursor: pointer;
     user-select: none;
-    transition: background-color var(--mx5-animation-duration), color var(--mx5-animation-duration), border var(--mx5-animation-duration);
+    transition: all var(--mx5-animation-duration);
+    border-radius: var(--mx5-border-radius);
+    border-width: 1px;
+    border-style: solid;
+    border-color: var(--mx5-trigger-border-color);
+    background-color: var(--mx5-trigger-bg-color);
 
-    .mx5-tag-name {
-        display: inline-flex;
-        height: var(--mx5-tag-height);
-        font-size: 12px;
-        font-weight: var(--mx5-tag-font-weight);
-        transform: scale(var(--mx5-tag-font-scale));
+    /* 文本 */
+    .mx5-trigger-label {
+        flex: 1;
+        min-width: 0px;
         white-space: nowrap;
-        -webkit-font-smoothing: subpixel-antialiased;
-        align-items: center;
-        justify-content: center;
-
-        >* {
-            font-size: 12px;
-        }
+        overflow: hidden;
+        text-overflow: ellipsis;
 
         img {
-            display: inline-block;
-            height: calc(var(--mx5-tag-height) - 2px);
-            vertical-align: top;
+            display: none;
         }
     }
 
-    &.mx5-tag-disabled {
+    .mx5-trigger-icon,
+    .mx5-trigger-arrow {
+        color: var(--mx5-trigger-icon-color);
+        transition: all var(--mx5-animation-duration);
+    }
+
+    .mx5-trigger-icon {
+        margin-right: 2px;
+    }
+
+    /* 翻转箭头 */
+    .mx5-trigger-arrow {
+        position: relative;
+        top: 1px;
+        font-size: 12px;
+    }
+
+    &.mx5-trigger-open,
+    &:hover {
+        border-color: var(--mx5-trigger-border-color-hover);
+        background-color: var(--mx5-trigger-bg-color-hover);
+
+        .mx5-trigger-icon,
+        .mx5-trigger-arrow {
+            color: var(--mx5-trigger-icon-color-hover);
+        }
+    }
+
+    &.mx5-trigger-open {
+        .mx5-trigger-arrow {
+            top: -1px;
+            transform: rotate(180deg);
+        }
+    }
+}
+
+.mx5-output {
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -999999;
+    min-width: 100%;
+    max-width: 200%;
+    margin-top: var(--mx5-trigger-v-gap);
+    border-radius: var(--mx5-border-radius);
+    user-select: none;
+    background-color: #fff;
+    border: 1px solid var(--mx5-shadow-border-color);
+    box-shadow: var(--mx5-shadow);
+
+    &.mx5-output-show {
+        animation: mx5-trigger-fade-in var(--mx5-animation-duration) ease-out;
+        animation-fill-mode: forwards;
+    }
+
+    &.mx5-output-hide {
+        pointer-events: none;
+        animation: mx5-trigger-fade-out var(--mx5-animation-duration) ease-out;
+        animation-fill-mode: forwards;
+    }
+}
+
+.mx5-output-search {
+    padding-top: var(--mx5-trigger-v-gap);
+    padding-left: var(--mx5-trigger-h-gap);
+    padding-right: var(--mx5-trigger-h-gap);
+    padding-bottom: 0;
+}
+
+.mx5-output-list {
+    max-height: var(--mx5-trigger-max-height);
+    padding: calc(var(--mx5-trigger-v-gap) - var(--mx5-trigger-item-gap)) var(--mx5-trigger-h-gap);
+    overflow: auto;
+}
+
+.mx5-output-item,
+.mx5-output-item:link,
+.mx5-output-item:visited {
+    display: block;
+    width: 100%;
+    min-height: var(--mx5-input-small-height);
+    margin: var(--mx5-trigger-item-gap) 0;
+    padding: 0 var(--mx5-trigger-h-gap);
+    line-height: var(--mx5-input-small-height);
+    border-radius: var(--mx5-border-radius);
+    transition: all var(--mx5-animation-duration);
+    cursor: pointer;
+    white-space: nowrap;
+    word-wrap: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #333;
+
+    &:hover {
+        color: #333;
+        background-color: var(--mx5-bg-color-hover);
+    }
+
+    &.mx5-output-item-active,
+    &.mx5-output-item-active:hover,
+    &.mx5-output-item-active:active,
+    &.mx5-output-item-active:focus {
+        color: var(--mx5-color-brand);
+        background-color: var(--mx5-color-brand-opacity);
+    }
+
+    &.mx5-output-item-disabled,
+    &.mx5-output-item-disabled:hover,
+    &.mx5-output-item-disabled:active,
+    &.mx5-output-item-disabled:focus {
+        color: #999;
+        cursor: not-allowed;
+        background-color: transparent;
+    }
+}
+
+.mx5-output-header {
+    height: var(--mx5-input-small-height);
+    line-height: var(--mx5-input-small-height);
+    padding-left: 2px;
+    padding-right: 2px;
+    color: #999;
+    cursor: default;
+    white-space: nowrap;
+    word-wrap: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.mx5-output-footer {
+    padding: var(--mx5-trigger-v-gap) var(--mx5-trigger-h-gap);
+    border-top: 1px solid var(--mx5-border-color);
+    text-align: left;
+}
+
+[mx5-view*="mx-dropdown/index"] {
+    min-width: var(--mx5-trigger-min-width);
+
+    &[mx5-view*="small=true"] {
+        min-width: var(--mx5-trigger-small-min-width);
+
+        .mx5-trigger {
+            height: var(--mx5-input-small-height);
+        }
+    }
+
+    &[mx5-view*="disabled=true"] {
+        cursor: not-allowed;
+
         &::after {
             opacity: .6;
             content: ' ';
             position: absolute;
-            top: -1px;
-            right: -1px;
-            bottom: -1px;
-            left: -1px;
-            z-index: 1;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background-color: #fff;
-            border-radius: var(--mx5-tag-border-radius);
+            border-radius: var(--mx5-border-radius);
+            z-index: 1;
         }
+
+        .mx5-trigger {
+            pointer-events: none;
+        }
+    }
+}
+
+/*trigger扩散动画*/
+@keyframes mx5-trigger-expand {
+    0% {
+        opacity: 0.1;
+        width: 0;
+        padding: 0;
+    }
+
+    100% {
+        opacity: 0;
+        width: 120%;
+        padding: 60% 0;
+    }
+}
+
+[mx5-animation="expand"] {
+    overflow: hidden;
+
+    &::before {
+        content: ' ';
+        opacity: 0;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        padding: 0;
+        border-radius: 100%;
+        transform: translateX(-50%) translateY(-50%);
+        z-index: 10;
+        animation: mx5-trigger-expand var(--mx5-animation-expand-timer) var(--mx5-animation-expand-ease);
+        animation-fill-mode: backwards;
+        background-color: var(--mx5-animation-expand-color);
     }
 }

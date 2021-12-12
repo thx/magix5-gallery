@@ -89,7 +89,6 @@ module.exports = Base.extend({
         }]
 
         this.updater.digest({
-            viewId: this.id,
             options,
             events
         });

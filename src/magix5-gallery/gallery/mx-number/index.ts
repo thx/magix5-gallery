@@ -115,8 +115,8 @@ export default View.extend({
                 aim: true
             });
 
-            if (!that.get('init')) {
-                that.set({ init: true });
+            if (!that['init.anim']) {
+                that['init.anim'] = true;
 
                 // 动画结束移除标记
                 let clearAnim = () => {

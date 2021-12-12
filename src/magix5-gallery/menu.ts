@@ -20,6 +20,10 @@ export default {
             {
                 name: '样式',
                 subs: [
+                    {
+                        name: '常用class',
+                        path: '/base/classnames',
+                    },
                     // {
                     //     name: 'mx-grid 栅格',
                     //     path: '/grid/index',
@@ -74,11 +78,11 @@ export default {
                         tip: '支持click展开和hover展开；<span class="mx5-color-brand">下拉列表追加到body；</span>支持双向绑定',
                         path: '/dropdown/index',
                     },
-                    {
-                        name: 'mx-dropdown 下拉框多选',
-                        tip: '支持click展开和hover展开；<span class="mx5-color-brand">下拉列表追加到body；</span>支持双向绑定',
-                        path: '/dropdown/multi',
-                    },
+                    // {
+                    //     name: 'mx-dropdown 下拉框多选',
+                    //     tip: '支持click展开和hover展开；<span class="mx5-color-brand">下拉列表追加到body；</span>支持双向绑定',
+                    //     path: '/dropdown/multi',
+                    // },
                     {
                         name: 'mx-copy 复制',
                         tip: '该组件引入了第三方插件 <a rel="noopener noreferrer" target="_blank" href="https://clipboardjs.com/" class="mx5-color-brand">https://clipboardjs.com/</a>',

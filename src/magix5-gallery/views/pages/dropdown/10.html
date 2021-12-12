@@ -1,0 +1,47 @@
+<div class="eg-content">
+    <div class="mx5-mb20">
+        <div class="mx5-mb20 mx5-clearfix">
+            <div class="mx5-fl mx5-color-9">以下示例：</div>
+            <div class="mx5-fl">
+                <div>支持配置prefix添加前缀</div>
+                <div>选择提示信息为 tip || text</div>
+            </div>
+        </div>
+        <mx-dropdown class="mx5-w200" 
+            *prefix="数字"
+            *list="{{#[{
+                text: 1,
+                value: 1,
+                tip: '数字1'
+            },{
+                text: 2,
+                value: 2,
+                tip: '数字2'
+            }]}}" 
+            selected="2" />
+    </div>
+</div>
+<div class="eg-desc">
+    <div class="eg-title">HTML Code</div>
+    <mx-copy class="desc-oper" 
+        *copy-node="{{=$viewId}}_text_1" 
+        mx-success="@:{done}({id:1})">
+        <span class="desc-tip" mx-html="{{=text1}}"></span>
+        <i class="mx5-iconfont desc-icon">&#xe610;</i>
+    </mx-copy>
+    <mx-source whole="true" id="{{=$viewId}}_text_1">
+        <mx-dropdown class="mx5-w200" 
+            *prefix="数字"
+            *list="{{#[{
+                text: 1,
+                value: 1,
+                tip: '数字1'
+            },{
+                text: 2,
+                value: 2,
+                tip: '数字2'
+            }]}}" 
+            selected="2" />
+    </mx-source>
+</div>
+

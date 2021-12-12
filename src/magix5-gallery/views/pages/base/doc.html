@@ -43,7 +43,7 @@
         {{each apisList as a}}
         <mx-title *mode="second" *content="{{=a.text}}" data-target="{{=a.value}}"/>
         <div class="custom-table">
-            <table class="mx5-table">
+            <table class="mx5-table mx5-table-no-hover">
                 <thead>
                     <tr>
                         <th width="70">可配参数</th>
@@ -68,7 +68,7 @@
     {{else if (apis && apis.length)}}
         <mx-title *mode="second" *content="API" data-target="api"/>
         <div class="custom-table">
-            <table class="mx5-table">
+            <table class="mx5-table mx5-table-no-hover">
                 <thead>
                     <tr>
                         <th width="70">可配参数</th>
@@ -94,7 +94,7 @@
     {{if (events && events.length)}}
     <mx-title *mode="second" *content="Event" data-target="event"/>
     <div class="custom-table">
-        <table class="mx5-table">
+        <table class="mx5-table mx5-table-no-hover">
             <thead>
                 <tr>
                     <th width="70">事件</th>
