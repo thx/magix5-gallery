@@ -1,27 +1,25 @@
-<div class="example">
-    <div class="eg-content">
-        <div class="mb20">
-            <span class="color-9">以下示例：</span>
-            <span>只展示翻页器，不展示汇总数据</span>
+<div class="eg-content">
+    <div class="mx5-mb20 mx5-clearfix">
+        <div class="mx5-fl mx5-color-9">以下示例：</div>
+        <div class="mx5-fl">
+            <div>只展示翻页器，不展示汇总数据</div>
         </div>
-        <mx-pagination 
-            simplify="true"
-            total="100" 
-            size="40" 
-            page="2"/>
     </div>
-    <div class="eg-desc">
-        <div class="eg-title">HTML Code</div>
-        <mx-copy copy-node="{{=$viewId}}_text_1" class="desc-oper" 
-            mx-success="done({id:1})">
-            <span class="desc-tip">{{!text1}}</span>
-            <i class="mc-iconfont desc-icon">&#xe610;</i>
-        </mx-copy>
-        <pre id="{{=$viewId}}_text_1">
-&lt;mx-pagination 
-    simplify="true"
-    total="100" 
-    size="40" 
-    page="2"/&gt;</pre>
-    </div>
+    <mx-pager 
+        *simplify="true"
+        *total="100" 
+        *size="40" 
+        *page="2" />
+</div>
+<div class="eg-desc">
+    <div class="eg-title">HTML Code</div>
+    <mx-copy class="desc-oper" 
+        *copy-node="{{=$viewId}}_text_1" 
+        mx-success="@:{done}({id:1})">
+        <span class="desc-tip" mx-html="{{=text1}}"></span>
+        <i class="mx5-iconfont desc-icon">&#xe610;</i>
+    </mx-copy>
+    <mx-source whole="true" id="{{=$viewId}}_text_1">
+        <mx-pager *simplify="true" *total="100" *size="40" *page="2" />
+    </mx-source>
 </div>

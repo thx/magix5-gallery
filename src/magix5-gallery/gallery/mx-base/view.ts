@@ -37,11 +37,24 @@ export default Magix5.View.extend({
 
         return negative + (mod ? base.substr(0, mod) + thousand : '') + base.substr(mod).replace(/(\d{3})(?=\d)/g, '$1' + thousand) + (precision ? decimal + fixFn(Math.abs(number)).split('.')[1] : '');
     },
-    '@:{stop.propagation}<click,keyup,change,focusout>'(e) {
+    '@:{stop.propagation}<click,keyup,change,focusout>&{capture:true,passive:false}'(e) {
         e.stopPropagation();
     },
-    '@:{prevent.default}<click,keyup,change,focusout>'(e) {
+    '@:{prevent.default}<click,keyup,change,focusout>&{capture:true,passive:false}'(e) {
         e.preventDefault();
+    },
+    /**
+     * 获取css变量值
+     * 优先级（在线预览配置）：style设置 > root配置
+     */
+    '@{get.css.var}'(key, def) {
+        let root = window.getComputedStyle(document.documentElement);
+        let v = document.body.style.getPropertyValue(key) || root.getPropertyValue(key);
+        if (!v) {
+            return def || '';
+        } else {
+            return v.trim();
+        }
     },
 }).merge(FormSync, Refs, {
     ctor() {

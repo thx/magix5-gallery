@@ -1,10 +1,10 @@
-let Magix = require('magix');
-let Base = require('__test__/example');
+import Magix5 from 'magix5';
+import View from 'magix5-gallery/views/pages/base/demo';
 
-module.exports = Base.extend({
-    tmpl: '@1.html',
+export default View.extend({
+    tmpl: '@:1.html',
     render() {
-        this.updater.digest({
+        this.digest({
             total: 600,
             sizes: [20, 40, 50],
             page: 1,
@@ -15,7 +15,7 @@ module.exports = Base.extend({
         // e.page 当前第几页
         // e.size 每页多少条
         // e.offset 偏移量
-        this.updater.digest({
+        this.digest({
             page: e.page,
             size: e.size
         })

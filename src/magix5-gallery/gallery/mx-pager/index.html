@@ -1,118 +1,41 @@
 {{if (mode == 'circle')}}
-<div class="mx5-clearfix circle-pager">
-    <!-- 完整汇总信息 -->
-    <!-- {{if (!simplify && !mini)}}
-    <span class="num-text">
-        {{!tipPer}}：
+    <div class="mx5-clearfix circle-pager">
+        <!-- 完整汇总信息 -->
+        {{if (!simplify && !mini)}}
+        <span class="num-text" mx-html="{{=tipPer}}："></span>
         {{if sizesChange}}
             <mx-dropdown.bd class="pager-dropdown"
                 placement="{{=sizesPlacement}}"
-                list="{{@sizes}}"
+                list="{{#sizes}}"
                 selected="{{=size}}"
                 mx-change="@:{change.size}()"
                 {{if spm}} data-spm-click="{{=spm}}dpd" {{/if}} />
-        {{else}}
-            &nbsp;{{=size}}&nbsp;
+            {{else}}
+            <span class="num-text" mx-html="&nbsp;{{=size}}&nbsp;"></span>
+            {{/if}}
         {{/if}}
-    </span>
-    {{/if}} -->
 
-    <!-- 上翻页 -->
-    <mx-btn class="pager-btn" 
-        *disabled="{{=(page==1)}}" 
-        mx-click="@:{to.page}({page:'{{=(page-1)}}'})" {{if spm}} data-spm-click="{{=spm}}prev" {{/if}}>
-        <i class="mx5-iconfont icon">&#xe6c4;</i>上一页
-    </mx-btn>
-
-    {{if mini}}
-        <span class="num-text"><span class="mx5-color-brand">{{=page}}</span>&nbsp;/&nbsp;{{=pages}}</span>
-    {{else}}
-        {{if (start>1)}}
-        <a class="num-item" href="#" mx-click="@:{to.page}({page:1})" {{if spm}} data-spm-click="{{=spm}}n1" {{/if}}>1</a>
-        {{/if}}
-        {{if (start>2)}}
-        <i class="num-text opacity5 mx5-iconfont">&#xe61b;</i>
-        {{/if}}
-        {{for(let i=start;i<=end;i++)}}
-        <a class="num-item {{if (i==page)}} active {{/if}}" href="#" mx-click="@:{to.page}({page:'{{=i}}'})" {{if spm}} data-spm-click="{{=spm}}n{{=i}}" {{/if}}>{{=i}}</a>
-        {{/for}}
-        {{if (end+2<=pages)}}
-        <i class="num-text opacity5 mx5-iconfont">&#xe61b;</i>
-        {{/if}}
-        {{if (end<pages)}}
-        <a class="num-item" href="#" mx-click="@:{to.page}({page:'{{=pages}}'})" {{if spm}} data-spm-click="{{=spm}}ne" {{/if}}>{{=pages}}</a>
-        {{/if}}
-    {{/if}}
-
-    <!-- 下翻页 -->
-    <mx-btn class="pager-btn" 
-        *disabled="{{=(page==pages)}}" 
-        mx-click="@:{to.page}({page:'{{=(page+1)}}'})" {{if spm}} data-spm-click="{{=spm}}next" {{/if}}>
-        下一页<i class="mx5-iconfont icon next">&#xe6c3;</i>
-    </mx-btn>
-
-    <!-- 简易汇总信息 -->
-    {{if (!mini && !hideTotal)}}
-    <span class="num-text"><span class="mx5-color-brand">{{=page}}</span>&nbsp;/&nbsp;{{=pages}}</span>
-    {{/if}}
-
-    <!-- 快捷翻页 -->
-    {{if jump}}
-    <span class="num-text">到第</span>
-    <input class="input input jump-input" 
-        id="{{=$viewId}}_jump_input"
-        value="{{=next}}"
-        mx-change="@:{stop.propagation}()"
-        mx-focusin="@:{stop.propagation}()"
-        mx-focusout="@:{stop.propagation}()"
-        {{if spm}} data-spm-click="{{=spm}}ji" {{/if}} />
-    <span class="num-text">页</span>
-    <mx-btn class="pager-btn" 
-        *content="确定"
-        mx-click="@:{jump}()" {{if spm}} data-spm-click="{{=spm}}jt" {{/if}} />
-    {{/if}}
-</div>
-{{else}}
-<div class="mx5-clearfix pager">
-    {{if (!simplify && !mini)}}
-    <!-- 完整汇总信息 -->
-    <div class="infos fl">
-        <span mx-html="{{=tipOffset}}{{=tipTotal}}，{{=tipPer}}"></span>
-
-        <!-- {{if sizesChange}}
-            <mx-dropdown.bd class="mx5-ml10 mx5-mr10 pager-dropdown"
-                small="true"
-                placement="{{=sizesPlacement}}"
-                list="{{@sizes}}"
-                selected="{{=size}}"
-                mx-change="@:{change.size}()"
-                {{if spm}} data-spm-click="{{=spm}}dpd" {{/if}} />
-        {{else}}
-            <span>&nbsp;{{=size}}&nbsp;</span>
-        {{/if}} -->
-
-        <span mx-html="{{=tipUnit}}"></span>
-    </div>
-    {{/if}}
-
-    <div class="mx5-clearfix infos {{if (!hideTotal)}} mx5-fr {{/if}}">
         <!-- 上翻页 -->
-        <a class="mx5-iconfont icon num-item {{if (page==1)}} notallowed {{/if}}" href="#" mx-click="{{if (page>1)}}@:{to.page}({page:'{{=(page-1)}}'}){{else}}@:{prevent.default}(){{/if}}" {{if spm}} data-spm-click="{{=spm}}prev" {{/if}}>&#xe6c4;</a>
+        <mx-btn class="pager-btn" 
+            *disabled="{{=(page==1)}}" 
+            mx-click="@:{to.page}({page:'{{=(page-1)}}'})" {{if spm}} data-spm-click="{{=spm}}prev" {{/if}}>
+            <i class="mx5-iconfont icon">&#xe6c4;</i>上一页
+        </mx-btn>
 
         {{if mini}}
-            <span class="num-item">{{=page}}&nbsp;/&nbsp;{{=pages}}</span>
+            <span class="num-text"><span class="mx5-color-brand">{{=page}}</span>&nbsp;/&nbsp;{{=pages}}</span>
         {{else}}
             {{if (start>1)}}
             <a class="num-item" href="#" mx-click="@:{to.page}({page:1})" {{if spm}} data-spm-click="{{=spm}}n1" {{/if}}>1</a>
             {{/if}}
             {{if (start>2)}}
-            <i class="num-item notallowed mx5-iconfont">&#xe61b;</i>
+            <i class="num-text opacity5 mx5-iconfont">&#xe61b;</i>
             {{/if}}
             {{for(let i=start;i<=end;i++)}}
             <a class="num-item {{if (i==page)}} active {{/if}}" href="#" mx-click="@:{to.page}({page:'{{=i}}'})" {{if spm}} data-spm-click="{{=spm}}n{{=i}}" {{/if}}>{{=i}}</a>
             {{/for}}
             {{if (end+2<=pages)}}
-            <i class="num-item notallowed mx5-iconfont">&#xe61b;</i>
+            <i class="num-text opacity5 mx5-iconfont">&#xe61b;</i>
             {{/if}}
             {{if (end<pages)}}
             <a class="num-item" href="#" mx-click="@:{to.page}({page:'{{=pages}}'})" {{if spm}} data-spm-click="{{=spm}}ne" {{/if}}>{{=pages}}</a>
@@ -120,31 +43,97 @@
         {{/if}}
 
         <!-- 下翻页 -->
-        <a class="mx5-iconfont icon num-item {{if (page==pages)}} notallowed {{/if}}" href="#" mx-click="{{if (page<pages)}}@:{to.page}({page:'{{=(page+1)}}'}){{else}}@:{prevent.default}(){{/if}}" {{if spm}} data-spm-click="{{=spm}}next" {{/if}}>&#xe6c3;</a>
+        <mx-btn class="pager-btn" 
+            *disabled="{{=(page==pages)}}" 
+            mx-click="@:{to.page}({page:'{{=(page+1)}}'})" {{if spm}} data-spm-click="{{=spm}}next" {{/if}}>
+            下一页<i class="mx5-iconfont icon next">&#xe6c3;</i>
+        </mx-btn>
 
         <!-- 简易汇总信息 -->
-        {{if !hideTotal}}
-        <span class="num-item mx5-ml10" mx-html="{{=tipTotal}}"></span>
+        {{if (!mini && !hideTotal)}}
+        <span class="num-text"><span class="mx5-color-brand">{{=page}}</span>&nbsp;/&nbsp;{{=pages}}</span>
         {{/if}}
 
         <!-- 快捷翻页 -->
         {{if jump}}
-        <span class="num-item jump">
-            <span class="mx5-mr5" mx-html="{{=tipJumpTo}}"></span>
-            <!-- <input class="mx5-mr5 input input-small jump-input"
-                id="{{=$viewId}}_jump_input"
-                value="{{=next}}"
-                mx-change="@:{stop.propagation}()"
-                mx-focusin="@:{stop.propagation}()"
-                mx-focusout="@:{stop.propagation}()"
-                {{if spm}} data-spm-click="{{=spm}}ji" {{/if}} /> -->
-            <span class="mx5-mr10" mx-html="{{=tipJumpUnit}}"></span>
-            <mx-btn 
+        <span class="num-text">
+            到第&nbsp;<mx-input class="jump-input"
+                *autocomplete="off"
+                *value="{{:next}}" 
+                mx-change="@:{stop.propagation}()"/>&nbsp;页
+        </span>
+        <mx-btn class="pager-btn" 
+            *content="确定"
+            mx-click="@:{jump}()" {{if spm}} data-spm-click="{{=spm}}jt" {{/if}} />
+        {{/if}}
+    </div>
+{{else}}
+    <div class="mx5-clearfix pager">
+        {{if (!simplify && !mini)}}
+        <!-- 完整汇总信息 -->
+        <div class="infos mx5-fl">
+            <span mx-html="{{=tipOffset}}{{=tipTotal}}，{{=tipPer}}"></span>
+            {{if sizesChange}}
+            <mx-dropdown class="pager-dropdown"
+                *small="true"
+                *list="{{#sizes}}"
+                *selected="{{=size}}"
+                mx-change="@:{change.size}()"
+                {{if spm}} data-spm-click="{{=spm}}dpd" {{/if}} />
+            {{else}}
+            <span mx-html="&nbsp;{{=size}}&nbsp;"></span>
+            {{/if}}
+            <span mx-html="{{=tipUnit}}"></span>
+        </div>
+        {{/if}}
+
+        <div class="mx5-clearfix infos {{if (!hideTotal)}} mx5-fr {{/if}}">
+            <!-- 上翻页 -->
+            <a class="mx5-iconfont icon num-item {{if (page==1)}} notallowed {{/if}}" href="#" mx-click="{{if (page>1)}}@:{to.page}({page:'{{=(page-1)}}'}){{else}}@:{prevent.default}(){{/if}}" {{if spm}} data-spm-click="{{=spm}}prev" {{/if}}>&#xe6c4;</a>
+
+            {{if mini}}
+                <span class="num-item">{{=page}}&nbsp;/&nbsp;{{=pages}}</span>
+            {{else}}
+                {{if (start>1)}}
+                <a class="num-item" href="#" mx-click="@:{to.page}({page:1})" {{if spm}} data-spm-click="{{=spm}}n1" {{/if}}>1</a>
+                {{/if}}
+                {{if (start>2)}}
+                <i class="num-item notallowed mx5-iconfont">&#xe61b;</i>
+                {{/if}}
+                {{for(let i=start;i<=end;i++)}}
+                <a class="num-item {{if (i==page)}} active {{/if}}" href="#" mx-click="@:{to.page}({page:'{{=i}}'})" {{if spm}} data-spm-click="{{=spm}}n{{=i}}" {{/if}}>{{=i}}</a>
+                {{/for}}
+                {{if (end+2<=pages)}}
+                <i class="num-item notallowed mx5-iconfont">&#xe61b;</i>
+                {{/if}}
+                {{if (end<pages)}}
+                <a class="num-item" href="#" mx-click="@:{to.page}({page:'{{=pages}}'})" {{if spm}} data-spm-click="{{=spm}}ne" {{/if}}>{{=pages}}</a>
+                {{/if}}
+            {{/if}}
+
+            <!-- 下翻页 -->
+            <a class="mx5-iconfont icon num-item {{if (page==pages)}} notallowed {{/if}}" href="#" mx-click="{{if (page<pages)}}@:{to.page}({page:'{{=(page+1)}}'}){{else}}@:{prevent.default}(){{/if}}" {{if spm}} data-spm-click="{{=spm}}next" {{/if}}>&#xe6c3;</a>
+
+            <!-- 简易汇总信息 -->
+            {{if !hideTotal}}
+            <span class="num-text" mx-html="{{=tipTotal}}"></span>
+            {{/if}}
+
+            <!-- 快捷翻页 -->
+            {{if jump}}
+            <span class="num-text" mx-html="{{=tipJumpTo}}"></span>
+            <mx-input class="jump-input"
+                *autocomplete="off"
+                *small="true"
+                *value="{{:next}}" 
+                mx-change="@:{stop.propagation}()"/>
+            <span class="num-text" mx-html="{{=tipJumpUnit}}"></span>
+            <mx-btn class="mx5-ml5"
+                *type="secondary"
                 *small="true" 
                 *content="跳转"
                 mx-click="@:{jump}()" {{if spm}} data-spm-click="{{=spm}}jt" {{/if}}/>
-        </span>
-        {{/if}}
+            {{/if}}
+        </div>
     </div>
-</div>
 {{/if}}

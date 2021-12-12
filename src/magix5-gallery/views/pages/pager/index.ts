@@ -1,96 +1,107 @@
-let Magix = require('magix');
-let Base = require('__test__/example');
-let $ = require('$');
+import Magix5 from 'magix5';
+import View from '../base/doc';
 
-module.exports = Base.extend({
-    tmpl: '@index.html',
-    render() {
-        let options = [{
-            key: 'total',
-            desc: '总数',
+export default View.extend({
+    init(options) {
+        let apis = [{
+            value: 'total',
+            text: '总数',
             type: 'number'
         }, {
-            key: 'page',
-            desc: '当前第几页',
+            value: 'page',
+            text: '当前第几页',
             type: 'number',
             def: 1
         }, {
-            key: 'offset',
-            desc: '偏移量，优先级 page > offset',
+            value: 'offset',
+            text: '偏移量，优先级 page > offset',
             type: 'number',
             def: 0
         }, {
-            key: 'size',
-            desc: '每页多少条',
+            value: 'size',
+            text: '每页多少条',
             type: 'number',
             def: 40
         }, {
-            key: 'sizes',
-            desc: '可选分页数',
+            value: 'sizes',
+            text: '可选分页数',
             type: 'array',
             def: '[10,20,30,40]'
         }, {
-            key: 'jump',
-            desc: '是否有快捷跳转',
+            value: 'jump',
+            text: '是否有快捷跳转',
             type: 'boolean',
             def: 'true'
         }, {
-            key: 'simplify',
-            desc: '只有翻页器，没有汇总数据版本',
+            value: 'simplify',
+            text: '只有翻页器，没有汇总数据版本',
             type: 'boolean',
             def: 'false'
         }, {
-            key: 'sizes-change',
-            desc: '是否可切换分页数',
+            value: 'sizes-change',
+            text: '是否可切换分页数',
             type: 'boolean',
             def: 'true'
-        },
-
-        // 改成mx-dropdown.bd 相对window定位，无需手动修正位置
-        // {
-        //     key: 'sizes-placement', 
-        //     desc: '分页选择框展示方向，bottom（下方），top（上方）',
-        //     type: 'string',
-        //     def: 'bottom'
-        // }, 
-        {
-            key: 'mini',
-            desc: '顺序翻页版本',
+        }, {
+            value: 'mini',
+            text: '顺序翻页版本',
             type: 'boolean',
             def: 'false'
         }, {
-            key: 'step',
-            desc: '页码过多时，中间显示多少条页码',
+            value: 'step',
+            text: '页码过多时，中间显示多少条页码',
             type: 'number',
             def: '5'
         }, {
-            key: 'mode',
-            desc: '展现样式<br/>mode=square：方形版<br/>mode=circle：圆形版',
+            value: 'mode',
+            text: '展现样式<br/>mode=square：方形版<br/>mode=circle：圆形版',
             type: 'string',
             def: 'square'
         }]
 
         let events = [{
             type: 'change',
-            desc: '切换页码，分页数时均会触发',
+            text: '切换页码，分页数时均会触发',
             params: [{
-                key: 'page',
-                desc: '当前页码',
+                value: 'page',
+                text: '当前页码',
                 type: 'number'
             }, {
-                key: 'size',
-                desc: '每页条数',
+                value: 'size',
+                text: '每页条数',
                 type: 'number'
             }, {
-                key: 'offset',
-                desc: '偏移量：offset = (page - 1) * size',
+                value: 'offset',
+                text: '偏移量：offset = (page - 1) * size',
                 type: 'number'
             }]
-        }]
+        }];
 
-        this.updater.digest({
-            options,
-            events
+        let columns = [{
+            text: '完整版',
+            path: 1
+        }, {
+            text: '精简版',
+            path: 2
+        }, {
+            text: '顺序翻页',
+            path: 3
+        }, {
+            text: 'offset or page',
+            path: 5
+        }, {
+            text: '对齐方式',
+            path: 4
+        }];
+        // {
+        //     text: '各种展现样式',
+        //     path: 6
+        // }
+
+        this.set({
+            apis,
+            events,
+            columns
         });
     }
 });

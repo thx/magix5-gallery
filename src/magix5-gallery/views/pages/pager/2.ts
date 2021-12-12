@@ -1,9 +1,6 @@
-let Magix = require('magix');
-let Base = require('__test__/example');
+import Magix5 from 'magix5';
+import View from 'magix5-gallery/views/pages/base/demo';
 
-module.exports = Base.extend({
-    tmpl: '@2.html',
-    render() {
-        this.updater.digest();
-    }
+export default View.extend({
+    tmpl: '@:2.html'
 });

@@ -6,7 +6,7 @@ import View from '../mx-base/view';
 Magix5.applyStyle('@:index.less');
 
 export default View.extend({
-    tmpl: '@index.html',
+    tmpl: '@:index.html',
     assign(options) {
         let that = this;
 
@@ -15,8 +15,7 @@ export default View.extend({
         //    circle 圆形
         let mode = options.mode, allowModeMap = { square: true, circle: true };
         if (!allowModeMap[mode]) {
-            mode = '@:./path.css:--name';
-            mode = that['@{get.css.var}']('--mx-pagination-mode', 'square');
+            mode = that['@{get.css.var}']('--mx5-pager-mode', 'square');
         }
 
         // 可选翻页数
@@ -133,19 +132,18 @@ export default View.extend({
     },
     '@:{fire.event}'() {
         this.render();
-        // let that = this;
-        // let node = $('#' + that.id);
-        // let { page, size } = that.get();
-        // let offset = (page - 1) * size;
-        // node.trigger({
-        //     type: 'change',
-        //     page,
-        //     size,
-        //     offset
-        // });
+
+        let { page, size } = this.get();
+        let offset = (page - 1) * size;
+        Magix5.dispatch(this.root, 'change', {
+            page,
+            size,
+            offset,
+        });
     },
     '@:{to.page}<click>'(e) {
         e.preventDefault();
+        e.stopPropagation();
         this.set(e.params);
         this['@:{fire.event}']();
     },
@@ -156,8 +154,7 @@ export default View.extend({
     },
     '@:{jump}<click>'(e) {
         e.stopPropagation();
-        var i = $(`#${this.id}_jump_input`);
-        let page = +(i.val());
+        let page = +(this.get('next'));
         if (!Number.isInteger(page)) {
             return;
         }

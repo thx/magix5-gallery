@@ -1,79 +1,58 @@
-<div class="example">
-    <div class="eg-content">
-        <mx-pagination class="mb20"
-            total="{{=total}}" 
-            size="30" 
-            offset="30"/>
+<div class="eg-content">
+    <mx-pager class="mx5-mb40"
+        *total="{{=total}}" 
+        *size="30" 
+        *offset="30"/>
 
-        <mx-pagination class="mb20"
-            simplify="true"
-            total="{{=total}}" 
-            size="30" 
-            offset="30"/>
+    <mx-pager class="mx5-mb40"
+        *simplify="true"
+        *total="{{=total}}" 
+        *size="30" 
+        *offset="30"/>
 
-        <mx-pagination 
-            mini="true"
-            total="{{=total}}" 
-            size="30" 
-            page="3"
-            offset="30"/>
+    <mx-pager class="mx5-mb40"
+        *mini="true"
+        *total="{{=total}}" 
+        *size="30" 
+        *page="3"
+        *offset="30"/>
 
-        <!-- mode="circle" 千牛用 fusion主题 -->
-        <mx-pagination class="mb20"
-            mode="circle"
-            total="{{=total}}" 
-            size="30" 
-            offset="30"/>
+    <!-- mode="circle" 千牛用 fusion主题 -->
+    <mx-pager class="mx5-mb40"
+        *mode="circle"
+        *total="{{=total}}" 
+        *size="30" 
+        *offset="30"/>
 
-        <!-- mode="circle" 千牛用 fusion主题 -->
-        <mx-pagination class="mb20"
-            mode="circle"
-            simplify="true"
-            total="{{=total}}" 
-            size="30" 
-            offset="30"/>
+    <!-- mode="circle" 千牛用 fusion主题 -->
+    <mx-pager class="mx5-mb40"
+        *mode="circle"
+        *simplify="true"
+        *total="{{=total}}" 
+        *size="30" 
+        *offset="30"/>
 
-        <!-- mode="circle" 千牛用 fusion主题 -->
-        <mx-pagination 
-            mode="circle"
-            mini="true"
-            total="{{=total}}" 
-            size="30" 
-            page="3"
-            offset="30"/>
-    </div>
-    <div class="clearfix">
-        <div class="eg-desc half">
-            <div class="eg-title">size + offset</div>
-            <mx-copy copy-node="{{=$viewId}}_text_1" class="desc-oper" 
-                mx-success="done({id:1})">
-                <span class="desc-tip">{{!text1}}</span>
-                <i class="mc-iconfont desc-icon">&#xe610;</i>
-            </mx-copy>
-            <pre id="{{=$viewId}}_text_1">
-&lt;mx-pagination class="mb20"
-    simplify="true"
-    total="{{=total}}" 
-    size="30" 
-    offset="30"/&gt;
-            </pre>
-        </div>
-        <div class="eg-desc half half-right">
-            <div class="eg-title">size + page</div>
-            <mx-copy copy-node="{{=$viewId}}_text_2" class="desc-oper" 
-                mx-success="done({id:2})">
-                <span class="desc-tip">{{!text2}}</span>
-                <i class="mc-iconfont desc-icon">&#xe610;</i>
-            </mx-copy>
-            <pre id="{{=$viewId}}_text_2">
-&lt;!-- 配置了page的情况下忽略offset配置 --&gt;
-&lt;mx-pagination 
-    simplify="true"
-    total="{{=total}}" 
-    size="30" 
-    page="3"
-    offset="30"/&gt;
-            </pre>
-        </div>
-    </div>
+    <!-- mode="circle" 千牛用 fusion主题 -->
+    <mx-pager class="mx5-mb40"
+        *mode="circle"
+        *mini="true"
+        *total="{{=total}}" 
+        *size="30" 
+        *page="3"
+        *offset="30"/>
+</div>
+<div class="eg-desc">
+    <div class="eg-title">HTML Code</div>
+    <mx-copy class="desc-oper" 
+        *copy-node="{{=$viewId}}_text_1" 
+        mx-success="@:{done}({id:1})">
+        <span class="desc-tip" mx-html="{{=text1}}"></span>
+        <i class="mx5-iconfont desc-icon">&#xe610;</i>
+    </mx-copy>
+    <mx-source whole="true" id="{{=$viewId}}_text_1">
+        <mx-number 
+            *num="1,842.68"
+            *color="#ffb400"
+            *font-size="24"/>
+    </mx-source>
 </div>

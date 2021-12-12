@@ -3,29 +3,51 @@
     text-align: center;
 }
 
+.pager-dropdown {
+    min-width: 64px;
+    margin: 0 4px;
+}
+
 .pager {
     /* 防止display: inline-block; 间距 */
     line-height: 0;
-    color: var(--mx5-pagination-font-color);
+    color: var(--mx5-pager-font-color);
 
+    .num-text,
     .num-item {
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        min-width: var(--mx5-input-small-height);
         height: var(--mx5-input-small-height);
         font-size: var(--mx5-font-size);
         border-radius: var(--mx5-border-radius);
-        color: var(--mx5-pagination-font-color);
+        color: var(--mx5-pager-font-color);
+    }
+
+    .num-text {
+        margin-left: 4px;
+        margin-right: 4px;
+
+        &:first-child {
+            margin-left: 0;
+        }
+
+        &:last-child {
+            margin-right: 0;
+        }
+    }
+
+    .num-item {
+        min-width: var(--mx5-input-small-height);
         transition: color var(--mx5-animation-duration), background-color var(--mx5-animation-duration);
 
         &:hover,
         &.active {
-            color: var(--mx5-pagination-font-color-hover);
+            color: var(--mx5-pager-font-color-hover);
         }
 
         &.active {
-            background-color: var(--mx5-pagination-bg-color);
+            background-color: var(--mx5-pager-bg-color);
         }
 
         &.notallowed {
@@ -34,23 +56,14 @@
 
             &:hover,
             &.active {
-                color: var(--mx5-pagination-font-color);
+                color: var(--mx5-pager-font-color);
                 background-color: transparent;
             }
         }
     }
 
     .icon {
-        font-weight: bold;
-    }
-
-    .pager-dropdown {
-        min-width: 60px;
-    }
-
-    .jump {
-        margin-left: 10px;
-        margin-right: 0;
+        transform: scale(.9);
     }
 
     .infos {
@@ -65,7 +78,7 @@
     }
 }
 
-[mx5-view*="mx-pagination/index"][mx5-view*="mode=circle"] {
+[mx5-view*="mx-pager/index"][mx5-view*="mode=circle"] {
     display: inline-block;
     vertical-align: middle;
 }
@@ -73,7 +86,7 @@
 .circle-pager {
     /* 防止display: inline-block; 间距 */
     line-height: 0;
-    color: var(--mx5-pagination-font-color);
+    color: var(--mx5-pager-font-color);
 
     .icon {
         font-size: 12px;
@@ -99,6 +112,7 @@
         font-size: 12px;
         font-weight: normal;
         white-space: nowrap;
+        vertical-align: middle;
     }
 
     .num-item {
@@ -131,16 +145,12 @@
         }
     }
 
-    .pager-dropdown {
-        min-width: 60px;
-    }
-
     .pager-btn,
     .pager-dropdown,
     .num-text,
     .num-item {
         float: left;
-        margin-left: var(--mx5-pagination-circle-gap);
+        margin-left: var(--mx5-pager-circle-gap);
 
         &:first-child {
             margin-left: 0;
