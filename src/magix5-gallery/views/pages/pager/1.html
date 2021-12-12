@@ -1,0 +1,83 @@
+<div class="eg-content">
+    <div class="mx5-mb40 mx5-clearfix">
+        <div class="mx5-fl mx5-color-9">以下示例：</div>
+        <div class="mx5-fl">
+            <div>当前页数（{{=page}}），每页显示（{{=size}}）</div>
+            <div>sizes-change="false"可禁止修改分页数</div>
+        </div>
+    </div>
+    <mx-pager class="mx5-mb40"
+        *total="{{=total}}"
+        *sizes="{{#sizes}}"
+        *size="{{=size}}" 
+        *page="{{=page}}"
+        mx-change="change()" />
+
+    <mx-pager class="mx5-mb40"
+        *sizes-change="false"
+        *total="{{=total}}" 
+        *sizes="{{#sizes}}"
+        *size="{{=size}}" 
+        *page="{{=page}}"
+        mx-change="change()" />
+</div>
+<div class="mx5-clearfix">
+    <div class="eg-desc flw50">
+        <div class="eg-title">HTML Code</div>
+        <mx-copy class="desc-oper" 
+            *copy-node="{{=$viewId}}_text_1" 
+            mx-success="@:{done}({id:1})">
+            <span class="desc-tip" mx-html="{{=text1}}"></span>
+            <i class="mx5-iconfont desc-icon">&#xe610;</i>
+        </mx-copy>
+        <mx-source whole="true" id="{{=$viewId}}_text_1">
+            <mx-pager 
+                *total="{{=total}}"
+                *sizes="{{#sizes}}"
+                *size="{{=size}}" 
+                *page="{{=page}}"
+                mx-change="change()" />
+
+            <!-- 禁止切换分页数 -->
+            <mx-pager 
+                *sizes-change="false"
+                *total="{{=total}}" 
+                *sizes="{{#sizes}}"
+                *size="{{=size}}" 
+                *page="{{=page}}"
+                mx-change="change()" />
+        </mx-source>
+    </div>
+    <div class="eg-desc flw50 mx5-blc">
+        <div class="eg-title">JS Code</div>
+        <mx-copy class="desc-oper" 
+            *copy-node="{{=$viewId}}_text_2" 
+            mx-success="@:{done}({id:2})">
+            <span class="desc-tip" mx-html="{{=text2}}"></span>
+            <i class="mx5-iconfont desc-icon">&#xe610;</i>
+        </mx-copy>
+        <mx-source whole="true" id="{{=$viewId}}_text_2">
+            import Magix5 from 'magix5';
+            export default Magix5.View.extend({
+                tmpl: '@:index.html',
+                render() {
+                    this.digest({
+                        total: 600,
+                        sizes: [20, 40, 50],
+                        page: 1,
+                        size: 40,
+                    });
+                },
+                'change<change>'(e) {
+                    // e.page 当前第几页
+                    // e.size 每页多少条
+                    // e.offset 偏移量
+                    this.digest({
+                        page: e.page,
+                        size: e.size
+                    })
+                }
+            });
+        </mx-source>
+    </div>
+</div>

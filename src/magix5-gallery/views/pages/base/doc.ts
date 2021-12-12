@@ -5,7 +5,7 @@ Magix5.applyStyle('@:doc.less');
 export default View.extend({
     tmpl: '@:doc.html',
     assign(options) {
-        let { apis, events, columns, lefts, rights } = this.get();
+        let { apisList, apis, events, columns, lefts, rights } = this.get();
         let list = [];
 
         // demo处理  
@@ -42,7 +42,17 @@ export default View.extend({
         list.push(demos);
 
         // api处理
-        if (apis && apis.length) {
+        if (apisList && apisList.length) {
+            apisList.forEach((a, i) => {
+                Magix5.mix(a, {
+                    value: `api${i}`,
+                })
+                list.push({
+                    text: a.text,
+                    value: `api${i}`,
+                })
+            })
+        } else if (apis && apis.length) {
             list.push({
                 text: 'API',
                 value: 'api',

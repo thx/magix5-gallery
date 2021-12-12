@@ -1,3 +1,27 @@
+[mx5-view*="mx-btn/index"] {
+    line-height: 0;
+}
+
+@keyframes mx5-btn-fade-in {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes mx5-btn-fade-out {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
 /* 各种类型按钮样式，包含a标签的状态处理 */
 .btn--primary,
 .btn--primary:link,
@@ -15,7 +39,7 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-width: var(--mx5-btn-min-width);
+    min-width: var(--mx5-trigger-min-width);
     height: var(--mx5-input-height);
     line-height: calc(var(--mx5-input-height) - 2px);
     margin-bottom: 0;
@@ -33,7 +57,7 @@
     transition: border-color var(--mx5-animation-duration), background-color var(--mx5-animation-duration), color var(--mx5-animation-duration);
 
     &.btn--small {
-        min-width: 48px;
+        min-width: var(--mx5-trigger-small-min-width);
         height: var(--mx5-input-small-height);
         line-height: calc(var(--mx5-input-small-height) - 2px);
     }
@@ -201,7 +225,7 @@
 }
 
 .text-hide {
-    animation: mx5-fade-out var(--mx5-animation-duration);
+    animation: mx5-btn-fade-out var(--mx5-animation-duration);
     animation-fill-mode: forwards;
 }
 
@@ -212,7 +236,7 @@
     transform-origin: top;
     cursor: not-allowed;
     user-select: none;
-    animation: mx5-fade-in var(--mx5-animation-duration);
+    animation: mx5-btn-fade-in var(--mx5-animation-duration);
     animation-fill-mode: forwards;
     height: 200%;
     transform: scale(0.5);

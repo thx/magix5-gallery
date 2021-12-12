@@ -1,11 +1,12 @@
 import Magix5 from 'magix5';
 import View from 'magix5-gallery/views/pages/base/demo';
+let Base = View.prototype;
 export default View.extend<{
     getSnapshot(): string
 }>({
     tmpl: '@:1.html',
     init() {
-        View.prototype.init.apply(this, arguments);
+        Base.init.apply(this, arguments);
         this.set({
             user: {
                 name: 'xl'

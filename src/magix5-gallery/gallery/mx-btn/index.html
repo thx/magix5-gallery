@@ -21,13 +21,13 @@
         *color-bg="{{=((type == 'primary') ? 'rgba(222,225,232,.2)' : '#DEE1E8')}}"
         *color-gradient="{{=((type == 'primary') ? '#ffffff' : 'var(--mx5-color-brand)')}}" 
         *color="{{=((type == 'primary') ? '#ffffff' : 'var(--mx5-color-brand)')}}"
-        mx-click="@:{stop}()" />
+        mx-click="@:{stop.propagation}()" />
     {{/if}}
 {{/if}}
 {{if tagContent}}
 <span class="btn-tag mx5-tag {{if (disabled || loading)}} mx5-tag-disabled {{/if}}" 
     style="{{if tagColor}} background-color: {{=tagColor}}; border: 1px solid {{=tagColor}};{{/if}}" 
-    mx-click="@:{stop}()" >
+    mx-click="@:{stop.propagation}()" >
     <span class="mx5-tag-name" mx-html="{{=tagContent}}"></span>
 </span>
 {{/if}}
@@ -36,5 +36,5 @@
     *width="{{=disabledWidth}}" 
     *placement="{{=disabledPlacement}}" 
     *content="{{=disabledTip}}"
-    mx-click="@:{stop}()" ></mx-popover>
+    mx-click="@:{stop.propagation}()" ></mx-popover>
 {{/if}}

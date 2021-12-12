@@ -1,0 +1,39 @@
+/*卡片样式*/
+[mx5-view*="mx-layout/index"],
+.mx5-layout {
+    background: #fff;
+    border-radius: var(--mx5-border-radius);
+    box-shadow: var(--mx5-shadow);
+    transition: box-shadow var(--mx5-animation-duration) ease-out;
+
+    &:hover {
+        box-shadow: var(--mx5-shadow-hover);
+    }
+}
+
+.mx5-layout-title {
+    display: inline-flex;
+    align-items: center;
+    font-size: var(--mx5-layout-title-font-size);
+    font-weight: var(--mx5-layout-title-font-weight);
+
+    >* {
+        max-height: var(--mx5-input-height);
+    }
+}
+
+.mx5-layout-title-link,
+.mx5-layout-title-link:link,
+.mx5-layout-title-link:visited {
+    float: right;
+    height: var(--mx5-input-height);
+    line-height: var(--mx5-input-height);
+    color: var(--mx5-layout-title-link-color);
+    font-size: var(--mx5-layout-title-link-font-size);
+    transition: color var(--mx5-animation-duration);
+    cursor: pointer;
+
+    &:hover {
+        color: var(--mx5-layout-title-link-color-hover);
+    }
+}

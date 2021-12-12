@@ -1,0 +1,68 @@
+<div class="mx5-clearfix">
+    <div class="eg-content flw50">
+        <div class="mx5-mb20 mx5-clearfix">
+            <div class="mx5-fl mx5-color-9">以下示例：</div>
+            <div class="mx5-fl">
+                <div>顺序翻页显示总条数</div>
+            </div>
+        </div>
+        <mx-pager 
+            *mini="true"
+            *jump="false"
+            *total="100" 
+            *size="40" 
+            *page="1" />
+    </div>
+    <div class="eg-content flw50 mx5-blc">
+        <div class="mx5-mb20 mx5-clearfix">
+            <div class="mx5-fl mx5-color-9">以下示例：</div>
+            <div class="mx5-fl">
+                <div>顺序翻页不显示总条数</div>
+            </div>
+        </div>
+        <mx-pager class="mx5-text-right"
+            *hide-total="true"
+            *mini="true"
+            *jump="false"
+            *total="100" 
+            *size="40" 
+            *page="1" />
+    </div>
+</div>
+<div class="mx5-clearfix">
+    <div class="eg-desc flw50">
+        <div class="eg-title">HTML Code</div>
+        <mx-copy class="desc-oper" 
+            *copy-node="{{=$viewId}}_text_1" 
+            mx-success="@:{done}({id:1})">
+            <span class="desc-tip" mx-html="{{=text1}}"></span>
+            <i class="mx5-iconfont desc-icon">&#xe610;</i>
+        </mx-copy>
+        <mx-source whole="true" id="{{=$viewId}}_text_1">
+            <mx-pager 
+                *mini="true"
+                *jump="false"
+                *total="100" 
+                *size="40" 
+                *page="1" />
+        </mx-source>
+    </div>
+    <div class="eg-desc flw50 mx5-blc">
+        <div class="eg-title">JS Code</div>
+        <mx-copy class="desc-oper" 
+            *copy-node="{{=$viewId}}_text_2" 
+            mx-success="@:{done}({id:2})">
+            <span class="desc-tip" mx-html="{{=text2}}"></span>
+            <i class="mx5-iconfont desc-icon">&#xe610;</i>
+        </mx-copy>
+        <mx-source whole="true" id="{{=$viewId}}_text_2">
+            <mx-pager 
+                *hide-total="true"
+                *mini="true"
+                *jump="false"
+                *total="100" 
+                *size="40" 
+                *page="1" />
+        </mx-source>
+    </div>
+</div>

@@ -9,16 +9,16 @@
     <div class="mx5-mb20 mx5-clearfix">
         <mx-btn 
             *content="点此复制" 
-            mx-click="copy()"  data-spm-click="gostr=/alimama.99.dmp;locaid=d0331bbcb"/>
+            mx-click="copy()" />
 
         {{if success}}
-        <span class="mx5-color-pass mx5-ml10 vmt">
+        <span class="mx5-color-pass mx5-ml10 mx5-vmt">
             <i class="mx5-iconfont mx5-mr5">&#xe729;</i>复制成功
         </span>
         {{/if}}
 
         {{if error}}
-        <span class="mx5-color-error mx5-ml10 vmt">
+        <span class="mx5-color-error mx5-ml10 mx5-vmt">
             <i class="mx5-iconfont mx5-mr5">&#xe727;</i>复制失败
         </span>
         {{/if}}
@@ -36,7 +36,7 @@
         <mx-source whole="true" id="{{=$viewId}}_text_1">
             <mx-btn 
                 *content="点此复制" 
-                mx-click="copy()"  data-spm-click="gostr=/alimama.99.dmp;locaid=dce0be876"/>
+                mx-click="copy()" />
 
             {{if success}}
             <span class="mx5-color-pass mx5-ml10">

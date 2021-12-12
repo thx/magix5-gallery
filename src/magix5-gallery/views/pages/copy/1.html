@@ -4,26 +4,86 @@
         需要复制另外一个显示节点的内容，配置 copy-node 指向需要复制的节点
     </div>
     <div class="mx5-mb20 mx5-clearfix">
-        <input id="{{=$viewId}}_node" value="Magix棒棒的！" />
+        <mx-input class="mx5-w140" id="{{=$viewId}}_node" *value="Magix棒棒的！" />
         <mx-copy class="mx5-ml10"
             *copy-node="{{=$viewId}}_node" 
             mx-success="copy()">
             <mx-btn *content="点此复制"/>
         </mx-copy>
+
         {{if success}}
-        <span class="mx5-color-pass mx5-ml10 vmt"><i class="mx5-iconfont mx5-mr5">&#xe729;</i>复制成功</span>
+        <span class="mx5-color-pass mx5-ml10">
+            <i class="mx5-iconfont mx5-mr5">&#xe729;</i>复制成功
+        </span>
+        {{/if}}
+        
+        {{if error}}
+        <span class="mx5-color-error mx5-ml10">
+            <i class="mx5-iconfont mx5-mr5">&#xe727;</i>复制失败
+        </span>
         {{/if}}
     </div>
 </div>
-<div class="eg-desc">
-    <div class="eg-title">HTML Code</div>
-    <mx-copy class="desc-oper" 
-        *copy-node="{{=$viewId}}_text_1" 
-        mx-success="@:{done}({id:1})">
-        <span class="desc-tip" mx-html="{{=text1}}"></span>
-        <i class="mx5-iconfont desc-icon">&#xe610;</i>
-    </mx-copy>
-    <mx-source whole="true" id="{{=$viewId}}_text_1">
-        <mx-btn *content="主要按钮"/>    
-    </mx-source>
+<div class="mx5-clearfix">
+    <div class="eg-desc flw50">
+        <div class="eg-title">HTML Code</div>
+        <mx-copy class="desc-oper" 
+            *copy-node="{{=$viewId}}_text_1" 
+            mx-success="@:{done}({id:1})">
+            <span class="desc-tip" mx-html="{{=text1}}"></span>
+            <i class="mx5-iconfont desc-icon">&#xe610;</i>
+        </mx-copy>
+        <mx-source whole="true" id="{{=$viewId}}_text_1">
+            <mx-input class="mx5-w140" id="{{=$viewId}}_node" 
+                *value="Magix棒棒的！" />
+                
+            <mx-copy class="mx5-ml10"
+                *copy-node="{{=$viewId}}_node" 
+                mx-success="copy()">
+                <mx-btn *content="点此复制"/>
+            </mx-copy>
+
+            {{if success}}
+            <span class="mx5-color-pass mx5-ml10">
+                <i class="mx5-iconfont mx5-mr5">&#xe729;</i>复制成功
+            </span>
+            {{/if}}
+            
+            {{if error}}
+            <span class="mx5-color-error mx5-ml10">
+                <i class="mx5-iconfont mx5-mr5">&#xe727;</i>复制失败
+            </span>
+            {{/if}}
+        </mx-source>
+    </div>
+    <div class="eg-desc flw50 mx5-blc">
+        <div class="eg-title">JS Code</div>
+        <mx-copy class="desc-oper" 
+            *copy-node="{{=$viewId}}_text_2" 
+            mx-success="@:{done}({id:2})">
+            <span class="desc-tip" mx-html="{{=text2}}"></span>
+            <i class="mx5-iconfont desc-icon">&#xe610;</i>
+        </mx-copy>
+        <mx-source whole="true" id="{{=$viewId}}_text_2">
+            import Magix5 from 'magix5';
+            export default Magix5.View.extend({
+                tmpl: '@:index.html',
+                render() {
+                    this.digest();
+                },
+                'copy<success>'(e) {
+                    this.digest({
+                        success: true,
+                        error: false,
+                    })
+                },
+                'copy<error>'(e) {
+                    this.digest({
+                        success: false,
+                        error: true,
+                    })
+                }
+            })
+        </mx-source>
+    </div>
 </div>

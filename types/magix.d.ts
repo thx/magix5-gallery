@@ -2,7 +2,7 @@
 /*
 author:kooboy_li@163.com
 loader:umd
-enables:mxevent,richVframe,xml,async,service,wait,lang,router,routerHash,routerTip,richView,innerView,recast,require,xview,taskComplete,taskIdle,spreadMxViewParams,removeStyle,taskCancel,eventVframe,richVframeInvokeCancel,waitSelector,remold,rewrite,rebuild,load,state
+enables:mxevent,richVframe,xml,async,service,wait,lang,router,routerHash,routerTip,richView,innerView,recast,require,xview,taskComplete,taskIdle,spreadMxViewParams,removeStyle,taskCancel,eventVframe,richVframeInvokeCancel,waitSelector,remold,rewrite,rebuild,load,state,batchDOMEvent
 
 optionals:routerState,routerTipLockUrl,routerForceState,customTags,checkAttr,webc,lockSubWhenBusy
 */
@@ -123,8 +123,9 @@ declare namespace Magix5 {
         /**
          * 在异步加载模块前执行的方法
          * @param modules 模块列表
+         * @param params 其它参数
          */
-        require?: (...modules: string[]) => Promise<void>
+        require?: (modules: string[], params?: any) => Promise<void>
         
         
         /**
@@ -546,15 +547,17 @@ declare namespace Magix5 {
          * @param node 要渲染的节点
          * @param viewPath view路径
          * @param viewInitParams 初始化view时传递的参数，可以在view的init方法中接收
+         * @param deepDestroy 是否深度销毁子view，默认对于恢复后的内容会进行view渲染
          */
-        mount(node: HTMLElementOrEventTarget, viewPath: string, viewInitParams?: object): this
+        mount(node: HTMLElementOrEventTarget, viewPath: string, viewInitParams?: object, deepDestroy?: boolean): this
 
         /**
          * 销毁dom节点上渲染的vframe
          * @param node 节点对象或vframe id，默认当前view
          * @param isVframeId 指示node是否为vframe id
+         * @param deepDestroy 是否深度销毁子view，默认对于恢复后的内容会进行view渲染
          */
-        unmount(node?: HTMLElementOrEventTarget | string, isVframeId?: boolean): void
+        unmount(node?: HTMLElementOrEventTarget | string, isVframeId?: boolean, deepDestroy?: boolean): void
 
         // /**
         //  * 渲染某个节点下的所有子view
@@ -594,9 +597,12 @@ declare namespace Magix5 {
         invokeCancel(name?: string): void
         
         /**
-         * 检测当前vframe下面的子或孙view是否有阻止销毁的动作存在
+         * 软退出当前vframe，如果子或孙view有调用observeExit且条件成立，则会触发相应的退出
+         * @param stop 通知外部应停止后续的代码调用
+         * @param resolve 子view确认退出时执行的回调
+         * @param reject 子view拒绝退出时执行的回调
          */
-        exitTest(): Promise<number>
+        exit(stop: () => void, resolve: () => void, reject: () => void): Promise<void>
         
 
     }
@@ -698,7 +704,7 @@ declare namespace Magix5 {
         
         
         /**
-         * 离开确认方法，该方法magix内部并未实现，需要开发者实现相关离开的界面和逻辑
+         * 离开确认方法，需要开发者重写该方法以实现相关离开的界面和逻辑
          * @param msg 调用observeExit时传递的离开消息
          * @param resolve 确定离开时调用该方法，通知magix离开
          * @param reject 留在当前界面时调用的方法，通知magix不要离开
@@ -719,9 +725,8 @@ declare namespace Magix5 {
         /**
          * 设置数据
          * @param data 数据对象，如{a:20,b:30}
-         * @param force 是否强制更新
          */
-        set(data?: { [key: string]: any }, force?: boolean): this
+        set(data?: { [key: string]: any }): this
         /**
          * 获取设置数据后，是否发生了改变
          */
@@ -729,9 +734,8 @@ declare namespace Magix5 {
         /**
          * 检测数据变化，更新界面，放入数据后需要显式调用该方法才可以把数据更新到界面
          * @param data 数据对象，如{a:20,b:30}
-         * @param force 是否强制更新
          */
-        digest(data?: { [key: string]: any }, force?: boolean): Promise<any>
+        digest(data?: { [key: string]: any }): Promise<any>
         /**
          * 等待界面异步渲染结束
          */
@@ -958,8 +962,9 @@ declare namespace Magix5 {
          * 判断一个节点是否在另外一个节点内，如果比较的2个节点是同一个节点，也返回true
          * @param node 节点或节点id
          * @param container 容器节点或节点id
+         * @param ignoreSelf 是否忽略自身的判断
          */
-        inside<TNode extends HTMLElementOrEventTarget, TContainer extends HTMLElementOrEventTarget>(node: TNode, container: TContainer): boolean
+        inside<TNode extends HTMLElementOrEventTarget, TContainer extends HTMLElementOrEventTarget>(node: TNode, container: TContainer, ignoreSelf?: boolean): boolean
 
         /**
          * document.getElementById的简写
@@ -970,8 +975,9 @@ declare namespace Magix5 {
         /**
          * 使用加载器的加载模块功能
          * @param deps 模块id
+         * @param params 当有require拦截时，传递的参数
          */
-        use<T extends object>(...deps: string[]): Promise<T>
+        use<T extends object>(deps: string | string[], params?: any): Promise<T>
 
         /**
          * 保护对象不被修改
@@ -999,7 +1005,7 @@ declare namespace Magix5 {
         applyStyle(key: string, cssText: string): void
         /**
          * 向页面追加样式
-         * @param atFile 以&#64;开头的文件路径
+         * @param atFile 以@:开头的文件路径
          */
         applyStyle(atFile: string): void
         /**
@@ -1097,20 +1103,39 @@ declare namespace Magix5 {
 
         /**
          * 监听事件
-         * @param target 被监听对象
+         * @param target 监听对象
          * @param type 监听类型
          * @param listener 监听回调
          * @param options 监听选项
          */
         attach(target: Window | EventTarget, type: string, listener: EventListenerOrEventListenerObject | null, options?: AddEventListenerOptions | boolean): void
         /**
-         * 监听事件
-         * @param target 被监听对象
+         * 解除监听事件
+         * @param target 监听对象
          * @param type 监听类型
          * @param listener 监听回调
          * @param options 监听选项
          */
         detach(target: Window | EventTarget, type: string, listener: EventListenerOrEventListenerObject | null, options?: EventListenerOptions | boolean): void
+
+        
+        /**
+         * 批量监听事件
+         * @param targets 监听对象列表
+         * @param type 监听类型
+         * @param listener 监听回调
+         * @param options 监听选项
+         */
+        attachAll(targets: (Window | EventTarget)[], type: string, listener: EventListenerOrEventListenerObject | null, options?: AddEventListenerOptions | boolean): void
+        /**
+         * 解除监听事件
+         * @param targets 监听对象列表
+         * @param type 监听类型
+         * @param listener 监听回调
+         * @param options 监听选项
+         */
+        detachAll(target: (Window | EventTarget)[], type: string, listener: EventListenerOrEventListenerObject | null, options?: EventListenerOptions | boolean): void
+        
         /**
          * 推迟多少毫秒
          * @param time 以ms为单位的时间
@@ -1195,7 +1220,7 @@ declare namespace Magix5 {
          */
         Router: Router
         /**
-         * Vframe类，开发者绝对不需要继承、实例化该类！
+         * Vframe类
          */
         Vframe: VframeConstructor
     }

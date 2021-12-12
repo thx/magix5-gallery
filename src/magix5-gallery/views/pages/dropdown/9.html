@@ -1,0 +1,30 @@
+<div class="eg-content">
+    <div class="mx5-mb20">
+        <div class="mx5-mb20 mx5-clearfix">
+            <div class="mx5-fl mx5-color-9">以下示例：</div>
+            <div class="mx5-fl">
+                <div>单选 hover 展开选项列表</div>
+            </div>
+        </div>
+        <mx-dropdown class="mx5-w200" 
+            *trigger-type="hover"
+            *list="{{#[1,2,3]}}" 
+            *selected="2"/>
+    </div>
+</div>
+<div class="eg-desc">
+    <div class="eg-title">HTML Code</div>
+    <mx-copy class="desc-oper" 
+        *copy-node="{{=$viewId}}_text_1" 
+        mx-success="@:{done}({id:1})">
+        <span class="desc-tip" mx-html="{{=text1}}"></span>
+        <i class="mx5-iconfont desc-icon">&#xe610;</i>
+    </mx-copy>
+    <mx-source whole="true" id="{{=$viewId}}_text_1">
+        <mx-dropdown class="mx5-w200" 
+            *trigger-type="hover"
+            *list="{{#[1,2,3]}}" 
+            *selected="2"/>
+    </mx-source>
+</div>
+

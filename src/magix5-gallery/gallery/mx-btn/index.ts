@@ -91,10 +91,6 @@ export default View.extend({
         this.digest();
     },
 
-    '@:{stop}<click>'(e) {
-        e.stopPropagation();
-    },
-
     async '@:{anim}<click>'(e) {
         let that = this;
         let { disabled, loading, animation } = that.get();
@@ -104,18 +100,20 @@ export default View.extend({
 
         await that.digest({ animation: 'expand' });
 
-        if (!that.get('init')) {
-            that.set({ init: true });
+        if (!that['init.anim']) {
+            that['init.anim'] = true;
 
             // 动画结束移除标记
             let clearAnim = () => {
                 that.digest({ animation: null });
             }
-            let btnNode = document.querySelector(`#${that.id}_btn`);
-            Magix5.attach(btnNode, 'animationend', clearAnim);
-            that.on('destroy', () => {
-                Magix5.detach(btnNode, 'animationend', clearAnim);
-            });
+            let btnNode = that.root.querySelector(`#${that.id}_btn`);
+            if (btnNode) {
+                Magix5.attach(btnNode, 'animationend', clearAnim);
+                that.on('destroy', () => {
+                    Magix5.detach(btnNode, 'animationend', clearAnim);
+                });
+            }
         }
     }
 });

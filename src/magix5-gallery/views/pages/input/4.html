@@ -1,0 +1,36 @@
+<div class="eg-content">
+    <div class="mx5-mb20 mx5-clearfix">
+        <div class="mx5-fl mx5-color-9">以下示例：</div>
+        <div class="mx5-fl">
+            <div>禁用</div>
+        </div>
+    </div>
+
+    <div class="mx5-mb20">
+        <span class="mx5-vmt mx5-w100 mx5-color-9">大尺寸：</span>
+        <mx-input class="mx5-w100 mx5-mr20" *disabled="true" *placeholder="请输入"/>
+        <mx-input class="mx5-w100 mx5-mr20" *disabled="true" *type="search" *placeholder="请输入"/>
+        <mx-input class="mx5-w100 mx5-mr20" *disabled="true" *prefix="数字"/>
+        <mx-input class="mx5-w100 mx5-mr20" *disabled="true" *prefix="数字" *suffix="元" />
+    </div>
+
+    <div class="mx5-mb20">
+        <span class="mx5-vmt mx5-w100 mx5-color-9">小尺寸：</span>
+        <mx-input class="mx5-w100 mx5-mr20" *disabled="true" *small="true" *placeholder="请输入"/>
+        <mx-input class="mx5-w100 mx5-mr20" *disabled="true" *small="true" *type="search" *placeholder="请输入"/>
+        <mx-input class="mx5-w100 mx5-mr20" *disabled="true" *small="true" *prefix="数字"/>
+        <mx-input class="mx5-w100 mx5-mr20" *disabled="true" *small="true" *prefix="数字" *suffix="元" />
+    </div>
+</div>
+<div class="eg-desc">
+    <div class="eg-title">HTML Code</div>
+    <mx-copy class="desc-oper" 
+        *copy-node="{{=$viewId}}_text_1" 
+        mx-success="@:{done}({id:1})">
+        <span class="desc-tip" mx-html="{{=text1}}"></span>
+        <i class="mx5-iconfont desc-icon">&#xe610;</i>
+    </mx-copy>
+    <mx-source whole="true" id="{{=$viewId}}_text_1">
+        <mx-input class="mx5-w100" *disabled="true" *placeholder="请输入"/>
+    </mx-source>
+</div>

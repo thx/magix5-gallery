@@ -29,7 +29,7 @@
             *value="{{=item.value}}" 
             *text="{{=item.text}}"
             *checked="{{=(item.value == selected1)}}" 
-            mx-change="change({index: 1, value:{{=item.value}}})" data-spm-click="gostr=/alimama.99.dmp;locaid=dfb6b238d"/>
+            mx-change="change({index: 1, value:{{=item.value}}})"/>
         {{/each}}
         <span>当前选中：{{=selected1}}</span>
     </div>
@@ -55,7 +55,7 @@
             *text="{{=item.text}}"
             *tip="{{=item.tip}}"
             *checked="{{=(item.value == selected3)}}" 
-            mx-change="change({index: 3, value:{{=item.value}}})" data-spm-click="gostr=/alimama.99.dmp;locaid=d97932350"/>
+            mx-change="change({index: 3, value:{{=item.value}}})"/>
         {{/each}}
         <span>当前选中：{{=selected3}}</span>
     </div>
@@ -83,7 +83,7 @@
             *tip="{{=item.tip}}"
             *tag-content="{{=item.tag}}"
             *checked="{{=(item.value == selected5)}}" 
-            mx-change="change({index: 5, value:{{=item.value}}})" data-spm-click="gostr=/alimama.99.dmp;locaid=d28e520af"/>
+            mx-change="change({index: 5, value:{{=item.value}}})"/>
         {{/each}}
 
         <span>当前选中：{{=selected5}}</span>

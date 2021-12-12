@@ -5,16 +5,16 @@
     </div>
     <div class="mx5-mb20 mx5-clearfix">
         <mx-copy 
-            *text="Magix2棒棒的！" 
+            *text="Magix棒棒的！" 
             mx-success="copy()"
             mx-error="copy()">
             <mx-btn *content="点此复制"/>
         </mx-copy>
         {{if success}}
-        <span class="mx5-color-pass mx5-ml10 vmt"><i class="mx5-iconfont mx5-mr5">&#xe729;</i>复制成功</span>
+        <span class="mx5-color-pass mx5-ml10 mx5-vmt"><i class="mx5-iconfont mx5-mr5">&#xe729;</i>复制成功</span>
         {{/if}}
         {{if error}}
-        <span class="mx5-color-error mx5-ml10 vmt"><i class="mx5-iconfont mx5-mr5">&#xe727;</i>复制失败</span>
+        <span class="mx5-color-error mx5-ml10 mx5-vmt"><i class="mx5-iconfont mx5-mr5">&#xe727;</i>复制失败</span>
         {{/if}}
     </div>
 </div>
@@ -29,7 +29,7 @@
         </mx-copy>
         <mx-source whole="true" id="{{=$viewId}}_text_1">
             <mx-copy 
-                <mx-source-origin><span class="mx5-color-brand">*text="Magix2棒棒的！" </span></mx-source-origin>
+                *text="Magix棒棒的！" 
                 mx-success="copy()"
                 mx-error="copy()">
                 <mx-btn *content="点此复制"/>
