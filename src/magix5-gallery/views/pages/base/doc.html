@@ -21,14 +21,14 @@
         {{/if}}
         {{if (lefts && lefts.length && rights && rights.length)}}
         <div class="mx5-clearfix">
-            <div class="flw50 mx5-pr20">
+            <div class="flw50 mx5-pr10">
                 {{each lefts as d}}
                 <div class="example {{if (highlightValue == d.value)}} example-highlight {{/if}}" 
                     data-target="{{=d.value}}"
                     mx-view="{{=path}}/{{=d.path}}" data-spm="c4974ae6f"></div>
                 {{/each}}
             </div>
-            <div class="flw50">
+            <div class="flw50 mx5-pl10">
                 {{each rights as d}}
                 <div class="example {{if (highlightValue == d.value)}} example-highlight {{/if}}" 
                     data-target="{{=d.value}}"

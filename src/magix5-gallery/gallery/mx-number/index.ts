@@ -104,7 +104,7 @@ export default View.extend({
 
     show(d) {
         let that = this;
-        let { delay, transitionendIndex } = that.get();
+        let { delay } = that.get();
 
         if (that['@{delay.show.timer}']) {
             clearTimeout(that['@{delay.show.timer}']);
@@ -114,27 +114,20 @@ export default View.extend({
                 ...d,
                 aim: true
             });
-
-            if (!that['init.anim']) {
-                that['init.anim'] = true;
-
-                // 动画结束移除标记
-                let clearAnim = () => {
-                    that.digest({
-                        aimBase: 0,
-                        aim: false,
-                    })
-                }
-
-                let node = that.root.querySelector(`[data-index="${transitionendIndex}"]`);
-                if (transitionendIndex > -1 && node) {
-                    Magix5.attach(node, 'transitionend', clearAnim);
-                    that.on('destroy', () => {
-                        Magix5.detach(node, 'transitionend', clearAnim);
-                    });
-                }
-            }
         }, delay)
+    },
+
+    /**
+     * 动画结束移除标记
+     */
+    '$[data-index]<transitionend>'(e) {
+        let { transitionendIndex } = this.get();
+        if (e.target.getAttribute('data-index') == transitionendIndex) {
+            this.digest({
+                aimBase: 0,
+                aim: false,
+            })
+        }
     }
 });
 
