@@ -20,7 +20,7 @@
     </div>
 </div>
 <div class="eg-desc">
-    <div class="eg-title">HTML Code</div>
+    <div class="eg-title">大号按钮 HTML Code</div>
     <mx-copy class="desc-oper" 
         *copy-node="{{=$viewId}}_text_1" 
         mx-success="@:{done}({id:1})">
@@ -41,7 +41,29 @@
         <mx-btn *content="hover显示禁用原因" *tag-content="New" *disabled="true" *disabled-tip="禁用原因" />
 
         <mx-btn *content="主要按钮" *tag-content="New" *loading="true"/> 
+    </mx-source>
+</div>
+<div class="eg-desc">
+    <div class="eg-title">小号按钮 HTML Code</div>
+    <mx-copy class="desc-oper" 
+        *copy-node="{{=$viewId}}_text_2" 
+        mx-success="@:{done}({id:2})">
+        <span class="desc-tip" mx-html="{{=text2}}"></span>
+        <i class="mx5-iconfont desc-icon">&#xe610;</i>
+    </mx-copy>
+    <mx-source whole="true" id="{{=$viewId}}_text_2">
+        <mx-btn *small="true" *content="主要按钮"/>
 
-        <mx-btn *small="true" *content="小号主要按钮"/>
+        <mx-btn *small="true" *content="主要按钮" *tag-content="<i class='mx5-iconfont'>&#xe601;</i>" /> 
+
+        <mx-btn *small="true" *tag-content="New" *tag-color="#ffb400">
+            <i class="mx5-iconfont mx5-mr5">&#xe90d;</i>主要按钮
+        </mx-btn>
+
+        <mx-btn *small="true" *content="主要按钮禁用" *tag-content="New" *disabled="true" />
+
+        <mx-btn *small="true" *content="hover显示禁用原因" *tag-content="New" *disabled="true" *disabled-tip="禁用原因" />
+
+        <mx-btn *small="true" *content="主要按钮" *tag-content="New" *loading="true"/> 
     </mx-source>
 </div>

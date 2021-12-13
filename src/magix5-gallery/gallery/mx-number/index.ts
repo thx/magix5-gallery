@@ -115,25 +115,25 @@ export default View.extend({
                 aim: true
             });
 
-            if (!that['init.anim']) {
-                that['init.anim'] = true;
-
-                // 动画结束移除标记
-                let clearAnim = () => {
-                    that.digest({
-                        aimBase: 0,
-                        aim: false,
-                    })
-                }
-
-                let node = that.root.querySelector(`[data-index="${transitionendIndex}"]`);
-                if (transitionendIndex > -1 && node) {
-                    Magix5.attach(node, 'transitionend', clearAnim);
-                    that.on('destroy', () => {
-                        Magix5.detach(node, 'transitionend', clearAnim);
-                    });
-                }
+            // 动画结束移除标记
+            let clearAnim = () => {
+                console.error('number error')
+                that.digest({
+                    aimBase: 0,
+                    aim: false,
+                })
             }
+
+            // transitionendIndex可能会变，每次重新绑定
+            // let nodes = that.root.querySelectorAll('[data-index]');
+            // let node = that.root.querySelector(`[data-index="${transitionendIndex}"]`);
+            // if (transitionendIndex > -1) {
+            //     Magix5.detachAll(nodes, 'transitionend', clearAnim);
+            //     Magix5.attach(node, 'transitionend', clearAnim);
+            //     that.on('destroy', () => {
+            //         Magix5.detachAll(nodes, 'transitionend', clearAnim);
+            //     });
+            // }
         }, delay)
     }
 });

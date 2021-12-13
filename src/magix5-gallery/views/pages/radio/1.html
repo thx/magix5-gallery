@@ -13,6 +13,13 @@
 &lt;input type="radio" name="radios" value="1" /&gt;</pre>
         </div>
     </div>
+    <div class="mx5-mb20 mx5-clearfix">
+        <div class="mx5-fl mx5-color-9">事件处理：</div>
+        <div class="mx5-fl">
+            <div>mx-radio更多的是<span class="mx5-color-brand">做样式包装，并未对事件进行拦截包装</span></div>
+            <div>取值方式同原生radio，e.target.value，e.target.checked</div>
+        </div>
+    </div>
 
     <div class="mx5-mb20 mx5-clearfix">
         <div class="mx5-fl mx5-color-9">以下示例：</div>
@@ -103,22 +110,64 @@
         {{/each}}
     </div>
 </div>
-<div class="eg-desc">
-    <div class="eg-title">HTML Code</div>
-    <mx-copy class="desc-oper" 
-        *copy-node="{{=$viewId}}_text_1" 
-        mx-success="@:{done}({id:1})">
-        <span class="desc-tip" mx-html="{{=text1}}"></span>
-        <i class="mx5-iconfont desc-icon">&#xe610;</i>
-    </mx-copy>
-    <mx-source whole="true" id="{{=$viewId}}_text_1">
-        <mx-radio class="mx5-mr30"
-            *name="{{=$viewId}}_radios" 
-            *disabled="{{=item.disabled}}"
-            *value="{{=item.value}}" 
-            *text="{{=item.text}}"
-            *tip="{{=item.tip}}"
-            *tag-content="{{=item.tag}}"
-            *checked="{{=(item.value == selected)}}" />  
-    </mx-source>
+<div class="mx5-clearfix">
+    <div class="eg-desc flw50">
+        <div class="eg-title">HTML Code</div>
+        <mx-copy class="desc-oper" 
+            *copy-node="{{=$viewId}}_text_1" 
+            mx-success="@:{done}({id:1})">
+            <span class="desc-tip" mx-html="{{=text1}}"></span>
+            <i class="mx5-iconfont desc-icon">&#xe610;</i>
+        </mx-copy>
+        <mx-source whole="true" id="{{=$viewId}}_text_1">
+            {{each list as item}}
+            <mx-radio class="mx5-mr30"
+                *name="{{=$viewId}}_radios" 
+                *disabled="{{=item.disabled}}"
+                *value="{{=item.value}}" 
+                *text="{{=item.text}}"
+                *tip="{{=item.tip}}"
+                *tag-content="{{=item.tag}}"
+                *checked="{{=(item.value == selected)}}" 
+                mx-change="change({value:{{=item.value}}})"/>  
+            {{/each}}
+        </mx-source>
+    </div>
+    <div class="eg-desc flw50 mx5-blc">
+        <div class="eg-title">JS Code</div>
+        <mx-copy class="desc-oper" 
+            *copy-node="{{=$viewId}}_text_2" 
+            mx-success="@:{done}({id:2})">
+            <span class="desc-tip" mx-html="{{=text2}}"></span>
+            <i class="mx5-iconfont desc-icon">&#xe610;</i>
+        </mx-copy>
+        <mx-source whole="true" id="{{=$viewId}}_text_2">
+            import Magix5 from 'magix5';
+            export default Magix5.View.extend({
+                tmpl: '@:index.html',
+                render() {
+                    let list = [];
+                    for (let i = 1; i < 5; i++) {
+                        list.push({
+                            value: i,
+                            text: `选项${i}`,
+                            tip: '提示信息',
+                            tag: '打标',
+                        })
+                    }
+            
+                    this.digest({
+                        list,
+                        selected: 1,
+                    });
+                },
+            
+                'change<change>'(e) {
+                    this.digest({
+                        selected: e.params.value
+                    })
+                }
+            });
+        </mx-source>
+    </div>
 </div>

@@ -39,7 +39,6 @@ export default View.extend({
             prefix,
             suffix,
         });
-        this.root.value = value;
     },
 
     render() {
@@ -71,7 +70,6 @@ export default View.extend({
         let d = {
             value
         };
-        this.root.value = value;
         this.digest(d);
         if (value != oldValue) {
             Magix5.dispatch(this.root, 'change', d);

@@ -4,6 +4,8 @@
         需要复制另外一个显示节点的内容，配置 copy-node 指向需要复制的节点
     </div>
     <div class="mx5-mb20 mx5-clearfix">
+        <!-- <a id="{{=$viewId}}_node" href="https://www.taobao.com/" target="_blank">https://www.taobao.com/</a> -->
+        <!-- <span  id="{{=$viewId}}_node">test</span> -->
         <mx-input class="mx5-w140" id="{{=$viewId}}_node" *value="Magix棒棒的！" />
         <mx-copy class="mx5-ml10"
             *copy-node="{{=$viewId}}_node" 
@@ -25,7 +27,7 @@
     </div>
 </div>
 <div class="mx5-clearfix">
-    <div class="eg-desc flw50">
+    <div class="eg-desc flw50 mx5-brc">
         <div class="eg-title">HTML Code</div>
         <mx-copy class="desc-oper" 
             *copy-node="{{=$viewId}}_text_1" 
@@ -56,7 +58,7 @@
             {{/if}}
         </mx-source>
     </div>
-    <div class="eg-desc flw50 mx5-blc">
+    <div class="eg-desc flw50">
         <div class="eg-title">JS Code</div>
         <mx-copy class="desc-oper" 
             *copy-node="{{=$viewId}}_text_2" 
