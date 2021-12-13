@@ -1,0 +1,48 @@
+{{each data.children as item index}}
+<div class="li">
+    <div class="name">
+        {{if needExpand}}
+            {{if (item.children && (item.children.length > 0))}}
+            <i class="mx5-iconfont icon oper" mx-click="@:{toggle}({index:{{=index}}})">{{if item.close}}&#xe65b;{{else}}&#xe65a;{{/if}}</i>
+            {{else}}
+                {{if (type == 'readonly')}}
+                <!-- 只读状态下增加叶子节点占位符 -->
+                <i class="mx5-iconfont icon">&#xe732;</i>
+                {{/if}}
+            {{/if}}
+        {{/if}}
+        <label class="name-label">
+            {{if (type == 'multiple')}}
+            <mx-checkbox 
+                *value="{{=item[valueKey]}}"
+                *name="{{=$viewId}}" 
+                *indeterminate="{{=(item.state == indeterminateState)}}"
+                *checked="{{=(item.state == checkedState)}}"
+                mx-change="@:{check}({index:{{=index}}})"/>
+            {{/if}}
+            {{if (type == 'single' && (!item.children || !item.children.length))}}
+            <mx-radio 
+                *value="{{=item[valueKey]}}"
+                *name="{{=radioAll}}" 
+                *checked="{{=(item[valueKey] == radioSelected)}}" />
+            {{/if}}
+            <span class="{{if item.highlight}} mx5-color-brand {{/if}}">{{=item[textKey]}}</span>
+        </label>
+    </div>
+    {{if (!item.close && item.children && (item.children.length > 0))}}
+    <mx-tree.branch class="{{if !item.isAll}} indent {{/if}}"
+        *type="{{=type}}"
+        *unchecked-state="{{=uncheckedState}}"
+        *checked-state="{{=checkedState}}"
+        *indeterminate-state="{{=indeterminateState}}"
+        *radio-all="{{=radioAll}}"
+        *radio-selected="{{=radioSelected}}"
+        *text-key="{{=textKey}}"
+        *value-key="{{=valueKey}}"
+        *need-expand="{{#needExpand}}"
+        *data="{{#item}}"
+        *close-map="{{#closeMap}}"
+        *highlight-map="{{#highlightMap}}" />
+    {{/if}}
+</div>
+{{/each}}

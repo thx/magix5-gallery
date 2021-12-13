@@ -4,6 +4,11 @@ import View from '../base/doc';
 export default View.extend({
     init(options) {
         let apis = [{
+            value: 'type',
+            text: '展示类型<br/>multiple：checkbox多选<br/>single：radio单选<br/>readonly：只读模式',
+            type: 'string',
+            def: 'multiple'
+        }, {
             value: 'list',
             text: `<pre>
 页面展示数据列表，例如：
@@ -17,16 +22,6 @@ export default View.extend({
     text: '单元1-1'
 }]
 </pre>`,
-            type: 'array',
-            def: ''
-        }, {
-            value: 'bottom-values',
-            text: '已选中的最底层value列表，传入bottom-values双向绑定也为bottom-values',
-            type: 'array',
-            def: ''
-        }, {
-            value: 'real-values',
-            text: '已选中的汇总到父节点的value值，传入real-values双向绑定也为real-values<br/>与bottom-values互斥',
             type: 'array',
             def: ''
         }, {
@@ -45,18 +40,18 @@ export default View.extend({
             type: 'string',
             def: 'pValue'
         }, {
+            value: 'bottom-values',
+            text: 'type=multiple多选时，已选中的最底层value列表，传入bottom-values双向绑定也为bottom-values',
+            type: 'array',
+            def: ''
+        }, {
+            value: 'real-values',
+            text: 'type=multiple多选时，已选中的汇总到父节点的value值，传入real-values双向绑定也为real-values<br/>与bottom-values互斥',
+            type: 'array',
+            def: ''
+        }, {
             value: 'need-all',
-            text: '是否需要全选功能',
-            type: 'boolean',
-            def: 'false'
-        }, {
-            value: 'read-only',
-            text: '是否只是展示',
-            type: 'boolean',
-            def: 'false'
-        }, {
-            value: 'has-line',
-            text: '是否有连接线',
+            text: 'type=multiple多选时，是否需要全选功能',
             type: 'boolean',
             def: 'false'
         }, {
@@ -70,7 +65,12 @@ export default View.extend({
             type: 'boolean',
             def: 'false'
         }, {
-            value: 'searchbox',
+            value: 'has-line',
+            text: '是否有连接线',
+            type: 'boolean',
+            def: 'false'
+        }, {
+            value: 'search',
             text: '是否开启搜索框<br/>搜索时展开高亮匹配项，并将匹配项滚动到可视范围之内',
             type: 'boolean',
             def: 'false'
@@ -109,8 +109,17 @@ export default View.extend({
         }];
 
         let columns = [{
-            text: '文案提示打标',
+            text: '多选汇总父节点',
             path: 1
+        }, {
+            text: '多选叶子节点',
+            path: 2
+        }, {
+            text: '单选',
+            path: 4
+        }, {
+            text: '只读',
+            path: 3
         }];
 
         this.set({

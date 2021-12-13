@@ -20,10 +20,10 @@ export default {
             {
                 name: '样式',
                 subs: [
-                    {
-                        name: '常用class',
-                        path: '/base/classnames',
-                    },
+                    // {
+                    //     name: '常用class',
+                    //     path: '/base/classnames',
+                    // },
                     // {
                     //     name: 'mx-grid 栅格',
                     //     path: '/grid/index',

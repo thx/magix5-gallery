@@ -42,16 +42,15 @@
       "预发一套": "140.205.215.168|https://pre-dmp.taobao.com:443/index_new.html"
     },
     "jsExtension": ".ts",
-    "autoOpenUrl": "https://localhost:443/index.html",
+    "autoOpenUrl": "https://localhost:443/test.html",
     "apiMatch": [
       "api/",
       ".json",
       ".action"
     ],
     "indexMatch": [
-      "index.html",
-      "indexbp.html",
-      "login.html"
+      "test.html",
+      "index.html"
     ],
     "scopedCss": [
       "./src/magix5-gallery/assets/base.less"

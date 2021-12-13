@@ -2,7 +2,7 @@ import Magix5 from 'magix5';
 import View from 'magix5-gallery/views/pages/base/demo';
 
 export default View.extend({
-    tmpl: '@:1.html',
+    tmpl: '@:2.html',
     render() {
         let list = [];
         let num = 5;
@@ -29,17 +29,17 @@ export default View.extend({
 
         this.digest({
             list,
-            realValues: []
+            bottomValues: []
         });
     },
 
     'change<change>'(e) {
         //  e.bottomValues
         //  e.bottomItems
-        //  e.realValues
+        //  e.bottomValues
         //  e.realItem
         this.digest({
-            realValues: e.realValues
+            bottomValues: e.bottomValues
         })
     }
 });

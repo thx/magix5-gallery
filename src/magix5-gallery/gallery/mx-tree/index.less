@@ -1,0 +1,99 @@
+.name {
+    display: flex;
+    min-width: 0;
+    // height: 0;
+    // padding-bottom: 0;
+    height: var(--mx5-input-height);
+    padding-bottom: calc(var(--mx5-input-height) - var(--mx5-tree-item-height));
+    align-items: center;
+    background-color: #fff;
+    white-space: nowrap;
+    word-wrap: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: height var(--mx5-animation-duration);
+
+    /* 跟checkbox保持一样尺寸 */
+    .icon {
+        display: inline-flex;
+        align-items: center;
+        margin-right: var(--mx5-checkbox-h-gap);
+        font-size: var(--mx5-checkbox-size);
+        color: #999;
+        user-select: none;
+        -webkit-user-select: none;
+        transition: color var(--mx5-animation-duration);
+    }
+
+    .oper {
+        cursor: pointer;
+
+        &:hover {
+            color: #666;
+        }
+    }
+
+    .name-label {
+        display: inline-flex;
+        align-items: center;
+    }
+}
+
+@keyframes mx5-tree-anim-show {
+    from {
+        height: 0;
+        padding-bottom: 0;
+    }
+
+    to {
+        height: var(--mx5-input-height);
+        padding-bottom: calc(var(--mx5-input-height) - var(--mx5-tree-item-height));
+    }
+}
+
+@keyframes mx5-tree-anim-hide {
+    from {
+        height: var(--mx5-input-height);
+        padding-bottom: calc(var(--mx5-input-height) - var(--mx5-tree-item-height));
+    }
+
+    to {
+        height: 0;
+        padding-bottom: 0;
+    }
+}
+
+&.name-show {
+    animation: mx5-tree-anim-show 0.15s;
+    animation-fill-mode: forwards;
+}
+
+&.name-hide {
+    pointer-events: none;
+    animation: mx5-tree-anim-hide 0.15s;
+    animation-fill-mode: forwards;
+}
+
+.indent {
+    padding-left: calc(var(--mx5-checkbox-size) + var(--mx5-checkbox-h-gap));
+}
+
+.line .li {
+    position: relative;
+
+    &:after {
+        content: '';
+        position: absolute;
+        top: calc(var(--mx5-tree-item-height) + 2px);
+        left: calc(var(--mx5-checkbox-size) / 2);
+        bottom: 2px;
+        width: 1px;
+        background-color: var(--mx5-border-color);
+    }
+
+    &:last-child {
+        &:after {
+            content: none;
+        }
+    }
+}
