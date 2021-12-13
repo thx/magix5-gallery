@@ -285,21 +285,22 @@ declare namespace Magix5 {
          * @param fn 事件处理函数
          * @param priority 优先级
          */
-        on(name: string, fn: (this: T, e?: TriggerEventDescriptor & E) => void, priority?: number): this
+        on(name: string, fn: (this: T, e?: TriggerEventDescriptor & E) => void, priority?: number): void
 
         /**
          * 解除事件绑定
          * @param name 事件名称
          * @param fn 事件处理函数
          */
-        off(name: string, fn?: (this: T, e?: TriggerEventDescriptor & E) => void): this
+        off(name: string, fn?: (this: T, e?: TriggerEventDescriptor & E) => void): void
 
         /**
          * 派发事件
          * @param name 事件名称
          * @param data 事件参数
+         * @returns 返回事件对象
          */
-        fire(name: string, data?: object): this
+        fire<D extends object>(name: string, data?: D): TriggerEventDescriptor & D
     }
     
     /**
@@ -443,13 +444,8 @@ declare namespace Magix5 {
      * 继承对象接口
      */
     interface ExtendPropertyDescriptor<T> {
-        [key: string]: ((this: T, ...args: any[]) => any) | any
+        [key: string]: string | number | undefined | boolean | RegExp | symbol | object | null | ((this: T, ...args: any[]) => any)
     }
-
-    /**
-     * 继承方法中的this指向
-     */
-    type TExtendPropertyDescriptor<T> = ExtendPropertyDescriptor<T> & ThisType<T>;
     /**
      * 继承静态属性
      */
@@ -589,12 +585,13 @@ declare namespace Magix5 {
          * @param args 传递的参数
          */
         invoke<TReturnType>(name: string, ...args: any): Promise<TReturnType>
-
+        
         /**
          * 取消invoke中未执行的方法
          * @param name 方法名称
          */
         invokeCancel(name?: string): void
+        
         
         /**
          * 软退出当前vframe，如果子或孙view有调用observeExit且条件成立，则会触发相应的退出
@@ -764,17 +761,17 @@ declare namespace Magix5 {
          * @param props 包含可选的init和render方法的对象
          * @param statics 静态方法或属性的对象
          */
-        extend<TProps extends object>(props?: TExtendPropertyDescriptor<TProps & View>): this
+        extend<TProps extends object>(props?: ExtendPropertyDescriptor<TProps & View>): this
         /**
          * 扩展到Magix.View原型上的对象
          * @param props 包含可选的ctor方法的对象
          */
-        merge<TProps extends object>(...args: TExtendPropertyDescriptor<TProps>[]): this
+        merge(...args: object[]): this
         /**
          * 静态方法
          * @param args 静态方法对象
          */
-        static<TStatics = Object>(...args: TStatics[]): this & TStatics
+        static<TStatics extends object>(...args: TStatics[]): this & TStatics
         /**
          * 原型
          */
