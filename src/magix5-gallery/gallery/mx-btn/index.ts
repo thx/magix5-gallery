@@ -111,5 +111,5 @@ export default View.extend({
                 });
             }
         }
-    }
+    },
 });
