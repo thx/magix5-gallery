@@ -1,75 +1,77 @@
-<div class="eg-content">
-    <div class="mx5-mb20 mx5-clearfix">
-        <div class="mx5-fl mx5-color-9">以下示例：</div>
-        <div class="mx5-fl">
-            <div>多选，汇总到父节点</div>
+<div class="example">
+    <div class="eg-content">
+        <div class="mx5-mb20 mx5-clearfix">
+            <div class="mx5-fl mx5-color-9">以下示例：</div>
+            <div class="mx5-fl">
+                <div>多选，汇总到父节点</div>
+            </div>
         </div>
-    </div>
-    <div class="mx5-mb20 mx5-clearfix">
-        <div class="mx5-fl mx5-color-9">当前选中：</div>
-        <div class="mx5-fl">
-            <div class="mx5-word-break">{{=realValues}}</div>
+        <div class="mx5-mb20 mx5-clearfix">
+            <div class="mx5-fl mx5-color-9">当前选中：</div>
+            <div class="mx5-fl">
+                <div class="mx5-word-break">{{=realValues}}</div>
+            </div>
         </div>
+        
+        <mx-tree 
+            *need-all="true"
+            *need-expand="true"
+            *close="true"
+            *has-line="true"
+            *list="{{#list}}"
+            *real-values="{{#realValues}}" 
+            mx-change="change()"/>
     </div>
+    <div class="mx5-clearfix">
+        <div class="eg-desc flw50">
+            <div class="eg-title">HTML Code</div>
+            <mx-copy class="desc-oper" 
+                *copy-node="{{=$viewId}}_text_1" 
+                mx-success="@:{done}({id:1})">
+                <span class="desc-tip" mx-html="{{=text1}}"></span>
+                <i class="mx5-iconfont desc-icon">&#xe610;</i>
+            </mx-copy>
+            <mx-source whole="true" id="{{=$viewId}}_text_1">
+                <mx-tree id="{{=viewId}}_tree"
+                    *need-all="true"
+                    *need-expand="true"
+                    *close="true"
+                    *has-line="true"
+                    *list="{{#list}}"
+                    *real-values="{{#realValues}}" 
+                    mx-change="change()"/>
+            </mx-source>
+        </div>
+        <div class="eg-desc flw50 mx5-blc">
+            <div class="eg-title">JS Code</div>
+            <mx-copy class="desc-oper" 
+                *copy-node="{{=$viewId}}_text_2" 
+                mx-success="@:{done}({id:2})">
+                <span class="desc-tip" mx-html="{{=text2}}"></span>
+                <i class="mx5-iconfont desc-icon">&#xe610;</i>
+            </mx-copy>
+            <mx-source whole="true" id="{{=$viewId}}_text_2">
+                import Magix5 from 'magix5';
+                export default Magix5.View.extend({
+                    tmpl: '@:index.html',
+                    render() {
+                        this.digest({
+                            list,
+                            realValues: []
+                        });
+                    },
     
-    <mx-tree 
-        *need-all="true"
-        *need-expand="true"
-        *close="true"
-        *has-line="true"
-        *list="{{#list}}"
-        *real-values="{{#realValues}}" 
-        mx-change="change()"/>
-</div>
-<div class="mx5-clearfix">
-    <div class="eg-desc flw50">
-        <div class="eg-title">HTML Code</div>
-        <mx-copy class="desc-oper" 
-            *copy-node="{{=$viewId}}_text_1" 
-            mx-success="@:{done}({id:1})">
-            <span class="desc-tip" mx-html="{{=text1}}"></span>
-            <i class="mx5-iconfont desc-icon">&#xe610;</i>
-        </mx-copy>
-        <mx-source whole="true" id="{{=$viewId}}_text_1">
-            <mx-tree id="{{=viewId}}_tree"
-                *need-all="true"
-                *need-expand="true"
-                *close="true"
-                *has-line="true"
-                *list="{{#list}}"
-                *real-values="{{#realValues}}" 
-                mx-change="change()"/>
-        </mx-source>
-    </div>
-    <div class="eg-desc flw50 mx5-blc">
-        <div class="eg-title">JS Code</div>
-        <mx-copy class="desc-oper" 
-            *copy-node="{{=$viewId}}_text_2" 
-            mx-success="@:{done}({id:2})">
-            <span class="desc-tip" mx-html="{{=text2}}"></span>
-            <i class="mx5-iconfont desc-icon">&#xe610;</i>
-        </mx-copy>
-        <mx-source whole="true" id="{{=$viewId}}_text_2">
-            import Magix5 from 'magix5';
-            export default Magix5.View.extend({
-                tmpl: '@:index.html',
-                render() {
-                    this.digest({
-                        list,
-                        realValues: []
-                    });
-                },
-
-                'change<change>'(e) {
-                    //  e.bottomValues
-                    //  e.bottomItems
-                    //  e.realValues
-                    //  e.realItem
-                    this.digest({
-                        realValues: e.realValues
-                    })
-                }
-            }); 
-        </mx-source>
+                    'change<change>'(e) {
+                        //  e.bottomValues
+                        //  e.bottomItems
+                        //  e.realValues
+                        //  e.realItem
+                        this.digest({
+                            realValues: e.realValues
+                        })
+                    }
+                }); 
+            </mx-source>
+        </div>
     </div>
 </div>

@@ -345,9 +345,10 @@ export default View.extend({
     },
 
     '@:{search}<change>'(e) {
+        e.stopPropagation();
+
         let that = this;
         clearTimeout(that['@:{search.delay.timer}']);
-
         let val = e.value;
         that.set({ keyword: val });
         that['@:{search.delay.timer}'] = setTimeout(async () => {

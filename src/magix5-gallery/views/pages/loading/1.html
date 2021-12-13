@@ -1,22 +1,24 @@
-<div class="eg-content">
-    <div class="mx5-mb20 mx5-clearfix">
-        <div class="mx5-fl mx5-color-9">以下示例：</div>
-        <div class="mx5-fl">
-            <div>页面加载统一m动画loading</div>
-            <div>默认高度屏幕可见高度，支持配置高度height</div>
+<div class="example">
+    <div class="eg-content">
+        <div class="mx5-mb20 mx5-clearfix">
+            <div class="mx5-fl mx5-color-9">以下示例：</div>
+            <div class="mx5-fl">
+                <div>页面加载统一m动画loading</div>
+                <div>默认高度屏幕可见高度，支持配置高度height</div>
+            </div>
         </div>
-    </div>
-    <mx-loading *brand="true"/>
-</div>
-<div class="eg-desc">
-    <div class="eg-title">HTML Code</div>
-    <mx-copy class="desc-oper" 
-        *copy-node="{{=$viewId}}_text_1" 
-        mx-success="@:{done}({id:1})">
-        <span class="desc-tip" mx-html="{{=text1}}"></span>
-        <i class="mx5-iconfont desc-icon">&#xe610;</i>
-    </mx-copy>
-    <mx-source whole="true" id="{{=$viewId}}_text_1">
         <mx-loading *brand="true"/>
-    </mx-source>
+    </div>
+    <div class="eg-desc">
+        <div class="eg-title">HTML Code</div>
+        <mx-copy class="desc-oper" 
+            *copy-node="{{=$viewId}}_text_1" 
+            mx-success="@:{done}({id:1})">
+            <span class="desc-tip" mx-html="{{=text1}}"></span>
+            <i class="mx5-iconfont desc-icon">&#xe610;</i>
+        </mx-copy>
+        <mx-source whole="true" id="{{=$viewId}}_text_1">
+            <mx-loading *brand="true"/>
+        </mx-source>
+    </div>
 </div>

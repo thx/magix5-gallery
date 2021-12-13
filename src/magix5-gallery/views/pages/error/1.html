@@ -1,51 +1,53 @@
-<div class="eg-content">
-    <div class="mx5-mb20 mx5-clearfix">
-        <div class="mx5-fl mx5-color-9">关于mode的定义：</div> 
-        <ul class="mx5-fl">
-            <li class="list-style-circle">当显式指定mode时，指定什么就是什么尺寸</li>
-            <li class="list-style-circle">未显式指定，根据组件所处容器尺寸进行计算</li>
-            <li>
-                <ul class="mx5-pl20 list-style-square">
-                    <li>容器宽度大于360且高度大于360：mode=normal（图文320*320）</li>
-                    <li>容器宽度小于160且高度小于160：mode=xsmall（仅展示文案不显示图片）</li>
-                    <li>容器宽度160 ~ 360或者高度160 ~ 360：mode=small（图文120*120）</li>
-                </ul>
-            </li>
-        </ul>
-    </div>
-    <div class="mx5-mb20 mx5-clearfix">
-        <div class="mx5-fl mx5-color-9">以下示例：</div>
-        <div class="mx5-fl">
-            <div>显式指定mode以方便查看不同状态的样式差异</div>
-            <div>type="not-found"，404找不到内容时调用，默认带按钮</div>
+<div class="example">
+    <div class="eg-content">
+        <div class="mx5-mb20 mx5-clearfix">
+            <div class="mx5-fl mx5-color-9">关于mode的定义：</div> 
+            <ul class="mx5-fl">
+                <li class="list-style-circle">当显式指定mode时，指定什么就是什么尺寸</li>
+                <li class="list-style-circle">未显式指定，根据组件所处容器尺寸进行计算</li>
+                <li>
+                    <ul class="mx5-pl20 list-style-square">
+                        <li>容器宽度大于360且高度大于360：mode=normal（图文320*320）</li>
+                        <li>容器宽度小于160且高度小于160：mode=xsmall（仅展示文案不显示图片）</li>
+                        <li>容器宽度160 ~ 360或者高度160 ~ 360：mode=small（图文120*120）</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <div class="mx5-mb20 mx5-clearfix">
+            <div class="mx5-fl mx5-color-9">以下示例：</div>
+            <div class="mx5-fl">
+                <div>显式指定mode以方便查看不同状态的样式差异</div>
+                <div>type="not-found"，404找不到内容时调用，默认带按钮</div>
+            </div>
+        </div>
+        <div class="mx5-mb10">mode=normal</div>
+        <div class="border-wrapper mx5-mb40">
+            <mx-error *type="not-found" *mode="normal"/>
+        </div>
+        <div class="mx5-mb10">mode=normal</div>
+        <div class="border-wrapper mx5-mb40">
+            <mx-error *type="not-found" *mode="small"/>
+        </div>
+        <div class="mx5-mb10">mode=normal</div>
+        <div class="border-wrapper mx5-mb40">
+            <mx-error *type="not-found" *mode="xsmall"/>
         </div>
     </div>
-    <div class="mx5-mb10">mode=normal</div>
-    <div class="border-wrapper mx5-mb40">
-        <mx-error *type="not-found" *mode="normal"/>
+    <div class="eg-desc">
+        <div class="eg-title">HTML Code</div>
+        <mx-copy class="desc-oper" 
+            *copy-node="{{=$viewId}}_text_1" 
+            mx-success="@:{done}({id:1})">
+            <span class="desc-tip" mx-html="{{=text1}}"></span>
+            <i class="mx5-iconfont desc-icon">&#xe610;</i>
+        </mx-copy>
+        <mx-source whole="true" id="{{=$viewId}}_text_1">
+            <mx-error *type="not-found" *mode="normal"/>
+    
+            <mx-error *type="not-found" *mode="small"/>
+    
+            <mx-error *type="not-found" *mode="xsmall"/>
+        </mx-source>
     </div>
-    <div class="mx5-mb10">mode=normal</div>
-    <div class="border-wrapper mx5-mb40">
-        <mx-error *type="not-found" *mode="small"/>
-    </div>
-    <div class="mx5-mb10">mode=normal</div>
-    <div class="border-wrapper mx5-mb40">
-        <mx-error *type="not-found" *mode="xsmall"/>
-    </div>
-</div>
-<div class="eg-desc">
-    <div class="eg-title">HTML Code</div>
-    <mx-copy class="desc-oper" 
-        *copy-node="{{=$viewId}}_text_1" 
-        mx-success="@:{done}({id:1})">
-        <span class="desc-tip" mx-html="{{=text1}}"></span>
-        <i class="mx5-iconfont desc-icon">&#xe610;</i>
-    </mx-copy>
-    <mx-source whole="true" id="{{=$viewId}}_text_1">
-        <mx-error *type="not-found" *mode="normal"/>
-
-        <mx-error *type="not-found" *mode="small"/>
-
-        <mx-error *type="not-found" *mode="xsmall"/>
-    </mx-source>
 </div>

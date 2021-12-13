@@ -14,7 +14,7 @@
     <div class="mx5-clearfix mx5-pb20">
         {{if (columns && columns.length)}}
             {{each columns as d}}
-            <div class="example {{if (highlightValue == d.value)}} example-highlight {{/if}}" 
+            <div class="{{if (highlightValue == d.value)}} highlight-example {{/if}}" 
                 data-target="{{=d.value}}"
                 mx-view="{{=path}}/{{=d.path}}" data-spm="c1d66a8e0"></div>
             {{/each}}
@@ -23,14 +23,14 @@
         <div class="mx5-clearfix">
             <div class="flw50 mx5-pr10">
                 {{each lefts as d}}
-                <div class="example {{if (highlightValue == d.value)}} example-highlight {{/if}}" 
+                <div class="{{if (highlightValue == d.value)}} highlight-example {{/if}}" 
                     data-target="{{=d.value}}"
                     mx-view="{{=path}}/{{=d.path}}" data-spm="c4974ae6f"></div>
                 {{/each}}
             </div>
             <div class="flw50 mx5-pl10">
                 {{each rights as d}}
-                <div class="example {{if (highlightValue == d.value)}} example-highlight {{/if}}" 
+                <div class="{{if (highlightValue == d.value)}} highlight-example {{/if}}" 
                     data-target="{{=d.value}}"
                     mx-view="{{=path}}/{{=d.path}}" data-spm="c6b517bc5"></div>
                 {{/each}}

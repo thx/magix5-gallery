@@ -1,183 +1,184 @@
-<div class="eg-content">
-    <div class="mx5-mb20 mx5-clearfix">
-        <div class="mx5-fl mx5-color-9">使用说明：</div>
-        <div class="mx5-fl">
-            <div>mx-checkbox支持配置text由组件来包装文案</div>
-            <div class="mx5-mb10">对于配置了text文案的mx-checkbox，会用label包裹input[type="checkbox"]，即&lt;mx-checkbox name="checkboxs" text="文案" value="1"&gt;，最终生成的代码如下：</div>
-            <pre class="bg-wrapper mx5-mb10">
+<div class="example">
+    <div class="eg-content">
+        <div class="mx5-mb20 mx5-clearfix">
+            <div class="mx5-fl mx5-color-9">使用说明：</div>
+            <div class="mx5-fl">
+                <div>mx-checkbox支持配置text由组件来包装文案</div>
+                <div class="mx5-mb10">对于配置了text文案的mx-checkbox，会用label包裹input[type="checkbox"]，即&lt;mx-checkbox name="checkboxs" text="文案" value="1"&gt;，最终生成的代码如下：</div>
+                <pre class="bg-wrapper mx5-mb10">
 &lt;label&gt;
     &lt;input type="checkbox" name="checkboxs" value="1" /&gt;文案
 &lt;/label&gt;</pre>
-            <div class="mx5-mb10">而对于未配置text文案的mx-checkbox，则只会有input[type="checkbox"]，即&lt;mx-checkbox name="checkboxs" value="1"&gt;，最终生成的代码如下：</div>
-            <pre class="bg-wrapper mx5-mb10">
+                <div class="mx5-mb10">而对于未配置text文案的mx-checkbox，则只会有input[type="checkbox"]，即&lt;mx-checkbox name="checkboxs" value="1"&gt;，最终生成的代码如下：</div>
+                <pre class="bg-wrapper mx5-mb10">
 &lt;input type="checkbox" name="checkboxs" value="1" /&gt;</pre>
+            </div>
         </div>
-    </div>
-
-    <div class="mx5-mb20 mx5-clearfix">
-        <div class="mx5-fl mx5-color-9">事件处理：</div>
-        <div class="mx5-fl">
-            <div>mx-checkbox更多的是<span class="mx5-color-brand">做样式包装，并未对事件进行拦截包装</span></div>
-            <div>取值方式同原生checkbox，e.target.value，e.target.checked</div>
-        </div>
-    </div>
-
-    <div class="mx5-mb20 mx5-clearfix">
-        <div class="mx5-fl mx5-color-9">以下示例：</div>
-        <div class="mx5-fl">
-            <div>包含带文案，带打标，带提示的常用场景</div>
-        </div>
-    </div>
     
-    <div class="mx5-mb20 mx5-clearfix">
-        <span class="mx5-inline-block mx5-vertical-align-middle mx5-w100">文案：</span>
-        {{each list as item}}
-        <mx-checkbox class="mx5-mr30"
-            *name="{{=$viewId}}_checkboxs_1" 
-            *value="{{=item.value}}" 
-            *text="{{=item.text}}"
-            *checked="{{=(selected1.indexOf(item.value) > -1)}}" 
-            mx-change="change({index: 1, value:{{=item.value}}})"/>
-        {{/each}}
-        <span>当前选中：{{=selected1}}</span>
-    </div>
-
-    <div class="mx5-mb20 mx5-clearfix">
-        <span class="mx5-inline-block mx5-vertical-align-middle mx5-w100">文案禁用：</span>
-        {{each list as item}}
-        <mx-checkbox class="mx5-mr30"
-            *name="{{=$viewId}}_checkboxs_2" 
-            *disabled="true" 
-            *value="{{=item.value}}" 
-            *text="{{=item.text}}"
-            *checked="{{=(selected2.indexOf(item.value) > -1)}}" />
-        {{/each}}
-    </div>
-
-    <div class="mx5-mb20 mx5-clearfix">
-        <span class="mx5-inline-block mx5-vertical-align-middle mx5-w100">提示：</span>
-        {{each list as item}}
-        <mx-checkbox class="mx5-mr30"
-            *name="{{=$viewId}}_checkboxs_3" 
-            *value="{{=item.value}}" 
-            *text="{{=item.text}}"
-            *tip="{{=item.tip}}"
-            *checked="{{=(selected3.indexOf(item.value) > -1)}}" 
-            mx-change="change({index: 3, value:{{=item.value}}})"/>
-        {{/each}}
-        <span>当前选中：{{=selected3}}</span>
-    </div>
-
-    <div class="mx5-mb20 mx5-clearfix">
-        <span class="mx5-inline-block mx5-vertical-align-middle mx5-w100">提示禁用：</span>
-        {{each list as item}}
-        <mx-checkbox class="mx5-mr30"
-            *name="{{=$viewId}}_checkboxs_4" 
-            *disabled="true"
-            *value="{{=item.value}}" 
-            *text="{{=item.text}}"
-            *tip="{{=item.tip}}"
-            *checked="{{=(selected4.indexOf(item.value) > -1)}}" />
-        {{/each}}
-    </div>
-
-    <div class="mx5-mb20 mx5-clearfix">
-        <span class="mx5-inline-block mx5-vertical-align-middle mx5-w100">提示打标：</span>
-        {{each list as item}}
-        <mx-checkbox class="mx5-mr30"
-            *name="{{=$viewId}}_checkboxs_5" 
-            *value="{{=item.value}}" 
-            *text="{{=item.text}}"
-            *tip="{{=item.tip}}"
-            *tag-content="{{=item.tag}}"
-            *checked="{{=(selected5.indexOf(item.value) > -1)}}" 
-            mx-change="change({index: 5, value:{{=item.value}}})"/>
-        {{/each}}
-
-        <span>当前选中：{{=selected5}}</span>
-    </div>
-
-    <div class="mx5-mb20 mx5-clearfix">
-        <span class="mx5-inline-block mx5-vertical-align-middle mx5-w100">提示打标禁用：</span>
-        {{each list as item}}
-        <mx-checkbox class="mx5-mr30"
-            *name="{{=$viewId}}_checkboxs_6" 
-            *disabled="true"
-            *value="{{=item.value}}" 
-            *text="{{=item.text}}"
-            *tip="{{=item.tip}}"
-            *tag-content="{{=item.tag}}"
-            *checked="{{=(selected6.indexOf(item.value) > -1)}}" />
-        {{/each}}
-    </div>
-</div>
-<div class="mx5-clearfix">
-    <div class="eg-desc flw50">
-        <div class="eg-title">HTML Code</div>
-        <mx-copy class="desc-oper" 
-            *copy-node="{{=$viewId}}_text_1" 
-            mx-success="@:{done}({id:1})">
-            <span class="desc-tip" mx-html="{{=text1}}"></span>
-            <i class="mx5-iconfont desc-icon">&#xe610;</i>
-        </mx-copy>
-        <mx-source whole="true" id="{{=$viewId}}_text_1">
+        <div class="mx5-mb20 mx5-clearfix">
+            <div class="mx5-fl mx5-color-9">事件处理：</div>
+            <div class="mx5-fl">
+                <div>mx-checkbox更多的是<span class="mx5-color-brand">做样式包装，并未对事件进行拦截包装</span></div>
+                <div>取值方式同原生checkbox，e.target.value，e.target.checked</div>
+            </div>
+        </div>
+    
+        <div class="mx5-mb20 mx5-clearfix">
+            <div class="mx5-fl mx5-color-9">以下示例：</div>
+            <div class="mx5-fl">
+                <div>包含带文案，带打标，带提示的常用场景</div>
+            </div>
+        </div>
+        
+        <div class="mx5-mb20 mx5-clearfix">
+            <span class="mx5-inline-block mx5-vertical-align-middle mx5-w100">文案：</span>
             {{each list as item}}
             <mx-checkbox class="mx5-mr30"
-                *name="{{=$viewId}}_checkboxs" 
-                *disabled="{{=item.disabled}}"
+                *name="{{=$viewId}}_checkboxs_1" 
+                *value="{{=item.value}}" 
+                *text="{{=item.text}}"
+                *checked="{{=(selected1.indexOf(item.value) > -1)}}" 
+                mx-change="change({index: 1, value:{{=item.value}}})"/>
+            {{/each}}
+            <span>当前选中：{{=selected1}}</span>
+        </div>
+    
+        <div class="mx5-mb20 mx5-clearfix">
+            <span class="mx5-inline-block mx5-vertical-align-middle mx5-w100">文案禁用：</span>
+            {{each list as item}}
+            <mx-checkbox class="mx5-mr30"
+                *name="{{=$viewId}}_checkboxs_2" 
+                *disabled="true" 
+                *value="{{=item.value}}" 
+                *text="{{=item.text}}"
+                *checked="{{=(selected2.indexOf(item.value) > -1)}}" />
+            {{/each}}
+        </div>
+    
+        <div class="mx5-mb20 mx5-clearfix">
+            <span class="mx5-inline-block mx5-vertical-align-middle mx5-w100">提示：</span>
+            {{each list as item}}
+            <mx-checkbox class="mx5-mr30"
+                *name="{{=$viewId}}_checkboxs_3" 
+                *value="{{=item.value}}" 
+                *text="{{=item.text}}"
+                *tip="{{=item.tip}}"
+                *checked="{{=(selected3.indexOf(item.value) > -1)}}" 
+                mx-change="change({index: 3, value:{{=item.value}}})"/>
+            {{/each}}
+            <span>当前选中：{{=selected3}}</span>
+        </div>
+    
+        <div class="mx5-mb20 mx5-clearfix">
+            <span class="mx5-inline-block mx5-vertical-align-middle mx5-w100">提示禁用：</span>
+            {{each list as item}}
+            <mx-checkbox class="mx5-mr30"
+                *name="{{=$viewId}}_checkboxs_4" 
+                *disabled="true"
+                *value="{{=item.value}}" 
+                *text="{{=item.text}}"
+                *tip="{{=item.tip}}"
+                *checked="{{=(selected4.indexOf(item.value) > -1)}}" />
+            {{/each}}
+        </div>
+    
+        <div class="mx5-mb20 mx5-clearfix">
+            <span class="mx5-inline-block mx5-vertical-align-middle mx5-w100">提示打标：</span>
+            {{each list as item}}
+            <mx-checkbox class="mx5-mr30"
+                *name="{{=$viewId}}_checkboxs_5" 
                 *value="{{=item.value}}" 
                 *text="{{=item.text}}"
                 *tip="{{=item.tip}}"
                 *tag-content="{{=item.tag}}"
-                *checked="{{=(item.value == selected)}}" 
-                mx-change="change({value:{{=item.value}}})"/>  
+                *checked="{{=(selected5.indexOf(item.value) > -1)}}" 
+                mx-change="change({index: 5, value:{{=item.value}}})"/>
             {{/each}}
-        </mx-source>
+    
+            <span>当前选中：{{=selected5}}</span>
+        </div>
+    
+        <div class="mx5-mb20 mx5-clearfix">
+            <span class="mx5-inline-block mx5-vertical-align-middle mx5-w100">提示打标禁用：</span>
+            {{each list as item}}
+            <mx-checkbox class="mx5-mr30"
+                *name="{{=$viewId}}_checkboxs_6" 
+                *disabled="true"
+                *value="{{=item.value}}" 
+                *text="{{=item.text}}"
+                *tip="{{=item.tip}}"
+                *tag-content="{{=item.tag}}"
+                *checked="{{=(selected6.indexOf(item.value) > -1)}}" />
+            {{/each}}
+        </div>
     </div>
-    <div class="eg-desc flw50 mx5-blc">
-        <div class="eg-title">JS Code</div>
-        <mx-copy class="desc-oper" 
-            *copy-node="{{=$viewId}}_text_2" 
-            mx-success="@:{done}({id:2})">
-            <span class="desc-tip" mx-html="{{=text2}}"></span>
-            <i class="mx5-iconfont desc-icon">&#xe610;</i>
-        </mx-copy>
-        <mx-source whole="true" id="{{=$viewId}}_text_2">
-            import Magix5 from 'magix5';
-            export default Magix5.View.extend({
-                tmpl: '@:index.html',
-                render() {
-                    let list = [];
-                    for (let i = 1; i < 5; i++) {
-                        list.push({
-                            value: i,
-                            text: `选项${i}`,
-                            tip: '提示信息',
-                            tag: '打标',
+    <div class="mx5-clearfix">
+        <div class="eg-desc flw50">
+            <div class="eg-title">HTML Code</div>
+            <mx-copy class="desc-oper" 
+                *copy-node="{{=$viewId}}_text_1" 
+                mx-success="@:{done}({id:1})">
+                <span class="desc-tip" mx-html="{{=text1}}"></span>
+                <i class="mx5-iconfont desc-icon">&#xe610;</i>
+            </mx-copy>
+            <mx-source whole="true" id="{{=$viewId}}_text_1">
+                {{each list as item}}
+                <mx-checkbox class="mx5-mr30"
+                    *name="{{=$viewId}}_checkboxs" 
+                    *disabled="{{=item.disabled}}"
+                    *value="{{=item.value}}" 
+                    *text="{{=item.text}}"
+                    *tip="{{=item.tip}}"
+                    *tag-content="{{=item.tag}}"
+                    *checked="{{=(item.value == selected)}}" 
+                    mx-change="change({value:{{=item.value}}})"/>  
+                {{/each}}
+            </mx-source>
+        </div>
+        <div class="eg-desc flw50 mx5-blc">
+            <div class="eg-title">JS Code</div>
+            <mx-copy class="desc-oper" 
+                *copy-node="{{=$viewId}}_text_2" 
+                mx-success="@:{done}({id:2})">
+                <span class="desc-tip" mx-html="{{=text2}}"></span>
+                <i class="mx5-iconfont desc-icon">&#xe610;</i>
+            </mx-copy>
+            <mx-source whole="true" id="{{=$viewId}}_text_2">
+                import Magix5 from 'magix5';
+                export default Magix5.View.extend({
+                    tmpl: '@:index.html',
+                    render() {
+                        let list = [];
+                        for (let i = 1; i < 5; i++) {
+                            list.push({
+                                value: i,
+                                text: `选项${i}`,
+                                tip: '提示信息',
+                                tag: '打标',
+                            })
+                        }
+    
+                        this.digest({
+                            list,
+                            selected: [1, 2, 3],
+                        });
+                    },
+    
+                    'change<change>'(e) {
+                        let { value } = e.params;
+                        let { selected } = this.get();
+                        if (e.target.checked) {
+                            selected.push(value);
+                        } else {
+                            let i = selected.indexOf(value);
+                            selected.splice(i, 1);
+                        };
+                        this.digest({
+                            selected
                         })
                     }
-
-                    this.digest({
-                        list,
-                        selected: [1, 2, 3],
-                    });
-                },
-
-                'change<change>'(e) {
-                    let { value } = e.params;
-                    let { selected } = this.get();
-                    if (e.target.checked) {
-                        selected.push(value);
-                    } else {
-                        let i = selected.indexOf(value);
-                        selected.splice(i, 1);
-                    };
-                    this.digest({
-                        selected
-                    })
-                }
-            });
-        </mx-source>
+                });
+            </mx-source>
+        </div>
     </div>
-</div>
-
+</div>    

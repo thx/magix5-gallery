@@ -1,63 +1,65 @@
-<div class="eg-content">
-    <div class="mx5-mb20 mx5-clearfix">
-        <div class="mx5-fl mx5-color-9">以下示例：</div>
-        <div class="mx5-fl">
-            <div>仅包含标题模块，支持各种各样的灵活配置</div>
+<div class="example">
+    <div class="eg-content">
+        <div class="mx5-mb20 mx5-clearfix">
+            <div class="mx5-fl mx5-color-9">以下示例：</div>
+            <div class="mx5-fl">
+                <div>仅包含标题模块，支持各种各样的灵活配置</div>
+            </div>
+        </div>
+        <div class="dark-bg-wrapper">
+            <mx-layout class="mx5-mb20">
+                <mx-layout.title 
+                    *border="false"
+                    *content="标题" 
+                    *tip="提示信息" />
+            </mx-layout>
+    
+            <mx-layout class="mx5-mb20">
+                <mx-layout.title 
+                    *border="false" 
+                    *content="<img src='//img.alicdn.com/tfs/TB1LtU5V5LaK1RjSZFxXXamPFXa-500-100.png' />" 
+                    *link="https://www.taobao.com/"/>
+            </mx-layout>
+    
+            <mx-layout>
+                <mx-layout.title 
+                    *border="false"
+                    *content="标题" 
+                    *icon-tip="小问号提示信息" 
+                    *tip="点此<a href='https://www.taobao.com/' target='_blank' class='mx5-link-brand'>查看详情</a>" />
+            </mx-layout>
         </div>
     </div>
-    <div class="dark-bg-wrapper">
-        <mx-layout class="mx5-mb20">
-            <mx-layout.title 
-                *border="false"
-                *content="标题" 
-                *tip="提示信息" />
-        </mx-layout>
-
-        <mx-layout class="mx5-mb20">
-            <mx-layout.title 
-                *border="false" 
-                *content="<img src='//img.alicdn.com/tfs/TB1LtU5V5LaK1RjSZFxXXamPFXa-500-100.png' />" 
-                *link="https://www.taobao.com/"/>
-        </mx-layout>
-
-        <mx-layout>
-            <mx-layout.title 
-                *border="false"
-                *content="标题" 
-                *icon-tip="小问号提示信息" 
-                *tip="点此<a href='https://www.taobao.com/' target='_blank' class='mx5-link-brand'>查看详情</a>" />
-        </mx-layout>
+    <div class="eg-desc">
+        <div class="eg-title">HTML Code</div>
+        <mx-copy class="desc-oper" 
+            *copy-node="{{=$viewId}}_text_1" 
+            mx-success="@:{done}({id:1})">
+            <span class="desc-tip" mx-html="{{=text1}}"></span>
+            <i class="mx5-iconfont desc-icon">&#xe610;</i>
+        </mx-copy>
+        <mx-source whole="true" id="{{=$viewId}}_text_1">
+            <mx-layout>
+                <mx-layout.title 
+                    *border="false"
+                    *content="标题" 
+                    *tip="提示信息" />
+            </mx-layout>
+    
+            <mx-layout>
+                <mx-layout.title 
+                    *border="false" 
+                    *content="<img src='//img.alicdn.com/tfs/TB1LtU5V5LaK1RjSZFxXXamPFXa-500-100.png' />" 
+                    *link="https://www.taobao.com/"/>
+            </mx-layout>
+    
+            <mx-layout>
+                <mx-layout.title 
+                    *border="false"
+                    *content="标题" 
+                    *icon-tip="小问号提示信息" 
+                    *tip="点此<a href='https://www.taobao.com/' target='_blank' class='mx5-link-brand'>查看详情</a>" />
+            </mx-layout>
+        </mx-source>
     </div>
-</div>
-<div class="eg-desc">
-    <div class="eg-title">HTML Code</div>
-    <mx-copy class="desc-oper" 
-        *copy-node="{{=$viewId}}_text_1" 
-        mx-success="@:{done}({id:1})">
-        <span class="desc-tip" mx-html="{{=text1}}"></span>
-        <i class="mx5-iconfont desc-icon">&#xe610;</i>
-    </mx-copy>
-    <mx-source whole="true" id="{{=$viewId}}_text_1">
-        <mx-layout>
-            <mx-layout.title 
-                *border="false"
-                *content="标题" 
-                *tip="提示信息" />
-        </mx-layout>
-
-        <mx-layout>
-            <mx-layout.title 
-                *border="false" 
-                *content="<img src='//img.alicdn.com/tfs/TB1LtU5V5LaK1RjSZFxXXamPFXa-500-100.png' />" 
-                *link="https://www.taobao.com/"/>
-        </mx-layout>
-
-        <mx-layout>
-            <mx-layout.title 
-                *border="false"
-                *content="标题" 
-                *icon-tip="小问号提示信息" 
-                *tip="点此<a href='https://www.taobao.com/' target='_blank' class='mx5-link-brand'>查看详情</a>" />
-        </mx-layout>
-    </mx-source>
 </div>

@@ -1,15 +1,17 @@
-<div class="eg-content">
-    <mx-error *type="empty-content" *mode="normal"/>
-</div>
-<div class="eg-desc">
-    <div class="eg-title">HTML Code</div>
-    <mx-copy class="desc-oper" 
-        *copy-node="{{=$viewId}}_text_1" 
-        mx-success="@:{done}({id:1})">
-        <span class="desc-tip" mx-html="{{=text1}}"></span>
-        <i class="mx5-iconfont desc-icon">&#xe610;</i>
-    </mx-copy>
-    <mx-source whole="true" id="{{=$viewId}}_text_1">
+<div class="example">
+    <div class="eg-content">
         <mx-error *type="empty-content" *mode="normal"/>
-    </mx-source>
+    </div>
+    <div class="eg-desc">
+        <div class="eg-title">HTML Code</div>
+        <mx-copy class="desc-oper" 
+            *copy-node="{{=$viewId}}_text_1" 
+            mx-success="@:{done}({id:1})">
+            <span class="desc-tip" mx-html="{{=text1}}"></span>
+            <i class="mx5-iconfont desc-icon">&#xe610;</i>
+        </mx-copy>
+        <mx-source whole="true" id="{{=$viewId}}_text_1">
+            <mx-error *type="empty-content" *mode="normal"/>
+        </mx-source>
+    </div>
 </div>
