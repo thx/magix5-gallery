@@ -11,11 +11,18 @@ export default View.extend({
     tmpl: '@:index.html',
     init(options) {
         this.set({
+            searchDelay: 400,
             uncheckedState: 1, // 全不选
             indeterminateState: 2, // 部分选中 
             checkedState: 3, // 全选
             checkboxAll: 'checkbox_all' + this.id,
             radioAll: 'radio_all' + this.id
+        });
+
+        this.on('destroy', () => {
+            if (this['@:{search.delay.timer}']) {
+                clearTimeout(this['@:{search.delay.timer}']);
+            }
         });
 
         // 保留历史展开收起状态
@@ -188,21 +195,20 @@ export default View.extend({
 
     render() {
         this.digest();
-        this['@:{trigger}']();
     },
 
     '@:{change}<change>'(e) {
         e.stopPropagation();
-        this['@:{trigger}'](true);
+        this['@:{trigger}']();
     },
 
     /**
      * 双向绑定
      */
-    '@:{trigger}'(trigger) {
-        let { valueType, type, info, valueKey, checkedState, checkboxAll, radioAll } = this.get();
+    '@:{trigger}'() {
+        let { type, info, valueKey, checkedState, checkboxAll, radioAll } = this.get();
+        // 只读模式无需绑定数据
         if (type == 'readonly') {
-            // 只读模式无需绑定
             return;
         }
 
@@ -256,21 +262,12 @@ export default View.extend({
                 realItems
             })
         } else if (type == 'single') {
-            if (!trigger) {
-                Magix5.mix(data, {
-                    selected: this.get('radioSelected')
-                })
-            } else {
-                let radioSelected = document.querySelector(`input[name*="${radioAll}"]:checked`);
-                Magix5.mix(data, {
-                    selected: radioSelected ? radioSelected.value : ''
-                })
-            }
+            let radioSelected = document.querySelector(`input[name*="${radioAll}"]:checked`);
+            Magix5.mix(data, {
+                selected: radioSelected ? radioSelected.getAttribute('value') : ''
+            })
         }
-
-        if (trigger) {
-            Magix5.dispatch(this.root, 'change', data);
-        }
+        Magix5.dispatch(this.root, 'change', data);
     },
 
     /**
@@ -318,19 +315,19 @@ export default View.extend({
         })
     },
 
-    // '@{search}<keyup,paste>'(e) {
-    //     let me = this;
-    //     clearTimeout(me['@{search.delay.timer}']);
-    //     let val = $.trim(e.eventTarget.value);
-    //     me.updater.set({
-    //         keyword: val
-    //     });
-    //     me['@{search.delay.timer}'] = setTimeout(me.wrapAsync(() => {
-    //         if (val != me['@:{last.value}']) {
-    //             me['@:{fn.search}'](me['@:{last.value}'] = val);
-    //         }
-    //     }), 500);
-    // },
+    '@:{search}<keyup>'(e) {
+        e.stopPropagation();
+
+        let that = this;
+        clearTimeout(that['@:{search.delay.timer}']);
+        let val = e.value;
+        that.updater.set({ keyword: val });
+        that['@:{search.delay.timer}'] = setTimeout(() => {
+            if (val != that['@:{last.value}']) {
+                that['@:{fn.search}'](that['@:{last.value}'] = val);
+            }
+        }, that.get('searchDelay'));
+    },
 
     '@:{list.to.tree}': (list, id, pId) => {
         list = list || [];

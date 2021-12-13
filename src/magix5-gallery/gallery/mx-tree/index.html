@@ -1,13 +1,12 @@
-<!-- {{if search}}
+{{if search}}
 <mx-input class="mb10" 
     style="width: {{=width}};"
-    id="search_{{=$viewId}}"
-    placeholder="搜索" 
-    search="true"
-    value="{{=keyword}}"
-    mx-change="@{stop}()"
+    *placeholder="搜索" 
+    *type="search"
+    *value="{{=keyword}}"
+    mx-change="@:{search}()"
     data-spm-click="{{=spm}}?{{=spm}}search" />
-{{/if}} -->
+{{/if}}
 
 <div style="{{if height}} height: {{=height}}px; overflow-y: auto; {{/if}}">
     <mx-tree.branch  class="{{if hasLine}} line {{/if}}" 
