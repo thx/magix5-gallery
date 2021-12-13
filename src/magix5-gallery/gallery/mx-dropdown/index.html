@@ -1,6 +1,5 @@
-<div id="{{=$viewId}}_trigger"
-    class="mx5-trigger {{if show}} mx5-trigger-open {{/if}}" 
-    mx5-animation="{{=animation}}??">
+<div class="mx5-trigger {{if show}} mx5-trigger-open {{/if}}" 
+    data-animation="trigger" mx5-animation="{{=animation}}??">
     {{if contentData.prefix}}<span class="mx5-color-9" mx-html="{{=contentData.prefix}}："></span>{{/if}}
     <span class="mx5-trigger-label" mx-html="{{=selectedText}}"></span>
     <i class="mx5-iconfont mx5-trigger-arrow">&#xe6c1;</i>

@@ -340,27 +340,17 @@ export default View.extend({
 
             // 处理动画
             await that.digest({ animation: 'expand' });
-            if (!that['init.anim']) {
-                that['init.anim'] = true;
 
-                // 动画结束移除标记
-                let clearAnim = () => {
-                    that.digest({ animation: null });
-                }
-                let triggerNode = that.root.querySelector(`#${that.id}_trigger`);
-                if (triggerNode) {
-                    Magix5.attach(triggerNode, 'animationend', clearAnim);
-                    that.on('destroy', () => {
-                        Magix5.detach(triggerNode, 'animationend', clearAnim);
-                    });
-                }
-            }
-            if (that.get('show')) {
-                that['@:{hide}']();
-            } else {
-                that['@:{show}']();
-            }
+            // 展开 or 收起
+            that[that.get('show') ? '@:{hide}' : '@:{show}']();
         }
+    },
+
+    /**
+     * 动画结束移除标记
+     */
+    '$[data-animation="trigger"]<animationend>'(e) {
+        this.digest({ animation: null });
     },
 
     /**

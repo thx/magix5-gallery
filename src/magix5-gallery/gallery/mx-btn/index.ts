@@ -87,29 +87,19 @@ export default View.extend({
         this.digest();
     },
 
-    async '@:{anim}<click>'(e) {
+    '@:{anim}<click>'(e) {
         let that = this;
         let { disabled, loading, animation } = that.get();
         if (disabled || loading || (animation == 'expand')) {
             return;
         }
 
-        await that.digest({ animation: 'expand' });
-
-        if (!that['init.anim']) {
-            that['init.anim'] = true;
-
-            // 动画结束移除标记
-            let clearAnim = () => {
-                that.digest({ animation: null });
-            }
-            let btnNode = that.root.querySelector(`#${that.id}_btn`);
-            if (btnNode) {
-                Magix5.attach(btnNode, 'animationend', clearAnim);
-                that.on('destroy', () => {
-                    Magix5.detach(btnNode, 'animationend', clearAnim);
-                });
-            }
-        }
+        that.digest({ animation: 'expand' });
     },
+    /**
+     * 动画结束移除标记
+     */
+    '$[data-animation="btn"]<animationend>'(e) {
+        this.digest({ animation: null });
+    }
 });

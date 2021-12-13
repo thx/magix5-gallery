@@ -6,11 +6,10 @@
     </a>
 {{else}}
     <button type="button" 
-        id="{{=$viewId}}_btn" 
-        style="{{=styles}}; width: {{=(width ? (width + 'px') : '100%')}};"
+        style="width: {{=(width ? (width + 'px') : '100%')}}; {{=styles}}"
         class="{{if type}} btn--{{=type}} {{/if}} {{if small}} btn--small {{/if}}"
-        mx5-animation="{{=animation}}??"
         disabled="{{=(disabled || loading)}}?"
+        data-animation="btn" mx5-animation="{{=animation}}??"
         mx-click="@:{anim}()">
         <span class="text {{if loading}} text-hide {{/if}}" mx-html="{{=content}}"></span>
     </button>
