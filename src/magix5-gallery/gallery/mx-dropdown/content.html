@@ -7,7 +7,7 @@
         *placeholder="{{=texts.search}}"
         *value="{{=(keyword || '')}}"
         mx-change="@:{search}()"
-        {{if spm}} data-spm-click="{{=spm}}_search" {{/if}}/>
+        data-spm-click="{{=spm}}?{{=spm}}search" />
 </div>
 {{/if}}
 
@@ -16,8 +16,8 @@
         <!-- {{if (needAll || max > 0)}} 
         <div class="oper-wrapper has-group clearfix">
             {{if needAll}}
-            <a class="oper" href="javascript:;" mx-click="@:{check.all}({checked:true})" {{if spm}} data-spm-click="{{=spm}}_a" {{/if}}>{{=texts.select}}</a>
-            <a class="oper" href="javascript:;" mx-click="@:{check.all}({checked:false})" {{if spm}} data-spm-click="{{=spm}}_ua" {{/if}}>{{=texts.unselect}}</a>
+            <a class="oper" href="javascript:;" mx-click="@:{check.all}({checked:true})" data-spm-click="{{=spm}}?{{=spm}}a">{{=texts.select}}</a>
+            <a class="oper" href="javascript:;" mx-click="@:{check.all}({checked:false})" data-spm-click="{{=spm}}?{{=spm}}ua">{{=texts.unselect}}</a>
             {{/if}}
             {{if (max > 0)}}
             <span><span class="color-9">已选：</span><span class="font-number bold">{{=selectedItems.length}} / {{=max}}</span></span>
@@ -40,7 +40,7 @@
                                         text="{{=parent.text}}"
                                         mx-focusout="@:{stop.propagation}()"
                                         mx-change="@:{check.parent}({parentIndex:'{{=parentIndex}}'})"
-                                        {{if spm}} data-spm-click="{{=spm}}{{=parent.value}}" {{/if}}/>
+                                        data-spm-click="{{=spm}}?{{=spm}}{{=parent.value}}" />
                                 </div>
                             </div>
                         </div>
@@ -71,7 +71,7 @@
                                         text="{{=item.text}}"
                                         mx-focusout="@:{stop.propagation}()"
                                         mx-change="@:{check}({parentIndex:'{{=parentIndex}}',itemIndex:'{{=itemIndex}}'})"
-                                        {{if spm}} data-spm-click="{{=spm}}{{=item.value}}" {{/if}}/>
+                                        data-spm-click="{{=spm}}?{{=spm}}{{=item.value}}" />
                                 </div>
                                 {{/if}}
                             </div>  
@@ -111,7 +111,7 @@
                             {{else}}
                             <div class="mx5-output-item {{if item.selected}} mx5-output-item-active {{/if}} {{if item.disabled}} mx5-output-item-disabled {{/if}}" 
                                 title="{{=(item.tip || item.text)}}"
-                                {{if !item.disabled}} mx-click="@:{select}({item:'{{#item}}'})" {{if spm}} data-spm-click="{{=spm}}{{=item.value}}" {{/if}} {{/if}}
+                                mx-click="{{=(!item.disabled)}}?@:{select}({item:'{{#item}}'})" data-spm-click="{{=spm}}?{{=spm}}{{=item.value}}" 
                                 mx-html="{{=item.text}}"></div>
                             {{/if}}
                         {{/if}}
