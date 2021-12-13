@@ -224,23 +224,23 @@ export default View.extend({
             }];
 
             // {
-            //     name: '双向绑定',
+            //     text: '双向绑定',
             //     path: 6
             // }
             rights = [{
-                name: 'empty-text',
+                text: 'empty-text',
                 path: 5
             }, {
-                name: '部分or整体禁用',
+                text: '部分or整体禁用',
                 path: 7
             }, {
-                name: '自定义key',
+                text: '自定义key',
                 path: 8
             }, {
-                name: 'hover展开',
+                text: 'hover展开',
                 path: 9
             }, {
-                name: '前缀+提示',
+                text: '前缀+提示',
                 path: 10
             }]
         }

@@ -255,7 +255,6 @@ export default View.extend({
                 realValues,
                 realItems
             })
-            this.root.value = data[`${valueType}Values`];
         } else if (type == 'single') {
             if (!trigger) {
                 Magix5.mix(data, {
@@ -267,7 +266,6 @@ export default View.extend({
                     selected: radioSelected ? radioSelected.value : ''
                 })
             }
-            this.root.value = data.selected;
         }
 
         if (trigger) {

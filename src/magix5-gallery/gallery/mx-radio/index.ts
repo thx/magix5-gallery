@@ -14,7 +14,7 @@ export default View.extend({
             tip: options.tip || '',
             tagContent: options.tagContent || '',
             tagColor: options.tagColor || 'var(--mx5-color-error)',
-        })
+        });
     },
     render() {
         this.digest();

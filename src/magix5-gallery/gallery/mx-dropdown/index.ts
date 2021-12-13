@@ -218,8 +218,8 @@ export default View.extend({
             val = values.join(',');
         }
 
-        this.root.value = val;
         if (fire) {
+            // 组件包装事件则不往root.value写值，统一事件处理
             Magix5.dispatch(this.root, 'change', {
                 selected: val,
                 values,
