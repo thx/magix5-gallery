@@ -47,7 +47,7 @@ export default Magix5.View.extend({
      * 获取css变量值
      * 优先级（在线预览配置）：style设置 > root配置
      */
-    '@{get.css.var}'(key, def) {
+    '@:{get.css.var}'(key, def) {
         let root = window.getComputedStyle(document.documentElement);
         let v = document.body.style.getPropertyValue(key) || root.getPropertyValue(key);
         if (!v) {

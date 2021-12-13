@@ -15,7 +15,7 @@ export default View.extend({
         //    circle 圆形
         let mode = options.mode, allowModeMap = { square: true, circle: true };
         if (!allowModeMap[mode]) {
-            mode = that['@{get.css.var}']('--mx5-pager-mode', 'square');
+            mode = that['@:{get.css.var}']('--mx5-pager-mode', 'square');
         }
 
         // 可选翻页数

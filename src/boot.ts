@@ -1,6 +1,6 @@
 // magix-composer#loader=none;
-'src@:./lib/sea.js'
-'src@:./lib/magix.js';
+'compiled@:./lib/sea.js'
+'compiled@:./lib/magix.js';
 
 (() => {
 	const node = document.currentScript as HTMLScriptElement;
