@@ -3,6 +3,16 @@ import FormSync from '../mx-form/sync';
 import Refs from "../mx-form/refs";
 
 export default Magix5.View.extend({
+    ctor() {
+        let attrs = this.root ? this.root.attributes : {};
+
+        // 埋点
+        let spm = attrs['data-spm-click']?.value || null;
+
+        this.set({
+            spm
+        });
+    },
     '@:{mx.style.offset}'(target) {
         let top = 0, left = 0;
         if (target && target.getBoundingClientRect) {
@@ -56,15 +66,4 @@ export default Magix5.View.extend({
             return v.trim();
         }
     },
-}).merge(FormSync, Refs, {
-    ctor() {
-        let attrs = this.root ? this.root.attributes : {};
-
-        // 埋点
-        let spm = attrs['data-spm-click']?.value || '';
-
-        this.set({
-            spm
-        });
-    }
-});
+}).merge(FormSync, Refs);
