@@ -1,18 +1,19 @@
 import Magix5 from 'magix5';
 import View from '../mx-base/view';
-Magix5.applyStyle('@:index.less');
+let { node, applyStyle, mark } = Magix5;
+applyStyle('@:index.less');
 
 export default View.extend({
     tmpl: '@:branch.html',
     assign(options) {
         let { data, closeMap, highlightMap = {}, valueKey } = options;
-        data.children.forEach(item => {
-            let val = item[valueKey];
-            item.close = closeMap[val];
-            item.highlight = highlightMap[val];
-        })
-
+        for (let c of data.children) {
+            let val = c[valueKey];
+            c.close = closeMap[val];
+            c.highlight = highlightMap[val];
+        }
         this.set(options);
+        return !data.close;
     },
     render() {
         let that = this;
@@ -33,63 +34,59 @@ export default View.extend({
         // })
     },
 
-    '@:{check.parent.state}'() {
-        let that = this;
-        let { data, indeterminateState, checkedState, uncheckedState } = that.get();
+    '@:{update.parent.state}'() {
+        let { data,
+            indeterminateState,
+            checkedState,
+            uncheckedState } = this.get();
         let parent = this.owner.parent();
         if (parent) {
             let hasChecked = false,
                 hasUnchecked = false;
-            data.children.forEach(item => {
-                if (item.state == indeterminateState) {
-                    hasChecked = hasUnchecked = true;
-                } else if (item.state == checkedState) {
+            for (let c of data.children) {
+                if (c.state == indeterminateState) {
+                    hasUnchecked = hasChecked = true;
+                } else if (c.state == checkedState) {
                     hasChecked = true;
                 } else {
                     hasUnchecked = true;
                 }
-            })
-
+            }
             // 更新父view数据状态
             let state = (hasChecked && hasUnchecked) ? indeterminateState : (hasChecked ? checkedState : uncheckedState);
             data.state = state;
-            that.digest({
+            parent.invoke('@:{update.parent.state}');
+        } else {
+            this.digest({
                 data
-            })
-            parent.invoke('@:{check.parent.state}');
+            });
         }
     },
 
-    '@:{check}<change>'(e) {
-        let that = this;
-        let index = e.params.index,
-            selected = e.target.checked;
+    '@:{check}<change>'({ params, target }) {
+        let { index } = params,
+            selected = target.checked;
 
-        let { data, checkedState, uncheckedState } = that.get();
-        data.children.forEach((item, i) => {
-            if (index == i) {
-                let _loop = (c) => {
-                    if (c.children && c.children.length) {
-                        c.children.forEach(cc => {
-                            _loop(cc);
-                        })
-                    }
-
-                    c.state = selected ? checkedState : uncheckedState;
+        let { data,
+            checkedState,
+            uncheckedState } = this.get();
+        let setState = item => {
+            item.state = selected ? checkedState : uncheckedState;
+            if (item &&
+                item.children) {
+                for (let c of item.children) {
+                    setState(c);
                 }
-                _loop(item);
             }
-        });
-        that.digest({
-            data
-        })
-        that['@:{check.parent.state}']();
+        };
+        setState(data.children[index]);
+        this['@:{update.parent.state}']();
     },
 
     /**
      * 展开收起
      */
-    '@:{toggle}<click>'(e) {
+    async '@:{toggle}<click>'(e) {
         e.stopPropagation();
         let index = e.params.index;
         let { data, closeMap, valueKey } = this.get();
@@ -98,9 +95,65 @@ export default View.extend({
         data.children[index].close = close;
         closeMap[data.children[index][valueKey]] = close;
 
+        // let toggleMark = mark(this, '@:{toggle.mark}');
+        // let childrenNode = node<HTMLElement>(`${this.id}_children_${index}`);
+        // let contentHeight = childrenNode.scrollHeight;
+        // let from = close ? contentHeight : 0;
+        // let to = close ? 0 : contentHeight;
+        // childrenNode.style.height = from + 'px';
+        // await Magix5.delay(0);
+        // childrenNode.style.height = to + 'px';
+        // await Magix5.delay(2000);
+        // if (childrenNode &&
+        //     childrenNode.animate) {
+        //     let animations = childrenNode.getAnimations();
+        //     let ps = [];
+        //     for (let a of animations) {
+        //         if (a.playState == 'running') {
+        //             a.reverse();
+        //             ps.push(a.finished);
+        //         }
+        //     }
+        //     if (ps.length) {
+        //         await Promise.all(ps);
+        //     } else {
+        //         let duration = this['@:{get.css.var}']('--mx5-animation-duration', '0.2s');
+        //         if (duration.endsWith('ms')) {
+        //             duration = parseFloat(duration);
+        //         } else if (duration.endsWith('s')) {
+        //             duration = 1000 * parseFloat(duration);
+        //         }
+        //         duration *= 10;
+        //         let contentHeight = childrenNode.scrollHeight;
+        //         let from = close ? contentHeight : 0;
+        //         let to = close ? 0 : contentHeight;
+
+        //         let a = childrenNode.animate([{
+        //             height: from + 'px'
+        //         }, {
+        //             height: to + 'px'
+        //         }], {
+        //             duration,
+        //             fill: 'forwards'
+        //         });
+        //         await a.finished;
+        //     }
+        // }
+        // if (toggleMark()) {
+        //     if (to) {
+        //         childrenNode.style.height = 'auto';
+        //     }
         this.digest({
             data,
             closeMap
-        })
+        });
+        // if (childrenNode &&
+        //     childrenNode.animate) {
+        //     let animations = childrenNode.getAnimations();
+        //     for (let a of animations) {
+        //         a.cancel();
+        //     }
+        // }
+        // }
     }
 });

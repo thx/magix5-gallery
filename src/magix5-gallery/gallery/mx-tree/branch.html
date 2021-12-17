@@ -30,7 +30,8 @@
         </label>
     </div>
     {{if (!item.close && item.children && (item.children.length > 0))}}
-    <mx-tree.branch class="{{if !item.isAll}} indent {{/if}}"
+    <mx-tree.branch class="{{if !item.isAll}} indent{{/if}}"
+        id="{{= $viewId }}_children_{{=index}}"
         *type="{{=type}}"
         *unchecked-state="{{=uncheckedState}}"
         *checked-state="{{=checkedState}}"
