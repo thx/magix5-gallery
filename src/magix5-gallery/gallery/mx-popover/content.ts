@@ -122,7 +122,7 @@ export default View.extend({
         node.classList.remove(hideClassName);
         node.classList.add(showClassName);
     },
-    hide() {
+    '@:{hide}'() {
         let { showClassName, hideClassName } = this.get();
         let node = this.root;
         node.classList.remove(showClassName);

@@ -157,7 +157,7 @@ export default View.extend({
             // 内容隐藏
             let vf = that['@:{pop.vframe}'];
             if (vf) {
-                vf.invoke('hide');
+                vf.invoke('@:{hide}');
             }
         }, that.get('hideDelay'));
     },

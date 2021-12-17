@@ -38,11 +38,11 @@
     "chartParkId": 1389,
     "chartParkIndexPath": "src/magix5-gallery/chartpark/index.js",
     "ipConfig": {
-      "线上": "106.11.211.220|https://dmp.taobao.com:443/index_new.html",
-      "预发一套": "140.205.215.168|https://pre-dmp.taobao.com:443/index_new.html"
+      "线上": "106.11.211.220|https://dmp.taobao.com:2468/index_new.html",
+      "预发一套": "140.205.215.168|https://pre-dmp.taobao.com:2468/index_new.html"
     },
     "jsExtension": ".ts",
-    "autoOpenUrl": "https://localhost:443/test.html",
+    "autoOpenUrl": "https://localhost:2468/test.html",
     "apiMatch": [
       "api/",
       ".json",

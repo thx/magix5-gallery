@@ -269,12 +269,13 @@ export default View.extend({
         }
 
         let watchSubmit = e => {
-            that['@:{hide}']();
-            that.set(e.data);
+            // 下拉框选中值
+            that.set({ ...e.data, show: false });
             that['@:{val}'](true);
         }
         let watchCancel = e => {
-            that['@:{hide}']();
+            // 关闭下拉框
+            that.digest({ show: false });
         }
         Magix5.attach(popNode, 'submit', watchSubmit);
         Magix5.attach(popNode, 'cancel', watchCancel);
@@ -321,7 +322,7 @@ export default View.extend({
         // 内容隐藏
         let vf = this['@:{pop.vframe}'];
         if (vf) {
-            vf.invoke('hide');
+            vf.invoke('@:{hide}');
         }
     },
 
