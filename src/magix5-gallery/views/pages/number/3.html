@@ -1,0 +1,49 @@
+<div class="example">
+    <div class="eg-content">
+        <div class="mx5-mb40 mx5-clearfix">
+            <div class="mx5-fl mx5-color-9">以下示例：</div>
+            <div class="mx5-fl">
+                <div>纯显示，给数字加上 font-family: var(--mx5-font-number); 的数字字体样式，其他样式可通过额外class添加</div>
+                <div>默认format = true，以千位分隔符方式格式化一个数字，可指定precision表示保留小数位数，不配置则维持原数字显示</div>
+            </div>
+        </div>
+        <div class="mx5-mb20 mx5-clearfix">
+            <span class="mx5-color-9">直接显示：</span>
+            <mx-number class="mx5-mr20" *num="123"/>
+        </div>
+        <div class="mx5-mb20 mx5-clearfix">
+            <span class="mx5-color-9">取消以千位分隔符方式格式化：</span>
+            <mx-number class="mx5-mr20" *num="1123.3444" *format="false"/>
+        </div>
+        <div class="mx5-mb20 mx5-clearfix">
+            <span class="mx5-color-9">格式化保留两位小数：</span>
+            <mx-number class="mx5-mr20" *num="1123.3444" *precision="2"/>
+        </div>
+        <div class="mx5-mb20 mx5-clearfix">
+            <span class="mx5-color-9">格式化按原数值显示：</span>
+            <mx-number class="mx5-mr20 mx5-color-error mx5-fs16" *num="1123.3444"/>
+        </div>
+    </div>
+    <div class="eg-desc">
+        <div class="eg-title">HTML Code</div>
+        <mx-copy class="desc-oper" 
+            *copy-node="{{=$viewId}}_text_1" 
+            mx-success="@:{done}({id:1})">
+            <span class="desc-tip" mx-html="{{=text1}}"></span>
+            <i class="mx5-iconfont desc-icon">&#xe610;</i>
+        </mx-copy>
+        <mx-source whole="true" id="{{=$viewId}}_text_1">
+            <!-- 直接显示 -->
+            <mx-number *num="123"/>
+
+            <!-- 取消以千位分隔符方式格式化 -->
+            <mx-number *num="123.444" />
+
+            <!-- 格式化保留两位小数 -->
+            <mx-number *num="1123.3444" *precision="2"/>
+
+            <!-- 格式化按原数值显示 -->
+            <mx-number class="mx5-color-error mx5-fs16" *num="1123.3444"/>
+        </mx-source>
+    </div>
+</div>

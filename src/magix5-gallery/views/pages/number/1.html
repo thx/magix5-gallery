@@ -4,34 +4,34 @@
             <div class="mx5-fl mx5-color-9">以下示例：</div>
             <div class="mx5-fl">
                 <div>数值动画组件，配置内容支持包含非数字，只挑取其中的数字进行动画</div>
+                <div class="mx5-color-brand">上一次动画未结束时不响应数值变更；快速调整的过程中仅响应最后一次调整；</div>
             </div>
         </div>
         <div class="mx5-mb20 mx5-clearfix">
             <span class="mx5-color-9 mx5-mr10">delay：</span>
-            <span class="mx5-mr5">整体延迟</span>
+            <span class="mx5-mr5">整体延迟（正整数）</span>
             <mx-input class="mx5-w100 mx5-mr5" 
                 *value="{{:setting.delay}}" />
             <span>ms开始动画</span>
         </div>
         <div class="mx5-mb20 mx5-clearfix">
             <span class="mx5-color-9 mx5-mr10">duration：</span>
-            <span class="mx5-mr5">动画持续</span>
+            <span class="mx5-mr5">动画持续（正整数）</span>
             <mx-input class="mx5-w100 mx5-mr5" 
                 *value="{{:setting.duration}}"/>
             <span>ms</span>
         </div>
         <div class="mx5-mb20 mx5-clearfix">
             <span class="mx5-color-9 mx5-mr10">number-delay：</span>
-            <span class="mx5-mr5">单个数字延迟</span>
+            <span class="mx5-mr5">单个数字延迟（正整数）</span>
             <mx-input class="mx5-w100 mx5-mr5" 
                 *value="{{:setting.numberDelay}}" />
-            <span>ms开始动画，支持负数</span>
+            <span>ms开始动画</span>
         </div>
         <div class="mx5-mb20 mx5-clearfix">
             <div class="mx5-fl mx5-color-9">举例说明：</div>
             <div class="mx5-fl">
                 <div>数字123，delay=200ms，duration=400ms，number-delay=20ms，则数字1延迟200ms开始动画400ms，数字2延迟220ms开始动画400ms，数字1延迟240ms开始动画400ms</div>
-                <div>数字123，delay=200ms，duration=400ms，number-delay= -20ms，则数字1延迟200ms开始动画400ms，数字2延迟180ms开始动画400ms，数字1延迟160ms开始动画400ms</div>
             </div>
         </div>
         <div class="mx5-mb20">
@@ -39,7 +39,9 @@
             <mx-btn class="mx5-mr10" mx-click="sub()" *content="减800.23运行" />
         </div>
         <mx-number 
-            *num="{{=str}}"
+            *animation="true"
+            *num="{{=num}}"
+            *precision="2"
             *delay="{{=delay}}"
             *duration="{{=duration}}"
             *number-delay="{{=numberDelay}}"/>
@@ -53,7 +55,9 @@
             <i class="mx5-iconfont desc-icon">&#xe610;</i>
         </mx-copy>
         <mx-source whole="true" id="{{=$viewId}}_text_1">
-            <mx-number *num="1,842.68" />
+            <mx-number 
+                *animation="true" *num="8842.68" *precision="2" 
+                *delay="{{=delay}}" *duration="{{=duration}}" *number-delay="{{=numberDelay}}"/>
         </mx-source>
     </div>
 </div>

@@ -54,6 +54,11 @@ export default {
                         path: '/checkbox/index',
                     },
                     {
+                        name: 'mx-number 数据展示',
+                        tip: '数值样式&nbsp;&&nbsp;格式化&nbsp;&&nbsp;跳动动画',
+                        path: '/number/index',
+                    },
+                    {
                         name: 'mx-error 空/异常状态',
                         tip: '各种异常情况提示页面（包含empty空状态，no access无权限等场景）',
                         path: '/error/index',
@@ -113,11 +118,6 @@ export default {
             {
                 name: '内容展示',
                 subs: [
-                    {
-                        name: 'mx-number 数据展示',
-                        tip: '数值样式&nbsp;&&nbsp;格式化&nbsp;&&nbsp;跳动动画',
-                        path: '/number/index',
-                    },
                     // {
                     //     name: 'mx-form 表单',
                     //     path: '/form/index',

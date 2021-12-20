@@ -11,7 +11,9 @@
             <mx-btn class="mx5-mr10" mx-click="sub()" *content="减800.23运行" />
         </div>
         <mx-number 
-            *num="{{=str}}"
+            *animation="true"
+            *num="{{=num}}"
+            *precision="2"
             *color="#ffb400"
             *font-size="24"/>
     </div>
@@ -24,10 +26,7 @@
             <i class="mx5-iconfont desc-icon">&#xe610;</i>
         </mx-copy>
         <mx-source whole="true" id="{{=$viewId}}_text_1">
-            <mx-number 
-                *num="1,842.68"
-                *color="#ffb400"
-                *font-size="24"/>
+            <mx-number *num="1,842.68" *precision="2" *color="#ffb400" *font-size="24"/>
         </mx-source>
     </div>
 </div>

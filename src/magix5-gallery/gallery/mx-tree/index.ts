@@ -61,10 +61,10 @@ export default View.extend({
         // 是否有连接线
         let hasLine = (options.hasLine + '') === 'true';
 
-        this['@{origin.list}'] = options.list || [];
-        this['@{origin.map}'] = {};
-        this['@{origin.list}'].forEach(item => {
-            this['@{origin.map}'][item[valueKey]] = item;
+        this['@:{origin.list}'] = options.list || [];
+        this['@:{origin.map}'] = {};
+        this['@:{origin.list}'].forEach(item => {
+            this['@:{origin.map}'][item[valueKey]] = item;
         });
 
         // 组织树状结构
@@ -275,7 +275,7 @@ export default View.extend({
      */
     '@:{fn.search}'(val) {
         let { textKey, valueKey, parentKey } = this.get();
-        let originList = this['@{origin.list}'];
+        let originList = this['@:{origin.list}'];
         let originMap = {};
         // 所有都收起
         originList.forEach(item => {
@@ -284,7 +284,7 @@ export default View.extend({
         })
 
         // 搜索命中的匹配值
-        this['@{highlight.map}'] = {};
+        this['@:{highlight.map}'] = {};
 
         let list = [];
         let lowVal = (val + '').toLocaleLowerCase();
@@ -293,7 +293,7 @@ export default View.extend({
             let it = (item[textKey] + '').toLocaleLowerCase();
             if (lowVal && (it.indexOf(lowVal) > -1)) {
                 list.push(item);
-                this['@{highlight.map}'][item[valueKey]] = true;
+                this['@:{highlight.map}'][item[valueKey]] = true;
             }
         }
         if (list.length > 0) {
@@ -311,7 +311,7 @@ export default View.extend({
 
         this.digest({
             closeMap: this['@:{close.map}'],
-            highlightMap: this['@{highlight.map}']
+            highlightMap: this['@:{highlight.map}']
         })
     },
 
