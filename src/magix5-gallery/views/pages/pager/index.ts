@@ -93,10 +93,12 @@ export default View.extend({
             text: '对齐方式',
             path: 4
         }];
+
         // {
         //     text: '各种展现样式',
         //     path: 6
         // }
+
 
         this.set({
             apis,

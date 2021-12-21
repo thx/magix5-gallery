@@ -9,7 +9,7 @@
         style="width: {{=(width ? (width + 'px') : '100%')}}; {{=styles}}"
         class="{{if type}} btn--{{=type}} {{/if}} {{if small}} btn--small {{/if}}"
         disabled="{{=(disabled || loading)}}?"
-        data-animation="btn" mx5-animation="{{=animation}}??"
+        data-animation="btn" mx5-animation="{{=animing}}?expand"
         mx-click="@:{anim}()">
         <span class="text {{if loading}} text-hide {{/if}}" mx-html="{{=content}}"></span>
     </button>
@@ -28,6 +28,9 @@
     mx-click="@:{stop.propagation}()" >
     <span class="mx5-tag-name" mx-html="{{=tagContent}}"></span>
 </span>
+{{/if}}
+{{if (disabled || loading)}}
+<span class="disabled-mask"></span>
 {{/if}}
 {{if (disabled && disabledTip)}}
 <mx-popover class="pop-mask" 

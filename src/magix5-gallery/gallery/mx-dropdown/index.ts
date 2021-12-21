@@ -204,10 +204,10 @@ export default View.extend({
         selectedItems.forEach(item => {
             texts.push(item.text);
             values.push(item.value);
-        })
+        });
         this.digest({
             selectedText: texts.join(',') || contentData.emptyText
-        })
+        });
 
         let val;
         if (this['@:{bak.type}'] == 'array') {

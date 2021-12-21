@@ -106,6 +106,8 @@ export default View.extend({
             });
 
             // 等待动画结束之后更新初始位置，保证动画都是从上往下
+            // 关于为啥不监听$root<transitionend>：
+            // 数值变化时，存在新数字line，新增的数字line会直接显示无动画，导致root<transitionend>的最终结束无法确认是哪个
             await Magix5.delay(animationInfo.allDuration);
             if (!delayMark()) { return; }
             that.digest({

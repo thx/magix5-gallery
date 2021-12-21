@@ -11,7 +11,7 @@ export default View.extend({
     tmpl: '@:index.html',
     init(options) {
         this.set({
-            searchDelay: 400,
+            searchDelay: 250,
             uncheckedState: 1, // 全不选
             indeterminateState: 2, // 部分选中 
             checkedState: 3, // 全选
