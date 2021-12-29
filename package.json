@@ -1,8 +1,8 @@
 {
   "name": "magix5-gallery",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "scripts": {
-    "c": "mm sl; git add -A; git commit -m 'dev'; git push;",
+    "c": "git add -A; git commit -m 'dev'; git push;",
     "a": "git add -A; git commit -m 'dev';",
     "rap": "mm dev --close-docs --close-desiger"
   },
