@@ -1,6 +1,6 @@
 {
   "name": "magix5-gallery",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "scripts": {
     "c": "mm sl; git add -A; git commit -m 'dev'; git push;",
     "a": "git add -A; git commit -m 'dev';",
@@ -10,6 +10,7 @@
     "kit": "magix"
   },
   "magixCliConfig": {
+    "galleryExport": "src/magix5-gallery/gallery",
     "magixVersion": "5",
     "preloadModuleList": true,
     "closeInspector": true,
