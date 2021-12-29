@@ -76,6 +76,7 @@ export default View.extend({
     async render() {
         let that = this;
         let { params } = Router.parse();
+        await Magix5.delay(5000);
         await that.digest({
             highlightValue: params.highlightValue
         });

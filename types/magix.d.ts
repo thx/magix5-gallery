@@ -2,9 +2,9 @@
 /*
 author:kooboy_li@163.com
 loader:umd
-enables:mxevent,richVframe,xml,async,service,wait,lang,router,routerHash,routerTip,richView,innerView,recast,require,xview,taskComplete,taskIdle,spreadMxViewParams,removeStyle,taskCancel,eventVframe,richVframeInvokeCancel,waitSelector,remold,rewrite,rebuild,load,state,batchDOMEvent
+enables:mxevent,richVframe,xml,async,service,wait,lang,router,routerHash,routerTip,richView,innerView,recast,require,xview,taskComplete,taskIdle,spreadMxViewParams,removeStyle,taskCancel,eventVframe,richVframeInvokeCancel,waitSelector,remold,rewrite,rebuild,load,state,batchDOMEvent,richVframeDescendants,preloadViews,esmoduleCheck
 
-optionals:routerState,routerTipLockUrl,routerForceState,customTags,checkAttr,webc,lockSubWhenBusy
+optionals:catchHTMLError,routerState,routerTipLockUrl,routerForceState,customTags,checkAttr,webc,lockSubWhenBusy
 */
 declare namespace Magix5 {
     /**
@@ -205,12 +205,6 @@ declare namespace Magix5 {
          * 当前url对应的要渲染的根view
          */
         readonly view: string
-        /**
-         * 从params中获取参数值，当参数不存在时返回空字符串
-         * @param key key
-         * @param defaultValue 当值不存在时候返回的默认值
-         */
-        get<TDefaultValueType = string>(key: string, defaultValue?: TDefaultValueType): TDefaultValueType
 
     }
     /**
@@ -333,7 +327,7 @@ declare namespace Magix5 {
         /**
          * 添加的接口元信息名称，需要确保在一个Service中唯一
          */
-        name: string
+        name?: string
         /**
          * 接口在请求发送前调用，可以在该方法内对数据进行加工处理
          */
@@ -414,6 +408,7 @@ declare namespace Magix5 {
         /**
          * 导航到新的地址
          * @param params 参数对象
+         * @param empty 如果params为对象，则该参数为占位使用，可传任意空值，如null等
          * @param replace 是否替换当前的历史记录
          * @param silent 是否是静默更新，不触发change事件
          */
@@ -568,23 +563,31 @@ declare namespace Magix5 {
         //  */
         // unmountZone(node?: HTMLElement): void
 
+        
+        /**
+         * 获取当前vframe的所有子vframe的id。返回数组中，id在数组中的位置并不固定
+         */
+        children(): string[]
+        
+        
+        /**
+         * 获取后代vframe对象
+         * @param onlyChild 是否只获取直接子节点，默认false
+         * @returns 所有vframe集合
+         */
+        descendants(onlyChild?: boolean): Vframe[]
         /**
          * 获取祖先vframe
          * @param level 向上查找层级，默认1级，即父vframe
          */
         parent(level?: number): this | null
-
-        /**
-         * 获取当前vframe的所有子vframe的id。返回数组中，id在数组中的位置并不固定
-         */
-        children(): string[]
-
         /**
          * 调用vframe的view中的方法
          * @param name 方法名
          * @param args 传递的参数
          */
         invoke<TReturnType>(name: string, ...args: any): Promise<TReturnType>
+        
         
         /**
          * 取消invoke中未执行的方法
@@ -595,11 +598,11 @@ declare namespace Magix5 {
         
         /**
          * 软退出当前vframe，如果子或孙view有调用observeExit且条件成立，则会触发相应的退出
-         * @param stop 通知外部应停止后续的代码调用
          * @param resolve 子view确认退出时执行的回调
          * @param reject 子view拒绝退出时执行的回调
+         * @param stop 通知外部应停止后续的代码调用
          */
-        exit(stop: () => void, resolve: () => void, reject: () => void): Promise<void>
+        exit(resolve: () => void, reject: () => void, stop?: () => void): Promise<void>
         
 
     }
@@ -845,7 +848,7 @@ declare namespace Magix5 {
         meta(meta: ServiceInterfaceMeta | string): ServiceInterfaceMeta
 
         /**
-         * 从缓存中获取或创意bag对象
+         * 从缓存中获取或创建bag对象
          * @param meta 接口元信息对象或名称字符串
          * @param create 是否是创建新的Bag对象，如果否，则尝试从缓存中获取
          */
@@ -886,7 +889,7 @@ declare namespace Magix5 {
             * 设置或获取配置信息
             * @param cfg 配置信息参数对象
             */
-        config<T extends object>(cfg: Config & T): Config & T
+        config<T extends Config>(cfg: T): T
 
         /**
          * 获取配置信息
@@ -897,7 +900,7 @@ declare namespace Magix5 {
         /**
          * 获取配置信息对象
          */
-        config<T extends object>(): Config & T
+        config<T extends Config>(): T
         /**
          * 设置配置信息
          * @param sources 配置信息参数对象
@@ -956,18 +959,18 @@ declare namespace Magix5 {
 
 
         /**
-         * 判断一个节点是否在另外一个节点内，如果比较的2个节点是同一个节点，也返回true
-         * @param node 节点或节点id
-         * @param container 容器节点或节点id
-         * @param ignoreSelf 是否忽略自身的判断
+         * 判断一个节点是否在另外一个节点内，如果ignoreContainer不为true,则比较的2个节点是同一个节点，也返回true
+         * @param node 节点
+         * @param container 容器节点
+         * @param ignoreContainer 是否忽略容器，只判断容器的子节点
          */
-        inside<TNode extends HTMLElementOrEventTarget, TContainer extends HTMLElementOrEventTarget>(node: TNode, container: TContainer, ignoreSelf?: boolean): boolean
+        inside(node: HTMLElementOrEventTarget, container: HTMLElementOrEventTarget, ignoreContainer?: boolean): boolean
 
         /**
          * document.getElementById的简写
          * @param id 节点id
          */
-        node<T extends HTMLElementOrEventTarget>(id: string): T | null
+        node<T extends HTMLElementOrEventTarget>(id: string | HTMLElementOrEventTarget): T | null
 
         /**
          * 使用加载器的加载模块功能
@@ -1019,8 +1022,9 @@ declare namespace Magix5 {
         /**
          * 销毁所有异步标识
          * @param host 宿主对象
+         * @param key 取消哪个异步标识key
          */
-        unmark(host: object): void
+        unmark(host: object, key?: string): void
         
         /**
          * 任务队列空闲至多少毫秒

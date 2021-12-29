@@ -7,6 +7,11 @@
                 <div>默认宽度100%，默认高度200px，支持配置height自定义高度</div>
             </div>
         </div>
+        {{set user=a;}}
+        <span vd-for="{{~user.name}}"></span>
+        <input mx-host="abc" mx-view="../../../gallery/mx-loading/test" value="{{:user$name&{required:true} }}"/>
+        <mx-loading.test/>
+        <mx-loading.test *brand="true"/>
         <mx-loading />
         <mx-loading *content="加载中..."/>
     </div>

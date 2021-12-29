@@ -6,7 +6,25 @@
                 <div>完整的卡片标题+内容区域使用示例</div>
             </div>
         </div>
-        <div class="dark-bg-wrapper">
+        <div class="dark-bg-wrapper" id="abc">
+            <button mx-click="toggleBorder()">toggle border</button>
+            <mx-layout>
+                <mx-layout.test *border="{{=bd&&true&&bd}}">
+                    <mx-slot name="content">
+                        <img src="//img.alicdn.com/tfs/TB1LtU5V5LaK1RjSZFxXXamPFXa-500-100.png"/>
+                        <b>bold text</b>
+                        <i>current border:{{=bd}}</i>
+                        {{=bd}}
+                        <mx-layout.test *border="{{=bd}}">
+                            <mx-slot name="content">
+                                bd--{{=bd}}
+                            </mx-slot>
+                        </mx-layout.test>
+                    </mx-slot>
+                    <i>italic text</i>
+                </mx-layout.test>
+                <mx-layout.test *content="abc<b>adfadf</b>"/>
+            </mx-layout>
             <mx-layout>
                 <mx-layout.title *content="标题" *tip="提示" *icon-tip="小问号提示信息">
                     <mx-btn class="mx5-fr" *content="按钮"/>

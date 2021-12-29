@@ -1,9 +1,9 @@
 /*
-version:5.0.0-beta Licensed MIT
+version:5.0.0 Licensed MIT
 author:kooboy_li@163.com
 loader:umd
-enables:mxevent,richVframe,xml,async,service,wait,lang,router,routerHash,routerTip,richView,innerView,recast,require,xview,taskComplete,taskIdle,spreadMxViewParams,removeStyle,taskCancel,eventVframe,richVframeInvokeCancel,waitSelector,remold,rewrite,rebuild,load,state,batchDOMEvent
-optionals:routerState,routerTipLockUrl,routerForceState,customTags,checkAttr,webc,lockSubWhenBusy
+enables:mxevent,richVframe,xml,async,service,wait,lang,router,routerHash,routerTip,richView,innerView,recast,require,xview,taskComplete,taskIdle,spreadMxViewParams,removeStyle,taskCancel,eventVframe,richVframeInvokeCancel,waitSelector,remold,rewrite,rebuild,load,state,batchDOMEvent,richVframeDescendants,preloadViews,esmoduleCheck
+optionals:catchHTMLError,routerState,routerTipLockUrl,routerForceState,customTags,checkAttr,webc,lockSubWhenBusy
 */
 //magix-composer#snippet;
 //magix-composer#exclude = loader;
@@ -47,8 +47,9 @@ define('magix5', () => {
     //let Tag_Porp_MX_Key = MX_PREFIX + 'key';
     let MX_View = MX_PREFIX + 'view';
     let MX_OWNER = MX_PREFIX + 'owner';
-    let MX_FROM = MX_PREFIX + 'from';
-    let MX_TO = MX_PREFIX + 'to';
+    // let MX_FROM = MX_PREFIX + 'from';
+    // let MX_TO = MX_PREFIX + 'to';
+    let MX_MAIN = MX_PREFIX + 'main';
     let GUID = (prefix) => (prefix || Tag_Static_Key) + Counter++;
     let GetById = id => Doc_Document.getElementById(id);
     let SetInnerHTML = (n, html) => n.innerHTML = html;
@@ -96,8 +97,17 @@ define('magix5', () => {
         }
         return t => (t = me[k], t && m === t[key]);
     };
-    let Unmark = me => {
-        me[Spliter + '@:{mark#object}'] = 0;
+    let Unmark = (me, key, k, host) => {
+        k = Spliter + '@:{mark#object}';
+        if (key) {
+            host = me[k];
+            if (host) {
+                host[key] = 0;
+            }
+        }
+        else {
+            me[k] = 0;
+        }
     };
     let { assign: Assign, keys: Keys, hasOwnProperty: HasProp, prototype: ObjectProto } = Object;
     let ToString = ObjectProto.toString;
@@ -285,7 +295,7 @@ define('magix5', () => {
             if (c['@:{dom#type}'] == type &&
                 c['@:{dom#view.id}'] == viewId &&
                 c['@:{dom#element}'] == element &&
-                c['@:{dom#real.fn}'] === cb) {
+                c['@:{dom#real.fn}'] == cb) {
                 AttachEventHandlers.splice(i, 1);
                 EventUnlisten(element, type, c['@:{dom#event.proxy}'], eventOptions);
                 break;
@@ -562,7 +572,7 @@ define('magix5', () => {
         });
     };
     let resourcesLoadCount = 0;
-    let isEsModule = o => o.__esModule || (window.Symbol && o[Symbol.toStringTag] === 'Module');
+    let isEsModule = o => o && (o.__esModule || (window.Symbol && o[Symbol.toStringTag] === 'Module'));
     let Async_Require = (names, params) => {
         return new GPromise(async (r) => {
             let a = [];
@@ -579,7 +589,7 @@ define('magix5', () => {
                 //if (window.seajs) {
                 seajs.use(names, (...g) => {
                     for (let m of g) {
-                        if (DEBUG && !m) {
+                        if (!m && DEBUG) {
                             console.error('can not load', names);
                         }
                         a.push(isEsModule(m) ? m.default : m);
@@ -699,6 +709,7 @@ define('magix5', () => {
                     }
                 }
             }
+            return data;
             // if (!cancel) {
             //     list = me[`on${name}`];
             //     if (list) ToTry(list, data, me);
@@ -772,6 +783,8 @@ define('magix5', () => {
             newHash = loc.srcHash;
             if (newHash != lastHash) {
                 e = {
+                    '@:{exit-tip#from}': View_Exit_From_Router,
+                    '@:{exit-tip#mutual}': View_Exit_From_Vframe,
                     reject() {
                         suspend = Empty;
                         Router_UpdateHash(lastHash);
@@ -993,7 +1006,7 @@ define('magix5', () => {
     }, MxEvent);
     let Dispatcher_UpdateTag = 0;
     let View_IsObserveChanged = view => {
-        let loc = view['@:{view#observe.router}'];
+        let loc = view['@:{view.observe.router}'];
         let res, i, params;
         if (loc['@:{view-router#observed}']) {
             if (loc['@:{view-router#observe.path}']) {
@@ -1018,11 +1031,11 @@ define('magix5', () => {
     let Dispatcher_Update = async (vframe, tag, view, cs, c, resolved) => {
         if (tag == Dispatcher_UpdateTag &&
             vframe &&
-            (view = vframe['@:{vframe#view.entity}']) &&
-            view['@:{view#rendered}']) {
+            (view = vframe['@:{vframe.view.entity}']) &&
+            view['@:{view.rendered}']) {
             cs = vframe.children();
             if (View_IsObserveChanged(view)) { //检测view所关注的相应的参数是否发生了变化
-                //CallFunction(view['@:{view#render.short}'], Empty_Array, view);
+                //CallFunction(view['@:{view.render.short}'], Empty_Array, view);
                 /**
                  * render返回promise与其它值
                  * 如果render未返回promise，且render中有异步渲染界面
@@ -1035,7 +1048,7 @@ define('magix5', () => {
                  * 综上，渲染前保存a的子节点，渲染后只通知a上面还存在的子节点，删除及新增加的子节点不通知
                  */
                 if (DEBUG) {
-                    resolved = view['@:{view#render.short}']();
+                    resolved = view['@:{view.render.short}']();
                     if (!resolved ||
                         !resolved.then) {
                         console.info(vframe.path + ' `render` method recommand return promise value');
@@ -1045,7 +1058,7 @@ define('magix5', () => {
                     }
                 }
                 else {
-                    await view['@:{view#render.short}']();
+                    await view['@:{view.render.short}']();
                 }
             }
             for (c of cs) {
@@ -1071,7 +1084,7 @@ define('magix5', () => {
     let Vframe_TranslateQuery = (pId, src, params, pVf) => {
         if (src.includes(Spliter) &&
             (pVf = Vframe_Vframes[pId])) {
-            TranslateData(pVf['@:{vframe#ref.data}'], params);
+            TranslateData(pVf['@:{vframe.ref.data}'], params);
             if (params[Spliter]) {
                 Assign(params, params[Spliter]);
                 delete params[Spliter];
@@ -1095,7 +1108,7 @@ define('magix5', () => {
     };
     let Vframe_Unroot = () => {
         if (Vframe_RootVframe) {
-            Vframe_RootVframe.unmount();
+            Vframe_Unmount(Vframe_RemoveVframe);
             Vframe_RootVframe = Null;
         }
     };
@@ -1117,7 +1130,7 @@ define('magix5', () => {
             Vframe.fire('remove', {
                 vframe
             });
-            vframe.id = vframe.root = vframe.pId = vframe['@:{vframe#children}'] = Null; //清除引用,防止被移除的view内部通过setTimeout之类的异步操作有关的界面，影响真正渲染的view
+            vframe.id = vframe.root = vframe.pId = vframe['@:{vframe.children}'] = Null; //清除引用,防止被移除的view内部通过setTimeout之类的异步操作有关的界面，影响真正渲染的view
             if (DEBUG) {
                 let nodes = Doc_Document.querySelectorAll('#' + id);
                 if (nodes.length > 1) {
@@ -1126,9 +1139,24 @@ define('magix5', () => {
             }
         }
     };
+    let Vframe_Unmount = (me, node, isVframeId, deep) => {
+        let vf, pId;
+        node = node ? me['@:{vframe.children}'][isVframeId ? node : node['@:{node#vframe.id}']] : me.id;
+        vf = Vframe_Vframes[node];
+        if (vf) {
+            pId = vf.pId;
+            Vframe_unmountView(vf, deep);
+            Vframe_RemoveVframe(node);
+            vf = Vframe_Vframes[pId];
+            if (vf && Has(vf['@:{vframe.children}'], node)) { //childrenMap
+                delete vf['@:{vframe.children}'][node]; //childrenMap
+                vf['@:{vframe.children.list}'] = 0;
+            }
+        }
+    };
     let Vframe_RunInvokes = (vf, list, name, resolve, view, fn, args) => {
-        list = vf['@:{vframe#invoke.list}']; //invokeList
-        view = vf['@:{vframe#view.entity}'];
+        list = vf['@:{vframe.invoke.list}']; //invokeList
+        view = vf['@:{vframe.view.entity}'];
         while (list.length) {
             [name, args, resolve] = list.shift();
             if (name) {
@@ -1136,17 +1164,19 @@ define('magix5', () => {
             }
         }
     };
-    let Vframe_CollectVframes = (start, vfs) => {
-        vfs.push(start);
+    let Vframe_CollectVframes = (start, vfs, onlyChild) => {
         let children = start.children(), child, vf;
         for (child of children) {
             vf = Vframe_Vframes[child];
-            Vframe_CollectVframes(vf, vfs);
+            vfs.push(vf);
+            if (!onlyChild) {
+                Vframe_CollectVframes(vf, vfs);
+            }
         }
     };
     let Vframe_UnmountZone = (owner, root, onlyInnerView, deep) => {
         let p, vf, unmount;
-        for (p in owner['@:{vframe#children}']) {
+        for (p in owner['@:{vframe.children}']) {
             if (root) {
                 vf = Vframe_Vframes[p];
                 unmount = vf && NodeIn(vf.root, root, onlyInnerView);
@@ -1155,13 +1185,14 @@ define('magix5', () => {
                 unmount = 1;
             }
             if (unmount) {
-                owner.unmount(p, unmount, deep);
+                Vframe_Unmount(owner, p, unmount, deep);
+                //owner.unmount(p, unmount, deep);
             }
         }
     };
     let Vframe_MountZone = (owner, zone, it, vframes) => {
         zone = zone || owner.root;
-        vframes = zone.querySelectorAll(`[${MX_View}][${MX_FROM}="${owner.id}"],[${MX_View}][${MX_TO}="${owner.id}"]`);
+        vframes = zone.querySelectorAll(`[${MX_View}][${MX_MAIN}="${owner.id}"]`);
         /*
             body(#mx-root)
                 div(mx-vframe=true,mx-view='xx')
@@ -1176,7 +1207,7 @@ define('magix5', () => {
             上述情况一般出现在展现型页面，dom结构已经存在，只是附加上js行为
             不过就展现来讲，一般是不会出现嵌套的情况，出现的话，把里面有层级的vframe都挂到body上也未尝不可，比如brix2.0
          */
-        //me['@:{vframe#hold.fire}'] = 1; //hold fire creted
+        //me['@:{vframe.hold.fire}'] = 1; //hold fire creted
         //me.unmountZone(zoneId, 1); 不去清理，详情见：https://github.com/thx/magix/issues/27
         for (it of vframes) {
             if (!it['@:{node#mounted.vframe}']) { //防止嵌套的情况下深层的view被反复实例化
@@ -1184,45 +1215,45 @@ define('magix5', () => {
                 owner.mount(it, GetAttribute(it, MX_View));
             }
         }
-        //me['@:{vframe#hold.fire}'] = 0;
+        //me['@:{vframe.hold.fire}'] = 0;
     };
     /**
       * 销毁对应的view
       */
     let Vframe_unmountView = (owner, deep) => {
-        let { '@:{vframe#view.entity}': v, root, pId } = owner;
+        let { '@:{vframe.view.entity}': v, root, pId } = owner;
         if (v) {
-            owner['@:{vframe#view.entity}'] = 0; //unmountView时，尽可能早的删除vframe上的$v对象，防止$v销毁时，再调用该 vfrmae的类似unmountZone方法引起的多次created
-            if (v['@:{view#sign}']) {
-                v['@:{view#sign}'] = 0;
+            owner['@:{vframe.view.entity}'] = 0; //unmountView时，尽可能早的删除vframe上的$v对象，防止$v销毁时，再调用该 vfrmae的类似unmountZone方法引起的多次created
+            if (v['@:{view.sign}']) {
+                v['@:{view.sign}'] = 0;
                 Unmark(v);
-                if (v['@:{view#template}']) {
+                if (v['@:{view.template}']) {
                     Vframe_UnmountZone(owner, 0, 0, 1);
                 }
                 v.fire('destroy');
                 View_DelegateEvents(v, 1);
                 //v.owner = v.root = Null;
                 if (root &&
-                    owner['@:{vframe#alter.node}'] &&
-                    v['@:{view#template}']) {
-                    SetInnerHTML(root, owner['@:{vframe#template}']);
+                    owner['@:{vframe.alter.node}'] &&
+                    v['@:{view.template}']) {
+                    SetInnerHTML(root, owner['@:{vframe.template}']);
                     if (pId &&
-                        owner['@:{vframe#template}'] &&
+                        owner['@:{vframe.template}'] &&
                         !deep) {
                         Vframe_MountZone(Vframe_Vframes[pId], root);
                     }
                 }
             }
         }
-        owner['@:{vframe#sign}']++; //增加signature，阻止相应的回调，见mountView
+        owner['@:{vframe.sign}']++; //增加signature，阻止相应的回调，见mountView
     };
     let Vframe_mountView = async (owner, viewPath, viewInitParams, deep) => {
         let { id, root, pId } = owner;
-        let po, sign, view, params;
-        if (!owner['@:{vframe#alter.node}'] &&
+        let po, sign, view, params, TView;
+        if (!owner['@:{vframe.alter.node}'] &&
             root) { //alter
-            owner['@:{vframe#alter.node}'] = 1;
-            owner['@:{vframe#template}'] = root.innerHTML;
+            owner['@:{vframe.alter.node}'] = 1;
+            owner['@:{vframe.template}'] = root.innerHTML;
         }
         Vframe_unmountView(owner, deep);
         if (root && viewPath) {
@@ -1232,56 +1263,56 @@ define('magix5', () => {
             params = po[Params];
             pId = GetAttribute(root, MX_OWNER);
             Vframe_TranslateQuery(pId, viewPath, params);
-            owner['@:{vframe#view.path}'] = view;
+            owner['@:{vframe.view.path}'] = view;
             Assign(params, viewInitParams);
-            sign = owner['@:{vframe#sign}'];
-            let [TView] = await Async_Require(view, params);
-            if (sign == owner['@:{vframe#sign}']) { //有可能在view载入后，vframe已经卸载了
-                if (TView) {
-                    View_Prepare(TView);
-                    view = new TView(id, root, owner, params);
-                    if (DEBUG) {
-                        let viewProto = TView.prototype;
-                        let importantProps = {
-                            id: 1,
-                            owner: 1,
-                            root: 1,
-                            '@:{view#observe.router}': 1,
-                            '@:{view#resource}': 1,
-                            '@:{view#sign}': 1,
-                            '@:{view#updater.data}': 1,
-                            '@:{view#updater.digesting.list}': 1
-                        };
-                        for (let p in view) {
-                            if (Has(view, p) && viewProto[p]) {
-                                throw new Error(`avoid write ${p} at file ${viewPath}!`);
-                            }
+            sign = owner['@:{vframe.sign}'];
+            [TView] = await Async_Require(view, params);
+            if (sign == owner['@:{vframe.sign}'] &&
+                TView) { //有可能在view载入后，vframe已经卸载了
+                //if (TView) {
+                View_Prepare(TView);
+                view = new TView(id, root, owner, params);
+                if (DEBUG) {
+                    let viewProto = TView.prototype;
+                    let importantProps = {
+                        id: 1,
+                        owner: 1,
+                        root: 1,
+                        '@:{view.observe.router}': 1,
+                        '@:{view.resource}': 1,
+                        '@:{view.sign}': 1,
+                        '@:{view.updater.data}': 1,
+                        '@:{view.updater.digesting.list}': 1
+                    };
+                    for (let p in view) {
+                        if (Has(view, p) && viewProto[p]) {
+                            throw new Error(`avoid write ${p} at file ${viewPath}!`);
                         }
-                        view = Safeguard(view, true, (key, value) => {
-                            if (Has(viewProto, key) ||
-                                (Has(importantProps, key) &&
-                                    (key != '@:{view#sign}' || !isFinite(value)) &&
-                                    ((key != 'owner' && key != 'root') || value !== Null))) {
-                                throw new Error(`avoid write ${key} at file ${viewPath}!`);
-                            }
-                        });
                     }
-                    owner['@:{vframe#view.entity}'] = view;
-                    //me['@:{vframe#update.tag}'] = Dispatcher_UpdateTag;
-                    View_DelegateEvents(view);
-                    ToTry(view.init, params, view);
-                    ToTry(view['@:{view#assign.fn}'], [params, owner['@:{vframe#template}']], view);
-                    view['@:{view#render.short}']();
-                    if (!view['@:{view#template}'] &&
-                        !view['@:{view#rendered}']) { //无模板且未触发渲染
-                        View_EndUpdate(view);
-                    }
+                    view = Safeguard(view, true, (key, value) => {
+                        if (Has(viewProto, key) ||
+                            (Has(importantProps, key) &&
+                                (key != '@:{view.sign}' || !isFinite(value)) &&
+                                ((key != 'owner' && key != 'root') || value !== Null))) {
+                            throw new Error(`avoid write ${key} at file ${viewPath}!`);
+                        }
+                    });
                 }
-                else {
-                    //if (DEBUG) {
-                    Mx_Cfg.error(Error(`${id} cannot load:${view}`));
-                    //}
+                owner['@:{vframe.view.entity}'] = view;
+                //me['@:{vframe.update.tag}'] = Dispatcher_UpdateTag;
+                View_DelegateEvents(view);
+                ToTry(view.init, params, view);
+                ToTry(view['@:{view.assign.fn}'], [params, owner['@:{vframe.template}']], view);
+                view['@:{view.render.short}']();
+                if (!view['@:{view.template}'] &&
+                    !view['@:{view.rendered}']) { //无模板且未触发渲染
+                    View_EndUpdate(view);
                 }
+                // } else {
+                //     //if (DEBUG) {
+                //     //Mx_Cfg.error(Error(`${id} cannot load:${view}`));
+                //     //}
+                // }
             }
         }
     };
@@ -1291,11 +1322,11 @@ define('magix5', () => {
         let vfId = Vframe_GetVfId(root);
         me.id = vfId;
         me.root = root;
-        me['@:{vframe#sign}'] = 1; //signature
-        me['@:{vframe#children}'] = {}; //childrenMap
+        me['@:{vframe.sign}'] = 1; //signature
+        me['@:{vframe.children}'] = {}; //childrenMap
         me.pId = pId;
-        me['@:{vframe#invoke.list}'] = []; //invokeList
-        me['@:{vframe#ref.data}'] = new Map();
+        me['@:{vframe.invoke.list}'] = []; //invokeList
+        me['@:{vframe.ref.data}'] = new Map();
         Vframe_AddVframe(vfId, me);
     }
     Assign(Vframe, {
@@ -1314,12 +1345,12 @@ define('magix5', () => {
     }, MxEvent);
     Assign(Vframe[Prototype], {
         mount(node, viewPath, viewInitParams, deep) {
-            let me = this, vf, id = me.id, c = me['@:{vframe#children}'];
+            let me = this, vf, id = me.id, c = me['@:{vframe.children}'];
             let vfId = Vframe_GetVfId(node);
             vf = Vframe_Vframes[vfId];
             if (!vf) {
                 if (!Has(c, vfId)) { //childrenMap,当前子vframe不包含这个id
-                    me['@:{vframe#children.list}'] = 0; //childrenList 清空缓存的子列表
+                    me['@:{vframe.children.list}'] = 0; //childrenList 清空缓存的子列表
                 }
                 c[vfId] = vfId; //map
                 vf = new Vframe(node, id);
@@ -1327,23 +1358,16 @@ define('magix5', () => {
             Vframe_mountView(vf, viewPath, viewInitParams, deep);
             return vf;
         },
-        unmount(node, isVframeId, deep) {
-            let me = this, vf, pId;
-            node = node ? me['@:{vframe#children}'][isVframeId ? node : node['@:{node#vframe.id}']] : me.id;
-            vf = Vframe_Vframes[node];
-            if (vf) {
-                pId = vf.pId;
-                Vframe_unmountView(vf, deep);
-                Vframe_RemoveVframe(node);
-                vf = Vframe_Vframes[pId];
-                if (vf && Has(vf['@:{vframe#children}'], node)) { //childrenMap
-                    delete vf['@:{vframe#children}'][node]; //childrenMap
-                    vf['@:{vframe#children.list}'] = 0;
-                }
-            }
+        unmount(...args) {
+            Vframe_Unmount(this, ...args);
         },
         children() {
-            return this['@:{vframe#children.list}'] || (this['@:{vframe#children.list}'] = Keys(this['@:{vframe#children}']));
+            return this['@:{vframe.children.list}'] || (this['@:{vframe.children.list}'] = Keys(this['@:{vframe.children}']));
+        },
+        descendants(onlyChild) {
+            let vfs = [];
+            Vframe_CollectVframes(this, vfs, onlyChild);
+            return vfs;
         },
         parent(level, vf) {
             vf = this;
@@ -1354,10 +1378,10 @@ define('magix5', () => {
             return vf;
         },
         invoke(name, ...args) {
-            let vf = this, view, fn, list = vf['@:{vframe#invoke.list}'];
+            let vf = this, view, fn, list = vf['@:{vframe.invoke.list}'];
             return new GPromise(resolve => {
-                if ((view = vf['@:{vframe#view.entity}']) &&
-                    view['@:{view#rendered}']) { //view rendered
+                if ((view = vf['@:{vframe.view.entity}']) &&
+                    view['@:{view.rendered}']) { //view rendered
                     resolve((fn = view[name]) && ToTry(fn, args, view));
                 }
                 else {
@@ -1366,7 +1390,7 @@ define('magix5', () => {
             });
         },
         invokeCancel(name) {
-            let list = this['@:{vframe#invoke.list}'];
+            let list = this['@:{vframe.invoke.list}'];
             if (name) {
                 for (let e of list) {
                     if (e[0] == name) {
@@ -1378,13 +1402,14 @@ define('magix5', () => {
                 list.length = 0;
             }
         },
-        async exit(stop, resolve, reject) {
+        async exit(resolve, reject, stop = Noop) {
             let e = {
-                stop,
+                '@:{exit-tip#from}': View_Exit_From_Vframe,
+                '@:{exit-tip#mutual}': View_Exit_From_Router,
                 resolve,
-                reject
-            };
-            let vfs = [], vf;
+                reject,
+                stop,
+            }, vfs = [], vf;
             Vframe_CollectVframes(this, vfs);
             for (vf of vfs) {
                 await vf.invoke('@:{~view#exit.listener}', e);
@@ -1521,8 +1546,8 @@ define('magix5', () => {
             if (selectorVfId) { //从最近的vframe向上查找带有选择器事件的view
                 do {
                     vf = Vframe_Vframes[selectorVfId];
-                    if (vf && (view = vf['@:{vframe#view.entity}'])) {
-                        selectorObject = view['@:{view#selector.events.object}'];
+                    if (vf && (view = vf['@:{vframe.view.entity}'])) {
+                        selectorObject = view['@:{view.selector.events.object}'];
                         eventSelector = selectorObject[eventType];
                         if (eventSelector) {
                             for (begin = eventSelector.length; begin--;) {
@@ -1547,7 +1572,7 @@ define('magix5', () => {
                             }
                         }
                         //防止跨view选中，到带模板的view时就中止或未指定
-                        if (view['@:{view#template}'] && !backtrace) {
+                        if (view['@:{view.template}'] && !backtrace) {
                             break; //带界面的中止
                         }
                         backtrace = 0;
@@ -1590,15 +1615,15 @@ define('magix5', () => {
                         //     lastVfId = v;
                         // }
                         vframe = Vframe_Vframes[v];
-                        view = vframe && vframe['@:{vframe#view.entity}'];
+                        view = vframe && vframe['@:{vframe.view.entity}'];
                         if (view) {
-                            if (view['@:{view#rendered}'] &&
-                                view['@:{view#sign}']) {
+                            if (view['@:{view.rendered}'] &&
+                                view['@:{view.sign}']) {
                                 eventName = n + Spliter + type;
                                 fn = view[eventName];
                                 if (fn) {
                                     domEvent.eventTarget = target;
-                                    params = i ? ParseExpr(i, vframe['@:{vframe#ref.data}']) : Empty_Object;
+                                    params = i ? ParseExpr(i, vframe['@:{vframe.ref.data}']) : Empty_Object;
                                     domEvent[Params] = params;
                                     ToTry(fn, domEvent, view);
                                 }
@@ -1608,7 +1633,7 @@ define('magix5', () => {
                                     }
                                 }
                                 if (target != view.root &&
-                                    !view['@:{view#selector.events.object}'][type]) {
+                                    !view['@:{view.selector.events.object}'][type]) {
                                     if (t) {
                                         offset = b || offset;
                                     }
@@ -1621,7 +1646,10 @@ define('magix5', () => {
                         }
                         else { //如果处于删除中的事件触发，则停止事件的传播
                             if (DEBUG) {
-                                if (view !== 0) { //销毁
+                                if (view == null) {
+                                    console.warn(`vframe:${v} destroyed`);
+                                }
+                                else if (view !== 0) { //销毁
                                     console.error('can not find vframe:' + v);
                                 }
                             }
@@ -1635,9 +1663,9 @@ define('magix5', () => {
                     vframe = target['@:{node#vframe.id}'];
                     if (vframe) {
                         vframe = Vframe_Vframes[vframe];
-                        view = vframe && vframe['@:{vframe#view.entity}'];
+                        view = vframe && vframe['@:{vframe.view.entity}'];
                         if (view &&
-                            view['@:{view#events.object}'][type]) {
+                            view['@:{view.events.object}'][type]) {
                             arr.length = 0;
                         }
                     }
@@ -1783,49 +1811,58 @@ define('magix5', () => {
     //         Updater_Ready_List.length = 0;
     //     }
     // };
-    let Updater_Digest = (view, fire, tmpl) => {
-        if (view['@:{view#sign}'] &&
-            (tmpl = view['@:{view#template}'])) {
-            let keys = view['@:{view#updater.keys}'], viewId = view.id, vf = Vframe_Vframes[viewId], ref = {
+    let Updater_Digest = async (view, fire, tmpl) => {
+        if (view['@:{view.sign}'] &&
+            (tmpl = view['@:{view.template}'])) {
+            let { '@:{view.updater.keys}': keys, id: viewId, '@:{view.updater.data}': data } = view, vf = Vframe_Vframes[viewId], ready, preRequires, ref = {
                 '@:{updater-ref#view.renders}': [],
                 '@:{updater-ref#node.props}': [],
                 '@:{updater-ref#view.id}': viewId,
                 '@:{updater-ref#async.count}': 0
-            }, vdom, data = view['@:{view#updater.data}'], refData = vf['@:{vframe#ref.data}'];
-            view['@:{view#updater.data.changed}'] = 0;
-            view['@:{view#updater.keys}'] = {};
+            }, vdom, refData = vf['@:{vframe.ref.data}'];
+            view['@:{view.updater.data.changed}'] = 0;
+            view['@:{view.updater.keys}'] = {};
             if (fire) {
                 view.fire('dompatch');
             }
             refData['@:{vframe-data-map#index}'] = 0;
             refData.clear();
             vdom = tmpl(data, Q_Create, viewId, Updater_EncodeURI, refData, Updater_Ref, Updater_EncodeQ, IsArray);
+            tmpl = vdom['@:{v#node.views}'];
+            if (tmpl) {
+                preRequires = [];
+                for (ready of tmpl) {
+                    Vframe_TranslateQuery(ready[1], ready[2], ready[3]);
+                    preRequires.push(Async_Require(ready[0], ready[3]));
+                }
+                await GPromise.all(preRequires);
+            }
             if (DEBUG) {
                 Updater_CheckInput(view, vdom['@:{v#node.outer.html}']);
             }
             if (vf.pId &&
-                !view['@:{view#rendered}']) {
+                !view['@:{view.rendered}']) {
                 Vframe_UnmountZone(Vframe_Vframes[vf.pId], vf.root, 1);
             }
-            let ready = () => {
-                view['@:{view#updater.vdom}'] = vdom;
-                if (view['@:{view#sign}']) {
-                    tmpl = ref['@:{updater-ref#changed}'] || !view['@:{view#rendered}'];
+            ready = () => {
+                view['@:{view.updater.vdom}'] = vdom;
+                if (view['@:{view.sign}']) {
+                    tmpl = ref['@:{updater-ref#changed}'] || !view['@:{view.rendered}'];
                     if (tmpl) {
                         View_EndUpdate(view);
                     }
                     for (vdom of ref['@:{updater-ref#view.renders}']) {
-                        CallFunction(vdom['@:{view#render.short}'], Empty_Array, vdom);
+                        CallFunction(vdom['@:{view.render.short}'], Empty_Array, vdom);
                         //CallFunction(View_CheckAssign, [vdom]);
                     }
                 }
-                if (view['@:{view#async.count}'] > 1) {
-                    view['@:{view#async.count}'] = 1;
+                if (view['@:{view.async.count}'] > 1) {
+                    view['@:{view.async.count}'] = 1;
                     ref['@:{updater-ref#node.props}'].length = 0;
                     Updater_Digest(view);
                 }
                 else {
-                    view['@:{view#async.count}'] = 0;
+                    view['@:{view.async.count}'] = 0;
                     /*
                         在dom diff patch时，如果已渲染的vframe有变化，则会在vom tree上先派发created事件，同时传递inner标志，vom tree处理alter事件派发状态，未进入created事件派发状态
             
@@ -1839,7 +1876,7 @@ define('magix5', () => {
                         }
                     }
                     view.fire('domready');
-                    keys = view['@:{view#async.resolves}'];
+                    keys = view['@:{view.async.resolves}'];
                     for (vdom of keys) {
                         vdom();
                     }
@@ -1849,8 +1886,8 @@ define('magix5', () => {
             // Updater_Ready_List.push({
             //     '@:{ready#callback}': ready
             // });
-            CallFunction(V_SetChildNodes, [view.root, view['@:{view#updater.vdom}'], vdom, ref, vf, keys, view, ready]);
-            //V_SetChildNodes(view.root, view['@:{view#updater.vdom}'], vdom, ref, vf, keys, view, ready);
+            CallFunction(V_SetChildNodes, [view.root, view['@:{view.updater.vdom}'], vdom, ref, vf, keys, view, ready]);
+            //V_SetChildNodes(view.root, view['@:{view.updater.vdom}'], vdom, ref, vf, keys, view, ready);
         }
     };
     let Q_TEXTAREA = 'textarea';
@@ -1861,7 +1898,7 @@ define('magix5', () => {
             props = props || Empty_Object;
             let compareKey = Empty, unary = children == 1, mxvKeys = specials, hasSpecials = specials, prop, value, c, reused, reusedTotal = 0, 
             //outerHTML = '<' + tag,
-            attrs = `<${tag}`, innerHTML = Empty, newChildren, prevNode, mxView = 0;
+            attrs = `<${tag}`, innerHTML = Empty, newChildren, prevNode, viewList, mxView = 0;
             if (children &&
                 children != 1) {
                 for (c of children) {
@@ -1888,6 +1925,11 @@ define('magix5', () => {
                         prevNode['@:{v#node.html}'] += c['@:{v#node.html}'];
                     }
                     else {
+                        if (c['@:{v#node.views}']) {
+                            if (!viewList)
+                                viewList = [];
+                            viewList.push(...c['@:{v#node.views}']);
+                        }
                         //reused node if new node key equal old node key
                         if (c['@:{v#node.compare.key}']) {
                             if (!reused)
@@ -1930,10 +1972,15 @@ define('magix5', () => {
                 }
                 if (prop == MX_View &&
                     value) {
-                    mxView = 1;
+                    prevNode = ParseUri(value);
+                    mxView = prevNode[Path];
+                    if (!viewList) {
+                        viewList = [];
+                    }
+                    viewList.push([mxView, props[MX_OWNER], value, prevNode[Params]]);
                     if (!compareKey) {
                         //否则如果是组件,则使用组件的路径做为key
-                        compareKey = tag + Spliter + ParseUri(value)[Path];
+                        compareKey = tag + Spliter + mxView;
                     }
                 }
                 if (prop == Value &&
@@ -1964,6 +2011,7 @@ define('magix5', () => {
                 '@:{v#node.children}': newChildren,
                 '@:{v#node.reused}': reused,
                 '@:{v#node.reused.total}': reusedTotal,
+                '@:{v#node.views}': viewList,
                 '@:{v#node.self.close}': unary
             };
         }
@@ -1981,8 +2029,12 @@ define('magix5', () => {
             if (vNodes.length &&
                 vNodes[0]['@:{v#node.tag}'] != Spliter) {
                 for (let e of vNodes) {
+                    if (!realNodes[index]) {
+                        console.error('real not match virtual nodes!');
+                        break;
+                    }
                     if (realNodes[index].nodeName.toLowerCase() != e['@:{v#node.tag}'].toLowerCase()) {
-                        console.error('virtual not match real nodes!');
+                        console.warn('virtual not match real nodes!');
                     }
                     index++;
                 }
@@ -1999,8 +2051,8 @@ define('magix5', () => {
         svg: `${V_W3C}2000/svg`,
         math: `${V_W3C}1998/Math/MathML`
     };
-    let V_To_Reg = new RegExp(`${MX_TO}="\x05"`, 'g');
-    let V_TO_Update = (s, ref) => s.replace(V_To_Reg, `${MX_TO}="${ref['@:{updater-ref#view.id}']}"`);
+    let V_To_Reg = new RegExp(`${MX_MAIN}="\x05"`, 'g');
+    let V_TO_Update = (s, ref) => s.replace(V_To_Reg, `${MX_MAIN}="${ref['@:{updater-ref#view.id}']}"`);
     let V_SetAttributes = (oldNode, newVDOM, lastVDOM, ref) => {
         let key, value, changed = 0, nsMap = newVDOM['@:{v#node.attrs.specials}'], nMap = newVDOM['@:{v#node.attrs.map}'], osMap, oMap, sValue;
         if (lastVDOM) {
@@ -2038,7 +2090,7 @@ define('magix5', () => {
             }
             else if (!lastVDOM || oMap[key] != value) {
                 changed = 1;
-                if (key == MX_TO) {
+                if (key == MX_MAIN) {
                     value = ref['@:{updater-ref#view.id}'];
                 }
                 oldNode.setAttribute(key, value);
@@ -2085,7 +2137,8 @@ define('magix5', () => {
         if (elementNode) {
             vf = Vframe_Vframes[node['@:{node#vframe.id}']];
             if (vf) {
-                vf.unmount();
+                Vframe_Unmount(vf);
+                //vf.unmount();
             }
             else {
                 Vframe_UnmountZone(parentVf, node);
@@ -2093,7 +2146,7 @@ define('magix5', () => {
         }
     };
     let V_Remove_Node_Task = (node, parent, parentVf, ref, view, ready) => {
-        if (view['@:{view#sign}']) {
+        if (view['@:{view.sign}']) {
             V_Remove_Vframe_By_Node(node, parentVf, node.nodeType == 1);
             if (DEBUG) {
                 if (!node.parentNode) {
@@ -2107,7 +2160,7 @@ define('magix5', () => {
         }
     };
     let V_Insert_Node_Task = (realNode, oc, nodes, offset, view, ref, vframe, ready) => {
-        if (view['@:{view#sign}']) {
+        if (view['@:{view.sign}']) {
             if (oc['@:{v#node.tag}'] == Spliter) {
                 Vframe_UnmountZone(vframe, realNode);
                 SetInnerHTML(realNode, oc['@:{v#node.html}']);
@@ -2133,7 +2186,7 @@ define('magix5', () => {
     //     return [resuedTotal, keyedNodes];
     // };
     let V_SetChildNodes = (realNode, lastVDOM, newVDOM, ref, vframe, keys, view, ready) => {
-        if (view['@:{view#sign}']) {
+        if (view['@:{view.sign}']) {
             if (lastVDOM) { //view首次初始化，通过innerHTML快速更新
                 if (lastVDOM['@:{v#node.mxv.keys}'] ||
                     lastVDOM['@:{v#node.html}'] != newVDOM['@:{v#node.html}']) {
@@ -2449,7 +2502,7 @@ define('magix5', () => {
         }
     };
     let V_SetNode = (realNode, oldParent, lastVDOM, newVDOM, ref, vframe, keys, rootView, ready) => {
-        if (rootView['@:{view#sign}']) {
+        if (rootView['@:{view.sign}']) {
             if (DEBUG) {
                 if (lastVDOM['@:{v#node.tag}'] != Spliter &&
                     newVDOM['@:{v#node.tag}'] != Spliter) {
@@ -2494,8 +2547,8 @@ define('magix5', () => {
                         }
                         //旧节点有view,新节点有view,且是同类型的view
                         if (newMxView && oldVf &&
-                            oldVf['@:{vframe#view.path}'] == uri[Path] &&
-                            (view = oldVf['@:{vframe#view.entity}'])) {
+                            oldVf['@:{vframe.view.path}'] == uri[Path] &&
+                            (view = oldVf['@:{vframe.view.entity}'])) {
                             htmlChanged = newHTML != lastVDOM['@:{v#node.html}'];
                             paramsChanged = newMxView != oldVf[Path];
                             assign = newVDOM['@:{v#node.mxv.keys}'];
@@ -2510,14 +2563,14 @@ define('magix5', () => {
                             }
                             if (paramsChanged ||
                                 htmlChanged) {
-                                assign = view['@:{view#assign.fn}'];
+                                assign = view['@:{view.assign.fn}'];
                                 //如果有assign方法,且有参数或html变化
                                 //if (assign) {
                                 params = uri[Params];
                                 //处理引用赋值
                                 Vframe_TranslateQuery(newAMap[MX_OWNER], newMxView, params);
                                 oldVf[Path] = newMxView; //update ref
-                                oldVf['@:{vframe#template}'] = newHTML;
+                                oldVf['@:{vframe.template}'] = newHTML;
                                 //如果需要更新，则进行更新的操作
                                 // uri = {
                                 //     //node: newVDOM,//['@:{v#node.children}'],
@@ -2544,7 +2597,7 @@ define('magix5', () => {
                                 }
                                 //默认当一个组件有assign方法时，由该方法及该view上的render方法完成当前区域内的节点更新
                                 //而对于不渲染界面的控制类型的组件来讲，它本身更新后，有可能需要继续由magix更新内部的子节点，此时通过deep参数控制
-                                updateChildren = !view['@:{view#template}']; //uri.deep;
+                                updateChildren = !view['@:{view.template}']; //uri.deep;
                                 // } else {
                                 //     unmountOld = 1;
                                 //     updateChildren = 1;
@@ -2564,7 +2617,8 @@ define('magix5', () => {
                         }
                         if (unmountOld) {
                             ref['@:{updater-ref#changed}'] = 1;
-                            oldVf.unmount();
+                            Vframe_Unmount(oldVf);
+                            //oldVf.unmount();
                         }
                         // Update all children (and subchildren).
                         //自闭合标签不再检测子节点
@@ -2618,9 +2672,9 @@ define('magix5', () => {
     };
     let View_EndUpdate = view => {
         let o, f;
-        if (view['@:{view#sign}']) {
-            f = view['@:{view#rendered}'];
-            view['@:{view#rendered}'] = 1;
+        if (view['@:{view.sign}']) {
+            f = view['@:{view.rendered}'];
+            view['@:{view.rendered}'] = 1;
             o = view.owner;
             Vframe_MountZone(o);
             if (!f) {
@@ -2629,7 +2683,7 @@ define('magix5', () => {
         }
     };
     let View_DelegateEvents = (me, destroy) => {
-        let e, { '@:{view#events.object}': eventsObject, '@:{view#selector.events.object}': selectorObject, '@:{view#events.list}': eventsList, id } = me; //eventsObject
+        let e, { '@:{view.events.object}': eventsObject, '@:{view.selector.events.object}': selectorObject, '@:{view.events.list}': eventsList, id } = me; //eventsObject
         for (e in eventsObject) {
             Body_DOMEventBind(e, selectorObject[e], destroy, eventsObject[e]);
         }
@@ -2686,7 +2740,7 @@ define('magix5', () => {
         View_MergeMixins(args, me[Prototype], _);
         return me;
     }
-    let safeRender = render => function (...args) { return this['@:{view#sign}'] && ToTry(render, args, this); };
+    let safeRender = render => function (...args) { return this['@:{view.sign}'] && ToTry(render, args, this); };
     let execCtors = (list, params, me, cx) => {
         if (list) {
             for (cx of list) {
@@ -2776,14 +2830,18 @@ define('magix5', () => {
                     }
                 }
             }
-            prop['@:{view#render.short}'] = prop.render = safeRender(prop.render);
-            prop['@:{view#events.object}'] = eventsObject;
-            prop['@:{view#events.list}'] = eventsList;
-            prop['@:{view#selector.events.object}'] = selectorObject;
-            prop['@:{view#assign.fn}'] = prop.assign;
-            prop['@:{view#template}'] = prop.tmpl;
+            if (prop['@:{view.render.short}'] != prop.render) {
+                prop['@:{view.render.short}'] = prop.render = safeRender(prop.render);
+            }
+            prop['@:{view.events.object}'] = eventsObject;
+            prop['@:{view.events.list}'] = eventsList;
+            prop['@:{view.selector.events.object}'] = selectorObject;
+            prop['@:{view.assign.fn}'] = prop.assign;
+            prop['@:{view.template}'] = prop.tmpl;
         }
     };
+    let View_Exit_From_Router = '@:{tip-mutual#from.router}';
+    let View_Exit_From_Vframe = '@:{tip-mutual#from.vframe}';
     let View_ExitList = [];
     let View_RunExitList = (e, idx = 0) => {
         let head = View_ExitList[idx];
@@ -2793,11 +2851,13 @@ define('magix5', () => {
                 View_RunExitList(e, idx + 1);
             }, () => {
                 View_ExitList.length = 0;
+                View_ExitList[e['@:{exit-tip#from}']] = 0;
                 e.reject();
             });
         }
         else {
             View_ExitList.length = 0;
+            View_ExitList[e['@:{exit-tip#from}']] = 0;
             e.resolve();
         }
     };
@@ -2807,16 +2867,16 @@ define('magix5', () => {
         me.owner = owner;
         me.id = id;
         //me[Spliter] = id;
-        me['@:{view#observe.router}'] = {
+        me['@:{view.observe.router}'] = {
             '@:{view-router#observe.params}': []
         };
-        me['@:{view#sign}'] = 1; //标识view是否刷新过，对于托管的函数资源，在回调这个函数时，不但要确保view没有销毁，而且要确保view没有刷新过，如果刷新过则不回调
-        me['@:{view#updater.data.changed}'] = 1;
-        me['@:{view#updater.data}'] = {};
-        me['@:{view#updater.keys}'] = {};
-        //me['@:{view#assign.sign}'] = 0;
-        me['@:{view#async.count}'] = 0;
-        me['@:{view#async.resolves}'] = [];
+        me['@:{view.sign}'] = 1; //标识view是否刷新过，对于托管的函数资源，在回调这个函数时，不但要确保view没有销毁，而且要确保view没有刷新过，如果刷新过则不回调
+        me['@:{view.updater.data.changed}'] = 1;
+        me['@:{view.updater.data}'] = {};
+        me['@:{view.updater.keys}'] = {};
+        //me['@:{view.assign.sign}'] = 0;
+        me['@:{view.async.count}'] = 0;
+        me['@:{view.async.resolves}'] = [];
         execCtors(View['@:{view-factory#ctors}'], params, me);
     }
     Assign(View, {
@@ -2831,12 +2891,16 @@ define('magix5', () => {
             let me = this;
             if (!me['@:{~view#exit.listener}']) {
                 let changeListener = e => {
-                    if (fn()) {
+                    if (View_ExitList[e['@:{exit-tip#mutual}']]) {
                         e.stop();
+                        e.reject();
+                    }
+                    else if (fn()) {
+                        e.stop();
+                        View_ExitList[e['@:{exit-tip#from}']] = 1;
                         View_ExitList.push([me, msg]);
                     }
-                };
-                let unloadListener = e => {
+                }, unloadListener = e => {
                     if (!e['@:{page-tip#msg}'] &&
                         fn()) {
                         e['@:{page-tip#msg}'] = msg;
@@ -2853,7 +2917,7 @@ define('magix5', () => {
         },
         observeLocation(params, isObservePath) {
             let me = this, loc;
-            loc = me['@:{view#observe.router}'];
+            loc = me['@:{view.observe.router}'];
             loc['@:{view-router#observed}'] = 1;
             if (IsObject(params)) {
                 isObservePath = params[Path];
@@ -2865,15 +2929,15 @@ define('magix5', () => {
             }
         },
         get(key, result) {
-            result = this['@:{view#updater.data}'];
+            result = this['@:{view.updater.data}'];
             if (key) {
                 result = result[key];
             }
             return result;
         },
         set(newData) {
-            let me = this, oldData = me['@:{view#updater.data}'], keys = me['@:{view#updater.keys}'];
-            let changed = me['@:{view#updater.data.changed}'], now, old, p, c;
+            let me = this, oldData = me['@:{view.updater.data}'], keys = me['@:{view.updater.keys}'];
+            let changed = me['@:{view.updater.data.changed}'], now, old, p, c;
             for (p in newData) {
                 now = newData[p];
                 old = oldData[p];
@@ -2884,7 +2948,7 @@ define('magix5', () => {
                 }
                 oldData[p] = now;
             }
-            me['@:{view#updater.data.changed}'] = changed;
+            me['@:{view.updater.data.changed}'] = changed;
             return me;
         },
         digest(data) {
@@ -2905,15 +2969,15 @@ define('magix5', () => {
                 如果在digest的过程中，多次调用自身的digest，则后续的进行排队。前面的执行完成后，排队中的一次执行完毕
             */
             return new GPromise(resolve => {
-                if (data['@:{view#updater.data.changed}']) {
-                    data['@:{view#async.count}']++;
-                    data['@:{view#async.resolves}'].push(resolve);
-                    if (data['@:{view#async.count}'] == 1) {
+                if (data['@:{view.updater.data.changed}']) {
+                    data['@:{view.async.count}']++;
+                    data['@:{view.async.resolves}'].push(resolve);
+                    if (data['@:{view.async.count}'] == 1) {
                         Updater_Digest(data, 1);
                     }
                 }
-                else if (data['@:{view#async.count}']) {
-                    data['@:{view#async.resolves}'].push(resolve);
+                else if (data['@:{view.async.count}']) {
+                    data['@:{view.async.resolves}'].push(resolve);
                 }
                 else {
                     resolve();
@@ -2923,8 +2987,8 @@ define('magix5', () => {
         finale() {
             let me = this;
             return new GPromise(resolve => {
-                if (me['@:{view#async.count}']) {
-                    me['@:{view#async.resolves}'].push(resolve);
+                if (me['@:{view.async.count}']) {
+                    me['@:{view.async.resolves}'].push(resolve);
                 }
                 else {
                     resolve();
@@ -2932,24 +2996,24 @@ define('magix5', () => {
             });
         },
         changed() {
-            return this['@:{view#updater.data.changed}'];
+            return this['@:{view.updater.data.changed}'];
         },
         // snapshot() {
         //     let me = this;
-        //     me['@:{view#updater.data.string}'] = JSON_Stringify(me['@:{view#updater.data}']);
+        //     me['@:{view.updater.data.string}'] = JSON_Stringify(me['@:{view.updater.data}']);
         //     return me;
         // },
         // altered() {
         //     let me = this;
-        //     if (me['@:{view#updater.data.string}']) {
-        //         return me['@:{view#updater.data.string}'] != JSON_Stringify(me['@:{view#updater.data}']);
+        //     if (me['@:{view.updater.data.string}']) {
+        //         return me['@:{view.updater.data.string}'] != JSON_Stringify(me['@:{view.updater.data}']);
         //     }
         // },
         translate(data) {
-            return TranslateData(this.owner['@:{vframe#ref.data}'], data);
+            return TranslateData(this.owner['@:{vframe.ref.data}'], data);
         },
         parse(origin) {
-            return ParseExpr(origin, this.owner['@:{vframe#ref.data}']);
+            return ParseExpr(origin, this.owner['@:{vframe.ref.data}']);
         }
     });
     /*
@@ -3306,7 +3370,7 @@ define('magix5', () => {
         };
     };
     let Magix = {
-        version: '5.0.0-beta',
+        version: '5.0.0',
         config(cfg, ...args) {
             let r = Mx_Cfg;
             if (cfg) {

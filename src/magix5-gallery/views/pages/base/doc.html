@@ -14,9 +14,11 @@
     <div class="mx5-clearfix mx5-pb20">
         {{if (columns && columns.length)}}
             {{each columns as d}}
-            <div class="{{if (highlightValue == d.value)}} highlight-example {{/if}}" 
+            <div style="min-height:100px;" class="{{if (highlightValue == d.value)}} highlight-example {{/if}}" 
                 data-target="{{=d.value}}"
-                mx-view="{{=path}}/{{=d.path}}" data-spm="c1d66a8e0"></div>
+                mx-view="{{=path}}/{{=d.path}}" data-spm="c1d66a8e0">
+                <mx-loading/>
+            </div>
             {{/each}}
         {{/if}}
         {{if (lefts && lefts.length && rights && rights.length)}}

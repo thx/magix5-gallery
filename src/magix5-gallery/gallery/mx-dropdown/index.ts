@@ -402,7 +402,7 @@ export default View.extend({
     '$doc<mousedown,keyup>'(e) {
         let node = e.target;
         let { popId } = this.get();
-        let inside = Magix5.inside(node, this.root) || Magix5.inside(node, document.getElementById(popId));
+        let inside = Magix5.inside(node, this.root) || Magix5.inside(node, Magix5.node(popId));
         if (!inside) {
             this['@:{hide}']();
         }

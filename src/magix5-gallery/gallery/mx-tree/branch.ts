@@ -143,10 +143,14 @@ export default View.extend({
         //     if (to) {
         //         childrenNode.style.height = 'auto';
         //     }
-        this.digest({
+        await this.digest({
             data,
             closeMap
         });
+        // await Magix5.lowTaskFinale();
+        // console.log('ok');
+        // let childrenNode = node<HTMLElement>(`${this.id}_children_${index}`);
+        // console.log(childrenNode.childNodes.length);
         // if (childrenNode &&
         //     childrenNode.animate) {
         //     let animations = childrenNode.getAnimations();

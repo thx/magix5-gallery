@@ -100,13 +100,13 @@ export default View.extend({
         }
 
         let watchOver = e => {
-            if (Magix5.inside(e.relatedTarget, e.eventTarget)) {
+            if (Magix5.inside(e.relatedTarget, e.currentTarget)) {
                 return;
             }
             that['@:{clear.timers}']();
         }
         let watchOut = e => {
-            if (Magix5.inside(e.relatedTarget, e.eventTarget)) {
+            if (Magix5.inside(e.relatedTarget, e.currentTarget)) {
                 return;
             }
             that['@:{hide}']();
@@ -137,7 +137,7 @@ export default View.extend({
 
             // 每次展开重新渲染内容
             let { popId, content, view, viewData, posConfigs } = that.get();
-            let popNode = Magix5.node(popId);
+            let popNode = Magix5.node<HTMLElement>(popId);
             that['@:{pop.vframe}'] = that.owner.mount(popNode, '@:./content', {
                 content,
                 view,
@@ -153,7 +153,6 @@ export default View.extend({
         that['@:{dealy.hide.timer}'] = setTimeout(() => {
             if (!that.get('show')) { return; }
             that.set({ show: false });
-
             // 内容隐藏
             let vf = that['@:{pop.vframe}'];
             if (vf) {

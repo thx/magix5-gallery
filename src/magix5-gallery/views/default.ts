@@ -68,7 +68,6 @@ export default View.extend({
 				}
 			});
 		});
-
 		await that.digest({
 			headers,
 			count,

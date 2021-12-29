@@ -7,9 +7,6 @@ Magix5.applyStyle('@:index.less');
 
 export default View.extend({
     tmpl: '@:index.html',
-    init(options) {
-        this.assign(options);
-    },
     assign(options) {
         let type = options.type || 'text';
         let displayType = ({
