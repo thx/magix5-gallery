@@ -7,9 +7,18 @@
                 <div>默认宽度100%，默认高度200px，支持配置height自定义高度</div>
             </div>
         </div>
-        {{set user=a;}}
-        <span vd-for="{{~user.name}}"></span>
-        <input mx-host="abc" mx-view="../../../gallery/mx-loading/test" value="{{:user$name&{required:true} }}"/>
+        <input type="checkbox" indeterminate="{{=!a}}?"/>
+        <span vd-msg-for="{{~user$name}}"></span>
+        <mx-cal start="" end="{{:end & {}}}"/>
+        <input value="{{:user$name & {required:true} }}"/>
+        <input value="{{:user$name&{required:true} }}"/>
+        <span vd-msg-for="{{~user$name}}"></span>
+        <button mx-click="changeText()">change text1</button>
+        <mx-loading *a-b-c="aa">
+            <mx-slot name="a-b-c">
+                <mx-btn *content="{{#text1}}"/>
+            </mx-slot>
+        </mx-loading>
         <mx-loading.test/>
         <mx-loading.test *brand="true"/>
         <mx-loading />

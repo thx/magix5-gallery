@@ -109,6 +109,7 @@ export default View.extend({
                 selectedItems: [e.params.item]
             }
         });
+        this['@:{hide}']();
     },
 
     /**
@@ -359,7 +360,7 @@ export default View.extend({
         }, that.get('searchDelay'));
     },
 
-    hide() {
+    '@:{hide}'() {
         let node = this.root;
         node.classList.remove('mx5-output-show');
         node.classList.add('mx5-output-hide');

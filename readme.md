@@ -3,5 +3,4 @@
 
 
 ### 文档地址
-* [https://mo.m.taobao.com/one-stop/page_20211213_030636_950](https://mo.m.taobao.com/one-stop/page_20211213_030636_950)
-* [https://mo.m.taobao.com/one-stop/page_20211213_030636_950](https://mo.m.taobao.com/one-stop/page_20211213_030636_950)
+[https://mo.m.taobao.com/one-stop/page_20211213_030636_950](https://mo.m.taobao.com/one-stop/page_20211213_030636_950)

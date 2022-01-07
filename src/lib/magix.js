@@ -1,8 +1,8 @@
 /*
-version:5.0.0 Licensed MIT
+version:5.1.0 Licensed MIT
 author:kooboy_li@163.com
 loader:umd
-enables:mxevent,richVframe,xml,async,service,wait,lang,router,routerHash,routerTip,richView,innerView,recast,require,xview,taskComplete,taskIdle,spreadMxViewParams,removeStyle,taskCancel,eventVframe,richVframeInvokeCancel,waitSelector,remold,rewrite,rebuild,load,state,batchDOMEvent,richVframeDescendants,preloadViews,esmoduleCheck
+enables:mxevent,richVframe,xml,async,service,wait,lang,router,routerHash,routerTip,richView,innerView,recast,require,xview,taskComplete,taskIdle,spreadMxViewParams,removeStyle,taskCancel,eventVframe,richVframeInvokeCancel,waitSelector,remold,rewrite,rebuild,load,state,batchDOMEvent,richVframeDescendants,preloadViews,esmoduleCheck,checkReset
 optionals:catchHTMLError,routerState,routerTipLockUrl,routerForceState,customTags,checkAttr,webc,lockSubWhenBusy
 */
 //magix-composer#snippet;
@@ -50,6 +50,7 @@ define('magix5', () => {
     // let MX_FROM = MX_PREFIX + 'from';
     // let MX_TO = MX_PREFIX + 'to';
     let MX_MAIN = MX_PREFIX + 'main';
+    let MX_RESET = MX_PREFIX + 'reset';
     let GUID = (prefix) => (prefix || Tag_Static_Key) + Counter++;
     let GetById = id => Doc_Document.getElementById(id);
     let SetInnerHTML = (n, html) => n.innerHTML = html;
@@ -1108,7 +1109,7 @@ define('magix5', () => {
     };
     let Vframe_Unroot = () => {
         if (Vframe_RootVframe) {
-            Vframe_Unmount(Vframe_RemoveVframe);
+            Vframe_Unmount(Vframe_RootVframe);
             Vframe_RootVframe = Null;
         }
     };
@@ -1235,7 +1236,8 @@ define('magix5', () => {
                 //v.owner = v.root = Null;
                 if (root &&
                     owner['@:{vframe.alter.node}'] &&
-                    v['@:{view.template}']) {
+                    v['@:{view.template}'] &&
+                    GetAttribute(root, MX_RESET) != Null) {
                     SetInnerHTML(root, owner['@:{vframe.template}']);
                     if (pId &&
                         owner['@:{vframe.template}'] &&
@@ -1575,8 +1577,8 @@ define('magix5', () => {
                         if (view['@:{view.template}'] && !backtrace) {
                             break; //带界面的中止
                         }
-                        backtrace = 0;
                     }
+                    backtrace = 0;
                 } while (vf && (selectorVfId = vf.pId));
             }
         }
@@ -2076,7 +2078,7 @@ define('magix5', () => {
             }
         }
         for (key in nMap) {
-            value = nMap[key];
+            value = nMap[key] ?? Empty;
             if ((sValue = nsMap[key])) {
                 if (!lastVDOM || oldNode[sValue] != value) {
                     changed = 1;
@@ -3370,7 +3372,7 @@ define('magix5', () => {
         };
     };
     let Magix = {
-        version: '5.0.0',
+        version: '5.1.0',
         config(cfg, ...args) {
             let r = Mx_Cfg;
             if (cfg) {
@@ -3408,6 +3410,9 @@ define('magix5', () => {
         isString: IsString,
         isNumber: IsNumber,
         isPrimitive: IsPrimitive,
+        isNumeric(o) {
+            return !isNaN(parseFloat(o)) && isFinite(o);
+        },
         waitSelector(selector, timeout, context) {
             context = context || document;
             timeout = timeout || 30 * Thousand;

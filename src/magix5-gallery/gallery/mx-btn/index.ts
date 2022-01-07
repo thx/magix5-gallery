@@ -89,17 +89,24 @@ export default View.extend({
 
     '@:{anim}<click>'(e) {
         let that = this;
-        let { disabled, loading, animation } = that.get();
-        if (disabled || loading || (animation == 'expand')) {
+        let { disabled, loading, animing } = that.get();
+        if (disabled || loading || animing) {
             return;
         }
 
-        that.digest({ animation: 'expand' });
+        // 防止快速点击
+        // let delayMark = Magix5.mark(this, '@:{delay.show.timer}');
+        // await Magix5.delay(100);
+
+        // // 开始动画
+        // if (!delayMark()) { return; };
+        that.digest({ animing: true });
     },
     /**
      * 动画结束移除标记
      */
     '$[data-animation="btn"]<animationend>'(e) {
-        this.digest({ animation: null });
+        e.stopPropagation();
+        this.digest({ animing: false });
     }
 });

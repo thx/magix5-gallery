@@ -3,7 +3,7 @@ let { has, mark, toMap, applyStyle, task, isObject, isArray } = Magix5;
 applyStyle('@:./sync.less');
 let emptyObject = {};
 let errorSelector = '@:./sync.less:error-input';
-let noneSelector = '@:scoped.style:none';
+let noneSelector = '@:./sync.less:none';
 let showOrHideTip = (classList, viewId, expr, hide, msg?: string) => {
     if (hide) {
         classList.remove(errorSelector);
@@ -145,7 +145,7 @@ export default {
     isValid() {
         debugger;
     },
-    '$[mx5-ctrl]<change,focusout>'(e: Magix5.MagixMixedEvent) {
+    '$[mx5-ctrl]<change,focusout,input>'(e: Magix5.MagixMixedEvent) {
         let { eventTarget, type } = e;
         let ownerId = eventTarget.getAttribute('mx5-host');
         if (ownerId != this.id || e['@:{halt}']) {

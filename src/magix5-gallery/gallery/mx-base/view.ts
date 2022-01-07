@@ -32,7 +32,7 @@ export default Magix5.View.extend({
      */
     '@:{format.number}'(number, precision, thousand, decimal) {
         number = +number || 0;
-        precision = +precision || 2;
+        precision = (precision === undefined || precision === null) ? 2 : +precision;
         thousand = thousand || ',';
         decimal = decimal || '.';
 

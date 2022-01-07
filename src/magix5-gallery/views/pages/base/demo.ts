@@ -14,9 +14,9 @@ export default View.extend({
         this.set(options);
     },
     async render() {
-        if (DEBUG) {
-            await Magix5.delay(1000);
-        }
+        // if (DEBUG) {
+        //     await Magix5.delay(1000);
+        // }
         await this.digest();
     },
     async '@:{done}<click,success>'(e) {

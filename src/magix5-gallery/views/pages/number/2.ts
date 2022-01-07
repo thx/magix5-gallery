@@ -12,7 +12,6 @@ export default View.extend({
                 duration: 400,
             },
             num,
-            str: this['@:{format.number}'](num),
             duration: 400,
         });
     },
@@ -25,20 +24,16 @@ export default View.extend({
     },
     'add<click>'(e) {
         let { num, setting } = this.get();
-        num = (+num) + 1423.08;
         this.digest({
             ...setting,
-            num,
-            str: this['@:{format.number}'](num),
+            num: (+num) + 1423.08,
         })
     },
     'sub<click>'(e) {
         let { num, setting } = this.get();
-        num = (+num) - 800.23;
         this.digest({
             ...setting,
-            num,
-            str: this['@:{format.number}'](num),
+            num: (+num) - 800.23,
         })
     },
 })

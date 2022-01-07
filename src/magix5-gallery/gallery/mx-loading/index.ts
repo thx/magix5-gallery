@@ -17,6 +17,7 @@ export default View.extend({
         let height = options.height || (brand ? 'calc(100vh)' : '200px');
 
         this.set({
+            ...options,
             loadingId: `${that.id}${t}`,
             brand,
             height,

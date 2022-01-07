@@ -10,43 +10,61 @@ export default View.extend({
                 type: 'string',
                 def: ''
             }, {
+                value: 'format',
+                text: '以千位分隔符方式格式化一个数字',
+                type: 'boolean',
+                def: 'true'
+            }, {
+                value: 'precision',
+                text: 'format=true时，保留小数位精度，若不配置该字段，则原数值展示',
+                type: 'number',
+                def: ''
+            }, {
+                value: 'animation',
+                text: '是否展示动画',
+                type: 'boolean',
+                def: 'false'
+            }, {
+                value: 'font-size',
+                text: 'animation=true时，字体大小，单位px',
+                type: 'number',
+                def: '32px'
+            }, {
+                value: 'line-height',
+                text: 'animation=true时，行高，单位px',
+                type: 'number',
+                def: '48px'
+            }, {
+                value: 'color',
+                text: 'animation=true时，文字颜色',
+                type: 'string',
+                def: 'var(--mx5-font-color)'
+            }, {
                 value: 'delay',
-                text: '整体延迟多少ms开始动画，单位毫秒',
+                text: 'animation=true时，整体延迟多少ms开始动画，单位毫秒，正整数',
                 type: 'number',
                 def: '400'
             }, {
                 value: 'duration',
-                text: '动画持续多少ms，单位毫秒',
+                text: 'animation=true时，动画持续多少ms，单位毫秒，正整数',
                 type: 'number',
                 def: '400'
             }, {
                 value: 'number-delay',
-                text: '单个数字延迟多少ms开始动画，单位毫秒。举例：<ul style="list-style: square inside;"><li>数字123，delay=200ms，duration=400ms，number-delay=20ms，则数字1延迟200ms开始动画400ms，数字2延迟220ms开始动画400ms，数字1延迟240ms开始动画400ms</li><li>数字123，delay=200ms，duration=400ms，number-delay= -20ms，则数字1延迟200ms开始动画400ms，数字2延迟180ms开始动画400ms，数字1延迟160ms开始动画400ms</li></ul>',
+                text: 'animation=true时，单个数字延迟多少ms开始动画，单位毫秒，正整数。<br/>举例：数字123，delay=200ms，duration=400ms，number-delay=20ms，则数字1延迟200ms开始动画400ms，数字2延迟220ms开始动画400ms，数字1延迟240ms开始动画400ms',
                 type: 'number',
                 def: '0'
-            }, {
-                value: 'font-size',
-                text: '字体大小，单位px',
-                type: 'number',
-                def: '32'
-            }, {
-                value: 'line-height',
-                text: '行高，默认字体大小1.5倍，单位px',
-                type: 'number',
-                def: '48'
-            }, {
-                value: 'color',
-                text: '文字颜色',
-                type: 'string',
-                def: '#333333'
             }],
-            columns: [{
+            columns: [/*{
+                text: '纯数字展示',
+                path: 3
+            },*/ {
                 text: '动画参数',
                 path: 1
-            }, {
-                text: '自定义样式',
+            }/*, {
+                text: '自定义动画样式',
                 path: 2
-            }],
+            }*/],
         });
     },
 })

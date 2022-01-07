@@ -1,0 +1,16 @@
+<div class="mx5-clearfix" style="height: {{=lineHeight}}px; font-size: {{=fontSize}}px; line-height: {{=lineHeight}}px; color: {{=color}}; overflow: hidden;">
+    {{each arr as item index}}
+    <div class="numbers" data-index="{{=index}}"
+        style=" 
+        {{if animing}} transition: all {{=duration}}ms ease-out {{=item.numberDelay}}ms;  {{/if}}
+        transform: translate(0, -{{= ((animing?item.num: item.startNumber) * 4.1666 + (animing?50:0)) }}%);">
+        {{for(let i=0;i<=1;i++)}}
+            {{for(let j=0;j<=9;j++)}}
+            <div>{{=j}}</div>
+            {{/for}}
+            <div>.</div>
+            <div>-</div>
+        {{/for}}
+    </div>
+    {{/each}}
+</div>

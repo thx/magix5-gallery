@@ -62,13 +62,14 @@ module.exports = {
             'padding: var(--mx5-layout-title-v-gap) var(--mx5-layout-title-h-gap)'
         ];
         let borderTest = '';
-        let border = attrsKV['*border'];//变量支持
-        let cmd = builder.readCmd(border);//目前仅支持简单的表达式，如{{=expr}}
+        let border = attrsKV['*border'];//读取*border，有可能是变量
+        let cmd = builder.readCmd(border);//目前仅支持简单的变量表达式，如{{=expr}}
         if (cmd.succeed) {//成功读取变量
             //因为style属性固定出现，内容使用if控制语句即可动态控制
             styles.push(`{{if ${cmd.content}}}border-bottom: 1px solid var(--mx5-layout-title-border-color){{/if}}`);
-            //data-border属性根据条件决定是否有，不固定的属性使用条件语句
+            //data-border属性根据条件是否出现，不固定的属性使用条件语句
             //动态属性需要buildCmd重构下指令
+            //a="{{=b}}??"
             let rebuildCmd = builder.buildCmd(cmd.line, '=', cmd.art, cmd.content);
             borderTest = `data-border="${rebuildCmd}?"`;//仅控制属性出现
             borderTest += ` data-border2="${rebuildCmd}?content"`//内容
@@ -77,8 +78,9 @@ module.exports = {
         } else if ((border + '') !== 'false') {//字面量
             styles.push('border-bottom: 1px solid var(--mx5-layout-title-border-color)');
         }
-
+        //根据当前token，生成排除子token中mx-slot外的其它节点成字符串
         let restHTML = builder.buildInnerHTML(currentToken, exceptSlot);
+        let popover=attrsKV['*icon-tip'] ? (`<mx-popover class="mx5-iconfont mx5-iconfont-tip" style="margin-left: 4px;" *content="${attrsKV['*icon-tip']}">&#xe72f;</mx-popover>`) : '';
         return `<div ${borderTest} ${ProcessAttr(attrsKV, styles.join(';'), {
             '*content': 1,
             '*icon-tip': 1,
@@ -86,7 +88,7 @@ module.exports = {
             '*link': 1,
             '*link-text': 1,
             '*border': 1,
-        }, 'mx5-clearfix')}><div>${contentSlotValue}</div>${restHTML}</div>`;
+        }, 'mx5-clearfix')}><div>${contentSlotValue}</div>${restHTML}${popover}</div>`;
     },
     'mx-layout.title'(i) {
         let { content, attrsKV } = i;

@@ -1,8 +1,13 @@
-.numbers {
+[mx5-view*="mx-number/index"] {
     font-family: var(--mx5-font-number);
-    overflow: hidden;
-}
 
-.line {
-    float: left;
+    &[mx5-view*="animation=true"] {
+        display: inline-block;
+        white-space: nowrap;
+        vertical-align: middle;
+
+        .numbers {
+            float: left;
+        }
+    }
 }
