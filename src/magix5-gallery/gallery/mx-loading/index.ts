@@ -28,7 +28,7 @@ export default View.extend({
         })
     },
     async render() {
-        await Magix5.delay(2000);
+        //await Magix5.delay(2000);
         this.digest();
     }
 });

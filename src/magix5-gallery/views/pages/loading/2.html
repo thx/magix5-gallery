@@ -8,8 +8,8 @@
             </div>
         </div>
         <input type="checkbox" indeterminate="{{=!a}}?"/>
-        <span vd-msg-for="{{~user$name}}"></span>
-        <mx-cal start="" end="{{:end & {}}}"/>
+        <span mx-for="{{~start}}-{{~end}}"></span>
+        <mx-cal *start="{{:start}}" *end="{{:end & {}}}"/>
         <input value="{{:user$name & {required:true} }}"/>
         <input value="{{:user$name&{required:true} }}"/>
         <span vd-msg-for="{{~user$name}}"></span>

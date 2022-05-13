@@ -1,10 +1,10 @@
-/*!5.0.0-beta Licensed MIT*/
+/*!5.1.0 Licensed MIT*/
 /*
 author:kooboy_li@163.com
 loader:umd
-enables:mxevent,richVframe,xml,async,service,wait,lang,router,routerHash,routerTip,richView,innerView,recast,require,xview,taskComplete,taskIdle,spreadMxViewParams,removeStyle,taskCancel,eventVframe,richVframeInvokeCancel,waitSelector,remold,rewrite,rebuild,load,state,batchDOMEvent,richVframeDescendants,preloadViews,esmoduleCheck
+enables:mxevent,richVframe,xml,async,service,wait,lang,router,routerHash,routerTip,richView,recast,require,xview,taskComplete,taskIdle,spreadMxViewParams,removeStyle,taskCancel,eventVframe,richVframeInvokeCancel,waitSelector,remold,rewrite,rebuild,load,state,batchDOMEvent,richVframeDescendants,preloadViews,esmoduleCheck,checkReset,innerView
 
-optionals:catchHTMLError,routerState,routerTipLockUrl,routerForceState,customTags,checkAttr,webc,lockSubWhenBusy
+optionals:base,catchHTMLError,routerState,routerTipLockUrl,routerForceState,customTags,checkAttr,webc,lockSubWhenBusy
 */
 declare namespace Magix5 {
     /**
@@ -781,6 +781,23 @@ declare namespace Magix5 {
         readonly prototype: View
     }
     /**
+     * Base原型
+     */
+    interface Base extends Event<Base> {
+
+    }
+    /**
+     * base构造器
+     */
+    interface BaseConstructor {
+        /**
+         * 继承Magix.View
+         * @param props 包含可选的init和render方法的对象
+         * @param statics 静态方法或属性的对象
+         */
+        extend<TProps extends object, TStatics extends object>(props: TProps, statics: TStatics): this
+    }
+    /**
      * 接口管理类原型
      */
     interface Service {
@@ -997,22 +1014,31 @@ declare namespace Magix5 {
          * @param aim 目标对象
          */
         type(aim: any): string
+        
         /**
          * 向页面追加样式
          * @param key 样式对应的唯一key，该key主要防止向页面反复添加同样的样式
          * @param cssText 样式字符串
+         * @returns 可移除添加样式的方法
          */
-        applyStyle(key: string, cssText: string): void
+        applyStyle(key: string, cssText: string): () => void | null
         /**
          * 向页面追加样式
          * @param atFile 以@:开头的文件路径
+         * @returns 可移除添加样式的方法
          */
-        applyStyle(atFile: string): void
+        applyStyle(atFile: string): () => void | null
+        
         /**
          * 生成唯一的guid
          * @param prefix guid的前缀，默认mx-
          */
         guid(prefix?: string): string
+        /**
+         * 获取对象的key数组，同Object.keys
+         * @param o 对象
+         */
+        keys(o: object): string[]
         /**
          * 获取异步标识
          * @param host 宿主对象
@@ -1066,6 +1092,10 @@ declare namespace Magix5 {
          */
         taskCancel(id: string): void,
         
+        /**
+         * 通过performance.now获取一个时间戳
+         */
+        now(): number
         /**
          * 检测某个任务是否完成
          * @param fn 完成后执行的函数
@@ -1183,6 +1213,11 @@ declare namespace Magix5 {
         */
         isNumber(o): boolean,
         /**
+         * 是否可转化为有效数字
+         * @param o 检测对象
+         */
+        isNumeric(o): boolean
+        /**
          * 等待相应的选择器就绪
          * @param selector 选择器
          * @param timeout 超时时间，默认30s
@@ -1224,6 +1259,7 @@ declare namespace Magix5 {
          * Vframe类
          */
         Vframe: VframeConstructor
+        
     }
 }
 declare namespace Magix5 {

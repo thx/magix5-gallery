@@ -2,8 +2,8 @@
 version:5.1.0 Licensed MIT
 author:kooboy_li@163.com
 loader:umd
-enables:mxevent,richVframe,xml,async,service,wait,lang,router,routerHash,routerTip,richView,innerView,recast,require,xview,taskComplete,taskIdle,spreadMxViewParams,removeStyle,taskCancel,eventVframe,richVframeInvokeCancel,waitSelector,remold,rewrite,rebuild,load,state,batchDOMEvent,richVframeDescendants,preloadViews,esmoduleCheck,checkReset
-optionals:catchHTMLError,routerState,routerTipLockUrl,routerForceState,customTags,checkAttr,webc,lockSubWhenBusy
+enables:mxevent,richVframe,xml,async,service,wait,lang,router,routerHash,routerTip,richView,recast,require,xview,taskComplete,taskIdle,spreadMxViewParams,removeStyle,taskCancel,eventVframe,richVframeInvokeCancel,waitSelector,remold,rewrite,rebuild,load,state,batchDOMEvent,richVframeDescendants,preloadViews,esmoduleCheck,checkReset,innerView
+optionals:base,catchHTMLError,routerState,routerTipLockUrl,routerForceState,customTags,checkAttr,webc,lockSubWhenBusy
 */
 //magix-composer#snippet;
 //magix-composer#exclude = loader;
@@ -19,7 +19,6 @@ define('magix5', () => {
     let Doc_Window = window;
     let Thousand = 1000;
     let GPromise = Promise;
-    let Undefined = void Counter;
     let Doc_Document = document;
     let Timeout = Doc_Window.setTimeout; //setTimeout;
     let ClearTimeout = Doc_Window.clearTimeout;
@@ -30,6 +29,7 @@ define('magix5', () => {
     let Tag_Prop_Id = 'id';
     let Hash_Key = '#';
     function Noop(...args) { }
+    ;
     let JSON_Stringify = JSON.stringify;
     let Header = Doc_Document.head;
     let Doc_Body;
@@ -51,6 +51,7 @@ define('magix5', () => {
     // let MX_TO = MX_PREFIX + 'to';
     let MX_MAIN = MX_PREFIX + 'main';
     let MX_RESET = MX_PREFIX + 'reset';
+    let MX_SUB = MX_PREFIX + 'nest';
     let GUID = (prefix) => (prefix || Tag_Static_Key) + Counter++;
     let GetById = id => Doc_Document.getElementById(id);
     let SetInnerHTML = (n, html) => n.innerHTML = html;
@@ -139,7 +140,7 @@ define('magix5', () => {
         if (css && !ApplyStyle[key]) {
             ApplyStyle[key] = 1;
             if (DEBUG) {
-                if (key.indexOf('$throw_') === 0) {
+                if (key.startsWith('$throw_')) {
                     throw new Error(css);
                 }
                 node = Doc_Document.createElement('style');
@@ -814,11 +815,13 @@ define('magix5', () => {
                 return msg;
             }
         });
+        AddEventListener(Doc_Window, 'popstate', Router_Tip_Hashchange);
         Router_Diff();
     };
     let Router_Unbind = () => {
         RemoveEventListener(Doc_Window, 'hashchange', Router_Tip_Hashchange);
         RemoveEventListener(Doc_Window, 'beforeunload', Router_Tip_Beforeunload);
+        RemoveEventListener(Doc_Window, 'popstate', Router_Tip_Hashchange);
         Router_LLoc = Router_Init_Loc;
     };
     let Changed = 'changed';
@@ -1113,9 +1116,11 @@ define('magix5', () => {
             Vframe_RootVframe = Null;
         }
     };
-    let Vframe_AddVframe = (id, vframe) => {
+    let Vframe_AddVframe = (id, vframe, root) => {
         if (!Has(Vframe_Vframes, id)) {
             Vframe_Vframes[id] = vframe;
+            root = vframe.root;
+            root['@:{node#mounted.vframe}'] = 1;
             Vframe.fire('add', {
                 vframe
             });
@@ -1212,7 +1217,6 @@ define('magix5', () => {
         //me.unmountZone(zoneId, 1); 不去清理，详情见：https://github.com/thx/magix/issues/27
         for (it of vframes) {
             if (!it['@:{node#mounted.vframe}']) { //防止嵌套的情况下深层的view被反复实例化
-                it['@:{node#mounted.vframe}'] = 1;
                 owner.mount(it, GetAttribute(it, MX_View));
             }
         }
@@ -1305,9 +1309,11 @@ define('magix5', () => {
                 View_DelegateEvents(view);
                 ToTry(view.init, params, view);
                 ToTry(view['@:{view.assign.fn}'], [params, owner['@:{vframe.template}']], view);
+                //CallFunction(view['@:{view.render.short}'], Empty_Array, view);
                 view['@:{view.render.short}']();
                 if (!view['@:{view.template}'] &&
                     !view['@:{view.rendered}']) { //无模板且未触发渲染
+                    //CallFunction(View_EndUpdate, view);
                     View_EndUpdate(view);
                 }
                 // } else {
@@ -1357,6 +1363,7 @@ define('magix5', () => {
                 c[vfId] = vfId; //map
                 vf = new Vframe(node, id);
             }
+            //CallFunction(Vframe_mountView,[vf,viewPath,viewInitParams,, deep]);
             Vframe_mountView(vf, viewPath, viewInitParams, deep);
             return vf;
         },
@@ -1813,10 +1820,10 @@ define('magix5', () => {
     //         Updater_Ready_List.length = 0;
     //     }
     // };
-    let Updater_Digest = async (view, fire, tmpl) => {
+    let Updater_Digest = async (view, holdFire, tmpl) => {
         if (view['@:{view.sign}'] &&
             (tmpl = view['@:{view.template}'])) {
-            let { '@:{view.updater.keys}': keys, id: viewId, '@:{view.updater.data}': data } = view, vf = Vframe_Vframes[viewId], ready, preRequires, ref = {
+            let { '@:{view.updater.keys}': keys, id: viewId, '@:{view.updater.data}': data, root } = view, vf = Vframe_Vframes[viewId], ready, preRequires, ref = {
                 '@:{updater-ref#view.renders}': [],
                 '@:{updater-ref#node.props}': [],
                 '@:{updater-ref#view.id}': viewId,
@@ -1824,7 +1831,7 @@ define('magix5', () => {
             }, vdom, refData = vf['@:{vframe.ref.data}'];
             view['@:{view.updater.data.changed}'] = 0;
             view['@:{view.updater.keys}'] = {};
-            if (fire) {
+            if (!holdFire) {
                 view.fire('dompatch');
             }
             refData['@:{vframe-data-map#index}'] = 0;
@@ -1842,16 +1849,18 @@ define('magix5', () => {
             if (DEBUG) {
                 Updater_CheckInput(view, vdom['@:{v#node.outer.html}']);
             }
+            //该功能有性能问题，考虑下线
             if (vf.pId &&
-                !view['@:{view.rendered}']) {
-                Vframe_UnmountZone(Vframe_Vframes[vf.pId], vf.root, 1);
+                !view['@:{view.rendered}'] &&
+                GetAttribute(root, MX_SUB) != Null) {
+                Vframe_UnmountZone(Vframe_Vframes[vf.pId], root, 1);
             }
             ready = () => {
                 view['@:{view.updater.vdom}'] = vdom;
                 if (view['@:{view.sign}']) {
                     tmpl = ref['@:{updater-ref#changed}'] || !view['@:{view.rendered}'];
                     if (tmpl) {
-                        View_EndUpdate(view);
+                        CallFunction(View_EndUpdate, view);
                     }
                     for (vdom of ref['@:{updater-ref#view.renders}']) {
                         CallFunction(vdom['@:{view.render.short}'], Empty_Array, vdom);
@@ -1861,7 +1870,8 @@ define('magix5', () => {
                 if (view['@:{view.async.count}'] > 1) {
                     view['@:{view.async.count}'] = 1;
                     ref['@:{updater-ref#node.props}'].length = 0;
-                    Updater_Digest(view);
+                    CallFunction(Updater_Digest, [view, 1]);
+                    //Updater_Digest(view, 1);
                 }
                 else {
                     view['@:{view.async.count}'] = 0;
@@ -1888,7 +1898,7 @@ define('magix5', () => {
             // Updater_Ready_List.push({
             //     '@:{ready#callback}': ready
             // });
-            CallFunction(V_SetChildNodes, [view.root, view['@:{view.updater.vdom}'], vdom, ref, vf, keys, view, ready]);
+            CallFunction(V_SetChildNodes, [root, view['@:{view.updater.vdom}'], vdom, ref, vf, keys, view, ready]);
             //V_SetChildNodes(view.root, view['@:{view.updater.vdom}'], vdom, ref, vf, keys, view, ready);
         }
     };
@@ -2055,7 +2065,7 @@ define('magix5', () => {
     };
     let V_To_Reg = new RegExp(`${MX_MAIN}="\x05"`, 'g');
     let V_TO_Update = (s, ref) => s.replace(V_To_Reg, `${MX_MAIN}="${ref['@:{updater-ref#view.id}']}"`);
-    let V_SetAttributes = (oldNode, newVDOM, lastVDOM, ref) => {
+    let V_SetAttributes = (oldNode, newVDOM, ref, lastVDOM) => {
         let key, value, changed = 0, nsMap = newVDOM['@:{v#node.attrs.specials}'], nMap = newVDOM['@:{v#node.attrs.map}'], osMap, oMap, sValue;
         if (lastVDOM) {
             osMap = lastVDOM['@:{v#node.attrs.specials}'];
@@ -2080,7 +2090,8 @@ define('magix5', () => {
         for (key in nMap) {
             value = nMap[key] ?? Empty;
             if ((sValue = nsMap[key])) {
-                if (!lastVDOM || oldNode[sValue] != value) {
+                if (!lastVDOM ||
+                    oldNode[sValue] != value) {
                     changed = 1;
                     if (ref) {
                         ref['@:{updater-ref#node.props}'].push([oldNode, sValue, value]);
@@ -2107,7 +2118,7 @@ define('magix5', () => {
         }
         else {
             c = Doc_Document.createElementNS(V_NSMap[tag] || owner.namespaceURI, tag);
-            V_SetAttributes(c, vnode);
+            V_SetAttributes(c, vnode, ref);
             SetInnerHTML(c, V_TO_Update(vnode['@:{v#node.html}'], ref));
         }
         return c;
@@ -2192,7 +2203,22 @@ define('magix5', () => {
             if (lastVDOM) { //view首次初始化，通过innerHTML快速更新
                 if (lastVDOM['@:{v#node.mxv.keys}'] ||
                     lastVDOM['@:{v#node.html}'] != newVDOM['@:{v#node.html}']) {
-                    let i, oi, oc, oldChildren = lastVDOM['@:{v#node.children}'] || Empty_Array, newChildren = newVDOM['@:{v#node.children}'] || Empty_Array, reused = newVDOM['@:{v#node.reused}'] || Empty_Object, resuedTotal = newVDOM['@:{v#node.reused.total}'], oldReusedTotal = lastVDOM['@:{v#node.reused.total}'], nodes = realNode.childNodes, compareKey, keyedNodes, oldRangeStart = 0, newCount = newChildren.length, oldRangeEnd = oldChildren.length - 1, newRangeStart = 0, newRangeEnd = newCount - 1;
+                    let i, oi, oc, oldChildren = lastVDOM['@:{v#node.children}'] || Empty_Array, newChildren = newVDOM['@:{v#node.children}'] || Empty_Array, reused = newVDOM['@:{v#node.reused}'] || Empty_Object, resuedTotal = newVDOM['@:{v#node.reused.total}'], oldReusedTotal = lastVDOM['@:{v#node.reused.total}'], nodes = realNode.childNodes, compareKey, keyedNodes, oldRangeStart = 0, newCount = newChildren.length, oldRangeEnd = oldChildren.length - 1, newRangeStart = 0, newRangeEnd = newCount - 1, reduceCached = (vnode, compared) => {
+                        if (reused[vnode['@:{v#node.compare.key}']]) {
+                            reused[vnode['@:{v#node.compare.key}']]--;
+                            resuedTotal--;
+                        }
+                        oi = keyedNodes &&
+                            keyedNodes[vnode['@:{v#node.compare.key}']];
+                        if (oi) {
+                            for (i = oi.length; i--;) {
+                                if (oi[i] == compared) {
+                                    oi[i] = Null;
+                                    break;
+                                }
+                            }
+                        }
+                    };
                     if (DEBUG &&
                         lastVDOM['@:{v#node.tag}'] != Q_TEXTAREA) {
                         CheckNodes(nodes, oldChildren);
@@ -2325,6 +2351,7 @@ define('magix5', () => {
                             oldEndNode = oldChildren[--oldRangeEnd];
                         }
                         else if (V_IsSameVNode(newStartNode, oldStartNode)) {
+                            oi = nodes[realNodeRangeStart];
                             if (newStartNode['@:{v#node.tag}'] == Spliter ||
                                 oldStartNode['@:{v#node.tag}'] == Spliter) {
                                 ref['@:{updater-ref#changed}'] = 1;
@@ -2340,32 +2367,22 @@ define('magix5', () => {
                             }
                             else {
                                 ref['@:{updater-ref#async.count}']++;
-                                CallFunction(V_SetNode, [nodes[realNodeRangeStart], realNode, oldStartNode, newStartNode, ref, vframe, keys, view, ready]);
+                                CallFunction(V_SetNode, [oi, realNode, oldStartNode, newStartNode, ref, vframe, keys, view, ready]);
                             }
                             //更新需要保留的节点，加速对节点索引
                             //如果当前节点已经在索引中，则要按顺序移除
                             //[resuedTotal, keyedNodes] = V_DecreaseUsed(reused, resuedTotal, oldStartNode, keyedNodes);
-                            if (reused[oldStartNode['@:{v#node.compare.key}']]) {
-                                reused[oldStartNode['@:{v#node.compare.key}']]--;
-                                resuedTotal--;
-                                compareKey = keyedNodes &&
-                                    keyedNodes[oldStartNode['@:{v#node.compare.key}']];
-                                if (compareKey) {
-                                    --keyedNodes[oldStartNode['@:{v#node.compare.key}']];
-                                }
-                            }
+                            reduceCached(oldStartNode, oi);
                             realNodeRangeStart++;
                             oldStartNode = oldChildren[++oldRangeStart];
                             newStartNode = newChildren[++newRangeStart];
                         }
                         else if (V_IsSameVNode(newEndNode, oldEndNode)) {
+                            oi = nodes[realNodeRangeEnd];
                             ref['@:{updater-ref#async.count}']++;
-                            CallFunction(V_SetNode, [nodes[realNodeRangeEnd], realNode, oldEndNode, newEndNode, ref, vframe, keys, view, ready]);
+                            CallFunction(V_SetNode, [oi, realNode, oldEndNode, newEndNode, ref, vframe, keys, view, ready]);
                             //[resuedTotal, keyedNodes] = V_DecreaseUsed(reused, resuedTotal, oldEndNode, keyedNodes);
-                            if (reused[oldEndNode['@:{v#node.compare.key}']]) {
-                                reused[oldEndNode['@:{v#node.compare.key}']]--;
-                                resuedTotal--;
-                            }
+                            reduceCached(oldEndNode, oi);
                             realNodeRangeEnd--;
                             oldEndNode = oldChildren[--oldRangeEnd];
                             newEndNode = newChildren[--newRangeEnd];
@@ -2376,10 +2393,7 @@ define('magix5', () => {
                             ref['@:{updater-ref#async.count}']++;
                             CallFunction(V_SetNode, [oi, realNode, oldStartNode, newEndNode, ref, vframe, keys, view, ready]);
                             //[resuedTotal, keyedNodes] = V_DecreaseUsed(reused, resuedTotal, oldStartNode, keyedNodes);
-                            if (reused[oldStartNode['@:{v#node.compare.key}']]) {
-                                reused[oldStartNode['@:{v#node.compare.key}']]--;
-                                resuedTotal--;
-                            }
+                            reduceCached(oldStartNode, oi);
                             realNodeRangeEnd--;
                             oldStartNode = oldChildren[++oldRangeStart];
                             newEndNode = newChildren[--newRangeEnd];
@@ -2389,10 +2403,7 @@ define('magix5', () => {
                             realNode.insertBefore(oi, nodes[realNodeRangeStart++]);
                             ref['@:{updater-ref#async.count}']++;
                             CallFunction(V_SetNode, [oi, realNode, oldEndNode, newStartNode, ref, vframe, keys, view, ready]);
-                            if (reused[oldEndNode['@:{v#node.compare.key}']]) {
-                                reused[oldEndNode['@:{v#node.compare.key}']]--;
-                                resuedTotal--;
-                            }
+                            reduceCached(oldEndNode, oi);
                             //[resuedTotal, keyedNodes] = V_DecreaseUsed(reused, resuedTotal, oldEndNode, keyedNodes);
                             oldEndNode = oldChildren[--oldRangeEnd];
                             newStartNode = newChildren[++newRangeStart];
@@ -2404,15 +2415,19 @@ define('magix5', () => {
                                 keyedNodes = V_GetKeyNodes(oldChildren, nodes, oldRangeStart, oldRangeEnd, realNodeRangeEnd);
                             }
                             currentNode = nodes[realNodeRangeStart];
-                            compareKey = keyedNodes &&
+                            oi = keyedNodes &&
                                 keyedNodes[newStartNode['@:{v#node.compare.key}']];
+                            compareKey = Null;
+                            while (oi &&
+                                oi.length &&
+                                !(compareKey = oi.pop()))
+                                ;
                             /**
                              * <div>{{=f}}</div>   =>  <div>aa</div>
                              * <div>aa</div>
                              * <div>bb</div>
                              */
-                            if (compareKey &&
-                                (compareKey = compareKey.pop() /*[--keyedNodes[Spliter + newStartNode['@:{v#node.compare.key}']]]*/)) {
+                            if (compareKey) {
                                 oc = oldStartNode;
                                 if (compareKey != currentNode) {
                                     /**
@@ -2428,6 +2443,10 @@ define('magix5', () => {
                                             nodes[i++] == compareKey) {
                                             oldChildren[oi] = Null;
                                             break;
+                                        }
+                                        if (DEBUG &&
+                                            i > realNodeRangeEnd) {
+                                            console.error('real not match virtual nodes!');
                                         }
                                     }
                                     oldRangeStart--;
@@ -2542,7 +2561,7 @@ define('magix5', () => {
                             当传递第一份数据时，input显示值xl，这时候用户修改了input的值且使用第二份数据重新渲染这个view，问input该如何显示？
                         */
                         if (updateAttribute) {
-                            updateAttribute = V_SetAttributes(realNode, newVDOM, lastVDOM, ref);
+                            updateAttribute = V_SetAttributes(realNode, newVDOM, ref, lastVDOM);
                             if (updateAttribute) {
                                 ref['@:{updater-ref#changed}'] = 1;
                             }
@@ -2975,7 +2994,7 @@ define('magix5', () => {
                     data['@:{view.async.count}']++;
                     data['@:{view.async.resolves}'].push(resolve);
                     if (data['@:{view.async.count}'] == 1) {
-                        Updater_Digest(data, 1);
+                        CallFunction(Updater_Digest, data);
                     }
                 }
                 else if (data['@:{view.async.count}']) {
@@ -3018,6 +3037,7 @@ define('magix5', () => {
             return ParseExpr(origin, this.owner['@:{vframe.ref.data}']);
         }
     });
+    let Undefined = void Counter;
     /*
         一个请求send后，应该取消吗？
         参见xmlhttprequest的实现
@@ -3085,7 +3105,8 @@ define('magix5', () => {
             let attrs = me['@:{bag#attrs}'];
             if (key) {
                 let tks = IsArray(key) ? key.slice() : (key + Empty).split('.'), tk;
-                while ((tk = tks.shift()) && attrs) {
+                while ((tk = tks.shift()) &&
+                    attrs) {
                     attrs = attrs[tk];
                 }
                 if (tk) {
@@ -3093,7 +3114,8 @@ define('magix5', () => {
                 }
             }
             let type;
-            if (dValue !== Undefined && (type = Type(dValue)) != Type(attrs)) {
+            if (dValue !== Undefined &&
+                (type = Type(dValue)) != Type(attrs)) {
                 if (DEBUG) {
                     console.warn('type neq:' + key + ' is not a(n) ' + type);
                 }
@@ -3410,9 +3432,7 @@ define('magix5', () => {
         isString: IsString,
         isNumber: IsNumber,
         isPrimitive: IsPrimitive,
-        isNumeric(o) {
-            return !isNaN(parseFloat(o)) && isFinite(o);
-        },
+        isNumeric: o => !isNaN(parseFloat(o)) && isFinite(o),
         waitSelector(selector, timeout, context) {
             context = context || document;
             timeout = timeout || 30 * Thousand;
@@ -3446,6 +3466,7 @@ define('magix5', () => {
                 EventUnlisten(t, ...args);
             }
         },
+        now: Date_Now,
         mix: Assign,
         toMap: ToMap,
         toTry: ToTry,
@@ -3467,6 +3488,7 @@ define('magix5', () => {
         Event: MxEvent,
         Router,
         mark: Mark,
+        keys: Keys,
         unmark: Unmark,
         node: GetById,
         task: CallFunction,

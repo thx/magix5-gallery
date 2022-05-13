@@ -15,7 +15,7 @@ export default View.extend({
     },
     async render() {
         // if (DEBUG) {
-        //     await Magix5.delay(1000);
+             await Magix5.delay(1000);
         // }
         await this.digest();
     },
