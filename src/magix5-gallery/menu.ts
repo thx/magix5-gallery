@@ -14,6 +14,10 @@ export default {
                     {
                         name: '相关文档链接',
                         path: '/base/links',
+                    },
+                    {
+                        name: '兼容magix3',
+                        path: '/base/magix3',
                     }
                 ]
             },

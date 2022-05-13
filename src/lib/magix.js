@@ -840,7 +840,7 @@ define('magix5', () => {
     };
     let Router_LLoc = Router_Init_Loc;
     let Router_TrimHashReg = /(?:^.*?\/\/[^/]+|#.*$)/g;
-    let Router_TrimQueryReg = /^[^#]*#?/;
+    let Router_TrimQueryReg = /^[^#]*#?!?/;
     let Router_PNR_Routers, Router_PNR_UnmatchView, Router_PNR_DefaultView, Router_PNR_DefaultPath;
     let Router_PNR_Rewrite;
     let Router_PNR_Rebuild;
