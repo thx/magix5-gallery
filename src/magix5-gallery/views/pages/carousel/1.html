@@ -1,0 +1,48 @@
+<div class="example">
+    <div class="eg-content">
+        <div class="mx5-mb20 mx5-clearfix">
+            <div class="mx5-color-9 mx5-fl">以下示例：</div>
+            <div class="mx5-fl">
+                <div>跑马灯类型，hover显示左右切换trigger</div>
+                <div>自动播放，hover时停止自动播放，移出恢复自动播放</div>
+                <div>默认第二帧（active="1"，从0开始）</div>
+                <div>显示面板指示点，指示点点击快捷跳转</div>
+            </div>
+        </div>
+        <div class="mx5-clearfix mx5-mb10">
+            <mx-carousel *height="100" *autoplay="true" *active="1" *triggers="true">
+                <mx-carousel.panel>
+                    <div class="bg bg1">1</div>
+                </mx-carousel.panel>
+                <mx-carousel.panel>
+                    <div class="bg bg2">2</div>
+                </mx-carousel.panel>
+                <mx-carousel.panel>
+                    <div class="bg bg3">3</div>
+                </mx-carousel.panel>
+            </mx-carousel>
+        </div>
+    </div>
+    <div class="eg-desc">
+        <div class="eg-title">HTML Code</div>
+        <mx-copy class="desc-oper" 
+            *copy-node="{{=$viewId}}_text_1" 
+            mx-success="@:{done}({id:1})">
+            <span class="desc-tip" mx-html="{{=text1}}"></span>
+            <i class="mx5-iconfont desc-icon">&#xe610;</i>
+        </mx-copy>
+        <mx-source whole="true" id="{{=$viewId}}_text_1">
+            <mx-carousel *height="100" *autoplay="true" *active="1" *triggers="true">
+                <mx-carousel.panel>
+                    <div class="bg bg1">1</div>
+                </mx-carousel.panel>
+                <mx-carousel.panel>
+                    <div class="bg bg2">2</div>
+                </mx-carousel.panel>
+                <mx-carousel.panel>
+                    <div class="bg bg3">3</div>
+                </mx-carousel.panel>
+            </mx-carousel>
+        </mx-source>
+    </div>
+</div>

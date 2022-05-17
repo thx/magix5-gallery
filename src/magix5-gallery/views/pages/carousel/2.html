@@ -1,0 +1,66 @@
+<div class="example">
+    <div class="eg-content">
+        <div class="mx5-mb10">轮播方向：</div>
+        <div class="mx5-clearfix mx5-mb20">
+            {{each verticals as item}}
+            <mx-radio class="mx5-fl mx5-w160 mx5-mb5"
+                *name="{{= $viewId}}_dot-vertical" 
+                *value="{{=item.value}}"
+                *text="{{=item.text}}"
+                *checked="{{=(curVer.value == item.value)}}"
+                mx-change="changeVer({item:'{{#item}}'})"/>
+            {{/each}}
+        </div>
+        
+        <div class="mx5-mb10">dot-type可选项：</div>
+        <div class="mx5-clearfix mx5-mb10">
+            {{each list as item}}
+            <mx-radio class="mx5-fl mx5-w160 mx5-mb5"
+                *name="{{= $viewId}}_dot-types" 
+                *checked="{{=(cur.value == item.value)}}"
+                *value="{{=item.value}}"
+                *text="{{=item.text}}"
+                mx-change="change({item:'{{#item}}'})"/>
+            {{/each}}
+        </div>
+        <div class="mx5-clearfix mx5-mb10">
+            <mx-carousel *height="100" 
+                *vertical="{{=curVer.value}}"
+                *dot-type="{{=cur.value}}">
+                <mx-carousel.panel>
+                    <div class="bg bg1">1</div>
+                </mx-carousel.panel>
+                <mx-carousel.panel>
+                    <div class="bg bg2">2</div>
+                </mx-carousel.panel>
+                <mx-carousel.panel>
+                    <div class="bg bg3">3</div>
+                </mx-carousel.panel>
+            </mx-carousel>
+        </div>
+    </div>
+    <div class="eg-desc">
+        <div class="eg-title">HTML Code</div>
+        <mx-copy class="desc-oper" 
+            *copy-node="{{=$viewId}}_text_1" 
+            mx-success="@:{done}({id:1})">
+            <span class="desc-tip" mx-html="{{=text1}}"></span>
+            <i class="mx5-iconfont desc-icon">&#xe610;</i>
+        </mx-copy>
+        <mx-source id="{{=$viewId}}_text_1">
+            <mx-carousel *height="100" 
+                *vertical="{{=curVer.value}}"
+                *dot-type="{{=cur.value}}">
+                <mx-carousel.panel>
+                    <div class="bg bg1">1</div>
+                </mx-carousel.panel>
+                <mx-carousel.panel>
+                    <div class="bg bg2">2</div>
+                </mx-carousel.panel>
+                <mx-carousel.panel>
+                    <div class="bg bg3">3</div>
+                </mx-carousel.panel>
+            </mx-carousel>
+        </mx-source>
+    </div>
+</div>

@@ -151,6 +151,11 @@ export default {
                     //     child: true,
                     // },
                     {
+                        name: 'mx-carousel 轮播',
+                        tip: '',
+                        path: '/carousel/index'
+                    },
+                    {
                         name: 'mx-tree 树状结构',
                         tip: '支持纯展示，单选，多选',
                         path: '/tree/index'
