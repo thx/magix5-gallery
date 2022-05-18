@@ -173,10 +173,13 @@ export default {
                         name: 'mx-popover 气泡通知',
                         tip: '默认使用span标签生成，支持自定义展示view',
                         path: '/popover/index'
-                    },
-                    {
+                    }, {
                         name: 'mx-loading 加载',
                         path: '/loading/index',
+                    }, {
+                        name: 'mx-im.dd 智能客服-钉钉',
+                        tip:'<a class="mx5-color-brand" href="https://open-doc.dingtalk.com/docs/doc.htm?spm=a219a.7386797.0.0.WN76gC&treeId=176&articleId=106086&docType=1" target="_blank"  rel="noopener noreferrer">钉钉PC端统一跳转协议</a>',
+                        path: '/im/dingding'
                     }
                 ]
             },

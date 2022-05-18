@@ -116,7 +116,50 @@ export default BaseView.extend({
     },
     async render() {
         let renderMark = mark(this, '@:{render.mark}');
-        let data = {};
+        let data = {
+            products: [],
+            footer: {
+                bottoms: [[{
+                    "text": "关于阿里妈妈",
+                    "link": "//www.alimama.com"
+                }]],
+                bizCodes: {},
+                domains: {
+                    alimama: {
+                        "bottoms": {
+                            "links": [
+                                {
+                                    "text": "法律声明及隐私权政策",
+                                    "link": "https://terms.alicdn.com/legal-agreement/terms/suit_bu1_ali_mama_division/suit_bu1_ali_mama_division202107201832_24375.html"
+                                }
+                            ],
+                            "copyrights": [
+                                [
+                                    {
+                                        "text": "© 2007-现在 阿里妈妈版权所有"
+                                    },
+                                    {
+                                        "link": "//idinfo.zjamr.zj.gov.cn/bscx.do?method=lzxx&id=3301843301080000022791",
+                                        "img": "//img.alicdn.com/tfs/TB1D24er.T1gK0jSZFrXXcNCXXa-65-70.png"
+                                    },
+                                    {
+                                        "text": "浙公网安备 33010002000075号",
+                                        "link": "//www.beian.gov.cn/portal/registerSystemInfo?recordcode=33010002000075",
+                                        "img": "//img.alicdn.com/tfs/TB1hIher4z1gK0jSZSgXXavwpXa-20-20.png"
+                                    }
+                                ],
+                                [
+                                    {
+                                        "text": "增值电信业务经营许可证：浙B2-20070195",
+                                        "link": "//beian.miit.gov.cn/"
+                                    }
+                                ]
+                            ]
+                        }
+                    },
+                }
+            }
+        };
         try {
             let response = await fetch('//g.alicdn.com/mm/bp-source/lib/products.json');
             data = await response.json();

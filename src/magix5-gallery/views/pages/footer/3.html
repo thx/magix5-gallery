@@ -42,7 +42,7 @@
             <i class="mx5-iconfont desc-icon">&#xe610;</i>
         </mx-copy>
         <mx-source id="{{=$viewId}}_text_1">
-            <mx-footer *products="true" *biz-code="{{=currentBizcode}}" *type="{{=currentType}}"/>
+            <mx-footer *products="true"{{if currentBizcode}} *biz-code="{{=currentBizcode}}"{{/if}}{{if currentType}} *type="{{=currentType}}"{{/if}}/>
         </mx-source>
     </div>
 </div>

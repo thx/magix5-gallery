@@ -1,6 +1,6 @@
 import Magix from 'magix5';
 
-let { View, mark, guid, dispatch } = Magix;
+let { View, mark, guid, dispatch, delay, lowTaskFinale } = Magix;
 let promisePools = {};
 let versionsAPI = '//alimama.taobao.com/login/getOneSiteCdnList.json';
 let portProject = 'magix-ports';
@@ -190,6 +190,7 @@ let FetchRootAndPrepare = () => {
 };
 let MountOrUpdateView = (root, nodeId, target, params) => {
     let Magix = window.seajs.require('magix');
+    let Magix5 = window.seajs.require('magix5');
     let vf = Magix.Vframe.get(nodeId);
     let view = vf && vf.$v;
     let hasAssign = view && view.assign;
@@ -204,6 +205,17 @@ let MountOrUpdateView = (root, nodeId, target, params) => {
             view.render();
         }
     } else {
+        /**
+         * 清理5中当前节点下的其它组件
+         */
+        let hostNode = Magix5.node(nodeId);
+        let magix5Views = hostNode.querySelectorAll('[mx5-view]');
+        for (let v of magix5Views) {
+            let vf = Magix5.Vframe.byNode(v);
+            if (vf) {
+                vf.unmount();
+            }
+        }
         root.mountVframe(nodeId, target, params);
     }
 };
@@ -332,6 +344,8 @@ export default View.extend({
             RegisterEnvs(vInfo.list);
             await portsPromise(useNormalize, useGlobal, useTheme, usePackageName);
             await Preload(preloads);
+            await lowTaskFinale();
+            await delay(10);//待外部就绪
             let root = await FetchRootAndPrepare();
             this['@:{hook.events}']();
             if (renderMark()) {
