@@ -51,15 +51,15 @@ instance.invoke('prev');
             }, {
                 value: 'dot-type',
                 text: `<pre>内置轮播点样式
-    1. line-in-center：轮播内容内部线型点居中显示
-    2. line-in-left：轮播内容内部线型点居左显示
-    3. line-in-right：轮播内容内部线型点居右显示
-    4. line-out-center：轮播内容外部线型点居中显示
-    5. dot-in-center：轮播内容内部圆形点居中显示
-    6. dot-in-left：轮播内容内部圆形点居左显示
-    7. dot-in-right：轮播内容内部圆形点居右显示
-    8. dot-out-center：轮播内容外部圆形点居中显示
-    </pre>`,
+1. line-in-center：轮播内容内部线型点居中显示
+2. line-in-left：轮播内容内部线型点居左显示
+3. line-in-right：轮播内容内部线型点居右显示
+4. line-out-center：轮播内容外部线型点居中显示
+5. dot-in-center：轮播内容内部圆形点居中显示
+6. dot-in-left：轮播内容内部圆形点居左显示
+7. dot-in-right：轮播内容内部圆形点居右显示
+8. dot-out-center：轮播内容外部圆形点居中显示
+</pre>`,
                 type: 'string',
                 def: 'dot-in-center'
             },/* {
