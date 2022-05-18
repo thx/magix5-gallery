@@ -159,6 +159,10 @@ export default {
                         name: 'mx-tree 树状结构',
                         tip: '支持纯展示，单选，多选',
                         path: '/tree/index'
+                    }, {
+                        name: 'mx-footer 页脚',
+                        tip: '',
+                        path: '/footer/index'
                     }
                 ]
             },
