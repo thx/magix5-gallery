@@ -124,4 +124,28 @@
         </table>
     </div>
     {{/if}}
+
+    {{if (methods && methods.length)}}
+    <mx-title *mode="second" *content="Method" data-target="method"/>
+    <div class="custom-table">
+        <table class="mx5-table mx5-table-no-hover">
+            <thead>
+                <tr>
+                    <th width="100">方法名</th>
+                    <th width="200">说明</th>
+                    <th width="200">调用示例</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{each methods as method}}
+                    <tr>
+                        <td mx-html="{{=method.value}}"></td>
+                        <td mx-html="{{=method.text}}"></td>
+                        <td mx-html="{{=method.desc}}"></td>
+                    </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+    {{/if}}
 </div>

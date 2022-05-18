@@ -5,7 +5,19 @@ export default View.extend({
     init(options) {
         this.set({
             methods: [{
-
+                value: 'next()',
+                text: '跳转下一帧',
+                desc: `<pre>
+let instance = Vframe.get(id);
+instance.invoke('next');
+                </pre>`,
+            }, {
+                value: 'prev()',
+                text: '跳转上一帧',
+                desc: `<pre>
+let instance = Vframe.get(id);
+instance.invoke('prev');
+                </pre>`,
             }],
             apis: [{
                 value: 'mode',
