@@ -24,10 +24,10 @@ export default {
             {
                 name: '样式',
                 subs: [
-                    // {
-                    //     name: '常用class',
-                    //     path: '/base/classnames',
-                    // },
+                    {
+                        name: '关于常用样式class的说明',
+                        path: '/base/classnames',
+                    },
                     // {
                     //     name: 'mx-grid 栅格',
                     //     path: '/grid/index',
@@ -178,7 +178,7 @@ export default {
                         path: '/loading/index',
                     }, {
                         name: 'mx-im.dd 智能客服-钉钉',
-                        tip:'<a class="mx5-color-brand" href="https://open-doc.dingtalk.com/docs/doc.htm?spm=a219a.7386797.0.0.WN76gC&treeId=176&articleId=106086&docType=1" target="_blank"  rel="noopener noreferrer">钉钉PC端统一跳转协议</a>',
+                        tip: '<a class="mx5-color-brand" href="https://open-doc.dingtalk.com/docs/doc.htm?spm=a219a.7386797.0.0.WN76gC&treeId=176&articleId=106086&docType=1" target="_blank"  rel="noopener noreferrer">钉钉PC端统一跳转协议</a>',
                         path: '/im/dingding'
                     }
                 ]
