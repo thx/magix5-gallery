@@ -6,7 +6,7 @@
                 <div>只展示翻页器，不展示汇总数据</div>
             </div>
         </div>
-        <mx-pager 
+        <mx-pagination 
             *simplify="true"
             *total="100" 
             *size="40" 
@@ -21,7 +21,7 @@
             <i class="mx5-iconfont desc-icon">&#xe610;</i>
         </mx-copy>
         <mx-source whole="true" id="{{=$viewId}}_text_1">
-            <mx-pager *simplify="true" *total="100" *size="40" *page="2" />
+            <mx-pagination *simplify="true" *total="100" *size="40" *page="2" />
         </mx-source>
     </div>
 </div>

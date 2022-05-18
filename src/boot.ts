@@ -1,7 +1,7 @@
 // magix-composer#loader=none;
 
 if (typeof DEBUG == 'undefined')
-    window.DEBUG = true;
+	window.DEBUG = true;
 'compiled@:./lib/sea.js'
 'compiled@:./lib/magix.js';
 
