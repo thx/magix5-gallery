@@ -24,18 +24,18 @@ export default {
             {
                 name: '样式',
                 subs: [
-                    // {
-                    //     name: '常用class',
-                    //     path: '/base/classnames',
-                    // },
-                    // {
-                    //     name: 'mx-grid 栅格',
-                    //     path: '/grid/index',
-                    // },
                     {
-                        name: 'mx-layout 布局卡片',
-                        tip: '页面布局卡片样式，支持卡片吸顶功能',
+                        name: '关于常用样式class的说明',
+                        path: '/base/classnames',
+                    },
+                    {
+                        name: '栅格布局',
                         path: '/layout/index',
+                    },
+                    {
+                        name: 'mx-layout 卡片',
+                        tip: '页面布局卡片样式，支持卡片吸顶功能',
+                        path: '/layout/card',
                     }
                 ]
             },
@@ -58,11 +58,6 @@ export default {
                         path: '/checkbox/index',
                     },
                     {
-                        name: 'mx-number 数据展示',
-                        tip: '数值样式&nbsp;&&nbsp;格式化&nbsp;&&nbsp;跳动动画',
-                        path: '/number/index',
-                    },
-                    {
                         name: 'mx-error 空/异常状态',
                         tip: '各种异常情况提示页面（包含empty空状态，no access无权限等场景）',
                         path: '/error/index',
@@ -77,21 +72,16 @@ export default {
                         tip: '包装input，处理动效样式及输入提示等功能',
                         path: '/input/index',
                     },
-                    // {
-                    //     name: 'mx-textarea 多行文本框',
-                    //     tip: '包装多行文本框，处理动效样式及输入提示等功能',
-                    //     path: '/textarea/index',
-                    // },
                     {
                         name: 'mx-dropdown 下拉框单选',
                         tip: '支持click展开和hover展开；<span class="mx5-color-brand">下拉列表追加到body；</span>支持双向绑定',
                         path: '/dropdown/index',
                     },
-                    // {
-                    //     name: 'mx-dropdown 下拉框多选',
-                    //     tip: '支持click展开和hover展开；<span class="mx5-color-brand">下拉列表追加到body；</span>支持双向绑定',
-                    //     path: '/dropdown/multi',
-                    // },
+                    {
+                        name: 'mx-dropdown 下拉框多选',
+                        tip: '支持click展开和hover展开；<span class="mx5-color-brand">下拉列表追加到body；</span>支持双向绑定',
+                        path: '/dropdown/multi',
+                    },
                     {
                         name: 'mx-copy 复制',
                         tip: '该组件引入了第三方插件 <a rel="noopener noreferrer" target="_blank" href="https://clipboardjs.com/" class="mx5-color-brand">https://clipboardjs.com/</a>',
@@ -103,20 +93,19 @@ export default {
                 name: '导航',
                 subs: [
                     {
-                        name: 'mx-pager 翻页器',
-                        tip: '支持复杂模式，精简版和顺序翻页版本，pager支持双向绑定',
-                        path: '/pager/index',
+                        name: 'mx-header 一级导航',
+                        path: '/header/index'
                     },
-                    // {
-                    //     name: 'mx-tabs 底边线tab分组',
-                    //     tip: '一般适用于一级导航，支持双向绑定',
-                    //     path: '/tabs/index',
-                    // },
-                    // {
-                    //     name: 'mx-tabs.box 盒状tab分组',
-                    //     tip: '一般适用于快捷筛选，支持双向绑定',
-                    //     path: '/tabs/box',
-                    // }
+                    {
+                        name: 'mx-pagination 翻页器',
+                        tip: '支持复杂模式，精简版和顺序翻页版本，pagination支持双向绑定',
+                        path: '/pagination/index',
+                    },
+                    {
+                        name: 'mx-tabs.box 盒状tab分组',
+                        tip: '一般适用于快捷筛选，支持双向绑定',
+                        path: '/tabs/box',
+                    }
                 ]
             },
             {
@@ -151,17 +140,25 @@ export default {
                     //     child: true,
                     // },
                     {
+                        name: 'mx-effects.card 卡片',
+                        path: '/effects/card',
+                    },
+                    {
+                        name: 'mx-number 数据展示',
+                        tip: '数值样式&nbsp;&&nbsp;格式化&nbsp;&&nbsp;跳动动画',
+                        path: '/number/index',
+                    },
+                    {
                         name: 'mx-carousel 轮播',
-                        tip: '',
                         path: '/carousel/index'
                     },
                     {
                         name: 'mx-tree 树状结构',
                         tip: '支持纯展示，单选，多选',
                         path: '/tree/index'
-                    }, {
+                    },
+                    {
                         name: 'mx-footer 页脚',
-                        tip: '',
                         path: '/footer/index'
                     }
                 ]
@@ -170,28 +167,25 @@ export default {
                 name: '反馈',
                 subs: [
                     {
+                        name: 'mx-dialog 对话框',
+                        path: '/dialog/index'
+                    },
+                    {
                         name: 'mx-popover 气泡通知',
                         tip: '默认使用span标签生成，支持自定义展示view',
                         path: '/popover/index'
-                    }, {
+                    },
+                    {
                         name: 'mx-loading 加载',
                         path: '/loading/index',
-                    }, {
+                    },
+                    {
                         name: 'mx-im.dd 智能客服-钉钉',
-                        tip:'<a class="mx5-color-brand" href="https://open-doc.dingtalk.com/docs/doc.htm?spm=a219a.7386797.0.0.WN76gC&treeId=176&articleId=106086&docType=1" target="_blank"  rel="noopener noreferrer">钉钉PC端统一跳转协议</a>',
+                        tip: '<a class="mx5-color-brand" href="https://open-doc.dingtalk.com/docs/doc.htm?spm=a219a.7386797.0.0.WN76gC&treeId=176&articleId=106086&docType=1" target="_blank"  rel="noopener noreferrer">钉钉PC端统一跳转协议</a>',
                         path: '/im/dingding'
                     }
                 ]
             },
-            // {
-            //     name: '实用功能',
-            //     subs: [
-            //         {
-            //             name: '离开提醒',
-            //             path: '/feature/exit'
-            //         }
-            //     ]
-            // }
         ]
     }]
 }

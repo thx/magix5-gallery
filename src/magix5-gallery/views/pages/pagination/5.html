@@ -7,12 +7,12 @@
                 <div>当同时配置size+page+offset时，已page为准进行计算</div>
             </div>
         </div>
-        <mx-pager class="mx5-mb40"
+        <mx-pagination class="mx5-mb40"
             *total="100" 
             *size="30" 
             *offset="30"/>
     
-        <mx-pager class="mx5-mb40"
+        <mx-pagination class="mx5-mb40"
             *total="100" 
             *size="30" 
             *page="3"
@@ -27,9 +27,9 @@
             <i class="mx5-iconfont desc-icon">&#xe610;</i>
         </mx-copy>
         <mx-source whole="true" id="{{=$viewId}}_text_1">
-            <mx-pager *total="100" *size="30" *offset="30"/>
+            <mx-pagination *total="100" *size="30" *offset="30"/>
     
-            <mx-pager *total="100" *size="30" *page="3" *offset="30"/>
+            <mx-pagination *total="100" *size="30" *page="3" *offset="30"/>
         </mx-source>
     </div>
 </div>

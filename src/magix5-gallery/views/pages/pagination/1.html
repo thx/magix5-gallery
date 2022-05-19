@@ -7,14 +7,14 @@
                 <div>sizes-change="false"可禁止修改分页数</div>
             </div>
         </div>
-        <mx-pager class="mx5-mb40"
+        <mx-pagination class="mx5-mb40"
             *total="{{=total}}"
             *sizes="{{#sizes}}"
             *size="{{=size}}" 
             *page="{{=page}}"
             mx-change="change()" />
     
-        <mx-pager class="mx5-mb40"
+        <mx-pagination class="mx5-mb40"
             *sizes-change="false"
             *total="{{=total}}" 
             *sizes="{{#sizes}}"
@@ -32,7 +32,7 @@
                 <i class="mx5-iconfont desc-icon">&#xe610;</i>
             </mx-copy>
             <mx-source whole="true" id="{{=$viewId}}_text_1">
-                <mx-pager 
+                <mx-pagination 
                     *total="{{=total}}"
                     *sizes="{{#sizes}}"
                     *size="{{=size}}" 
@@ -40,7 +40,7 @@
                     mx-change="change()" />
     
                 <!-- 禁止切换分页数 -->
-                <mx-pager 
+                <mx-pagination 
                     *sizes-change="false"
                     *total="{{=total}}" 
                     *sizes="{{#sizes}}"

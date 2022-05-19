@@ -5,7 +5,7 @@ Magix5.applyStyle('@:doc.less');
 export default View.extend({
     tmpl: '@:doc.html',
     assign(options) {
-        let { apisList, apis, events, columns, lefts, rights } = this.get();
+        let { apisList, apis, events, methods, columns, lefts, rights } = this.get();
         let list = [];
 
         // demo处理  
@@ -64,6 +64,14 @@ export default View.extend({
             list.push({
                 text: 'Event',
                 value: 'event',
+            })
+        }
+
+        // methods事件处理
+        if (methods && methods.length) {
+            list.push({
+                text: 'Method',
+                value: 'method',
             })
         }
 
