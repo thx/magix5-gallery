@@ -2,12 +2,19 @@
     <div class="eg-content">
         <div class="eg-content-tip">
             <div class="eg-content-tip-prefix">以下示例：</div>
-            <div>view自定义页面地址，view-data为传入view的数据</div>
+            <div>默认为节点下方 10px 显示，可配置offset设置微量偏移</div>
         </div>
     
-        <mx-popover *width="420" *view="@:./custom" *view-data="{{#custom}}" *placement="rb">
-            <mx-btn *content="提示内容为自定义view"/>
-        </mx-popover>
+        <div class="mx5-clearfix">
+            <mx-popover 
+                *content="下中对齐，向左40，向下20"
+                *offset="{{#{
+                    left: -40,
+                    top: 20
+                }}}">
+                <mx-btn *content="微量偏移"/>
+            </mx-popover>
+        </div>
     </div>
     <div class="eg-desc">
         <div class="eg-title">HTML Code</div>
@@ -19,11 +26,12 @@
         </mx-copy>
         <mx-source whole="true" id="{{=$viewId}}_text_1">
 <mx-popover 
-    *width="420" 
-    *view="@:./custom" 
-    *view-data="{{#custom}}" 
-    *placement="rb">
-    <mx-btn *content="提示内容为自定义view"/>
+    *content="下中对齐，向左40，向下20"
+    *offset="{{#{
+        left: -40,
+        top: 20
+    }}}">
+    <mx-btn *content="微量偏移"/>
 </mx-popover>
         </mx-source>
     </div>

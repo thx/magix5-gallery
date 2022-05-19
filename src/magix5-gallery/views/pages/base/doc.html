@@ -21,8 +21,9 @@
             </div>
             {{/each}}
         {{/if}}
-        {{if (lefts && lefts.length && rights && rights.length)}}
+        {{if ((lefts && lefts.length) || (rights && rights.length))}}
         <div class="mx5-clearfix">
+            {{if (lefts && lefts.length)}}
             <div class="flw50 mx5-pr10">
                 {{each lefts as d}}
                 <div class="{{if (highlightValue == d.value)}} highlight-example {{/if}}" 
@@ -30,6 +31,8 @@
                     mx-view="{{=path}}/{{=d.path}}" data-spm="c4974ae6f"></div>
                 {{/each}}
             </div>
+            {{/if}}
+            {{if (rights && rights.length)}}
             <div class="flw50 mx5-pl10">
                 {{each rights as d}}
                 <div class="{{if (highlightValue == d.value)}} highlight-example {{/if}}" 
@@ -37,6 +40,7 @@
                     mx-view="{{=path}}/{{=d.path}}" data-spm="c6b517bc5"></div>
                 {{/each}}
             </div>
+            {{/if}}
         </div>
         {{/if}}
     </div>

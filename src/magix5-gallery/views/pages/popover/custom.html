@@ -1,0 +1,14 @@
+<div class="custom">
+    <div class="custom-title">浮层标题</div>
+    {{if (list && list.length)}}
+    <div class="mx5-clearfix">
+        {{each list as item}}
+        <div class="custom-item">
+            <div class="mx5-mb5 mx5-color-9">{{=item.name}}</div>
+            <div>{{=item.key}}</div>
+        </div>
+        {{/each}}
+    </div>
+    {{/if}}
+</div>
+    

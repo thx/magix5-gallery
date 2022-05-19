@@ -2,11 +2,11 @@
     <div class="eg-content">
         <div class="eg-content-tip">
             <div class="eg-content-tip-prefix">以下示例：</div>
-            <div>view自定义页面地址，view-data为传入view的数据</div>
+            <div>默认展开提示浮层</div>
         </div>
     
-        <mx-popover *width="420" *view="@:./custom" *view-data="{{#custom}}" *placement="rb">
-            <mx-btn *content="提示内容为自定义view"/>
+        <mx-popover *content="提示信息<br/>提示信息" *auto="true" *placement="rc">
+            <mx-btn *content="默认展开"/>
         </mx-popover>
     </div>
     <div class="eg-desc">
@@ -19,11 +19,9 @@
         </mx-copy>
         <mx-source whole="true" id="{{=$viewId}}_text_1">
 <mx-popover 
-    *width="420" 
-    *view="@:./custom" 
-    *view-data="{{#custom}}" 
-    *placement="rb">
-    <mx-btn *content="提示内容为自定义view"/>
+    *content="提示信息<br/>提示信息" 
+    *auto="true">
+    <mx-btn *content="默认展开"/>
 </mx-popover>
         </mx-source>
     </div>

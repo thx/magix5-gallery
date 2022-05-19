@@ -23,7 +23,7 @@ export default View.extend({
                 })
             }))
         };
-        if (lefts && lefts.length && rights && rights.length) {
+        if ((lefts && lefts.length) || (rights && rights.length)) {
             // 左右布局的demo两边各一个
             let l = Math.max(lefts.length, rights.length);
             for (let i = 0; i < l; i++) {
@@ -84,6 +84,7 @@ export default View.extend({
     async render() {
         let that = this;
         let { params } = Router.parse();
+
         //await Magix5.delay(5000);
         await that.digest({
             highlightValue: params.highlightValue
