@@ -13,7 +13,7 @@ export default View.extend({
             text: options.text || '',
             tip: options.tip || '',
             tagContent: options.tagContent || '',
-            tagColor: options.tagColor || 'var(--mx5-color-red)',
+            tagColor: options.tagColor || 'var(--mx5-color-error)',
         });
     },
     render() {
