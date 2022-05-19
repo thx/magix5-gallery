@@ -10,7 +10,10 @@ export default View.extend({
                 type: 'array',
                 def: '[]'
             }],
-            columns: [],
+            columns: [{
+                text: 'mxDialog',
+                path: 3
+            }],
         });
     },
 })

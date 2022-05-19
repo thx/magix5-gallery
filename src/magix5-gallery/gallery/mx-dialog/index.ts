@@ -1,7 +1,7 @@
 /*
     author:https://github.com/xinglie
  */
-import Magix from 'magix';
+import Magix, { delay } from 'magix5';
 let { View, applyStyle, node, dispatch,
     has, guid, mix, attach, detach } = Magix;
 applyStyle('@:index.less');
@@ -58,7 +58,7 @@ export default View.extend({
         await me.digest({
             zIndex: DialogZIndex
         });
-        let scrollNode = node<HTMLElement>(`_mx_scroll_${this.id}`);
+        let scrollNode = node<HTMLElement>(`mx5_dialog_scroll_${this.id}`);
         if (scrollNode) {
             scrollNode.focus();
         }
@@ -66,9 +66,9 @@ export default View.extend({
     '@:{close.anim}'() {
         let id = this.id,
             n;
-        n = node<HTMLElement>('_mx_scroll_' + id);
+        n = node<HTMLElement>('mx5_dialog_scroll_' + id);
         n.classList.add('@:index.less:anim-body-out');
-        n = node<HTMLElement>('_mx_mask_' + id);
+        n = node<HTMLElement>('mx5_dialog_mask_' + id);
         n.classList.add('@:index.less:anim-mask-out');
     },
     '@:{close}<click>'() {
@@ -84,19 +84,22 @@ export default View.extend({
     }
 }).static({
     '@:{dialog.show}'(view, options) {
-        let id = guid('_mx_dlg_');
-        document.body.insertAdjacentHTML('beforeend', '<div id="' + id + '" class="@:scoped.style:designer-root"/>');
+        let id = guid('mx5_dlg_');
+        document.body.insertAdjacentHTML('beforeend', '<div id="' + id + '"/>');
         let n = node<HTMLElement>(id);
         let vf = view.owner.mount(n, '@:moduleId', options);
         let whenClose = async () => {
-            if (!n['@:{is.closing}']) {
-                n['@:{is.closing}'] = 1;
-                vf.invoke('@:{close.anim}');
-                detach(n, '@:{dialog.soft.close}', whenClose);
-                setTimeout(() => {
-                    vf.unmount();
-                }, 200);
-            }
+            dispatch(n, '@:{dialog.soft.start.close}', {
+                async close() {
+                    if (!n['@:{is.closing}']) {
+                        n['@:{is.closing}'] = 1;
+                        vf.invoke('@:{close.anim}');
+                        detach(n, '@:{dialog.soft.close}', whenClose);
+                        await delay(200);
+                        vf.unmount();
+                    }
+                }
+            });
         };
         attach(n, '@:{dialog.soft.close}', whenClose);
         return n;
@@ -116,12 +119,11 @@ export default View.extend({
     },
     mxDialog(view, options) {
         let me = this;
-        let key = '$dlg_' + view;
-        if (me[key]) return;
-        me[key] = 1;
+        // let key = '$dlg_' + view;
+        // if (me[key]) return;
+        // me[key] = 1;
 
         let dlg;
-        let closeCallback;
         let dOptions = mix({
             view
         }, options) as DialogOptions;
@@ -134,23 +136,50 @@ export default View.extend({
             }
         };
         dlg = me['@:{dialog.show}'](me, dOptions);
+        let beforeCloseCallback,
+            afterCloseCallback;
         let closeWatcher = () => {
-            delete me[key];
+            //delete me[key];
             detach(dlg, '@:{dialog.hard.close}', closeWatcher);
-            if (closeCallback) {
-                closeCallback();
+            if (afterCloseCallback) {
+                afterCloseCallback();
             }
         };
+        let beforeCloseWatcher = async e => {
+            try {
+                if (!beforeCloseCallback) {
+                    e.close();
+                } else {
+                    await beforeCloseCallback();
+                    e.close();
+                }
+            } catch {
+
+            }
+        };
+        attach(dlg, '@:{dialog.soft.start.close}', beforeCloseWatcher);
         attach(dlg, '@:{dialog.hard.close}', closeWatcher);
         return {
+            beforeClose(fn) {
+                // 关闭浮层前调用
+                // return true 关闭
+                // return false 不关闭浮层
+                beforeCloseCallback = fn;
+            },
+            afterClose(fn) {
+                // 关闭浮层后调用
+                afterCloseCallback = fn;
+            },
             close() {
                 if (dlg) {
                     dispatch(dlg, '@:{dialog.soft.close}');
                 }
             },
-            '@:{when.close}'(fn) {
-                closeCallback = fn;
-            }
         };
+    },
+    mxCloseAllDialogs() {
+        for (let c of CacheList) {
+            dispatch(c.root, '@:{dialog.soft.close}');
+        }
     }
 });
