@@ -8,15 +8,22 @@ export default View.extend({
                 value: 'next()',
                 text: '跳转下一帧',
                 desc: `<pre>
-let instance = Vframe.get(id);
+let instance = Vframe.byNode(Magix5.node(nodeId));
 instance.invoke('next');
                 </pre>`,
             }, {
                 value: 'prev()',
                 text: '跳转上一帧',
                 desc: `<pre>
-let instance = Vframe.get(id);
+let instance = Vframe.byNode(Magix5.node(nodeId));
 instance.invoke('prev');
+                </pre>`,
+            },{
+                value: 'to(index)',
+                text: '跳转某一帧，定义同active，从0开始',
+                desc: `<pre>
+let instance = Vframe.byNode(Magix5.node(nodeId));
+instance.invoke('to',2);
                 </pre>`,
             }],
             apis: [{

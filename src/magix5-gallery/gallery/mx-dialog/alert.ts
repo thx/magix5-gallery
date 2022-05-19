@@ -1,8 +1,7 @@
 /*
     author:https://github.com/xinglie
  */
-import Magix from 'magix';
-import I18n from '../../i18n/index';
+import Magix from 'magix5';
 let { View, toTry, node } = Magix;
 export default View.extend({
     tmpl: '@:alert.html',
@@ -10,7 +9,7 @@ export default View.extend({
         let me = this;
         me['@:{dialog}'] = extra.dialog;
         me['@:{string.body}'] = extra.body;
-        me['@:{string.title}'] = extra.title || I18n('@:{lang#dialog.tip}');
+        me['@:{string.title}'] = extra.title || '提示';
         me['@:{fn.enter.callback}'] = extra.enter;
     },
     async render() {
@@ -20,7 +19,7 @@ export default View.extend({
             title: me['@:{string.title}']
         });
 
-        let okBtn = node<HTMLButtonElement>(`_mx_o_${this.id}`);
+        let okBtn = node<HTMLButtonElement>(`mx5_o_${this.id}`);
         if (okBtn) {
             okBtn.focus();
         }

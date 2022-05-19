@@ -100,7 +100,12 @@ export default View.extend({
         let cName = '@:./index.less:active';
         let len = panels.length;
         let oldActive = +this.get('active');
-        let active = ((index >= len) ? 0 : ((index < 0) ? (len - 1) : index));
+        if (index >= len) {
+            index = len - 1;
+        } else if (index < 0) {
+            index = 0;
+        }
+        let active = index;
         let toPanelMark = mark(this, '@:{to.panel}');
         let carouselRoot = this.root;
 
