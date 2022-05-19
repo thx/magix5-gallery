@@ -1,8 +1,58 @@
 <div class="example">
   <div class="eg-content">
+    <div class="mx5-mb20 mx5-clearfix">
+            <div class="mx5-fl mx5-color-9">以下示例：</div>
+            <div class="mx5-fl">
+                <div>完整事件处理示例</div>
+            </div>
+    </div>
     <mx-tabs.box *list="{{# list}}" *selected="{{= selected}}" mx-change="changeTab()"></mx-tabs.box>
-    <span class="color-9 ml10">当前tab: {{= selected}}</span>
+    <span class="color-9" style="margin-left: 20px;">当前选中模块: {{= selected}}</span>
   </div>
-  <div class="eg-desc">
+  <div class="mx5-clearfix">
+    <div class="eg-desc flw50">
+      <div class="eg-title">HTML Code</div>
+      <mx-copy class="desc-oper" *copy-node="{{=$viewId}}_text_1" mx-success="@:{done}({id:1})">
+        <span class="desc-tip" mx-html="{{=text1}}"></span>
+        <i class="mx5-iconfont desc-icon">&#xe610;</i>
+      </mx-copy>
+      <mx-source whole="true" id="{{=$viewId}}_text_1">
+        <mx-tabs.box *list="{{#list}}" *selected="{{= selected}}" mx-change="changeTab()"></mx-tabs.box>
+      </mx-source>
+    </div>
+    <div class="eg-desc flw50 mx5-blc">
+      <div class="eg-title">JS Code</div>
+      <mx-copy class="desc-oper" *copy-node="{{=$viewId}}_text_2" mx-success="@:{done}({id:2})">
+        <span class="desc-tip" mx-html="{{=text2}}"></span>
+        <i class="mx5-iconfont desc-icon">&#xe610;</i>
+      </mx-copy>
+      <mx-source whole="true" id="{{=$viewId}}_text_2">
+        import Magix5 from 'magix5';
+
+        export default Magix5.View.extend({
+          tmpl: '@:index.html',
+          async render() {
+              const list = [
+                  { text:'模块1',value:1} ,
+                  { text:'模块2',value:2 },
+                  { text:'模块3',value:3 },
+                  { text:'模块4',value:4 }
+             ]
+              await this.digest({
+                  list,
+                  selected:list[0].value
+              })
+          },
+          'changeTab<change>'(e) {
+               const { selected,text } = e
+                console.log(`选中的key:${selected},选中的文案${text}`)
+                this.digest({
+                    selected,
+                   text
+                })
+            }
+          )}
+      </mx-source>
+    </div>
   </div>
 </div>

@@ -28,6 +28,10 @@
         font-size: var(--btn-font-size, 12px);
         transition: all var(--duration);
         cursor: pointer;
+
+        &:hover {
+          color: var(--mx5-tab-box-color-hover, #333);
+       }
       }
 
       &:first-child {
@@ -47,6 +51,7 @@
 
       /* active */
       &.active-item {
+        z-index: 4;
         .box-item {
           border-color: var(--mx5-tab-box-border-active, var(--color-brand));
           background-color: var(--mx5-tab-box-bg-active, var(--color-brand-opacity));
@@ -57,6 +62,16 @@
       &.active-item-next {
         .box-item {
           border-left-color: var(--mx5-tab-box-border-active, var(--color-brand));
+        }
+      }
+
+      /* disabled */
+      &.disabled {
+        cursor: not-allowed;
+
+        .box-item {
+          opacity: var(--mx5-comp-disabled-opacity, .4);
+          pointer-events: none;
         }
       }
     }
