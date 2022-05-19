@@ -1,0 +1,107 @@
+@import "../../assets/_vars.less";
+@backdrop-opacity: 0.4;
+@dialog-movement: 30px;
+.dialog-content {
+    border-radius: @border-radius;
+    border: 1px solid @color-border;
+    background-color: #fff;
+    margin: 25px;
+    min-height: 60px;
+}
+
+.dialog-close {
+    opacity: .2;
+    top: 10px;
+    right: 10px;
+    &:hover, &:focus {
+        opacity: .5;
+    }
+}
+
+.dialog-center {
+    margin: auto;
+}
+
+.dialog-close-sticky {
+    float: right;
+    margin: 35px 35px 0 -35px;
+}
+
+.dialog-backdrop {
+    position: fixed;
+    background-color: #000;
+    opacity: @backdrop-opacity;
+}
+
+// .blur {
+//     filter: blur(3px);
+// }
+.anim-mask {
+    animation: fadein .2s;
+    animation-fill-mode: forwards;
+}
+
+.loading-ext {
+    padding: 80px 0;
+}
+
+@keyframes fadein {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: @backdrop-opacity;
+    }
+}
+
+.anim-mask-out {
+    animation: fadeout .2s;
+    animation-fill-mode: forwards;
+}
+
+@keyframes fadeout {
+    from {
+        opacity: @backdrop-opacity;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+.scroll-cnt {
+    overscroll-behavior: contain;
+    position: fixed;
+    scrollbar-gutter: stable;
+}
+
+.anim-body {
+    animation: move .2s;
+    animation-fill-mode: forwards;
+}
+
+@keyframes move {
+    from {
+        transform: translateY(@dialog-movement);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.anim-body-out {
+    animation: moveup .2s;
+    animation-fill-mode: forwards;
+}
+
+@keyframes moveup {
+    from {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateY(-@dialog-movement);
+        opacity: 0;
+    }
+}

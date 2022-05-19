@@ -1,0 +1,11 @@
+<div class="dialog-header-shadow position-sticky z-index-7"></div>
+<div class="dialog-header position-sticky top-0 background-color-fff flex align-items-center dialog-header-with-shadow z-index-8">
+    <h5 class="tag-h5">{{=title}}</h5>
+</div>
+<div class="dialog-body word-break-break-all">{{=body}}</div>
+<div class="dialog-footer flex justify-content-flex-end align-items-center  position-sticky bottom-0 z-index-6 dialog-footer-with-shadow background-color-fff">
+    <button type="button" mx-click="@:{enter}()" class="btn tc cursor-pointer btn-brand" tabindex="1" id="_mx_o_{{=$viewId}}">{{=i18n('@:{lang#btn.enter}')}}</button>
+    <button type="button" mx-click="@:{cancel}()" class="btn tc cursor-pointer ml10" tabindex="2">{{=i18n('@:{lang#btn.cancel}')}}</button>
+</div>
+
+<div class="dialog-footer-shadow position-sticky z-index-5"></div>
