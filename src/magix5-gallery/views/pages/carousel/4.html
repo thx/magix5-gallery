@@ -1,0 +1,75 @@
+<div class="example">
+    <div class="eg-content">
+        <div class="mx5-mb10">外部控制轮播：</div>
+        <div class="mx5-clearfix mx5-mb10">
+            <mx-btn class="mx5-mr10" *content="上一帧" mx-click="prev()"/>
+            <mx-btn class="mx5-mr10" *content="下一帧" mx-click="next()"/>
+        </div>
+        <div class="mx5-clearfix mx5-mb10">
+            <mx-carousel id="{{=$viewId}}_carousel"
+                *height="100" *autoplay="false" *dots="false">
+                {{each list as color index}}
+                <mx-carousel.panel>
+                    <div class="bg" style="background-color: {{=color}};">{{=index}}</div>
+                </mx-carousel.panel>
+                {{/each}}
+            </mx-carousel>
+        </div>
+    </div>
+    <div class="eg-desc">
+        <div class="eg-title">HTML Code</div>
+        <mx-copy class="desc-oper" 
+            *copy-node="{{=$viewId}}_text_1" 
+            mx-success="@:{done}({id:1})">
+            <span class="desc-tip" mx-html="{{=text1}}"></span>
+            <i class="mx5-iconfont desc-icon">&#xe610;</i>
+        </mx-copy>
+        <mx-source whole="true" id="{{=$viewId}}_text_1">
+            <div class="mx5-clearfix mx5-mb10">
+                <mx-btn class="mx5-mr10" *content="上一帧" mx-click="prev()"/>
+                <mx-btn class="mx5-mr10" *content="下一帧" mx-click="next()"/>
+            </div>
+            <div class="mx5-clearfix mx5-mb10">
+                <mx-carousel id="{{=$viewId}}_carousel"
+                    *height="100" *autoplay="false" *dots="false">
+                    {{each list as color index}}
+                    <mx-carousel.panel>
+                        <div class="bg" style="background-color: {{=color}};">{{=index}}</div>
+                    </mx-carousel.panel>
+                    {{/each}}
+                </mx-carousel>
+            </div>
+        </mx-source>
+    </div>
+    <div class="eg-desc">
+        <div class="eg-title">JS Code</div>
+        <mx-copy class="desc-oper" 
+            *copy-node="{{=$viewId}}_text_2" 
+            mx-success="@:{done}({id:2})">
+            <span class="desc-tip" mx-html="{{=text1}}"></span>
+            <i class="mx5-iconfont desc-icon">&#xe610;</i>
+        </mx-copy>
+        <mx-source whole="true" id="{{=$viewId}}_text_2">
+            import Magix5 from 'magix5';
+            import View from 'magix5-gallery/views/pages/base/demo';
+            let { applyStyle, Vframe, node } = Magix5;
+            applyStyle('@:./1.css');
+            export default View.extend({
+                tmpl: '@:4.html',
+                render() {
+                    this.digest({
+                        list: ['var(--mx5-color-brand)', 'var(--mx5-color-brand-vs)', 'var(--mx5-color-warn)'],
+                    });
+                },
+                'next<click>'(e) {
+                    let carousel = Vframe.byNode(node(`${this.id}_carousel`));
+                    carousel.invoke('next');
+                },
+                'prev<click>'(e) {
+                    let carousel =  Vframe.byNode(node(`${this.id}_carousel`));
+                    carousel.invoke('prev');
+                }
+            });
+        </mx-source>
+    </div>
+</div>

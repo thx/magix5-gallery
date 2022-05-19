@@ -8,6 +8,8 @@
             "es2015",
             "ES2016",
             "dom",
+            "DOM.Iterable",
+            "ESNext.AsyncIterable",
             "scripthost"
         ]
     }

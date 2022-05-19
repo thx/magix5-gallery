@@ -66,4 +66,25 @@ export default Magix5.View.extend({
             return v.trim();
         }
     },
+    /**
+     * 是否为移动端
+     * 768 ipad
+     * 375 手机
+     */
+    '@:{get.dev.info}'() {
+        let width = window.innerWidth;
+        if (document.documentElement && document.documentElement.clientWidth) {
+            width = document.documentElement.clientWidth;
+        } else if (document.body && document.body.clientWidth) {
+            width = document.body.clientWidth;
+        } else if (screen.width) {
+            width = screen.width;
+        }
+        return {
+            pc: width > 768,
+            pad: (width > 375 && width <= 768),
+            phone: (width <= 375),
+            width
+        };
+    }
 }).merge(FormSync, Refs);

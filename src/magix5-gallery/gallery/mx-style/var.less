@@ -1,126 +1,225 @@
 /* 默认值映射到magix3的变量配置 */
+
 :root {
     /* 通用，字体相关参数，输入或下拉框高度  */
-    --mx5-line-height: var(--line-height, 1.5);
-    --mx5-font-color: var(--font-color, #333);
-    --mx5-font-size: var(--font-size, 12px);
-    --mx5-font-family: var(--font-family, Helvetica, Arial, "Microsoft Yahei", "Hiragino Sans GB", "Heiti SC", "WenQuanYi Micro Hei", sans-serif);
-    --mx5-font-number: var(--font-number, Tahoma);
-    --mx5-input-height: var(--input-height, 32px);
-    --mx5-input-small-height: var(--input-small-height, 26px);
-
-    /* 品牌色，gradient渐变预留 */
-    --mx5-color-brand: var(--color-brand, #385ACC);
-    --mx5-color-brand-gradient: var(--app-brand-gradient, var(--mx5-color-brand));
-    --mx5-color-brand-hover: var(--color-brand-hover, #2e4aa7);
-    --mx5-color-brand-vs: var(--color-brand-vs, #f7664d);
-    --mx5-color-brand-light: var(--color-brand-light, #d7def6);
-    --mx5-color-brand-opacity: var(--color-brand-opacity, #eff2fb);
-    --mx5-color-brand-text: var(--color-brand-text, #ffffff);
-    --mx5-color-brand-text-hover: var(--color-brand-text-hover, #ffffff);
-
-    /* 边框 */
-    --mx5-border-color: var(--color-border, #e6e6e6);
-    --mx5-border-radius: var(--border-radius, 4px);
-
+    --mx5-line-height: var(--line-height);
+    --mx5-font-size: var(--font-size);
+    --mx5-font-color: var(--font-color);
+    --mx5-font-family: var(--font-family);
+    --mx5-font-number: var(--font-number);
+    --mx5-input-height: var(--input-height);
+    --mx5-input-small-height: var(--input-small-height);
+    --mx5-input-large-height: var(--input-large-height);
+    /* 品牌色 */
+    --mx5-color-brand: var(--color-brand);
+    --mx5-color-brand-gradient: var(--color-brand-gradient);
+    --mx5-color-brand-hover: var(--color-brand-hover);
+    --mx5-color-brand-hover-gradient: var(--color-brand-hover-gradient);
+    --mx5-color-brand-vs: var(--color-brand-vs);
+    --mx5-color-brand-light: var(--color-brand-light);
+    --mx5-color-brand-opacity: var(--color-brand-opacity);
+    --mx5-color-brand-text: var(--color-brand-text);
+    --mx5-color-brand-text-hover: var(--color-brand-text-hover);
     /* 背景色 */
-    --mx5-bg-color: var(--color-bg, #f5f5f5);
-    --mx5-bg-color-hover: var(--color-bg-hover, var(--mx5-color-brand-opacity));
-    --mx5-bg-color-grey: var(--app-bg, #e8ebf2);
-    --mx5-bg-color-black: var(--app-nav-bg, #303a58);
-
-    /* 提示颜色 */
-    --mx5-color-error: var(--color-red, #d52112);
-    --mx5-color-pass: var(--color-green, #30ab66);
-    --mx5-color-warn: var(--color-warn, #ffb400);
-    --mx5-color-highlight: var(--color-blue, var(--mx5-color-brand));
-
+    --mx5-color-bg: var(--color-bg);
+    --mx5-color-bg-hover: var(--color-bg-hover);
+    /* 边框 */
+    --mx5-border-color: var(--color-border);
+    --mx5-border-radius: var(--border-radius);
+    --mx5-border-small-radius: var(--border-small-radius);
+    --mx5-border-large-radius: var(--border-large-radius);
     /* trigger边框，背景色 */
-    --mx5-trigger-v-gap: 8px;
-    --mx5-trigger-h-gap: 8px;
-    --mx5-trigger-border-color: var(--border-highlight, #9095A1);
-    --mx5-trigger-border-color-hover: var(--border-highlight-hover, var(--mx5-color-brand));
-    --mx5-trigger-bg-color: var(--bg-highlight, #fff);
-    --mx5-trigger-bg-color-hover: var(--bg-highlight-hover, #fff);
-    --mx5-trigger-icon-color: #ccc;
-    --mx5-trigger-icon-color-hover: #666;
-    --mx5-trigger-max-height: 320px;
-    --mx5-trigger-min-width: var(--btn-min-width, 64px);
-    --mx5-trigger-small-min-width: 48px;
-    --mx5-trigger-item-gap: 2px;
+    --mx5-bg-highlight: var(--bg-highlight);
+    --mx5-border-highlight: var(--border-highlight);
+    --mx5-border-highlight-shadow: var(--border-highlight-shadow);
+    --mx5-bg-highlight-hover: var(--bg-highlight-hover);
+    --mx5-border-highlight-hover: var(--border-highlight-hover);
+    --mx5-border-highlight-shadow-hover: var(--border-highlight-shadow-hover);
+    --mx5-bg-highlight-active: var(--bg-highlight-active);
+    --mx5-border-highlight-active: var(--border-highlight-active);
+    --mx5-border-highlight-shadow-active: var(--border-highlight-shadow-active);
+    /* 品牌按钮颜色 */
+    --mx5-btn-brand: var(--btn-brand);
+    --mx5-btn-brand-gradient: var(--btn-brand-gradient);
+    --mx5-btn-brand-shadow: var(--btn-brand-shadow);
+    --mx5-btn-brand-text: var(--btn-brand-text);
+    --mx5-btn-brand-hover: var(--btn-brand-hover);
+    --mx5-btn-brand-gradient-hover: var(--btn-brand-gradient-hover);
+    --mx5-btn-brand-shadow-hover: var(--btn-brand-shadow-hover);
+    --mx5-btn-brand-text-hover: var(--btn-brand-text-hover);
+    /*次要按钮*/
+    --mx5-btn-border: var(--btn-border);
+    --mx5-btn-bg: var(--btn-bg);
+    --mx5-btn-text: var(--btn-text);
+    --mx5-btn-border-hover: var(--btn-border-hover);
+    --mx5-btn-bg-hover: var(--btn-bg-hover);
+    --mx5-btn-text-hover: var(--btn-text-hover);
+    /*不同尺寸*/
+    --mx5-btn-h-gap: var(--btn-h-gap);
+    --mx5-btn-min-width: var(--btn-min-width);
+    --mx5-btn-font-size: var(--btn-font-size);
+    --mx5-btn-border-radius: var(--btn-border-radius);
+    --mx5-btn-small-h-gap: var(--btn-small-h-gap);
+    --mx5-btn-small-min-width: var(--btn-small-min-width);
+    --mx5-btn-small-font-size: var(--btn-small-font-size);
+    --mx5-btn-small-border-radius: var(--btn-small-border-radius);
+    --mx5-btn-large-h-gap: var(--btn-large-h-gap);
+    --mx5-btn-large-min-width: var(--btn-large-min-width);
+    --mx5-btn-large-font-size: var(--btn-large-font-size);
+    --mx5-btn-large-border-radius: var(--btn-large-border-radius);
+    /* 项目相关颜色，app-brand和app-brand-gradient预留做品牌差异 */
+    --mx5-app-brand: var(--app-brand);
+    --mx5-app-brand-gradient: var(--app-brand-gradient);
+    --mx5-app-nav-bg: var(--app-nav-bg);
+    --mx5-app-bg: var(--app-bg);
+    /* 最小宽度定义，滚定条15px */
+    --mx5-app-min-width: var(--app-min-width);
+    /* 提示颜色 */
+    --mx5-color-warn: var(--color-warn);
+    --mx5-color-error: var(--color-red);
+    --mx5-color-pass: var(--color-green);
+    --mx5-color-highlight: var(--color-blue);
 
     /* 动画 */
-    --mx5-animation-duration: var(--duration, 0.2s);
-
+    --mx5-duration: var(--duration);
+    /* --mx-开头内部使用参数，不对外透出 */
+    --mx5-comp-disabled-opacity: var(--mx-comp-disabled-opacity);
     /* trigger扩散动画相关参数 */
-    --mx5-animation-expand-color: var(--mx5-color-brand);
-    --mx5-animation-expand-timer: 300ms;
-    --mx5-animation-expand-ease: ease-out;
-
-    /* 按钮 */
-    --mx5-btn-font-size: var(--btn-font-size, var(--mx5-font-color));
-    --mx5-btn-border-radius: var(--btn-border-radius, var(--mx5-border-radius));
-    --mx5-btn-brand: var(--btn-brand, var(--mx5-color-brand));
-    --mx5-btn-brand-hover: var(--btn-brand-hover, var(--mx5-color-brand-hover));
-    --mx5-btn-brand-text: var(--btn-brand-text, var(--mx5-color-brand-text));
-    --mx5-btn-brand-text-hover: var(--btn-brand-text-hover, var(--mx5-color-brand-text-hover));
-    --mx5-btn-text: var(--btn-text, #333);
-    --mx5-btn-text-hover: var(--btn-text-hover, #333);
-    --mx5-btn-border: var(--btn-border, var(--mx5-color-brand));
-    --mx5-btn-border-hover: var(--btn-border-hover, var(--mx5-color-brand));
-    --mx5-btn-bg: var(--btn-bg, var(--mx5-color-brand-opacity));
-    --mx5-btn-bg-hover: var(--btn-bg-hover, var(--mx5-color-brand-light));
-    --mx5-btn-h-gap: var(--btn-h-gap, 8px);
-
-    /* 表格参数 */
-    --mx5-table-ceil-h-gap: var(--mx-table-ceil-h-gap, 12px);
-    --mx5-table-ceil-v-gap: var(--mx-table-ceil-v-gap, 12px);
-    --mx5-table-head-height: var(--mx-table-head-height, 60px);
-    --mx5-table-head-font-color: var(--mx-table-head-font-color, #999);
-    --mx5-table-head-bg-color: var(--mx5-bg-color, #f5f5f5);
-
-    /* 阴影 */
-    --mx5-shadow-border-color: var(--mx-comp-shadow-box-border, #f5f5f6);
-    --mx5-shadow: var(--mx-comp-shadow-card, 0 1px 1px 0 rgba(0, 0, 0, 0.08));
-    --mx5-shadow-hover: var(--mx-comp-shadow-card-hover, 0 4px 6px 0 rgba(0, 0, 0, 0.08));
+    --mx5-comp-expand-amin-color: var(--mx-comp-expand-amin-color);
+    --mx5-comp-expand-amin-timer: var(--mx-comp-expand-amin-timer);
+    --mx5-comp-expand-amin-ease: var(--mx-comp-expand-amin-ease);
+    /* 布局间距、边框、阴影 */
+    --mx5-comp-v-gap: var(--mx-comp-v-gap);
+    --mx5-comp-h-gap: var(--mx-comp-h-gap);
+    --mx5-comp-shadow: var(--mx-comp-shadow);
+    --mx5-comp-shadow-border: var(--mx-comp-shadow-border);
+    /* trigger-tag配置，尺寸，颜色 */
+    --mx5-trigger-tag-gap: var(--mx-trigger-tag-gap);
+    --mx5-trigger-tag-height: var(--mx-trigger-tag-height);
+    --mx5-trigger-tag-bg: var(--mx-trigger-tag-bg);
+    --mx5-trigger-tag-bg-hover: var(--mx-trigger-tag-bg-hover);
+    --mx5-trigger-tag-bg-active: var(--mx-trigger-tag-bg-active);
+    --mx5-trigger-tag-arrow-color: var(--mx-trigger-tag-arrow-color);
+    --mx5-trigger-tag-arrow-color-hover: var(--mx-trigger-tag-arrow-color-hover);
+    /* trigger尺寸配置 */
+    --mx5-trigger-prefix-icon: var(--mx-trigger-prefix-icon);
+    --mx5-trigger-prefix-text: var(--mx-trigger-prefix-text);
+    --mx5-trigger-arrow-size: var(--mx-trigger-arrow-size);
+    --mx5-trigger-arrow-color: var(--mx-trigger-arrow-color);
+    --mx5-trigger-arrow-color-hover: var(--mx-trigger-arrow-color-hover);
+    --mx5-trigger-v-gap: var(--mx-trigger-v-gap);
+    --mx5-trigger-h-gap: var(--mx-trigger-h-gap);
+    --mx5-trigger-min-width: var(--mx-trigger-min-width);
+    --mx5-trigger-font-size: var(--mx-trigger-font-size);
+    --mx5-trigger-small-v-gap: var(--mx-trigger-small-v-gap);
+    --mx5-trigger-small-h-gap: var(--mx-trigger-small-h-gap);
+    --mx5-trigger-small-min-width: var(--mx-trigger-small-min-width);
+    --mx5-trigger-small-font-size: var(--mx-trigger-small-font-size);
+    --mx5-trigger-large-v-gap: var(--mx-trigger-large-v-gap);
+    --mx5-trigger-large-h-gap: var(--mx-trigger-large-h-gap);
+    --mx5-trigger-large-min-width: var(--mx-trigger-large-min-width);
+    --mx5-trigger-large-font-size: var(--mx-trigger-large-font-size);
 
     /* layout */
-    --mx5-layout-title-v-gap: var(--mx-grid-title-v-gap, 8px);
-    --mx5-layout-title-h-gap: var(--mx-grid-title-h-gap, 24px);
-    --mx5-layout-title-font-size: var(--mx-grid-title-font-size, 16px);
-    --mx5-layout-title-font-weight: var(--mx-grid-title-font-weight, normal);
-    --mx5-layout-title-border-color: var(--mx-grid-title-color-border, var(--mx5-border-color));
-    --mx5-layout-title-link-font-size: var(--mx-grid-title-link-font-size, 12px);
-    --mx5-layout-title-link-color: var(--mx-grid-title-link-color, var(--mx5-color-brand));
-    --mx5-layout-title-link-color-hover: var(--mx-grid-title-link-color-hover, var(--mx5-color-brand-hover));
-    --mx5-layout-body-v-gap: var(--mx-grid-body-v-gap, 16px);
-    --mx5-layout-body-h-gap: var(--mx-grid-body-h-gap, 24px);
-
-    /* popover */
-    --mx5-popover-v-gap: 8px;
-    --mx5-popover-h-gap: 8px;
+    --mx5-layout-border-radius: var(--mx-grid-border-radius);
+    --mx5-layout-gap: var(--mx-grid-gap);
+    --mx5-layout-title-v-gap: var(--mx-grid-title-v-gap);
+    --mx5-layout-title-h-gap: var(--mx-grid-title-h-gap);
+    --mx5-layout-title-font-size: var(--mx-grid-title-font-size);
+    --mx5-layout-title-font-weight: var(--mx-grid-title-font-weight);
+    --mx5-layout-title-color-border: var(--mx-grid-title-color-border);
+    --mx5-layout-title-link-font-size: var(--mx-grid-title-link-font-size);
+    --mx5-layout-title-link-color: var(--mx-grid-title-link-color);
+    --mx5-layout-title-link-color-hover: var(--mx-grid-title-link-color-hover);
+    --mx5-layout-body-v-gap: var(--mx-grid-body-v-gap);
+    --mx5-layout-body-h-gap: var(--mx-grid-body-h-gap);
+    --mx5-layout-shadow: var(--mx-grid-shadow);
+    --mx5-layout-shadow-hover: var(--mx-grid-shadow-hover);
 
     /* checkbox radio参数 */
-    --mx5-checkbox-color: var(--mx-checkbox-color, #9095A1);
-    --mx5-checkbox-size: var(--mx-checkbox-size, 14px);
-    --mx5-checkbox-border-radius: var(--mx-checkbox-border-radius, 2px);
-    --mx5-checkbox-h-gap: 4px;
-
+    --mx5-checkbox-color: var(--mx-checkbox-color);
+    --mx5-checkbox-size: var(--mx-checkbox-size);
+    --mx5-checkbox-border-radius: var(--mx-checkbox-border-radius);
     /* 打标 */
-    --mx5-tag-mode: var(--mx-tag-mode, solid);
-    --mx5-tag-height: var(--mx-tag-height, 16px);
-    --mx5-tag-border-radius: var(--mx-tag-border-radius, 8px);
-    --mx5-tag-font-scale: var(--mx-tag-font-scale, 0.84);
-    --mx5-tag-h-gap: var(--mx-tag-h-gap, 4px);
-    --mx5-tag-font-weight: var(--mx-tag-font-weight, solid);
-
+    --mx5-tag-mode: var(--mx-tag-mode);
+    --mx5-tag-height: var(--mx-tag-height);
+    --mx5-tag-border-radius: var(--mx-tag-border-radius);
+    --mx5-tag-font-scale: var(--mx-tag-font-scale);
+    --mx5-tag-h-gap: var(--mx-tag-h-gap);
+    --mx5-tag-font-weight: var(--mx-tag-font-weight);
+    /* 表格参数 */
+    --mx5-table-ceil-h-gap: var(--mx-table-ceil-h-gap);
+    --mx5-table-ceil-v-gap: var(--mx-table-ceil-v-gap);
+    --mx5-table-head-height: var(--mx-table-head-height);
+    --mx5-table-head-font-color: var(--mx-table-head-font-color);
+    /* 卡片样式 */
+    --mx5-effects-card-v-gap: var(--mx-effects-card-v-gap);
+    --mx5-effects-card-h-gap: var(--mx-effects-card-h-gap);
+    --mx5-effects-card-radius: var(--mx-effects-card-radius);
+    --mx5-effects-card-color-bg: var(--mx-effects-card-color-bg);
+    --mx5-effects-card-title-font-size: var(--mx-effects-card-title-font-size);
+    --mx5-effects-card-sub-title-font-size: var(--mx-effects-card-sub-title-font-size);
+    --mx5-effects-card-tip-font-size: var(--mx-effects-card-tip-font-size);
+    --mx5-effects-card-color-border: var(--mx-effects-card-color-border);
+    --mx5-effects-card-shadow: var(--mx-effects-card-shadow);
+    /* notice */
+    --mx5-effects-notice-v-gap: var(--mx-effects-notice-v-gap);
+    --mx5-effects-notice-h-gap: var(--mx-effects-notice-h-gap);
+    /* 浮层 */
+    --mx5-dialog-text-align: var(--mx-dialog-text-align);
+    --mx5-dialog-alert-color-border: var(--mx-dialog-alert-color-border);
+    --mx5-dialog-alert-v-gap: var(--mx-dialog-alert-v-gap);
+    --mx5-dialog-color-bg: var(--mx-dialog-color-bg);
+    /* 底边线tab参数 */
+    --mx5-tab-v-gap: var(--mx-tab-v-gap);
+    --mx5-tab-h-gap: var(--mx-tab-h-gap);
+    --mx5-tab-font-size: var(--mx-tab-font-size);
+    --mx5-tab-first-v-gap: var(--mx-tab-first-v-gap);
+    --mx5-tab-border-color: var(--mx-tab-border-color);
+    --mx5-tab-color: var(--mx-tab-color);
+    --mx5-tab-color-hover: var(--mx-tab-color-hover);
+    --mx5-tab-color-active: var(--mx-tab-color-active);
+    /* 盒状tab参数 */
+    --mx5-tab-box-shadow: var(--mx-tab-box-shadow);
+    --mx5-tab-box-gap-border: var(--mx-tab-box-gap-border);
+    --mx5-tab-box-bg: var(--mx-tab-box-bg);
+    --mx5-tab-box-bg-active: var(--mx-tab-box-bg-active);
+    --mx5-tab-box-border: var(--mx-tab-box-border);
+    --mx5-tab-box-border-active: var(--mx-tab-box-border-active);
+    --mx5-tab-box-color: var(--mx-tab-box-color);
+    --mx5-tab-box-color-hover: var(--mx-tab-box-color-hover);
+    --mx5-tab-box-color-active: var(--mx-tab-box-color-active);
+    --mx5-tab-box-arrow-bg: var(--mx-tab-box-arrow-bg);
+    --mx5-tab-box-arrow-bg-hover: var(--mx-tab-box-arrow-bg-hover);
+    --mx5-tab-box-arrow-bg-active: var(--mx-tab-box-arrow-bg-active);
+    /* 指标选择 */
+    --mx5-indics-custom-display: var(--mx-indics-custom-display);
+    /* 吊头配置参数 */
+    --mx5-header-color-bg: var(--mx-header-color-bg);
+    --mx5-header-color-text: var(--mx-header-color-text);
+    --mx5-header-color-brand: var(--mx-header-color-brand);
+    --mx5-header-shadow-box: var(--mx-header-shadow-box);
     /* 翻页器 */
-    --mx5-pager-mode: var(--mx-pagination-mode, square);
-    --mx5-pager-font-color: var(--mx-pagination-font-color, #666);
-    --mx5-pager-font-color-hover: var(--mx-pagination-font-color-hover, #333);
-    --mx5-pager-bg-color: var(--mx-pagination-font-color-bg, #eee);
-    --mx5-pager-circle-gap: 8px;
-    
-    /* 树形结构 */
-    --mx5-tree-item-height: 20px;
+    --mx5-pagination-align: var(--mx-pagination-align);
+    --mx5-pagination-mode: var(--mx-pagination-mode);
+    --mx5-pagination-gap: var(--mx-pagination-gap);
+    --mx5-pagination-border: var(--mx-pagination-border);
+    --mx5-pagination-bg: var(--mx-pagination-bg);
+    --mx5-pagination-color: var(--mx-pagination-color);
+    --mx5-pagination-border-hover: var(--mx-pagination-border-hover);
+    --mx5-pagination-bg-hover: var(--mx-pagination-bg-hover);
+    --mx5-pagination-color-hover: var(--mx-pagination-color-hover);
+    --mx5-pagination-border-active: var(--mx-pagination-border-active);
+    --mx5-pagination-bg-active: var(--mx-pagination-bg-active);
+    --mx5-pagination-color-active: var(--mx-pagination-color-active);
+    /* 开关 */
+    --mx5-switch-width: var(--mx-switch-width);
+    --mx5-switch-height: var(--mx-switch-height);
+    --mx5-switch-icon-size: var(--mx-switch-icon-size);
+    --mx5-switch-border-radius: var(--mx-switch-border-radius);
+    /* 输入框 */
+    --mx5-input-gap-border: var(--mx-input-gap-border);
+    --mx5-input-arrow-color: var(--mx-input-arrow-color);
+    --mx5-input-arrow-color-hover: var(--mx-input-arrow-color-hover);
+    --mx5-checkbox-h-gap: 4px;
 }

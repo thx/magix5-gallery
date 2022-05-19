@@ -5,7 +5,7 @@ export default View.extend({
     init(options) {
         this.set({
             apisList: [{
-                text: 'mx-layout API',
+                text: 'mx-layout.row API',
                 list: [{
                     value: 'sticky',
                     text: '是否需要吸顶',
@@ -13,7 +13,7 @@ export default View.extend({
                     def: 'false'
                 }]
             }, {
-                text: 'mx-layout.title API',
+                text: 'mx-layout.col API',
                 list: [{
                     value: 'content',
                     text: '标题',
@@ -45,24 +45,6 @@ export default View.extend({
                     type: 'boolean',
                     def: 'true'
                 }]
-            }, {
-                text: 'mx-layout.body API',
-                list: [{
-                    value: 'content',
-                    text: '内容',
-                    type: 'string',
-                    def: ''
-                }]
-            }],
-            columns: [{
-                text: '标题+内容',
-                path: 1
-            }, {
-                text: '只标题区域',
-                path: 2
-            }, {
-                text: '只内容区域',
-                path: 3
             }],
         });
     },

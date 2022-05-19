@@ -1,0 +1,17 @@
+<div class="example">
+    <div class="eg-content">
+        <mx-footer *mode="simple"/>
+    </div>
+    <div class="eg-desc">
+        <div class="eg-title">HTML Code</div>
+        <mx-copy class="desc-oper" 
+            *copy-node="{{=$viewId}}_text_1" 
+            mx-success="@:{done}({id:1})">
+            <span class="desc-tip" mx-html="{{=text1}}"></span>
+            <i class="mx5-iconfont desc-icon">&#xe610;</i>
+        </mx-copy>
+        <mx-source id="{{=$viewId}}_text_1">
+            <mx-footer *mode="simple"/>
+        </mx-source>
+    </div>
+</div>

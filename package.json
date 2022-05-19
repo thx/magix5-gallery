@@ -42,7 +42,7 @@
       "预发一套": "140.205.215.168|https://pre-dmp.taobao.com:2468/index_new.html"
     },
     "jsExtension": ".ts",
-    "autoOpenUrl": "https://localhost:2468/test.html",
+    "autoOpenUrl": "https://test.taobao.com:2468/test.html",
     "apiMatch": [
       "api/",
       ".json",

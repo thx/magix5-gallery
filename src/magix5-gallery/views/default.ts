@@ -35,7 +35,7 @@ export default View.extend({
 		Magix5.mix(headers[curIndex], {
 			cur: true
 		})
-
+		
 		// 当前路径所属组展开
 		let list = headers[curIndex].paths;
 		let cur = {}, prev = {}, next = {};
@@ -68,6 +68,7 @@ export default View.extend({
 				}
 			});
 		});
+
 		await that.digest({
 			headers,
 			count,

@@ -1,7 +1,9 @@
 <div class="example">
     <div class="eg-content">
         <div class="mx5-mb20">
-            <mx-magix3 *target="feeds/gallery/mx-collapse/index" *params="{{# magix3Params }}" mx-change="test()" *hook-events="change"></mx-magix3>
+            <mx-magix3 *target="feeds/gallery/mx-collapse/index" *params="{{# magix3Params }}" mx-change="test()" *hook-events="change">
+                <mx-loading/>
+            </mx-magix3>
         </div>
     </div>
     <div class="mx5-clearfix">
@@ -14,7 +16,9 @@
                 <i class="mx5-iconfont desc-icon">&#xe610;</i>
             </mx-copy>
             <mx-source whole="true" id="{{=$viewId}}_text_1">
-                <mx-magix3 *target="feeds/gallery/mx-collapse/index" *params="{{# magix3Params }}" mx-change="test()" *hook-events="change"></mx-magix3>
+                <mx-magix3 *target="feeds/gallery/mx-collapse/index" *params="{{# magix3Params }}" mx-change="test()" *hook-events="change">
+                    <mx-loading/>
+                </mx-magix3>
             </mx-source>
         </div>
         <div class="eg-desc flw50 mx5-blc">

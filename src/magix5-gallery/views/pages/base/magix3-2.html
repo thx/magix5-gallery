@@ -1,0 +1,37 @@
+<div class="example">
+    <div class="eg-content">
+        <div class="mx5-mb20">
+            在Magix5中实现的兼容Magix3区块的组件，提供config和setPrepare静态方法方便相关配置<br/>
+            config方法用于配置如crossConfigs，normalize，api，global，theme，bootConfigs，tryTimes等，方便对待加载的magix3区块统一配置<br/>
+            通过setPrepare可指定对某个项目的prepare文件是否加载，是否执行等进行精确控制
+        </div>
+    </div>
+    <div class="eg-desc">
+        <div class="eg-title">HTML Code</div>
+        <mx-copy class="desc-oper" 
+            *copy-node="{{=$viewId}}_text_1" 
+            mx-success="@:{done}({id:1})">
+            <span class="desc-tip" mx-html="{{=text1}}"></span>
+            <i class="mx5-iconfont desc-icon">&#xe610;</i>
+        </mx-copy>
+        <mx-source whole="true" id="{{=$viewId}}_text_1">
+            import Magix3 from '../../../gallery/mx-magix3/index';
+            import View from './demo';
+            Magix3.config({
+                crossConfigs: [{
+                    "apiHost": "//tuijian.taobao.com",
+                    "projectName": "feeds",
+                    "source": "//g.alicdn.com/mm/feeds/20200812.212619.484/feeds"
+                }, {
+                    "projectName": "magix-ports",
+                    "source": "//dev.g.alicdn.com/mm/magix-ports/20220513.171722.564"
+                }]
+            });
+            Magix3.setPrepare([{
+                projectName: 'feeds',
+                load: true,
+                call: false
+            }])
+        </mx-source>
+    </div>
+</div>

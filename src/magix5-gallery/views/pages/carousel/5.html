@@ -1,0 +1,77 @@
+<div class="example">
+    <div class="eg-content">
+        <div class="mx5-mb20 mx5-clearfix">
+            <div class="mx5-color-9 mx5-fl">以下示例：</div>
+            <div class="mx5-fl">
+                <div>每次切换警告trigger-hook</div>
+                <div>resolve()允许切换，reject不允许切换</div>
+            </div>
+        </div>
+        <div class="mx5-clearfix mx5-mb10">
+            <mx-carousel *height="100" 
+                *autoplay="false" 
+                *active="1" 
+                *triggers="true"
+                *trigger-hook="{{#triggerHook}}">
+                <mx-carousel.panel class="bg bg1">1</mx-carousel.panel>
+                <mx-carousel.panel class="bg bg2">2</mx-carousel.panel>
+                <mx-carousel.panel class="bg bg3">3</mx-carousel.panel>
+            </mx-carousel>
+        </div>
+    </div>
+    <div class="eg-desc">
+        <div class="eg-title">HTML Code</div>
+        <mx-copy class="desc-oper" 
+            *copy-node="{{=$viewId}}_text_1" 
+            mx-success="@:{done}({id:1})">
+            <span class="desc-tip" mx-html="{{=text1}}"></span>
+            <i class="mx5-iconfont desc-icon">&#xe610;</i>
+        </mx-copy>
+        <mx-source whole="true" id="{{=$viewId}}_text_1">
+            <mx-carousel *height="100" 
+                *autoplay="false" 
+                *active="1" 
+                *triggers="true"
+                *trigger-hook="{{#triggerHook}}">
+                <mx-carousel.panel class="bg bg1">1</mx-carousel.panel>
+                <mx-carousel.panel class="bg bg2">2</mx-carousel.panel>
+                <mx-carousel.panel class="bg bg3">3</mx-carousel.panel>
+            </mx-carousel>
+        </mx-source>
+    </div>
+    <div class="eg-desc">
+        <div class="eg-title">JS Code</div>
+        <mx-copy class="desc-oper" 
+            *copy-node="{{=$viewId}}_text_2" 
+            mx-success="@:{done}({id:2})">
+            <span class="desc-tip" mx-html="{{=text1}}"></span>
+            <i class="mx5-iconfont desc-icon">&#xe610;</i>
+        </mx-copy>
+        <mx-source whole="true" id="{{=$viewId}}_text_2">
+            import Magix5 from 'magix5';
+            import View from 'magix5-gallery/views/pages/base/demo';
+            let { applyStyle, Vframe, node } = Magix5;
+            applyStyle('@:./1.css');
+            export default View.extend({
+                tmpl: '@:5.html',
+                render() {
+                    let that = this;
+                    this.digest({
+                        triggerHook(currentIndex, targetIndex) {
+                            // currentIndex: 当前页码，从0开始
+                            // targetIndex: 目标页码，从0开始
+                            return new Promise<void>((resolve, reject) => {
+                                if (currentIndex == 1 && targetIndex == 2) {
+                                    //that.alert('系统提示', '禁止从第二页翻到第三页');
+                                    reject();
+                                } else {
+                                    resolve();
+                                }
+                            })
+                        }
+                    });
+                },
+            });
+        </mx-source>
+    </div>
+</div>

@@ -1,0 +1,41 @@
+<mx-title *mode="second" *content="使用示例"/>
+<div class="mx5-mb40">
+    <div class="example">
+        <div class="eg-content">
+            <mx-im.dd uid="t5z4z8s" uname="虞佳"/>
+        </div>
+        <div class="eg-desc">
+            <div class="eg-title">HTML Code</div>
+            <mx-copy class="desc-oper" 
+                *copy-node="{{=$viewId}}_text_1" 
+                mx-success="@:{done}({id:1})">
+                <span class="desc-tip" mx-html="{{=text1}}"></span>
+                <i class="mx5-iconfont desc-icon">&#xe610;</i>
+            </mx-copy>
+            <mx-source id="{{=$viewId}}_text_1">
+                <mx-im.dd uid="t5z4z8s" uname="虞佳"/>
+            </mx-source>
+        </div>
+        <div class="eg-desc">
+            <div class="eg-title">等同于</div>
+            <mx-copy class="desc-oper" 
+                *copy-node="{{=$viewId}}_text_2" 
+                mx-success="@:{done}({id:2})">
+                <span class="desc-tip" mx-html="{{=text2}}"></span>
+                <i class="mx5-iconfont desc-icon">&#xe610;</i>
+            </mx-copy>
+            <mx-source id="{{=$viewId}}_text_2">
+                <a href="dingtalk://dingtalkclient/action/sendmsg?dingtalk_id=t5z4z8s">
+                    <i class="mx5-iconfont mx5-color-brand mx5-fs18">&#xe677;</i>虞佳
+                </a>
+            </mx-source>
+        </div>
+    </div>
+</div>
+<mx-title *mode="second" *content="接入说明"/>
+<div class="mx5-mb10">链接格式为：dingtalk://dingtalkclient/action/sendmsg?dingtalk_id={id} ，将{id}替换为用户的钉钉号</div>
+<div class="mx5-mb10">关于如何获取钉钉号：</div>
+<div class="img-wrapper">
+    <img src="//img.alicdn.com/imgextra/i2/O1CN01fWzum81iim3BnPvUK_!!6000000004447-0-tps-672-671.jpg"/>
+</div>
+
