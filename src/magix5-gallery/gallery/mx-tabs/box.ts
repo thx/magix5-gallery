@@ -82,11 +82,29 @@ export default View.extend({
   },
 
   /* event handler */
-  '@{select}<click>'(e) {
-
+  '@:{select}<click>'(e) {
+    const {value} = e.params
+    this['@:{fire}'](value)
   },
 
-  '@{select}'() {
+  '@:{fire}'(value) {
+    const {selected:oldSelected,list} = this.get()
+    const selectedItem = list.filter(d => d.value == value)?.[0]
+    if(oldSelected == value || !selectedItem) {
+      return
+    }
 
+    // digest
+    this.digest({
+      selected:value
+    })
+
+    // dispatch
+    Magix5.dispatch(this.root,
+      'change',
+      {
+        selected:selectedItem.value,
+        text:selectedItem.text
+    })
   }
 })

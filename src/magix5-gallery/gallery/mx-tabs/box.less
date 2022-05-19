@@ -1,30 +1,65 @@
 [mx5-view*="mx-tabs/box"] {
   position: relative;
   display: inline-block;
-  border-radius: var(--border-radius);
+  border-radius: var(--mx5-border-radius);
 
-  .box-item-wrapper {
+  .box-list {
     display: inline-flex;
     align-items: center;
     justify-content: center;
 
-    .box-item {
-      display: inline-flex;
+    .box-item-wrapper {
+      display: flex;
       align-items: center;
       justify-content: center;
-      min-width: var(--btn-min-width, 64px);
-      height: var(--input-height);
 
-      padding: 0 var(--btn-h-gap, 10px);
-      border-radius: 0;
-      border: 1px solid var(--mx5-tab-box-border, var(--border-highlight));
 
-      background-color: var(--mx5-tab-box-bg, transparent);
-      color: var(--mx5-tab-box-color, #666);
-      font-size: var(--btn-font-size, 12px);
-      transition: all var(--duration);
-      cursor: pointer;
+      .box-item {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: var(--btn-min-width, 64px);
+        height: var(--input-height);
+        padding: 0 var(--btn-h-gap, 10px);
+        border: 1px solid var(--mx5-tab-box-border, var(--border-highlight));
+        border-right: 0;
+        background-color: var(--mx5-tab-box-bg, transparent);
+        color: var(--mx5-tab-box-color, #666);
+        font-size: var(--btn-font-size, 12px);
+        transition: all var(--duration);
+        cursor: pointer;
+      }
+
+      &:first-child {
+        .box-item {
+          border-top-left-radius: var(--mx5-border-radius);
+          border-bottom-left-radius: var(--mx5-border-radius);
+        }
+      }
+
+      &:last-child {
+        .box-item {
+          border-right: 1px solid var(--mx5-tab-box-border, var(--border-highlight));
+          border-top-right-radius: var(--mx5-border-radius);
+          border-bottom-right-radius: var(--mx5-border-radius);
+        }
+      }
+
+      /* active */
+      &.active-item {
+        .box-item {
+          border-color: var(--mx5-tab-box-border-active, var(--color-brand));
+          background-color: var(--mx5-tab-box-bg-active, var(--color-brand-opacity));
+          color: var(--mx5-tab-box-color-active, #333);
+        }
+      }
+
+      &.active-item-next {
+        .box-item {
+          border-left-color: var(--mx5-tab-box-border-active, var(--color-brand));
+        }
+      }
     }
-
   }
+
 }

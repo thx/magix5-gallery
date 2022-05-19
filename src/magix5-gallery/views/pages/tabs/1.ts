@@ -11,9 +11,11 @@ export default View.extend({
         })
     },
     'changeTab<change>'(e) {
-        const { selected } = e
+        const { selected,text } = e
+        console.log(selected,text);
         this.digest({
-            selected
+            selected,
+            text
         })
     }
 })

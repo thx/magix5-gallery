@@ -10,7 +10,10 @@ export default View.extend({
                 type: 'array',
                 def: '[]'
             }],
-            columns: [],
+            columns: [{
+                text: '文案提示打标',
+                path: 1
+            }],
         });
     },
 })
