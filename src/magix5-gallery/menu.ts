@@ -16,6 +16,10 @@ export default {
                         path: '/base/links',
                     },
                     {
+                        name: '关于_config定义',
+                        path: '/base/config',
+                    },
+                    {
                         name: '兼容magix3',
                         path: '/base/magix3',
                     }

@@ -14,7 +14,7 @@ export default View.extend({
             text: extra.text || '',
             tip: extra.tip || '',
             tagContent: extra.tagContent || '',
-            tagColor: extra.tagColor || 'var(--mx5-color-error)',
+            tagColor: extra.tagColor || 'var(--mx5-color-red)',
         })
     },
     render() {
