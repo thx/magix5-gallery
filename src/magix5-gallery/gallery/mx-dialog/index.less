@@ -1,6 +1,6 @@
-@import "../../assets/_vars.less";
 @backdrop-opacity: 0.4;
 @dialog-movement: 30px;
+
 .dialog-content {
     border-radius: @border-radius;
     border: 1px solid @color-border;
@@ -13,7 +13,9 @@
     opacity: .2;
     top: 10px;
     right: 10px;
-    &:hover, &:focus {
+
+    &:hover,
+    &:focus {
         opacity: .5;
     }
 }
@@ -49,6 +51,7 @@
     from {
         opacity: 0;
     }
+
     to {
         opacity: @backdrop-opacity;
     }
@@ -63,6 +66,7 @@
     from {
         opacity: @backdrop-opacity;
     }
+
     to {
         opacity: 0;
     }
@@ -84,6 +88,7 @@
         transform: translateY(@dialog-movement);
         opacity: 0;
     }
+
     to {
         transform: translateY(0);
         opacity: 1;
@@ -100,6 +105,7 @@
         transform: translateY(0);
         opacity: 1;
     }
+
     to {
         transform: translateY(-@dialog-movement);
         opacity: 0;
