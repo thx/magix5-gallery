@@ -43,14 +43,22 @@ export default View.extend({
                 def: '200'
             }, {
                 value: 'tip-placement',
-                text: 'hover提示框在目标的方位，top，bottom，left，right<br/>与目标距离10px',
+                text: `<pre>提示框在目标的方位，与目标距离10px
+bl：bottom left 下方，左对齐
+br：bottom right 下方，右对齐
+bc：bottom center 下方，居中对齐
+tl：top left 上方，左对齐
+tr：top right 上方，右对齐
+tc：top center 上方，居中对齐
+rt：right top 右侧，上对齐
+rb：right bottom 右侧，下对齐
+rc：right center 右侧，居中对齐
+lt：left top 左侧，上对齐
+lb：left bottom 左侧，下对齐
+lc：left center 左侧，居中对齐
+</pre>`,
                 type: 'string',
                 def: 'bottom'
-            }, {
-                value: 'tip-align',
-                text: 'hover提示框与目标的对齐方式，top，bottom，left，right，center',
-                type: 'string',
-                def: 'center'
             }, {
                 value: 'tip-view',
                 text: 'hover提示框自定义提示内容view',

@@ -83,44 +83,39 @@ export default View.extend({
         this.set({
             content: options.content,
             styles: styles.join(';'),
-            tipWidth: options.tipWidth || 200,
-            tipPlacement: options.tipPlacement || 'bottom',
-            tipAlign: options.tipAlign || 'center',
+            tipWidth: options.tipWidth,
+            tipPlacement: options.tipPlacement,
             tipView: options.tipView,
             tipData: options.tipData || {},
             tip: options.tip || ''
         })
     },
-    render() {
-        this.digest();
+    async render() {
+        await this.digest();
 
-        // try {
-        //     // 防止动态加载的异常
-        //     // 处理scale之后的空白
-        //     let tag = document.querySelector(`#${this.id} .mx-tag`);
-        //     let tagName = document.querySelector(`#${this.id} .mx-tag-name`);
-        //     let boundClient = tagName.getBoundingClientRect();
-        //     let boundClientWidth = boundClient.width;
-        //     if (boundClientWidth == 0) {
-        //         // 隐藏的时候，宽度为0
-        //         let cloneTag = $(`#${this.id}`).clone();
-        //         cloneTag.css({
-        //             position: 'absolute',
-        //             visibility: 'hidden',
-        //             opacity: 0,
-        //             display: 'block'
-        //         })
-        //         $(document.body).append(cloneTag);
-        //         let cloneTagName = cloneTag.find('.mx-tag-name')[0];
-        //         let cloneBoundClient = cloneTagName.getBoundingClientRect();
-        //         boundClientWidth = cloneBoundClient.width;
-        //         cloneTag.remove();
-        //     }
-        //     if (boundClientWidth > 0) {
-        //         tag.style.width = Math.floor(boundClientWidth + 10) + 'px';
-        //     }
-        // } catch (error) {
+        try {
+            // 处理scale之后的真实宽度
+            let tag = document.querySelector(`#${this.id}_tag`);
+            let tagName = document.querySelector(`#${this.id}_tag_name`);
+            let boundClient = tagName.getBoundingClientRect();
+            let boundClientWidth = boundClient.width;
+            if (boundClientWidth == 0) {
+                // 隐藏的时候，宽度为0
+                let cloneTag = document.createElement('span');
+                cloneTag.style.cssText = 'position: absolute; visibility: hidden: opacity: 0;'
+                cloneTag.className = 'mx5-tag-name';
+                cloneTag.innerHTML = this.get('content');
+                document.body.append(cloneTag);
+                let cloneBoundClient = cloneTag.getBoundingClientRect();
+                boundClientWidth = cloneBoundClient.width;
+                cloneTag.remove();
+            }
+            if (boundClientWidth > 0) {
+                // padding + border
+                tag.style.width = `calc(var(--mx5-tag-h-gap) * 2 + 2px + ${Math.ceil(boundClientWidth)}px)`;
+            }
+        } catch (error) {
 
-        // }
+        }
     }
 });
