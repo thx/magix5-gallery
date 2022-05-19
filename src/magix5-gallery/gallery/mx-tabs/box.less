@@ -1,0 +1,30 @@
+[mx5-view*="mx-tabs/box"] {
+  position: relative;
+  display: inline-block;
+  border-radius: var(--border-radius);
+
+  .box-item-wrapper {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    .box-item {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: var(--btn-min-width, 64px);
+      height: var(--input-height);
+
+      padding: 0 var(--btn-h-gap, 10px);
+      border-radius: 0;
+      border: 1px solid var(--mx5-tab-box-border, var(--border-highlight));
+
+      background-color: var(--mx5-tab-box-bg, transparent);
+      color: var(--mx5-tab-box-color, #666);
+      font-size: var(--btn-font-size, 12px);
+      transition: all var(--duration);
+      cursor: pointer;
+    }
+
+  }
+}

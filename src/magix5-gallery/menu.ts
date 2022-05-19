@@ -103,6 +103,11 @@ export default {
                 name: '导航',
                 subs: [
                     {
+                        name: 'mx-tabs.box 盒装tab分组',
+                        tip: 'TODO:tip',
+                        path: '/tabs-box/index',
+                    },
+                    {
                         name: 'mx-pager 翻页器',
                         tip: '支持复杂模式，精简版和顺序翻页版本，pager支持双向绑定',
                         path: '/pager/index',

@@ -1,0 +1,10 @@
+{{each list as item index first last}}
+<div class="box-item-wrapper {{= mode === 'vertical' ? 'flex-direction-column' : 'flex-direction-row'}}">
+  <div class="box-item">
+    {{if mode === 'vertical'}}
+    {{else}}
+    <span>{{= item.text}}</span>
+    {{/if}}
+  </div>
+</div>
+{{/each}}
