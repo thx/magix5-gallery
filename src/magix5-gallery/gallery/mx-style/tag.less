@@ -1,4 +1,4 @@
-/* 通用样式效果 */
+/* 通用打标效果 */
 .mx5-tag {
     position: relative;
     display: inline-flex;
@@ -12,7 +12,7 @@
     align-items: center;
     justify-content: center;
     user-select: none;
-    transition: background-color var(--mx5-animation-duration), color var(--mx5-animation-duration), border var(--mx5-animation-duration);
+    transition: background-color var(--mx5-duration), color var(--mx5-duration), border var(--mx5-duration), opacity var(--mx5-duration);
 
     .mx5-tag-name {
         display: inline-flex;
@@ -37,17 +37,7 @@
     }
 
     &.mx5-tag-disabled {
-        &::after {
-            opacity: .6;
-            content: ' ';
-            position: absolute;
-            top: -1px;
-            right: -1px;
-            bottom: -1px;
-            left: -1px;
-            z-index: 1;
-            background-color: #fff;
-            border-radius: var(--mx5-tag-border-radius);
-        }
+        opacity: var(--mx5-comp-disabled-opacity, .4);
+        cursor: not-allowed;
     }
 }

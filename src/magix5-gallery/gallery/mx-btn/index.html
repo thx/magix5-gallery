@@ -1,41 +1,53 @@
-{{if (linkHref && !disabled && !loading)}}
+{{if (linkHref && !disabled)}}
     <a href="{{=linkHref}}" target="{{=linkTarget}}" rel="noopener noreferrer"
-        style="{{=styles}}; width: {{=(width ? (width + 'px') : '100%')}};"
-        class="{{if type}} btn--{{=type}} {{/if}} {{if small}} btn--small {{/if}}">
-        <span class="text {{if loading}} text-hide {{/if}}" mx-html="{{=content}}"></span>
+        style="{{=styles}}; {{if width}} width: {{=width}}px; {{else}} width: 100%; {{/if}}"
+        class="mx5-btn {{if (disabled || loading)}} mx5-btn-disabled {{/if}} mx5-btn--{{=size}} mx5-btn--{{=mode}}">
+        <span class="text {{if loading}} text-hide {{/if}}" mx-html="{{=icon}}{{=content}}"></span>
     </a>
 {{else}}
     <button type="button" 
-        style="width: {{=(width ? (width + 'px') : '100%')}}; {{=styles}}"
-        class="{{if type}} btn--{{=type}} {{/if}} {{if small}} btn--small {{/if}}"
+        style="{{=styles}}; {{if width}} width: {{=width}}px; {{else}} width: 100%; {{/if}}"
+        class="mx5-btn {{if (disabled || loading)}} mx5-btn-disabled {{/if}} mx5-btn--{{=size}} mx5-btn--{{=mode}}"
         disabled="{{=(disabled || loading)}}?"
         data-animation="btn" mx5-animation="{{=animing}}?expand"
         mx-click="@:{anim}()">
-        <span class="text {{if loading}} text-hide {{/if}}" mx-html="{{=content}}"></span>
+        <span class="text {{if loading}} text-hide {{/if}}" mx-html="{{=icon}}{{=content}}"></span>
     </button>
     {{if loading}}
-    <mx-loading class="load {{if small}} load-small {{/if}}"
-        *height="100%"
-        *color-bg="{{=((type == 'primary') ? 'rgba(222,225,232,.2)' : '#DEE1E8')}}"
-        *color-gradient="{{=((type == 'primary') ? '#ffffff' : 'var(--mx5-color-brand)')}}" 
-        *color="{{=((type == 'primary') ? '#ffffff' : 'var(--mx5-color-brand)')}}"
-        mx-click="@:{stop.propagation}()" />
+    <mx-loading mx-click="@:{stop.propagation}()" 
+        class="load {{if (size == 'small')}} load-small {{/if}}"
+        *color-bg="{{=loadingColorBg}}"
+        *color-gradient="{{=loadingColorGradient}}" 
+        *color="{{=loadingColor}}"/>
     {{/if}}
 {{/if}}
+
+<!-- 打标 -->
 {{if tagContent}}
-<span class="btn-tag mx5-tag {{if (disabled || loading)}} mx5-tag-disabled {{/if}}" 
-    style="{{if tagColor}} background-color: {{=tagColor}}; border: 1px solid {{=tagColor}};{{/if}}" 
-    mx-click="@:{stop.propagation}()" >
-    <span class="mx5-tag-name" mx-html="{{=tagContent}}"></span>
+<span mx-click="@:{stop.propagation}()" class="mx5-btn-tag-wrapper">
+    <span class="mx5-btn-tag mx5-tag {{if (disabled || loading)}} mx5-tag-disabled {{/if}}" 
+        {{if tagColor}} style="background-color: {{=tagColor}}; border: 1px solid {{=tagColor}};" {{/if}}>
+        <span class="mx5-tag-name" mx-html="{{=tagContent}}"></span>
+    </span>
 </span>
 {{/if}}
+
+<!-- 禁用蒙层遮罩 -->
 {{if (disabled || loading)}}
-<span class="disabled-mask"></span>
+<span mx-click="@:{stop.propagation}()" class="disabled-mask"></span>
 {{/if}}
+
+<!-- 禁用提示文案 -->
 {{if (disabled && disabledTip)}}
-<mx-popover class="pop-mask" 
+<mx-popover mx-click="@:{stop.propagation}()" class="pop-mask" 
     *width="{{=disabledWidth}}" 
     *placement="{{=disabledPlacement}}" 
-    *content="{{=disabledTip}}"
-    mx-click="@:{stop.propagation}()" ></mx-popover>
+    *content="{{=disabledTip}}"></mx-popover>
 {{/if}}
+
+<!-- 品牌色按钮渐变色预留（放在btn后面通过css兄弟选择器~获取） -->
+{{if mode == 'primary'}}
+<span class="bg-gradient"></span>
+<span class="bg-gradient-hover"></span>
+{{/if}}
+

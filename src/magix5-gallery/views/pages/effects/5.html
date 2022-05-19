@@ -1,0 +1,59 @@
+<div class="example">
+    <div class="eg-content">
+        <div class="eg-content-tip">
+            <div class="eg-content-tip-prefix">以下示例：</div>
+            <div>实心样式icon，color配置背景色，文案默认白色，可配置color-text自定义文案颜色</div>
+        </div>
+        <div class="cont mx5-mb40">
+            <mx-effects.icon *mode="solid" *color="#51a300" *content="测试"/>
+
+            <mx-effects.icon *mode="solid" *color="#303a58" *color-text="#ffb400" *content="测试"/>
+        </div>
+        <div class="eg-content-tip">
+            <div class="eg-content-tip-prefix">以下示例：</div>
+            <div>空心样式icon，color配置边框颜色，默认边框文案同色，可配置color-text自定义文案颜色</div>
+        </div>
+        <div class="cont mx5-mb40">
+            <mx-effects.icon *mode="hollow" *color="#51a300" *content="测试"/>
+           
+            <mx-effects.icon *mode="hollow" *color="#999999" *color-text="#ffb400" *content="测试"/>
+        </div>
+        <div class="eg-content-tip">
+            <div class="eg-content-tip-prefix">以下示例：</div>
+            <div>透明度icon，背景色color透明度0.1，文案默认color，可配置color-text自定义文案颜色</div>
+        </div>
+        <div class="cont mx5-mb40">
+            <mx-effects.icon *mode="opacity" *color="#51a300" *content="测试"/>
+           
+            <mx-effects.icon *mode="opacity" *color="#51a300" *color-text="#ffb400" *content="测试"/>
+        </div>
+    </div>
+    <div class="eg-desc">
+        <div class="eg-title">HTML Code</div>
+        <mx-copy class="desc-oper" 
+            *copy-node="{{=$viewId}}_text_1" 
+            mx-success="@:{done}({id:1})">
+            <span class="desc-tip" mx-html="{{=text1}}"></span>
+            <i class="mx5-iconfont desc-icon">&#xe610;</i>
+        </mx-copy>
+        <mx-source whole="true" id="{{=$viewId}}_text_1">
+<!-- 实心样式icon，color配置背景色，文案默认白色 -->
+<mx-effects.icon *mode="solid" *color="#51a300" *content="测试"/>
+
+<!-- 实心样式icon，color配置背景色，color-text配置自定义文案颜色-->
+<mx-effects.icon *mode="solid" *color="#303a58" *color-text="#ffb400" *content="测试"/>
+
+<!-- 空心样式icon，color配置边框颜色，默认边框文案同色 -->
+<mx-effects.icon *mode="hollow" *color="#51a300" *content="测试"/>
+           
+<!-- 空心样式icon，color配置边框颜色，color-text配置自定义文案颜色 -->
+<mx-effects.icon *mode="hollow" *color="#999999" *color-text="#ffb400" *content="测试"/>
+
+<!-- 透明度icon，背景色color透明度0.1，文案默认color -->
+<mx-effects.icon *mode="opacity" *color="#51a300" *content="测试"/>
+           
+<!-- 透明度icon，背景色color透明度0.1，color-text配置自定义文案颜色 -->
+<mx-effects.icon *mode="opacity" *color="#51a300" *color-text="#ffb400" *content="测试"/>
+        </mx-source>
+    </div>
+</div>

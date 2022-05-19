@@ -10,10 +10,10 @@ export default View.extend({
                 type: 'string',
                 def: ''
             }, {
-                value: 'type',
-                text: '按钮类型',
+                value: 'mode',
+                text: '按钮模式<br/>primary：主要品牌按钮<br/>secondary：次要跟随按钮（默认）<br/>white：白色<br/>hollow：空心按钮',
                 type: 'string',
-                def: 'false'
+                def: 'secondary'
             }, {
                 value: 'disabled',
                 text: '是否禁用',
@@ -25,10 +25,20 @@ export default View.extend({
                 type: 'string',
                 def: ''
             }, {
-                value: 'small',
-                text: '是否为小号尺寸按钮',
-                type: 'boolean',
-                def: 'false'
+                value: 'disabled-width',
+                text: '禁用时hover显示禁用原因浮层宽度',
+                type: 'number',
+                def: '200'
+            }, {
+                value: 'disabled-placement',
+                text: '禁用时hover提示框在目标的方位，top，bottom，left，right<br/>与目标距离10px',
+                type: 'string',
+                def: 'bottom'
+            }, {
+                value: 'size',
+                text: '展示尺寸<br/>small：小号<br/>normal：正常尺寸<br/>large：大号尺寸',
+                type: 'string',
+                def: 'normal'
             }, {
                 value: 'loading',
                 text: '是否loading中',
@@ -56,7 +66,7 @@ export default View.extend({
                 def: '配置了color才生效<br/>默认=color-text'
             }, {
                 value: 'tag-content',
-                text: '打标文案，支持html片段',
+                text: '打标文案',
                 type: 'string',
                 def: ''
             }, {
@@ -79,28 +89,43 @@ _top
 framename</pre>`,
                 type: 'string',
                 def: '_blank',
+            }, {
+                value: 'icon',
+                text: '图标配置',
+                type: '',
+                def: ''
             }],
             columns: [{
-                text: '主要按钮',
-                path: 1
+                text: '主要品牌按钮',
+                path: 1,
             }, {
                 text: '次要按钮',
-                path: 2
+                path: 2,
+            }, {
+                text: '跟随按钮',
+                path: 3,
             }, {
                 text: '白色按钮',
-                path: 3
+                path: 4,
+            }, {
+                text: '按钮跳转外链',
+                path: 5,
             }, {
                 text: '状态切换',
-                path: 5
+                path: 6,
+            }, {
+                text: '自定义按钮',
+                path: 4,
+            }, {
+                text: 'icon配置',
+                path: 4,
+            }, {
+                text: '按钮尺寸',
+                path: 4,
+            }, {
+                text: '使用样式class',
+                path: 4,
             }],
-            lefts: [{
-                text: '自定义颜色',
-                path: 4
-            }],
-            rights: [{
-                text: '外链',
-                path: 6
-            }]
         });
     },
 })

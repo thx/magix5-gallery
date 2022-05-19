@@ -1,0 +1,17 @@
+{{if content}}
+    {{if (tip || tipView)}}
+    <mx-popover class="mx5-tag" style="{{=styles}}" 
+        *view="{{=tipView}}"
+        *data="{{#tipData}}"
+        *content="{{=tip}}"
+        *width="{{=tipWidth}}" 
+        *placement="{{=tipPlacement}}"
+        *align="{{=tipAlign}}">
+        <span class="mx5-tag-name" mx-html="{{=content}}"></span>
+    </mx-popover>
+    {{else}}
+    <span class="mx5-tag" style="{{=styles}}">
+        <span class="mx5-tag-name" mx-html="{{=content}}"></span>
+    </span>
+    {{/if}}
+{{/if}}

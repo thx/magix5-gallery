@@ -47,7 +47,6 @@ export default View.extend({
                 duration = Math.abs(+options.duration || 400),
                 numberDelay = Math.abs(+options.numberDelay || 0);
 
-
             let reg = /^[0-9]*$/, count = -1;
 
             // 整体动画完成时间
@@ -119,7 +118,7 @@ export default View.extend({
             that.digest();
         }
     },
-    '$root<transitionend>'(e){
+    '$root<transitionend>'(e) {
         console.log('end');
     }
 });
