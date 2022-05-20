@@ -4,9 +4,6 @@ import View from '../base/doc';
 export default View.extend({
     init(options) {
         this.set({
-            methods: [{
-
-            }],
             apis: [{
                 value: 'mode',
                 text: '页脚类型，简单版（simple）还是复杂版本',
