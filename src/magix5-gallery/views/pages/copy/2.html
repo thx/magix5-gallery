@@ -1,15 +1,15 @@
 <div class="example">
     <div class="eg-content">
-        <div class="mx5-mb20">
-            <span class="mx5-color-9">以下示例：</span>
-            被复制内容不需要显示，直接配置 text 即可
+        <div class="eg-content-tip">
+            <div class="eg-content-tip-prefix">以下示例：</div>
+            <div>被复制内容不需要显示，直接配置 text 即可</div>
         </div>
         <div class="mx5-mb20 mx5-clearfix">
             <mx-copy 
                 *text="Magix棒棒的！" 
                 mx-success="copy()"
                 mx-error="copy()">
-                <mx-btn *content="点此复制"/>
+                <mx-btn *content="点此复制" *mode="primary"/>
             </mx-copy>
             {{if success}}
             <span class="mx5-color-pass mx5-ml10 mx5-vmt"><i class="mx5-iconfont mx5-mr5">&#xe729;</i>复制成功</span>
@@ -33,7 +33,7 @@
                     *text="Magix棒棒的！" 
                     mx-success="copy()"
                     mx-error="copy()">
-                    <mx-btn *content="点此复制"/>
+                    <mx-btn *content="点此复制" *mode="primary"/>
                 </mx-copy>
     
                 {{if success}}

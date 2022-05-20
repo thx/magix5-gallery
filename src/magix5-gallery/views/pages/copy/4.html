@@ -1,14 +1,13 @@
 <div class="example">
     <div class="eg-content">
-        <div class="mx5-mb20 mx5-clearfix">
-            <div class="mx5-fl mx5-color-9">以下示例：</div>
-            <div class="mx5-fl">
-                <div>需要异步获取复制内容，可在当前view上merge mx-copy/fn，该方式会在当前 view 上绑定 mxCopy 方法</div>
-                <div>mxCopy 返回一个 Promise 对象</div>
-            </div>
+        <div class="eg-content-tip">
+            <div class="eg-content-tip-prefix">以下示例：</div>
+            <div>需要异步获取复制内容，可在当前view上merge mx-copy/fn，该方式会在当前 view 上绑定 mxCopy 方法</div>
+            <div>mxCopy 返回一个 Promise 对象</div>
         </div>
         <div class="mx5-mb20 mx5-clearfix">
             <mx-btn 
+                *mode="primary"
                 *content="点此复制" 
                 mx-click="copy()" />
     
@@ -36,6 +35,7 @@
             </mx-copy>
             <mx-source whole="true" id="{{=$viewId}}_text_1">
                 <mx-btn 
+                    *mode="primary"
                     *content="点此复制" 
                     mx-click="copy()" />
     
