@@ -12,11 +12,6 @@
     }
 }
 
-.mx5-radio-label {
-    display: inline-flex;
-    align-items: center;
-}
-
 .mx5-radio {
     position: relative;
     width: var(--mx5-checkbox-size);
@@ -81,11 +76,14 @@
     }
 }
 
+.mx5-radio-label {
+    display: inline-flex;
+    align-items: center;
+}
 
 [mx5-view*="mx-radio/index"] {
     position: relative;
     vertical-align: middle;
-
 
     .mx5-radio-tag {
         margin-left: 4px;
@@ -99,7 +97,6 @@
         cursor: help;
     }
 
-    &[mx-radio-disabled="true"],
     &[mx5-view*="disabled=true"] {
         cursor: not-allowed;
 

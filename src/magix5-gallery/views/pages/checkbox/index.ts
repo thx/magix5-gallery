@@ -56,6 +56,9 @@ export default View.extend({
             }, {
                 text: '部分选中态',
                 path: 2
+            }, {
+                text: '完整应用示例',
+                path: 3
             }],
         });
     },
