@@ -55,20 +55,26 @@ loading：false</pre>`
                 text: '页面不存在',
                 path: 1,
             }, {
+                text: '无查询数据',
+                path: 4,
+            }, {
                 text: '网络连接失败',
                 path: 2,
             }, {
-                text: '暂无内容',
-                path: 3,
-            }, {
-                text: '暂无查询数据',
-                path: 4,
-            }, {
-                text: '暂无访问权限',
+                text: '无访问权限',
                 path: 5,
+            }, {
+                text: '无内容',
+                path: 3,
             }, {
                 text: '数据计算中',
                 path: 6,
+            }, {
+                text: '文案+显式按钮',
+                path: 7,
+            }, {
+                text: '背景颜色',
+                path: 8,
             }],
         });
     },

@@ -31,19 +31,15 @@ let ProcessAttr = (attrs, style, ignores, className) => {
 module.exports = {
     'mx-title'(i) {
         let { attrsKV } = i;
-        let modeClass = ({
-            first: '@:./index.less:title-first',
-            second: '@:./index.less:title-second',
-        })[attrsKV['*mode'] || 'first'] || '@:./index.less:title-first';
-
-        let content = attrsKV['*content'] || i.content,
+        let mode = attrsKV['*mode'] || 'first',
+            content = attrsKV['*content'] || i.content,
             tip = attrsKV['*tip'];
 
         return content ? `<div ${ProcessAttr(attrsKV, '', {
             '*mode': 1,
             '*content': 1,
             '*tip': 1,
-        }, modeClass)} mx-view="${i.mxView}">
+        }, `@:./index.less:title ${(mode == 'second') ? '@:./index.less:second' : ''}`)} mx-view="${i.mxView}">
             <span class="@:./index.less:content" mx-html="${content}"></span>
             ${tip ? ('<span class="@:./index.less:tip" mx-html="' + tip + '"></span>') : ''}
         </div>` : '';

@@ -3,8 +3,8 @@
     <div class="tip" mx-html="{{=tip}}"></div>
     {{if btns}}
     <div class="custom-btns">
-        <mx-btn class="custom-btn" *content="回到首页" *link-href="#"/>
-        <mx-btn class="custom-btn" *content="返回上一页" *type="secondary" mx-click="@:{back}()"/>
+        <mx-btn class="custom-btn" *content="回到首页" *mode="primary" *link-href="#" *link-target="_self"/>
+        <mx-btn class="custom-btn" *content="返回上一页" mx-click="@:{back}()"/>
     </div>
     {{/if}}
 </div>

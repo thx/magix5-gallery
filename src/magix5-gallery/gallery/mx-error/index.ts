@@ -39,7 +39,7 @@ const ErrorImgs = {
 
 export default View.extend({
     tmpl: '@:index.html',
-    assign(options) {
+    assign(options, context) {
         // 尺寸 normal small xsmall
         let mode;
         if (options.hasOwnProperty('mode')) {
@@ -82,7 +82,7 @@ export default View.extend({
             mode,
             type,
             img: config.img,
-            tip: options.tip || config.tip,
+            tip: options.tip || context || config.tip,
             btns
         })
     },

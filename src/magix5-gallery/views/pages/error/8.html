@@ -1,0 +1,48 @@
+<div class="example">
+    <div class="eg-content">
+        <div class="eg-content-tip">
+            <div class="eg-content-tip-prefix">以下示例：</div>
+            <div>默认背景颜色白色，可手动指定灰底色（bg="grey"）</div>
+        </div>
+        <div class="mx5-clearfix">
+            <div class="flw50">
+                <div class="mx5-mb10">bg=transparent</div>
+                <div class="border-wrapper">
+                    <mx-error *mode="normal"/>
+                </div>
+            </div>
+            <div class="flw50 mx5-pl10">
+                <div class="mx5-mb10">bg=grey</div>
+                <div class="border-wrapper bg-wrapper">
+                    <mx-error *mode="normal" *bg="grey"/>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mx5-clearfix">
+        <div class="eg-desc flw50">
+            <div class="eg-title">HTML Code</div>
+            <mx-copy class="desc-oper" 
+                *copy-node="{{=$viewId}}_text_1" 
+                mx-success="@:{done}({id:1})">
+                <span class="desc-tip" mx-html="{{=text1}}"></span>
+                <i class="mx5-iconfont desc-icon">&#xe610;</i>
+            </mx-copy>
+            <mx-source whole="true" id="{{=$viewId}}_text_1">
+                <mx-error *mode="normal"/>
+            </mx-source>
+        </div>
+        <div class="eg-desc flw50 mx5-blc">
+            <div class="eg-title">HTML Code</div>
+            <mx-copy class="desc-oper" 
+                *copy-node="{{=$viewId}}_text_2" 
+                mx-success="@:{done}({id:2})">
+                <span class="desc-tip" mx-html="{{=text2}}"></span>
+                <i class="mx5-iconfont desc-icon">&#xe610;</i>
+            </mx-copy>
+            <mx-source whole="true" id="{{=$viewId}}_text_2">
+                <mx-error *mode="normal" *bg="grey"/>
+            </mx-source>
+        </div>
+    </div>
+</div>

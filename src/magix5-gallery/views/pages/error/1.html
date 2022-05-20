@@ -21,17 +21,25 @@
                 <div>type="not-found"，404找不到内容时调用，默认带按钮</div>
             </div>
         </div>
-        <div class="mx5-mb10">mode=normal</div>
-        <div class="border-wrapper mx5-mb40">
-            <mx-error *type="not-found" *mode="normal"/>
-        </div>
-        <div class="mx5-mb10">mode=normal</div>
-        <div class="border-wrapper mx5-mb40">
-            <mx-error *type="not-found" *mode="small"/>
-        </div>
-        <div class="mx5-mb10">mode=normal</div>
-        <div class="border-wrapper mx5-mb40">
-            <mx-error *type="not-found" *mode="xsmall"/>
+        <div class="mx5-clearfix">
+            <div class="flw33">
+                <div class="mx5-mb10">mode=normal</div>
+                <div class="border-wrapper">
+                    <mx-error *type="not-found" *mode="normal"/>
+                </div>
+            </div>
+            <div class="flw33 mx5-pl10">
+                <div class="mx5-mb10">mode=normal</div>
+                <div class="border-wrapper">
+                    <mx-error *type="not-found" *mode="small"/>
+                </div>
+            </div>
+            <div class="flw33 mx5-pl10">
+                <div class="mx5-mb10">mode=normal</div>
+                <div class="border-wrapper">
+                    <mx-error *type="not-found" *mode="xsmall"/>
+                </div>
+            </div>
         </div>
     </div>
     <div class="eg-desc">
@@ -43,11 +51,11 @@
             <i class="mx5-iconfont desc-icon">&#xe610;</i>
         </mx-copy>
         <mx-source whole="true" id="{{=$viewId}}_text_1">
-            <mx-error *type="not-found" *mode="normal"/>
-    
-            <mx-error *type="not-found" *mode="small"/>
-    
-            <mx-error *type="not-found" *mode="xsmall"/>
+<mx-error *type="not-found" *mode="normal"/>
+
+<mx-error *type="not-found" *mode="small"/>
+
+<mx-error *type="not-found" *mode="xsmall"/>
         </mx-source>
     </div>
 </div>

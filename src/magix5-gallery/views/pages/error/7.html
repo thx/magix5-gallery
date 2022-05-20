@@ -2,9 +2,11 @@
     <div class="eg-content">
         <div class="eg-content-tip">
             <div class="eg-content-tip-prefix">以下示例：</div>
-            <div>type="empty-search"，无查询数据调用，默认无按钮</div>
+            <div>自定义文案 + 显示指定有按钮（btns="true"）</div>
         </div>
-        <mx-error *type="empty-search" *mode="normal"/>
+        <mx-error *type="empty-search" *mode="normal" *btns="true">
+            未查询到数据，<a class="mx5-color-brand" href="https://www.taobao.com/" target="_blank" rel="noopener noreferrer">查看详情</a>
+        </mx-error>
     </div>
     <div class="eg-desc">
         <div class="eg-title">HTML Code</div>
@@ -15,7 +17,7 @@
             <i class="mx5-iconfont desc-icon">&#xe610;</i>
         </mx-copy>
         <mx-source whole="true" id="{{=$viewId}}_text_1">
-            <mx-error *type="empty-search" *mode="normal"/>
+            <mx-error *type="loading" *mode="normal"/>
         </mx-source>
     </div>
 </div>
