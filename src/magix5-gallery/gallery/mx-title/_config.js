@@ -27,25 +27,28 @@ let ProcessAttr = (attrs, style, ignores, className) => {
     }
     return attrStr;
 };
-
+let ignores = {
+    '*mode': 1,
+    '*content': 1,
+    '*tip': 1,
+};
 module.exports = {
     'mx-title'(i) {
-        let { attrsKV } = i;
-        let modeClass = ({
-            first: '@:./index.less:title-first',
-            second: '@:./index.less:title-second',
-        })[attrsKV['*mode'] || 'first'] || '@:./index.less:title-first';
-
-        let content = attrsKV['*content'] || i.content,
-            tip = attrsKV['*tip'];
-
-        return content ? `<div ${ProcessAttr(attrsKV, '', {
-            '*mode': 1,
-            '*content': 1,
-            '*tip': 1,
-        }, modeClass)} mx-view="${i.mxView}">
+        let { attrsKV, content } = i;
+        let mode = attrsKV['*mode'] || 'first';
+        //需要考虑mode为变量的情况，如<mx-title *mode="{{=mode}}"/>
+        let modeClass = `@:./index.less:title--${mode}`;
+        //优先使用属性*content的内容
+        if (attrsKV['*content']) {
+            content = attrsKV['*content'];
+        }
+        let tip = attrsKV['*tip'] || '';
+        if (tip) {
+            tip = `<span class="@:./index.less:tip" mx-html="${tip}"></span>`;
+        }
+        return content ? `<div ${ProcessAttr(attrsKV, '', ignores, modeClass)} mx-view="${i.mxView}">
             <span class="@:./index.less:content" mx-html="${content}"></span>
-            ${tip ? ('<span class="@:./index.less:tip" mx-html="' + tip + '"></span>') : ''}
+            ${tip}
         </div>` : '';
     }
 }

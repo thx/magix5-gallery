@@ -1,6 +1,6 @@
 <div class="example">
     <div class="eg-content">
-        <div class="mx5-lh22">将dialog的方法mixins到view上</div>
+        <div class="mx5-lh22">将dialog的方法merge到view上</div>
         <div class="mx5-lh22">1. this.mxDialog()</div>
         <div class="mx5-lh22">2. 打开多个浮层时，新开浮层总是在最上方</div>
         <div class="mx5-lh22">3. 提供一键关闭所有浮层的方法</div>
@@ -9,6 +9,12 @@
             <mx-btn class="mx5-mr20" *mode="primary" 
                 *content="打开浮层"
                 mx-click="open1()" />
+            <mx-btn class="mx5-mr20" *mode="primary" 
+                *content="alert"
+                mx-click="open2()" />
+            <mx-btn class="mx5-mr20" *mode="primary" 
+                *content="confirm"
+                mx-click="open3()" />
         </div> 
     </div>
     <div class="mx5-clearfix">
@@ -48,6 +54,12 @@
                             number: 1,
                             width: 800
                         });
+                    },
+                    'open2<click>'() {
+                        this.alert('alert test');
+                    },
+                    'open3<click>'() {
+                        this.confirm('confirm test');
                     }
                 }).merge(Dialog);
             </mx-source>

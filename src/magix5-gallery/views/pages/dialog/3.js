@@ -25,5 +25,11 @@ module.exports = Base.extend({
             number: 1,
             width: 800
         });
+    },
+    'open2<click>'() {
+        this.alert('alert test');
+    },
+    'open3<click>'() {
+        this.confirm('confirm test');
     }
 }).merge(Dialog);

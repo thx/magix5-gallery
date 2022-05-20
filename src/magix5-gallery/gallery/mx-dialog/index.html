@@ -1,5 +1,5 @@
 <div class="dialog-backdrop full-fill anim-mask" style="z-index:{{=zIndex-1}}" id="mx5_dialog_mask_{{=$viewId}}"></div>
-<div class="scroll-cnt mx5-scroll-y mx5-scroll-x mx5-flex full-fill anim-body" style="z-index:{{=zIndex}};" tabindex="0" id="mx5_dialog_scroll_{{=$viewId}}">
+<div class="scroll-cnt mx5-scroll-y mx5-scroll-x mx5-flex full-fill anim-body" style="z-index:{{=zIndex}};" tabindex="0" id="mx5_dialog_scroll_{{=$viewId}}" mx-click="{{=closable}}?@:{close.by.outside}()">
     <div class="dialog-center mx5-flex-shrink-0 mx5-pr" id="mx5_body_{{=$viewId}}" style="width:{{=width}}px;">
         {{if closable}}
             <span class="mx5-iconfont dialog-close mx5-cursor-pointer" title="关闭" mx-click="@:{close}()">&#xe603;</span>

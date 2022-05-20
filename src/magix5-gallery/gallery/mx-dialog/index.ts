@@ -74,6 +74,11 @@ export default View.extend({
     '@:{close}<click>'() {
         dispatch(this.root, '@:{dialog.soft.close}');
     },
+    '@:{close.by.outside}<click>'(e) {
+        if (e.eventTarget == e.target) {
+            dispatch(this.root, '@:{dialog.soft.close}');
+        }
+    },
     '$doc<keyup>'(e) {
         if (e.code == 'Escape') { //esc
             let dlg = CacheList[CacheList.length - 1];

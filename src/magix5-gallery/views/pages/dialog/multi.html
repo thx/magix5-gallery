@@ -7,6 +7,9 @@
     <div class="mx5-mb20">
         <mx-btn mx-click="modal()" *mode="primary" *content="再开一个"/>
     </div>
+    {{if number==2}}
+        <div style="height:2000px"></div>
+    {{/if}}
     <div>
         <mx-btn mx-click="closeAll()" *mode="primary" *content="关闭所有展开浮层"/>
     </div>
