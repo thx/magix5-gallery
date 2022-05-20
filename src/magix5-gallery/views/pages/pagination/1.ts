@@ -5,7 +5,7 @@ export default View.extend({
     tmpl: '@:1.html',
     render() {
         this.digest({
-            total: 600,
+            total: 400000,
             sizes: [20, 40, 50],
             page: 1,
             size: 40,

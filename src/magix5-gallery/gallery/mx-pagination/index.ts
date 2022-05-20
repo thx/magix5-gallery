@@ -3,26 +3,28 @@
  */
 import Magix5 from 'magix5';
 import View from '../mx-base/view';
+const DefaultSizes = [10, 20, 30, 40];
 Magix5.applyStyle('@:index.less');
 
 export default View.extend({
     tmpl: '@:index.html',
     assign(options) {
-        let that = this;
-
-        // 展示类型
-        //    square 方形
-        //    circle 圆形
-        let mode = options.mode, allowModeMap = { square: true, circle: true };
-        if (!allowModeMap[mode]) {
-            mode = that['@:{get.css.var}']('--mx5-pager-mode', 'square');
-        }
-
         // 可选翻页数
-        let sizes = options.sizes || [];
-        if (!sizes || !sizes.length) {
-            sizes = [10, 20, 30, 40];
+        let sizes = [];
+        try {
+            sizes = JSON.parse(options.sizes);
+        } catch (e) {
+            sizes = options.sizes || [];
         }
+        if (!sizes || !sizes.length) { sizes = DefaultSizes; };
+
+        // 带文案
+        let sizeStrs = sizes.map(size => {
+            return {
+                text: `${size}条/页`,
+                value: size,
+            };
+        })
 
         // 当前第几页
         // 优先级page > offset
@@ -37,17 +39,77 @@ export default View.extend({
             page = 1;
         }
 
-        that.set({
+        // 显示模式，不同主题下不同设置
+        //    square 方形
+        //    circle 圆形
+        let mode = this['@:{get.css.var}']('--mx5-pagination-mode', 'square');
+        if (['square', 'circle'].indexOf(mode) < 0) {
+            mode = 'square';
+        };
+
+        let align = this['@:{get.css.var}']('--mx5-pagination-align', 'left');
+        let alignRight = (align == 'right');
+
+        // 是否显示详细汇总信息
+        let hideDetailTotal = false;
+
+        // 是否显示简易汇总信息
+        let hideTotal = false;
+
+        // 是否显示快捷跳转
+        let hideJump = false;
+
+        // 仅能顺序翻页
+        let inOrder = false;
+
+        if (options.simplify + '' === 'true') {
+            // 仅显示翻页器版
+            hideDetailTotal = true;
+            hideTotal = false;
+            hideJump = false;
+            inOrder = false;
+        } else if (options.mini + '' === 'true') {
+            // 顺序翻页版本
+            hideDetailTotal = true;
+            hideTotal = false;
+            hideJump = true;
+            inOrder = true;
+        }
+
+        if (options.hasOwnProperty('hideDetailTotal')) {
+            // 默认false
+            hideDetailTotal = options.hideDetailTotal + '' === 'true';
+        }
+
+        if (options.hasOwnProperty('hideTotal')) {
+            // 默认false
+            hideTotal = options.hideTotal + '' === 'true';
+        }
+
+        if (options.hasOwnProperty('hideJump')) {
+            // 默认false
+            hideJump = options.hideJump + '' === 'true'
+        } else if (options.hasOwnProperty('jump')) {
+            // 兼容历史api jump（默认true）
+            hideJump = options.jump + '' === 'false';
+        }
+
+        // 是否可切换分页数，默认true
+        let sizesChange = options.sizesChange + '' !== 'false';
+
+        this.set({
+            alignRight,
             mode,
-            hideTotal: options.hideTotal + '' === 'true',  // 默认false
-            jump: (options.jump + '') !== 'false', // 是否有快捷跳转，默认true
-            simplify: (options.simplify + '') === 'true', // 默认false
-            mini: (options.mini + '') === 'true', // 顺序翻页，默认false
+            hideDetailTotal,
+            hideTotal,
+            hideJump,
+            inOrder,
+            sizesChange,
             total: (options.total | 0) || 0, //总数
             page, // 当前页数，从1开始
             size, // 当前分页数
             sizes, //可选分页数
-            sizesChange: (options.sizesChange + '') !== 'false', // 是否可切换分页数，默认true
+            sizeStrs,
             step: options.step || 5, //页码过多时，中间显示多少条页码
         });
     },
@@ -93,12 +155,12 @@ export default View.extend({
         }
 
         let texts = {
-            "pager.offset": "当前第 {min} - {max} 条，",
-            "pager.per.page": "每页显示",
-            "pager.total": "共 {total} 条",
-            "pager.unit": "条",
-            "pager.jump.to": "向第",
-            "pager.jump.unit": "页",
+            'pager.offset': '当前第 {min} - {max} 条，',
+            'pager.per.page': '每页显示',
+            'pager.total': '共 {total} 条',
+            'pager.unit': '条',
+            'pager.jump.to': '向第',
+            'pager.jump.unit': '页',
         }
 
         let tipOffset = texts['pager.offset'].replace('{min}', `${offsetStart}`).replace('{max}', `${offsetEnd}`),

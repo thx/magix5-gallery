@@ -1,20 +1,22 @@
 <div class="example">
     <div class="eg-content">
-        <div class="mx5-mb40 mx5-clearfix">
-            <div class="mx5-fl mx5-color-9">以下示例：</div>
-            <div class="mx5-fl">
-                <div>当前页数（{{=page}}），每页显示（{{=size}}）</div>
-                <div>sizes-change="false"可禁止修改分页数</div>
-            </div>
+        <div class="eg-content-tip">
+            <div class="eg-content-tip-prefix">以下示例：</div>
+            <div>完整的翻页器可显示内容</div>
+            <div>当前页数（{{=page}}），每页显示（{{=size}}）</div>
+            <div>sizes-change="false"可禁止修改分页数</div>
         </div>
+
         <mx-pagination class="mx5-mb40"
+            *step="3"
             *total="{{=total}}"
             *sizes="{{#sizes}}"
             *size="{{=size}}" 
             *page="{{=page}}"
             mx-change="change()" />
-    
+
         <mx-pagination class="mx5-mb40"
+            *step="3"
             *sizes-change="false"
             *total="{{=total}}" 
             *sizes="{{#sizes}}"
