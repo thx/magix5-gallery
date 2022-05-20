@@ -3,7 +3,14 @@
     float: left;
     padding-top: var(--mx5-input-height);
     width: 100px;
-    margin-right: 20px;
+
+    [mx5-view*="mx-popover/index"] {
+        margin-bottom: 20px;
+    }
+
+    [mx5-view*="mx-btn/index"] {
+        width: 100px;
+    }
 }
 
 .center {
@@ -12,4 +19,13 @@
 
 .center1 {
     margin-bottom: calc(var(--mx5-input-height) * 3 + 40px);
+}
+
+.center1,
+.center2 {
+    margin-right: 20px;
+
+    [mx5-view*="mx-popover/index"] {
+        margin-left: 20px;
+    }
 }

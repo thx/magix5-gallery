@@ -1,0 +1,122 @@
+<div class="example">
+    <div class="eg-content">
+        <div class="eg-content-tip">
+            <div class="eg-content-tip-prefix">以下示例：</div>
+            <div>hover标签打开提示信息小浮层</div>
+            <div>支持配置tip-view自定义提示信息view，tip-data传入初始化数据</div>
+        </div>
+        <div class="cont">
+            <mx-effects.icon 
+                *mode="solid"
+                *type="highlight" 
+                *content="实心hover"
+                *tip="提示信息"/>
+
+            <mx-effects.icon 
+                *mode="hollow" 
+                *type="highlight" 
+                *content="空心hover"
+                *tip="提示信息"/>
+        
+            <mx-effects.icon 
+                *mode="hollow" 
+                *type="highlight" 
+                *content="hover右中对齐"
+                *tip="提示信息"
+                *tip-placement="tc" />
+
+            <mx-effects.icon 
+                *mode="hollow" 
+                *type="highlight" 
+                *content="自定义view提示"
+                *tip-view="@:../popover/custom"
+                *tip-data="{{#{
+                    list: [{
+                        name: '消耗',
+                        key: 'charge',
+                        type: 'double'
+                    }, {
+                        name: '展现量',
+                        key: 'adPv',
+                        type: 'integer'
+                    }, {
+                        name: '点击量',
+                        key: 'click',
+                        type: 'integer'
+                    }, {
+                        name: '点击率',
+                        key: 'ctr',
+                        type: 'percent'
+                    }]
+                }}}"
+                *tip-width="400"/>
+        </div>
+    </div>
+    <div class="mx5-clearfix">
+        <div class="eg-desc flw50">
+            <div class="eg-title">HTML Code</div>
+            <mx-copy class="desc-oper" 
+                *copy-node="{{=$viewId}}_text_1" 
+                mx-success="@:{done}({id:1})">
+                <span class="desc-tip" mx-html="{{=text1}}"></span>
+                <i class="mx5-iconfont desc-icon">&#xe610;</i>
+            </mx-copy>
+            <mx-source whole="true" id="{{=$viewId}}_text_1">
+<mx-effects.icon 
+    *mode="solid"
+    *type="highlight" 
+    *content="实心hover"
+    *tip="提示信息"/>
+
+<mx-effects.icon 
+    *mode="hollow" 
+    *type="highlight" 
+    *content="空心hover"
+    *tip="提示信息"/>
+
+<mx-effects.icon 
+    *mode="hollow" 
+    *type="highlight" 
+    *content="hover右中对齐"
+    *tip="提示信息"
+    *tip-placement="tc"/>
+            </mx-source>
+        </div>
+        <div class="eg-desc flw50 mx5-blc">
+            <div class="eg-title">HTML Code</div>
+            <mx-copy class="desc-oper" 
+                *copy-node="{{=$viewId}}_text_4" 
+                mx-success="@:{done}({id:4})">
+                <span class="desc-tip" mx-html="{{=text4}}"></span>
+                <i class="mx5-iconfont desc-icon">&#xe610;</i>
+            </mx-copy>
+            <mx-source whole="true" id="{{=$viewId}}_text_4">
+<mx-effects.icon 
+    *mode="hollow" 
+    *type="highlight" 
+    *content="自定义view提示"
+    *tip-view="@:../popover/custom"
+    *tip-data="{{#{
+        list: [{
+            name: '消耗',
+            key: 'charge',
+            type: 'double'
+        }, {
+            name: '展现量',
+            key: 'adPv',
+            type: 'integer'
+        }, {
+            name: '点击量',
+            key: 'click',
+            type: 'integer'
+        }, {
+            name: '点击率',
+            key: 'ctr',
+            type: 'percent'
+        }]
+    }}}"
+    *tip-width="400"/>
+            </mx-source>
+        </div>
+    </div>
+</div>

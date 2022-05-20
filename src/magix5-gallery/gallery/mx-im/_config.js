@@ -38,8 +38,8 @@ module.exports = {
     */
     'mx-im.dd'(i) {
         let { attrsKV } = i;
-        return `<a href="dingtalk://dingtalkclient/action/sendmsg?dingtalk_id=${attrsKV.uid}" ${ProcessAttr(attrsKV, '', ignores)}>
-            <i class="mx5-iconfont mx5-color-brand mx5-fs18">&#xe677;</i>${attrsKV.uname}
+        return `<a href="dingtalk://dingtalkclient/action/sendmsg?dingtalk_id=${attrsKV['*uid']}" ${ProcessAttr(attrsKV, '', ignores)}>
+            <i class="mx5-iconfont mx5-color-brand mx5-fs18">&#xe677;</i>${attrsKV['*uname']}
         </a>`;
     }
 }

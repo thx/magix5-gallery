@@ -1,0 +1,38 @@
+<div class="example">
+    <div class="eg-content">
+        <div class="eg-content-tip">
+            <div class="eg-content-tip-prefix">以下示例：</div>
+            <div>默认为节点下方 10px 显示，可配置offset设置微量偏移</div>
+        </div>
+    
+        <div class="mx5-clearfix">
+            <mx-popover 
+                *content="下中对齐，向左40，向下20"
+                *offset="{{#{
+                    left: -40,
+                    top: 20
+                }}}">
+                <mx-btn *content="微量偏移"/>
+            </mx-popover>
+        </div>
+    </div>
+    <div class="eg-desc">
+        <div class="eg-title">HTML Code</div>
+        <mx-copy class="desc-oper" 
+            *copy-node="{{=$viewId}}_text_1" 
+            mx-success="@:{done}({id:1})">
+            <span class="desc-tip" mx-html="{{=text1}}"></span>
+            <i class="mx5-iconfont desc-icon">&#xe610;</i>
+        </mx-copy>
+        <mx-source whole="true" id="{{=$viewId}}_text_1">
+<mx-popover 
+    *content="下中对齐，向左40，向下20"
+    *offset="{{#{
+        left: -40,
+        top: 20
+    }}}">
+    <mx-btn *content="微量偏移"/>
+</mx-popover>
+        </mx-source>
+    </div>
+</div>

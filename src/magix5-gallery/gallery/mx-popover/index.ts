@@ -77,13 +77,13 @@ export default View.extend({
         })
     },
 
-    async render() {
-        let that = this;
-        await that.digest();
+    render() {
+        // await this.digest();
+        this.digest();
 
         // 默认展开显示框
-        if (that.get('auto')) {
-            that['@:{show}']();
+        if (this.get('auto')) {
+            this['@:{show}']();
         }
     },
 
@@ -132,7 +132,9 @@ export default View.extend({
                 that['@:{init}']();
             }
 
-            if (that.get('show')) { return; }
+            if (that.get('show')) {
+                return;
+            }
             that.set({ show: true });
 
             // 每次展开重新渲染内容
@@ -151,7 +153,10 @@ export default View.extend({
         let that = this;
         that['@:{clear.timers}']();
         that['@:{dealy.hide.timer}'] = setTimeout(() => {
-            if (!that.get('show')) { return; }
+            if (!that.get('show')) {
+                return;
+            }
+
             that.set({ show: false });
             // 内容隐藏
             let vf = that['@:{pop.vframe}'];

@@ -1,0 +1,27 @@
+<div class="example">
+    <div class="eg-content">
+        <div class="eg-content-tip">
+            <div class="eg-content-tip-prefix">以下示例：</div>
+            <div>支持配置type，white（白底色，默认值），dark（深底色）</div>
+        </div>
+    
+        <div class="mx5-clearfix">
+            <span class="mx5-mr40 mx5-vmt">白底色<mx-popover *content="白底色提示信息" class="mx5-iconfont mx5-iconfont-tip mx5-cursor-help">&#xe72f;</mx-popover></span>
+            <span class="mx5-mr40 mx5-vmt">深底色<mx-popover *type="dark" *content="深底色提示信息" class="mx5-iconfont mx5-iconfont-tip mx5-cursor-help">&#xe72f;</mx-popover></span>
+        </div>
+    </div>
+    <div class="eg-desc">
+        <div class="eg-title">HTML Code</div>
+        <mx-copy class="desc-oper" 
+            *copy-node="{{=$viewId}}_text_1" 
+            mx-success="@:{done}({id:1})">
+            <span class="desc-tip" mx-html="{{=text1}}"></span>
+            <i class="mx5-iconfont desc-icon">&#xe610;</i>
+        </mx-copy>
+        <mx-source whole="true" id="{{=$viewId}}_text_1">
+<mx-popover class="mx5-iconfont mx5-iconfont-tip mx5-cursor-help" *content="白底色提示信息">&#xe72f;</mx-popover>
+
+<mx-popover class="mx5-iconfont mx5-iconfont-tip mx5-cursor-help" *type="dark" *content="深底色提示信息" >&#xe72f;</mx-popover>
+        </mx-source>
+    </div>
+</div>

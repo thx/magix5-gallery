@@ -153,6 +153,10 @@ export default {
                         path: '/number/index',
                     },
                     {
+                        name: 'mx-effects.icon 标签',
+                        path: '/effects/icon',
+                    },
+                    {
                         name: 'mx-carousel 轮播',
                         path: '/carousel/index'
                     },

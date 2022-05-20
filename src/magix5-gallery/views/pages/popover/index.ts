@@ -86,11 +86,22 @@ offset: {
                 def: '200'
             }],
             columns: [{
-                text: '深色 / 浅色版',
-                path: 2
-            }, {
                 text: '定位',
                 path: 1
+            }],
+            lefts: [{
+                text: '自定义view',
+                path: 2
+            }, {
+                text: '默认展开',
+                path: 3
+            }],
+            rights: [{
+                text: '黑底白字',
+                path: 4
+            }, {
+                text: '偏移量offset',
+                path: 5
             }],
         });
     },

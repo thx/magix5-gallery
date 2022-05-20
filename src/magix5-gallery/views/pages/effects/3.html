@@ -1,0 +1,35 @@
+<div class="example">
+    <div class="eg-content">
+        <div class="eg-content-tip">
+            <div class="eg-content-tip-prefix">以下示例：</div>
+            <div>背景色0.1透明度</div>
+        </div>
+        <div class="cont">
+            <mx-effects.icon *mode="opacity" *content="默认灰色"/>
+            <mx-effects.icon *mode="opacity" *type="error" *content="红色错误"/>
+            <mx-effects.icon *mode="opacity" *type="warn" *content="黄色警告"/>
+            <mx-effects.icon *mode="opacity" *type="pass" *content="绿色通过"/>
+            <mx-effects.icon *mode="opacity"  *type="highlight" *content="品牌色强调"/>
+        </div>
+    </div>
+    <div class="eg-desc">
+        <div class="eg-title">HTML Code</div>
+        <mx-copy class="desc-oper" 
+            *copy-node="{{=$viewId}}_text_1" 
+            mx-success="@:{done}({id:1})">
+            <span class="desc-tip" mx-html="{{=text1}}"></span>
+            <i class="mx5-iconfont desc-icon">&#xe610;</i>
+        </mx-copy>
+        <mx-source whole="true" id="{{=$viewId}}_text_1">
+<mx-effects.icon *mode="opacity" *content="默认灰色"/>
+
+<mx-effects.icon *mode="opacity" *type="error" *content="红色错误"/>
+
+<mx-effects.icon *mode="opacity" *type="warn" *content="黄色警告"/>
+
+<mx-effects.icon *mode="opacity" *type="pass" *content="绿色通过"/>
+
+<mx-effects.icon *mode="opacity"  *type="highlight" *content="品牌色强调"/>
+        </mx-source>
+    </div>
+</div>

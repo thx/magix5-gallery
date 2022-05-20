@@ -1,0 +1,69 @@
+<div class="example">
+    <div class="eg-content">
+        <div class="eg-content-tip">
+            <div class="eg-content-tip-prefix">以下示例：</div>
+            <div>自定义颜色</div>
+            <div>可配置色值：color（按钮背景颜色），color-text（按钮文案颜色），color-hover（hover按钮背景颜色），color-hover-text（hover按钮文案颜色）</div>
+            <div>loading色值同文案色值，扩散动画色值同文案色值</div>
+            <div class="cont">
+                <mx-btn *content="黄底白字" *color="#ffb400" *color-hover="#f1ab03" />
+    
+                <mx-btn *content="黄底白字禁用" *disabled="true" *color="#ffb400" *color-hover="#f1ab03" />
+    
+                <mx-btn *content="黄底白字loading" *loading="true" *color="#ffb400" *color-hover="#f1ab03" />
+                
+                <mx-btn *content="黑底黄字" *color="#333333" *color-text="#ffb400" *color-hover="#333333" *color-hover-text="#f1ab03" />
+    
+                <mx-btn *content="黑底黄字禁用" *disabled="true" *color="#333333" *color-text="#ffb400" *color-hover="#333333" *color-hover-text="#f1ab03" />
+    
+                <mx-btn *content="黑底黄字loading" *loading="true" *color="#333333" *color-text="#ffb400" *color-hover="#333333" *color-hover-text="#f1ab03" />
+            </div>
+        </div>
+
+        <div class="eg-content-tip">
+            <div class="eg-content-tip-prefix">以下示例：</div>
+            <div>自定义圆角border-radius</div>
+            <div class="cont">
+                <mx-btn *mode="primary" *content="自定义圆角8px" style="--mx5-btn-border-radius: 8px;"/>
+                
+                <mx-btn *mode="primary" *content="自定义圆角12" style="--mx5-btn-border-radius: 12px;"/>
+            </div>
+        </div>
+    </div>
+    <div class="eg-desc">
+        <div class="eg-title">自定义颜色 HTML Code</div>
+        <mx-copy class="desc-oper" 
+            *copy-node="{{=$viewId}}_text_1" 
+            mx-success="@:{done}({id:1})">
+            <span class="desc-tip" mx-html="{{=text1}}"></span>
+            <i class="mx5-iconfont desc-icon">&#xe610;</i>
+        </mx-copy>
+        <mx-source whole="true" id="{{=$viewId}}_text_1">
+<mx-btn *content="黄底白字" *color="#ffb400" *color-hover="#f1ab03" />
+
+<mx-btn *content="黄底白字禁用" *disabled="true" *color="#ffb400" *color-hover="#f1ab03" />
+
+<mx-btn *content="黄底白字loading" *loading="true" *color="#ffb400" *color-hover="#f1ab03" />
+
+<mx-btn *content="黑底黄字" *color="#333333" *color-text="#ffb400" *color-hover="#333333" *color-hover-text="#f1ab03" />
+
+<mx-btn *content="黑底黄字禁用" *disabled="true" *color="#333333" *color-text="#ffb400" *color-hover="#333333" *color-hover-text="#f1ab03" />
+
+<mx-btn *content="黑底黄字loading" *loading="true" *color="#333333" *color-text="#ffb400" *color-hover="#333333" *color-hover-text="#f1ab03" />
+        </mx-source>
+    </div>
+    <div class="eg-desc">
+        <div class="eg-title">自定义圆角border-radius HTML Code</div>
+        <mx-copy class="desc-oper" 
+            *copy-node="{{=$viewId}}_text_2" 
+            mx-success="@:{done}({id:2})">
+            <span class="desc-tip" mx-html="{{=text2}}"></span>
+            <i class="mx5-iconfont desc-icon">&#xe610;</i>
+        </mx-copy>
+        <mx-source whole="true" id="{{=$viewId}}_text_2">
+<mx-btn *mode="primary" *content="自定义圆角8px" style="--mx5-btn-border-radius: 8px;"/>
+    
+<mx-btn *mode="primary" *content="自定义圆角12" style="--mx5-btn-border-radius: 12px;"/>
+        </mx-source>
+    </div>
+</div>

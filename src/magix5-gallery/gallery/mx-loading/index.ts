@@ -27,8 +27,7 @@ export default View.extend({
             content: options.content,
         })
     },
-    async render() {
-        //await Magix5.delay(2000);
+    render() {
         this.digest();
     }
 });

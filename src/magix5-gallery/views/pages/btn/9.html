@@ -1,0 +1,49 @@
+<div class="example">
+    <div class="eg-content">
+        <div class="eg-content-tip">
+            <div class="eg-content-tip-prefix">以下示例：</div>
+            <div>组件支持配置size=small，size=normal，size=large三种尺寸，默认normal</div>
+        </div>
+        <div class="cont">
+            <mx-btn *size="small" *mode="primary" *content="小尺寸" />
+            <mx-btn *size="small" *mode="primary" *content="小尺寸" *disabled="true" />
+            <mx-btn *size="small" *mode="secondary" *content="小尺寸" />
+            <mx-btn *size="small" *mode="secondary" *content="小尺寸" *disabled="true" />
+            <mx-btn *size="small" *mode="hollow" *content="小尺寸" />
+            <mx-btn *size="small" *mode="hollow" *content="小尺寸" *disabled="true" />
+        </div>
+        <div class="cont">
+            <mx-btn *size="normal" *mode="primary" *content="常规尺寸" />
+            <mx-btn *size="normal" *mode="primary" *content="常规尺寸" *disabled="true" />
+            <mx-btn *size="normal" *mode="secondary" *content="常规尺寸" />
+            <mx-btn *size="normal" *mode="secondary" *content="常规尺寸" *disabled="true" />
+            <mx-btn *size="normal" *mode="hollow" *content="常规尺寸" />
+            <mx-btn *size="normal" *mode="hollow" *content="常规尺寸" *disabled="true" />
+        </div>
+        <div class="cont">
+            <mx-btn *size="large" *mode="primary" *content="大尺寸" />
+            <mx-btn *size="large" *mode="primary" *content="大尺寸" *disabled="true" />
+            <mx-btn *size="large" *mode="secondary" *content="大尺寸" />
+            <mx-btn *size="large" *mode="secondary" *content="大尺寸" *disabled="true" />
+            <mx-btn *size="large" *mode="hollow" *content="大尺寸" />
+            <mx-btn *size="large" *mode="hollow" *content="大尺寸" *disabled="true" />
+        </div>
+    </div>
+    <div class="eg-desc">
+        <div class="eg-title">HTML Code</div>
+        <mx-copy class="desc-oper" 
+            *copy-node="{{=$viewId}}_text_1" 
+            mx-success="@:{done}({id:1})">
+            <span class="desc-tip" mx-html="{{=text1}}"></span>
+            <i class="mx5-iconfont desc-icon">&#xe610;</i>
+        </mx-copy>
+        <mx-source whole="true" id="{{=$viewId}}_text_1">
+<mx-btn *size="small" *mode="primary" *content="小尺寸" />
+
+<mx-btn *size="normal" *mode="primary" *content="常规尺寸" />
+
+<mx-btn *size="large" *mode="primary" *content="大尺寸" />
+        </mx-source>
+    </div>
+            
+</div>

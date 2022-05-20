@@ -25,12 +25,6 @@ export default View.extend({
                 type: 'boolean',
                 def: 'false'
             },
-            // {
-            //     value: 'text-align',
-            //     text: '对齐方式，可选center | left | right',
-            //     type: 'string',
-            //     def: 'left'
-            // }, 
             {
                 value: 'biz-code',
                 text: '特殊产品线的定制展示需求，目前已有定制如下：<br/>1. 策略中心（ adStrategy ）<br/>2. 联盟（ union ）',

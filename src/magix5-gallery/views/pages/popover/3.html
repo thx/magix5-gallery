@@ -1,0 +1,28 @@
+<div class="example">
+    <div class="eg-content">
+        <div class="eg-content-tip">
+            <div class="eg-content-tip-prefix">以下示例：</div>
+            <div>默认展开提示浮层</div>
+        </div>
+    
+        <mx-popover *content="提示信息<br/>提示信息" *auto="true" *placement="rc">
+            <mx-btn *content="默认展开"/>
+        </mx-popover>
+    </div>
+    <div class="eg-desc">
+        <div class="eg-title">HTML Code</div>
+        <mx-copy class="desc-oper" 
+            *copy-node="{{=$viewId}}_text_1" 
+            mx-success="@:{done}({id:1})">
+            <span class="desc-tip" mx-html="{{=text1}}"></span>
+            <i class="mx5-iconfont desc-icon">&#xe610;</i>
+        </mx-copy>
+        <mx-source whole="true" id="{{=$viewId}}_text_1">
+<mx-popover 
+    *content="提示信息<br/>提示信息" 
+    *auto="true">
+    <mx-btn *content="默认展开"/>
+</mx-popover>
+        </mx-source>
+    </div>
+</div>

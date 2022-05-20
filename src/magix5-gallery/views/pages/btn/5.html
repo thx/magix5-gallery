@@ -1,55 +1,37 @@
 <div class="example">
     <div class="eg-content">
-        <div class="mx5-mb20">
-            <a href="javascript:;" class="mx5-link-brand" mx-click="change()">点击切换按钮至loading态</a>
+        <div class="eg-content-tip">
+            <div class="eg-content-tip-prefix">以下示例：</div>
+            <div>点击按钮打开一个新页面</div>
         </div>
-        <mx-btn 
-            *content="按钮"
-            *loading="{{=loading}}"
-            mx-click="change()"/>
+        <div class="cont">
+            <!-- 外链 -->
+            <mx-btn *mode="primary" *content="品牌色" *link-href="https://www.taobao.com/" />
+
+            <!-- 外链 + 禁用 -->
+            <mx-btn *disabled="true" *mode="primary" *content="品牌色" *link-href="https://www.taobao.com/" />
+
+            <!-- 外链 + 禁用 + 禁用原因 -->
+            <mx-btn *disabled="true" *disabled-tip="禁用原因" *mode="primary" *content="hover禁用原因" *link-href="https://www.taobao.com/" />
+        </div>
     </div>
-    <div class="mx5-clearfix">
-        <div class="eg-desc flw50">
-            <div class="eg-title">HTML Code</div>
-            <mx-copy class="desc-oper" 
-                *copy-node="{{=$viewId}}_text_1" 
-                mx-success="@:{done}({id:1})">
-                <span class="desc-tip" mx-html="{{=text1}}"></span>
-                <i class="mx5-iconfont desc-icon">&#xe610;</i>
-            </mx-copy>
-            <mx-source whole="true" id="{{=$viewId}}_text_1">
-                <a class="mx5-link-brand" href="javascript:;" mx-click="change()">
-                    点击切换按钮至loading态
-                </a>
-        
-                <mx-btn 
-                    *content="按钮" 
-                    *loading="{{=loading}}"/>
-            </mx-source>
-        </div>
-        <div class="eg-desc flw50 mx5-blc">
-            <div class="eg-title">JS Code</div>
-            <mx-copy class="desc-oper" 
-                *copy-node="{{=$viewId}}_text_2" 
-                mx-success="@:{done}({id:2})">
-                <span class="desc-tip" mx-html="{{=text2}}"></span>
-                <i class="mx5-iconfont desc-icon">&#xe610;</i>
-            </mx-copy>
-            <mx-source whole="true" id="{{=$viewId}}_text_2">
-                import Magix5 from 'magix5';
-        
-                export default Magix5.View.extend({
-                    tmpl: '@:index.html',
-                    render(){
-                        this.digest();
-                    },
-                    'change<click>'(e) {
-                        this.digest({
-                            loading: !this.get('loading')
-                        })
-                    }
-                })
-            </mx-source>
-        </div>
+    <div class="eg-desc">
+        <div class="eg-title">HTML Code</div>
+        <mx-copy class="desc-oper" 
+            *copy-node="{{=$viewId}}_text_1" 
+            mx-success="@:{done}({id:1})">
+            <span class="desc-tip" mx-html="{{=text1}}"></span>
+            <i class="mx5-iconfont desc-icon">&#xe610;</i>
+        </mx-copy>
+        <mx-source whole="true" id="{{=$viewId}}_text_1">
+<!-- 外链 -->
+<mx-btn *mode="primary" *content="品牌色" *link-href="https://www.taobao.com/" />
+
+<!-- 外链 + 禁用 -->
+<mx-btn *disabled="true" *mode="primary" *content="品牌色" *link-href="https://www.taobao.com/" />
+
+<!-- 外链 + 禁用 + 禁用原因 -->
+<mx-btn *disabled="true" *disabled-tip="禁用原因" *mode="primary" *content="hover禁用原因" *link-href="https://www.taobao.com/" />
+        </mx-source>
     </div>
 </div>

@@ -26,8 +26,6 @@ export default View.extend({
             showClassName, hideClassName
         } = this.get();
 
-        // offsetWeight=content + padding*2 + border*2
-        // clientWidth = content + padding*2
         let width = parentNode.offsetWidth,
             height = parentNode.offsetHeight,
             offset = this['@:{mx.style.offset}'](parentNode);

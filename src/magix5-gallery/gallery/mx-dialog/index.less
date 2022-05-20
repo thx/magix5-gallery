@@ -1,5 +1,6 @@
 @backdrop-opacity: 0.4;
 @dialog-movement: 30px;
+
 .full-fill {
     left: 0;
     top: 0;
@@ -29,7 +30,9 @@
     font-size: 18px;
     font-weight: bold;
     line-height: 26px;
-    &:hover, &:focus {
+
+    &:hover,
+    &:focus {
         background-color: #999;
         color: #fff;
     }
@@ -66,6 +69,7 @@
     from {
         opacity: 0;
     }
+
     to {
         opacity: @backdrop-opacity;
     }
@@ -80,6 +84,7 @@
     from {
         opacity: @backdrop-opacity;
     }
+
     to {
         opacity: 0;
     }
@@ -101,6 +106,7 @@
         transform: translateY(@dialog-movement);
         opacity: 0;
     }
+
     to {
         transform: translateY(0);
         opacity: 1;
@@ -117,6 +123,7 @@
         transform: translateY(0);
         opacity: 1;
     }
+
     to {
         transform: translateY(-@dialog-movement);
         opacity: 0;

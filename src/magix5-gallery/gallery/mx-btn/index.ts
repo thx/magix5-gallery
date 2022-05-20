@@ -1,5 +1,5 @@
 /**
- * 按钮 https://aone.alibaba-inc.com/req/33589875
+ * 按钮 https://done.alibaba-inc.com/file/1vGU0dwwS3oq/cw9MSQQQbWjpMTfZ/preview?m=CANVAS&aid=01F037C2-928C-4BAA-9FE4-771FDC189F2A&pageId=F3EB291F-D9CE-4CED-B1DA-DBA0A79DE7D5
  * 
  * link：表示链接在正常情况下（即页面刚加载完成时）显示的颜色（a, a:link，一般不设置）
  * visited：表示链接被点击后显示的颜色。
@@ -24,8 +24,11 @@ export default View.extend({
         // loading
         let loading = (options.loading + '' === 'true');
 
-        // 小尺寸按钮
-        let small = (options.small + '' === 'true');
+        // 按钮尺寸(size)
+        let size = options.size || 'normal';
+        if (['small', 'normal', 'large'].indexOf(size) < 0) {
+            size = 'normal';
+        }
 
         // 自定义按钮颜色
         let color = options.color || '';
@@ -37,10 +40,14 @@ export default View.extend({
         let tagContent = options.tagContent || '';
         let tagColor = options.tagColor || '';
 
+        let styles = [], mode = '';
+        let loadingColor = 'var(--mx5-color-brand)',
+            loadingColorGradient = 'var(--mx5-color-brand)',
+            loadingColorBg = '#DEE1E8';
+
         // 优先级，自定义颜色 > 预置颜色
-        let styles = [], type;
         if (color) {
-            type = 'custom';
+            mode = 'custom';
 
             // 自定义按钮颜色
             styles.push(`--mx5-btn-custom-color: ${color}`);
@@ -49,37 +56,60 @@ export default View.extend({
             styles.push(`--mx5-btn-custom-color-hover-text: ${colorHoverText}`);
 
             // 扩散动画样式，默认使用文案颜色
-            styles.push(`--mx5-animation-expand-color: ${colorText}`);
-        } else {
-            // primary：品牌色主要按钮
-            // secondary：次要按钮
-            // white：白色按钮
-            let allowedTypes = { primary: true, secondary: true, white: true };
-            type = options.type || 'primary';
-            if (!allowedTypes[type]) {
-                type = 'primary';
-            }
-        };
+            styles.push(`--mx5-comp-expand-amin-color: ${colorText}`);
 
-        // 外链处理
-        let linkHref = options.linkHref,
-            linkTarget = options.linkTarget || '_blank';
+            // loading色值
+            let textRgb = this['@:{color.to.rgb}'](colorText);
+            loadingColor = colorText;
+            loadingColorGradient = colorText;
+            loadingColorBg = `rgba(${textRgb.r},${textRgb.g},${textRgb.b},.2)`;
+        } else {
+            // primary：主要品牌按钮
+            // secondary：次要跟随按钮（默认）
+            // white：白色
+            // hollow：空心按钮
+            mode = options.mode;
+            switch (mode) {
+                case 'primary':
+                    loadingColor = '#ffffff';
+                    loadingColorGradient = '#ffffff';
+                    loadingColorBg = 'rgba(222,225,232,.2)';
+                    break;
+
+                case 'hollow':
+                    // 空心
+                    break;
+
+                case 'white':
+                    // 白色
+                    break;
+
+                // case 'secondary': 默认
+                default:
+                    mode = 'secondary';
+                    break;
+            }
+        }
 
         this.set({
+            icon: options.icon ? `<span class="@:index.less:text-icon">${options.icon}</span>` : '',
+            loadingColor,
+            loadingColorGradient,
+            loadingColorBg,
+            mode,
+            styles: styles.join(';'),
             disabled,
             disabledTip: options.disabledTip || '',
             disabledWidth: options.disabledWidth || 200,
-            disabledPlacement: options.disabledPlacement || 'bc',
-            type,
+            disabledPlacement: options.disabledPlacement || 'bottom',
             width: options.width,
             loading,
-            small,
+            size,
             content,
             tagContent,
             tagColor,
-            styles: styles.join(';'),
-            linkHref,
-            linkTarget,
+            linkHref: options.linkHref, // 外链处理
+            linkTarget: options.linkTarget || '_blank',
         });
     },
 
@@ -94,19 +124,17 @@ export default View.extend({
             return;
         }
 
-        // 防止快速点击
-        // let delayMark = Magix5.mark(this, '@:{delay.show.timer}');
-        // await Magix5.delay(100);
-
-        // // 开始动画
-        // if (!delayMark()) { return; };
-        that.digest({ animing: true });
+        that.digest({
+            animing: true
+        });
     },
     /**
      * 动画结束移除标记
      */
     '$[data-animation="btn"]<animationend>'(e) {
         e.stopPropagation();
-        this.digest({ animing: false });
+        this.digest({
+            animing: false
+        });
     }
 });
