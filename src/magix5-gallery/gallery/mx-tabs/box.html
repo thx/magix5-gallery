@@ -1,10 +1,12 @@
 <div class="box-list {{= mode === 'vertical' ? 'flex-direction-column' : 'flex-direction-row'}}">
   {{each list as item index first last}}
   <div class="{{= mode === 'vertical' ? 'box-item-wrapper-vertical' : 'box-item-wrapper'}}
+    {{= classesText(item,selected)}}
+    {{= item.disabled ? 'disabled' : 'enabled'}}
     {{= item.value == selected ? 'active-item' : ''}}
     {{if (list[index - 1] && list[index - 1].value == selected)}} active-item-next {{/if}}
-    {{if (list[index + 1] && list[index + 1].value == selected)}} active-item-prev {{/if}}
-    {{= item.disabled ? 'disabled' : 'enabled'}}" mx-click="{{= !item.disabled}}?@:{select}({value:'{{= item.value}}'})">
+    {{if (list[index + 1] && list[index + 1].value == selected)}} active-item-prev {{/if}}"
+     mx-click="{{= !item.disabled}}?@:{select}({value:'{{= item.value}}'})">
 
     <div class="box-item">
       {{if mode === 'vertical'}}

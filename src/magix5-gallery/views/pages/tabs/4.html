@@ -7,6 +7,14 @@
           </div>
     </div>
     <mx-tabs.box *list="{{#list}}" *selected="{{=selected}}" *disabled="true"></mx-tabs.box>
+
+    <div class="mx5-mt20 mx5-mb20 mx5-clearfix">
+          <div class="mx5-fl mx5-color-9">以下示例：</div>
+          <div class="mx5-fl">
+              <div>部分禁用</div>
+          </div>
+    </div>
+    <mx-tabs.box *list="{{#list}}" *selected="{{=selected}}" ></mx-tabs.box>
   </div>
   <div class="eg-desc">
         <div class="eg-title">HTML Code</div>
@@ -17,7 +25,8 @@
             <i class="mx5-iconfont desc-icon">&#xe610;</i>
         </mx-copy>
         <mx-source whole="true" id="{{=$viewId}}_text_1">
-             <mx-tabs.box *list="{{#list}}" *selected="{{=selected}}" *disabled="true"></mx-tabs.box>
+            <mx-tabs.box *list="{{#list}}" *selected="{{=selected}}" *disabled="true"></mx-tabs.box>
+            <mx-tabs.box *list="{{#list}}" *selected="{{=selected}}" ></mx-tabs.box>
         </mx-source>
     </div>
 </div>
