@@ -1,15 +1,3 @@
-/* 组件通用样式 */
-[mx5-view*="mx-popover/index"],
-[mx5-view*="mx-btn/index"],
-[mx5-view*="mx-copy/index"],
-[mx5-view*="mx-radio/index"],
-[mx5-view*="mx-checkbox/index"],
-[mx5-view*="mx-dropdown/index"] {
-    position: relative;
-    display: inline-block;
-    vertical-align: middle;
-}
-
 /*渐显下拉动画*/
 @keyframes mx5-trigger-fade-in {
     0% {
@@ -207,7 +195,10 @@
 }
 
 [mx5-view*="mx-dropdown/index"] {
+    position: relative;
     min-width: var(--mx5-trigger-min-width);
+    display: inline-block;
+    vertical-align: middle;
 
     &[mx5-view*="small=true"] {
         min-width: var(--mx5-trigger-small-min-width);

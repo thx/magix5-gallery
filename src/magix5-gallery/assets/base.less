@@ -139,22 +139,22 @@
     list-style: square inside;
 }
 
-.border-wrapper {
+.border-wrapper,
+.bg-wrapper,
+.dark-bg-wrapper {
+    padding: 8px 16px;
     border-radius: var(--mx5-border-radius);
-    border: 1px solid var(--mx5-border-color);
     overflow: hidden;
+}
+
+.border-wrapper {
+    border: 1px solid var(--mx5-border-color);
 }
 
 .bg-wrapper {
-    padding: 20px;
-    border-radius: var(--mx5-border-radius);
     background-color: var(--mx5-color-bg);
-    overflow: hidden;
 }
 
 .dark-bg-wrapper {
-    padding: 20px;
-    border-radius: var(--mx5-border-radius);
-    background-color: var(--mx5-color-bg-grey);
-    overflow: hidden;
+    background-color: var(--mx5-app-bg);
 }
