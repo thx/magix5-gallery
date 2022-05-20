@@ -1,19 +1,21 @@
 .cont-bg {
     padding: 0 16px 16px 16px;
     background-color: var(--mx5-color-brand-light);
-
-    [mx5-view*="mx-btn/index"] {
-        margin-top: 16px;
-        margin-right: 24px;
-    }
 }
 
 .cont {
     padding-bottom: 16px;
+}
 
+.cont-bg,
+.cont {
     [mx5-view*="mx-btn/index"] {
         margin-top: 16px;
         margin-right: 24px;
+
+        &:last-child {
+            margin-right: 0;
+        }
     }
 }
 
