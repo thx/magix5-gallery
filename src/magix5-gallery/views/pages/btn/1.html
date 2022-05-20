@@ -15,19 +15,19 @@
             <mx-btn mx-click="test()" *mode="primary" *content="品牌色" *tag-content="New" *tag-color="#ffb400"/>
 
             <!-- 正常尺寸品牌按钮 + 打标 + 禁用 + hover禁用原因 -->
-            <mx-btn mx-click="test()" disabled="true" disabled-tip="禁用原因" mode="primary" content="hover禁用原因" tag-content="New"/>
+            <mx-btn mx-click="test()" *disabled="true" *disabled-tip="禁用原因" *mode="primary" *content="hover禁用原因" *tag-content="New"/>
 
             <!-- 正常尺寸品牌按钮 + loading态 -->
-            <mx-btn mx-click="test()" loading="true" mode="primary" content="品牌色"/>
+            <mx-btn mx-click="test()" *loading="true" *mode="primary" *content="品牌色"/>
 
             <!-- 正常尺寸品牌按钮 + loading态 + 打标 -->
-            <mx-btn mx-click="test()" loading="true" mode="primary" content="品牌色" tag-content="New"/>
+            <mx-btn mx-click="test()" *loading="true" *mode="primary" *content="品牌色" *tag-content="New"/>
             
             <!-- 小号 -->
-            <mx-btn mx-click="test()" mode="primary" size="small" content="小号品牌色" tag-content="New"/>
+            <mx-btn mx-click="test()" *mode="primary" *size="small" *content="小号品牌色" *tag-content="New"/>
 
             <!-- 小号 + loading态 -->
-            <mx-btn mx-click="test()" loading="true" size="small" mode="primary" content="品牌色" tag-content="New"/>
+            <mx-btn mx-click="test()" *loading="true" *size="small" *mode="primary" *content="品牌色" *tag-content="New"/>
         </div>
     </div>
     <div class="eg-desc">
@@ -39,6 +39,29 @@
             <i class="mx5-iconfont desc-icon">&#xe610;</i>
         </mx-copy>
         <mx-source whole="true" id="{{=$viewId}}_text_1">
+<!-- 正常尺寸品牌按钮 -->
+<mx-btn *mode="primary" *content="品牌色"/>
+
+<!-- 正常尺寸品牌按钮 + 打标 + 标签包裹内容 -->
+<mx-btn *mode="primary" *tag-content="<i class='mx5-iconfont'>&#xe601;</i>">品牌色</mx-btn>
+
+<!-- 正常尺寸品牌按钮 + 打标 + 打标颜色 -->
+<mx-btn *mode="primary" *content="品牌色" *tag-content="New" *tag-color="#ffb400"/>
+
+<!-- 正常尺寸品牌按钮 + 打标 + 禁用 + hover禁用原因 -->
+<mx-btn *disabled="true" *disabled-tip="禁用原因" *mode="primary" *content="hover禁用原因" *tag-content="New"/>
+
+<!-- 正常尺寸品牌按钮 + loading态 -->
+<mx-btn *loading="true" *mode="primary" *content="品牌色"/>
+
+<!-- 正常尺寸品牌按钮 + loading态 + 打标 -->
+<mx-btn *loading="true" *mode="primary" *content="品牌色" *tag-content="New"/>
+
+<!-- 小号 -->
+<mx-btn *mode="primary" *size="small" *content="小号品牌色" *tag-content="New"/>
+
+<!-- 小号 + loading态 -->
+<mx-btn *loading="true" *size="small" *mode="primary" *content="品牌色" *tag-content="New"/>
         </mx-source>
     </div>
 </div>

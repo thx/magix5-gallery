@@ -16,6 +16,7 @@
     {{if loading}}
     <mx-loading mx-click="@:{stop.propagation}()" 
         class="load {{if (size == 'small')}} load-small {{/if}}"
+        *height="{{=(small ? 'calc(var(--mx5-input-small-height) * 2)' : 'calc(var(--mx5-input-height) * 2)')}}"
         *color-bg="{{=loadingColorBg}}"
         *color-gradient="{{=loadingColorGradient}}" 
         *color="{{=loadingColor}}"/>
@@ -26,7 +27,7 @@
 {{if tagContent}}
 <span mx-click="@:{stop.propagation}()" class="mx5-btn-tag-wrapper">
     <span class="mx5-btn-tag mx5-tag {{if (disabled || loading)}} mx5-tag-disabled {{/if}}" 
-        {{if tagColor}} style="background-color: {{=tagColor}}; border: 1px solid {{=tagColor}};" {{/if}}>
+        style="{{if tagColor}} background-color: {{=tagColor}}; border: 1px solid {{=tagColor}}; {{/if}}">
         <span class="mx5-tag-name" mx-html="{{=tagContent}}"></span>
     </span>
 </span>

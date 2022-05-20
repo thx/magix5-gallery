@@ -115,16 +115,13 @@ framename</pre>`,
                 path: 6,
             }, {
                 text: '自定义按钮',
-                path: 4,
+                path: 7,
             }, {
                 text: 'icon配置',
-                path: 4,
+                path: 8,
             }, {
                 text: '按钮尺寸',
-                path: 4,
-            }, {
-                text: '使用样式class',
-                path: 4,
+                path: 9,
             }],
         });
     },

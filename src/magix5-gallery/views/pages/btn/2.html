@@ -1,23 +1,33 @@
 <div class="example">
     <div class="eg-content">
-        <div class="mx5-mb20">
-            <span class="mx5-mr20">大号按钮：</span>
-            <mx-btn class="mx5-mr30" *type="secondary" *content="次要按钮"/>
-            <mx-btn class="mx5-mr30" *type="secondary" *content="次要按钮" *tag-content="<i class='mx5-iconfont'>&#xe601;</i>" /> 
-            <mx-btn class="mx5-mr30" *type="secondary" *tag-content="New" *tag-color="#ffb400"><i class="mx5-iconfont mx5-mr5">&#xe90d;</i>次要按钮</mx-btn>
-            <mx-btn class="mx5-mr30" *type="secondary" *content="次要按钮禁用" *tag-content="New" *disabled="true" />
-            <mx-btn class="mx5-mr30" *type="secondary" *content="hover显示禁用原因" *tag-content="New" *disabled="true" *disabled-tip="禁用原因" />
-            <mx-btn class="mx5-mr30" *type="secondary" *content="次要按钮" *tag-content="New" *loading="true"/> 
+        <div class="eg-content-tip">
+            <div class="eg-content-tip-prefix">以下示例：</div>
+            <div>次要按钮，对应打标默认为品牌色，可自定义颜色</div>
         </div>
-    
-        <div class="mx5-mb20">
-            <span class="mx5-mr20">小号按钮：</span>
-            <mx-btn class="mx5-mr30" *type="secondary" *small="true" *content="次要按钮"/>
-            <mx-btn class="mx5-mr30" *type="secondary" *small="true" *content="次要按钮" *tag-content="<i class='mx5-iconfont'>&#xe601;</i>" /> 
-            <mx-btn class="mx5-mr30" *type="secondary" *small="true" *tag-content="New" *tag-color="#ffb400"><i class="mx5-iconfont mx5-mr5">&#xe90d;</i>次要按钮</mx-btn>
-            <mx-btn class="mx5-mr30" *type="secondary" *small="true" *content="次要按钮禁用" *tag-content="New" *disabled="true" />
-            <mx-btn class="mx5-mr30" *type="secondary" *small="true" *content="hover显示禁用原因" *tag-content="New" *disabled="true" *disabled-tip="禁用原因" />
-            <mx-btn class="mx5-mr30" *type="secondary" *small="true" *content="次要按钮" *tag-content="New" *loading="true"/> 
+        <div class="cont">
+            <!-- 正常尺寸次要按钮 -->
+            <mx-btn *mode="secondary" *content="次要按钮"/>
+
+            <!-- 正常尺寸次要按钮 + 打标 + 标签包裹内容 -->
+            <mx-btn *mode="secondary" *tag-content="<i class='mx5-iconfont'>&#xe601;</i>">次要按钮</mx-btn>
+
+            <!-- 正常尺寸次要按钮 + 打标 + 打标颜色 -->
+            <mx-btn *mode="secondary" *content="次要按钮" *tag-content="New" *tag-color="#ffb400"/>
+
+            <!-- 正常尺寸次要按钮 + 打标 + 禁用 + hover禁用原因 -->
+            <mx-btn *disabled="true" *disabled-tip="禁用原因" *mode="secondary" *content="hover禁用原因" *tag-content="New"/>
+
+            <!-- 正常尺寸次要按钮 + loading态 -->
+            <mx-btn *loading="true" *mode="secondary" *content="次要按钮"/>
+
+            <!-- 正常尺寸次要按钮 + loading态 + 打标 -->
+            <mx-btn *loading="true" *mode="secondary" *content="次要按钮" *tag-content="New"/>
+            
+            <!-- 小号 -->
+            <mx-btn *mode="secondary" *size="small" *content="小号次要按钮" *tag-content="New"/>
+
+            <!-- 小号 + loading态 -->
+            <mx-btn *loading="true" *size="small" *mode="secondary" *content="次要按钮" *tag-content="New"/>
         </div>
     </div>
     <div class="eg-desc">
@@ -29,9 +39,29 @@
             <i class="mx5-iconfont desc-icon">&#xe610;</i>
         </mx-copy>
         <mx-source whole="true" id="{{=$viewId}}_text_1">
-            <mx-btn *type="secondary" *content="次要按钮"/>
-    
-            <mx-btn *type="secondary" *small="true" *content="小号次要按钮"/>
+<!-- 正常尺寸次要按钮 -->
+<mx-btn *mode="secondary" *content="次要按钮"/>
+
+<!-- 正常尺寸次要按钮 + 打标 + 标签包裹内容 -->
+<mx-btn *mode="secondary" *tag-content="<i class='mx5-iconfont'>&#xe601;</i>">次要按钮</mx-btn>
+
+<!-- 正常尺寸次要按钮 + 打标 + 打标颜色 -->
+<mx-btn *mode="secondary" *content="次要按钮" *tag-content="New" *tag-color="#ffb400"/>
+
+<!-- 正常尺寸次要按钮 + 打标 + 禁用 + hover禁用原因 -->
+<mx-btn *disabled="true" *disabled-tip="禁用原因" *mode="secondary" *content="hover禁用原因" *tag-content="New"/>
+
+<!-- 正常尺寸次要按钮 + loading态 -->
+<mx-btn *loading="true" *mode="secondary" *content="次要按钮"/>
+
+<!-- 正常尺寸次要按钮 + loading态 + 打标 -->
+<mx-btn *loading="true" *mode="secondary" *content="次要按钮" *tag-content="New"/>
+
+<!-- 小号 -->
+<mx-btn *mode="secondary" *size="small" *content="小号次要按钮" *tag-content="New"/>
+
+<!-- 小号 + loading态 -->
+<mx-btn *loading="true" *size="small" *mode="secondary" *content="次要按钮" *tag-content="New"/>
         </mx-source>
     </div>
 </div>
