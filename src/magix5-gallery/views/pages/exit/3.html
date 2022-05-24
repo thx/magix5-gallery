@@ -1,0 +1,12 @@
+<div class="example">
+    <div class="eg-content">
+        <div class="mx5-mb20 mx5-clearfix">
+            <ul>
+                <li>Q:如果页面中同时存在多个view需要进行提示，会如何表现？</li>
+                <li>A:Magix5将会把所有view调用observeExit方法时进行排队处理(通常靠近根节点的优先进入队列)，然后再依次调用这些view提供的退出逻辑</li>
+                <li class="mx5-mt5">Q:多个view需要提示时，如何退出及中断退出？</li>
+                <li>A:只有所有view都允许退出时，整个页面或弹出框才会退出。任意一个view中断了退出流程，则中止，防止数据丢失</li>
+            </ul>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,19 @@
+<div class="mx5-dialog-header">
+    <span class="mx5-fs16">弹框关闭测试</span>
+</div>
+<div class="mx5-dialog-body">
+    <mx-input class="mx5-w120" 
+        *placeholder="请输入姓名"
+        *show-delete="true"
+        *value="{{=userName}}"
+        mx-change="observe({key:'userName'})"/>
+    <mx-input class="mx5-w320 mx5-ml20" 
+        *placeholder="请输入地址"
+        *show-delete="true"
+        *value="{{=userAddr}}"
+        mx-change="observe({key:'userAddr'})"/>
+</div>
+<div class="mx5-dialog-footer">
+    <mx-btn mx-click="save()" *content="保存并关闭"/>
+    <mx-btn class="mx5-ml20" mx-click="cancel()" *content="关闭"/>
+</div>    

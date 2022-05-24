@@ -1,60 +1,12 @@
 //magix-composer#gallery-config
+let baseConfig = require('../mx-base/_config');
 
-let ProcessAttr = (attrs, style, ignores, className) => {
-    let attrStr = '',
-        classAdded = false,
-        styleAdded = false;
-    for (let p in attrs) {
-        if (ignores[p] !== 1) {
-            let v = attrs[p];
-            if ((p == 'class') && className) {
-                attrStr += ` class="${className} ${v}"`;
-                classAdded = true;
-            } else if ((p == 'style') && style) {
-                attrStr += ` style="${style};${v}"`;
-                styleAdded = true;
-            } else {
-                if (v === true) v = '';
-                else v = '="' + v + '"';
-                attrStr += ' ' + p + v;
-            }
-        }
-    }
-    if (!classAdded && className) {
-        attrStr += ` class="${className}"`;
-    }
-    if (!styleAdded && style) {
-        attrStr += ` style="${style}"`;
-    }
-    return attrStr;
-};
-let exceptSlot = (type, token) => {
-    if (type == 'child' &&
-        token.tag == 'mx-slot') {
-        return true;
-    }
-    return false;
-};
 module.exports = {
     'mx-layout.test'(node, builder) {
         let { tokensMap, attrsKV } = node;
         //从tokensMap中拿出当前节点原始token
         let currentToken = tokensMap[node.id];
-        let contentSlotValue;
-        //如果有子节点，则从子节点中查找mx-slot节点
-        if (currentToken.children) {
-            for (let c of currentToken.children) {
-                let { tag, attrsKV } = c;
-                if (tag == 'mx-slot') {
-                    //查找<mx-slot name="content"节点
-                    if (attrsKV &&
-                        attrsKV.name == 'content') {
-                        //根据token生成相应的innerHTML字符串
-                        contentSlotValue = builder.buildInnerHTML(c);
-                    }
-                }
-            }
-        }
+        let contentSlotValue = baseConfig.getSlotInnerHTMLByName(currentToken, 'content', builder);
         if (!contentSlotValue) {//如果未找到mx-slot name="content"节点，则从属性中读取content内容
             contentSlotValue = attrsKV['*content'];
         }
@@ -79,9 +31,9 @@ module.exports = {
             styles.push('border-bottom: 1px solid var(--mx5-layout-title-border-color)');
         }
         //根据当前token，生成排除子token中mx-slot外的其它节点成字符串
-        let restHTML = builder.buildInnerHTML(currentToken, exceptSlot);
-        let popover=attrsKV['*icon-tip'] ? (`<mx-popover class="mx5-iconfont mx5-iconfont-tip" style="margin-left: 4px;" *content="${attrsKV['*icon-tip']}">&#xe72f;</mx-popover>`) : '';
-        return `<div ${borderTest} ${ProcessAttr(attrsKV, styles.join(';'), {
+        let restHTML = builder.buildInnerHTML(currentToken, baseConfig.exceptSlot);
+        let popover = attrsKV['*icon-tip'] ? (`<mx-popover class="mx5-iconfont mx5-iconfont-tip" style="margin-left: 4px;" *content="${attrsKV['*icon-tip']}">&#xe72f;</mx-popover>`) : '';
+        return `<div ${borderTest} ${baseConfig.processAttrs(attrsKV, styles.join(';'), {
             '*content': 1,
             '*icon-tip': 1,
             '*tip': 1,
@@ -100,7 +52,7 @@ module.exports = {
             styles.push('border-bottom: 1px solid var(--mx5-layout-title-border-color)');
         }
 
-        let tmpl = `<div ${ProcessAttr(attrsKV, styles.join(';'), {
+        let tmpl = `<div ${baseConfig.processAttrs(attrsKV, styles.join(';'), {
             '*content': 1,
             '*icon-tip': 1,
             '*tip': 1,
@@ -120,7 +72,7 @@ module.exports = {
     },
     'mx-layout.body'(i) {
         let { content, attrsKV } = i;
-        return `<div ${ProcessAttr(attrsKV, 'padding: var(--mx5-layout-body-v-gap) var(--mx5-layout-body-h-gap);', {
+        return `<div ${baseConfig.processAttrs(attrsKV, 'padding: var(--mx5-layout-body-v-gap) var(--mx5-layout-body-h-gap);', {
             '*content': 1
         }, 'mx5-clearfix')}>${attrsKV['*content'] || content}</div>`;
     }

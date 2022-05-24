@@ -95,13 +95,17 @@ export default View.extend({
         let vf = view.owner.mount(n, '@:moduleId', options);
         let whenClose = async () => {
             dispatch(n, '@:{dialog.soft.start.close}', {
-                async close() {
+                close() {
                     if (!n['@:{is.closing}']) {
                         n['@:{is.closing}'] = 1;
-                        vf.invoke('@:{close.anim}');
-                        detach(n, '@:{dialog.soft.close}', whenClose);
-                        await delay(200);
-                        vf.unmount();
+                        vf.exit(async () => {
+                            vf.invoke('@:{close.anim}');
+                            detach(n, '@:{dialog.soft.close}', whenClose);
+                            await delay(200);
+                            vf.unmount();
+                        }, () => {
+                            delete n['@:{is.closing}'];
+                        });
                     }
                 }
             });

@@ -10,6 +10,11 @@ Magix3.config({
         "source": "//dev.g.alicdn.com/mm/magix-ports/20220513.171722.564"
     }]
 });
+Magix3.setPrepare([{
+    projectName: 'feeds',
+    load: true,
+    call: false
+}]);
 export default View.extend({
     tmpl: '@:./magix3-1.html',
     render() {
