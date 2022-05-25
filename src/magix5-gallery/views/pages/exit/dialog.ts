@@ -3,26 +3,44 @@ import Dialog from '../../../gallery/mx-dialog/index';
 let { View } = Magix5;
 export default View.extend<{
     saveState(): void
+    queryTip(): boolean
+    getState(): object
 }>({
     tmpl: '@:./dialog.html',
     init(options) {
         this['@:{options}'] = options;
-        this.observeExit('信息尚未保存，确定关闭弹框吗?', () => {
-            return this['@:{view.state}'] != JSON.stringify(this.get());
-        });
+        this.observeExit('弹出框表单信息尚未保存，确定关闭弹框吗?', this.queryTip.bind(this));
+    },
+    getState() {
+        return {
+            userName: this.get('userName'),
+            userAddr: this.get('userAddr')
+        };
+    },
+    queryTip() {
+        return this['@:{view.state}'] != JSON.stringify(this.getState());
     },
     exitConfirm(msg, resolve, reject) {
         this.confirm(msg, resolve, reject);
     },
     saveState() {
-        this['@:{view.state}'] = JSON.stringify(this.get());
+        this['@:{view.state}'] = JSON.stringify(this.getState());
     },
     render() {
-        this.digest({
+        this.set({
             userName: '',
             userAddr: ''
         });
         this.saveState();
+        this.digest({
+            needTip: this.queryTip()
+        });
+    },
+    'saveState<click>'() {
+        this.saveState();
+        this.digest({
+            needTip: this.queryTip()
+        });
     },
     'save<click>'() {
         this.saveState();
@@ -33,7 +51,10 @@ export default View.extend<{
     },
     'observe<change>'(e) {
         this.set({
-            [e.params.key]: e.value
+            [e.params.key]: e.value,
+        });
+        this.digest({
+            needTip: this.queryTip()
         });
     },
     'cancel<click>'(event) {

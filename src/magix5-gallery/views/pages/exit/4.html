@@ -1,0 +1,21 @@
+<div class="example">
+    <div class="eg-content">
+        <div class="mx5-mb20 mx5-clearfix">
+            以下示例包含多个子view，每个view均调用了observeExit进行提示处理，可修改多个view数据，然后离开当前页面，查看magix5的提示表现
+        </div>
+        <div class="mx5-clearfix mx5-vmt mx5-mb10">
+            <div class="mx5-fl">view1:</div>
+            <mx-vframe class="mx5-fl mx5-ml20" src="./1" *use="name" />
+        </div>
+        <div class="mx5-clearfix">
+            <div class="mx5-clearfix mx5-vmt mx5-mb10">
+                <div class="mx5-fl">view2:</div>
+                <mx-vframe class="mx5-fl mx5-ml20" src="./1" *use="addr" />
+            </div>
+        </div>
+        <div class="mx5-clearfix mx5-vmt mx5-mb10">
+            <div class="mx5-fl">view3:</div>
+            <mx-btn class="mx5-fl mx5-ml20" *content="打开表单弹出框" mx-click="open()"/>
+        </div>
+    </div>
+</div>

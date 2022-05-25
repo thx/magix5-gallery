@@ -35,10 +35,10 @@ export default View.extend({
                 type: 'boolean',
                 def: 'false'
             }, {
-                value: 'auto-complete',
+                value: 'autocomplete',
                 text: '同input的autocomplete定义，<a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/Input" target="_blank" class="color-brand">查看详情</a>',
                 type: 'string',
-                def: ''
+                def: 'off'
             }],
             events: [{
                 type: 'change',

@@ -12,6 +12,9 @@ export default View.extend({
                 text: 'dialog',
                 path: 2
             }, {
+                text: '综合',
+                path: 4
+            }, {
                 text: '扩展思考',
                 path: 3
             }]

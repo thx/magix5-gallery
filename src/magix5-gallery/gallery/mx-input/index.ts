@@ -4,7 +4,7 @@
 import Magix5 from 'magix5';
 import View from '../mx-base/view';
 Magix5.applyStyle('@:index.less');
-
+let { node, dispatch } = Magix5;
 export default View.extend({
     tmpl: '@:index.html',
     assign(options) {
@@ -30,7 +30,7 @@ export default View.extend({
             type,
             value,
             placeholder: options.placeholder || '',
-            autocomplete: options.autocomplete,
+            autocomplete: options.autocomplete || 'off',
             small: (options.small + '' === 'true'), // 小号
             showDelete: (options.showDelete + '' === 'true'), // 一键清除按钮
             prefix,
@@ -47,21 +47,21 @@ export default View.extend({
      */
     async '@:{clear}<click>'(e) {
         e.stopPropagation();
-        this['@:{fire}'](e, '');
+        this['@:{fire}']('');
     },
 
     '@:{fire}<keyup,change,focusout>'(e) {
         e.stopPropagation();
 
-        let node = this.root.querySelector(`#${this.id}_input`);
-        let value = node.value
-        this['@:{fire}'](e, value);
+        let n = node<HTMLInputElement>(`${this.id}_input`);
+        let value = n.value
+        this['@:{fire}'](value);
     },
 
     /**
     * 双向绑定处理，对外只透出change
     */
-    '@:{fire}'(e, value) {
+    '@:{fire}'(value) {
         let oldValue = this.get('value');
 
         let d = {
@@ -69,7 +69,7 @@ export default View.extend({
         };
         this.digest(d);
         if (value != oldValue) {
-            Magix5.dispatch(this.root, 'change', d);
+            dispatch(this.root, 'change', d);
         }
     }
 });

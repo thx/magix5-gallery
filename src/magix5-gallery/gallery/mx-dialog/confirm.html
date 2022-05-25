@@ -2,7 +2,7 @@
     <span class="mx5-fs16">{{=title}}</span>
 </div>
 <div class="mx5-dialog-body">{{=body}}</div>
-<div class="mx5-dialog-footer">
-    <mx-btn mx-click="@:{enter}();" *content="确定" id="mx5_o_{{=$viewId}}" tabindex="1"/>
+<div class="mx5-dialog-footer mx5-align-items-flex-end">
+    <mx-btn mx-click="@:{enter}();" *mode="primary" *content="确定" id="mx5_o_{{=$viewId}}" tabindex="1"/>
     <mx-btn class="mx5-ml10" mx-click="@:{cancel}();" *content="取消" tabindex="2"/>
 </div>

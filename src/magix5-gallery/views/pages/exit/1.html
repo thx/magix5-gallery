@@ -1,96 +1,109 @@
-<div class="example">
-    <div class="eg-content">
-        <div class="mx5-mb20 mx5-clearfix">
-            修改输入框内容后如果不点保存，刷新或切换到其它页面时，将会有离开提醒，点击保存后则不再提示
-        </div>
-        <div class="mx5-clearfix mx5-mb10">
-            <div>
-                <mx-input class="mx5-w120" 
-                    *placeholder="请输入姓名"
-                    *show-delete="true"
-                    *value="{{=userName}}"
-                    mx-change="observe({key:'userName'})"/>
-                <mx-input class="mx5-w320 mx5-ml20" 
-                    *placeholder="请输入地址"
-                    *show-delete="true"
-                    *value="{{=userAddr}}"
-                    mx-change="observe({key:'userAddr'})"/>
+<mx-slot name="user-name">
+    <mx-input class="mx5-w120 mx5-mr20" 
+        *placeholder="请输入姓名"
+        *show-delete="true"
+        *value="{{=userName}}"
+        mx-change="observe({key:'userName'})"/>
+</mx-slot>
+
+<mx-slot name="user-addr">
+    <mx-input class="mx5-w320" 
+    *placeholder="请输入地址"
+    *show-delete="true"
+    *value="{{=userAddr}}"
+    mx-change="observe({key:'userAddr'})"/>
+</mx-slot>
+{{if use=='name'}}
+    <mx-slot use="user-name"/>
+{{else if use=='addr'}}
+    <mx-slot use="user-addr"/>
+{{else}}
+    <div class="example">
+        <div class="eg-content">
+            <div class="mx5-mb20 mx5-clearfix">
+                修改输入框内容后如果不点保存，刷新或切换到其它页面时，将会有离开提醒，点击保存后则不再提示
             </div>
-            <div class="mx5-mt10">
-                <mx-btn *content="保存" mx-click="save()"/>
-            </div>
-        </div>
-    </div>
-    <div class="mx5-clearfix">
-        <div class="eg-desc flw50">
-            <div class="eg-title">HTML Code</div>
-            <mx-copy class="desc-oper" 
-                *copy-node="{{=$viewId}}_text_1" 
-                mx-success="@:{done}({id:1})">
-                <span class="desc-tip" mx-html="{{=text1}}"></span>
-                <i class="mx5-iconfont desc-icon">&#xe610;</i>
-            </mx-copy>
-            <mx-source whole="true" id="{{=$viewId}}_text_1">
+            <div class="mx5-clearfix mx5-mb10">
                 <div>
-                    <mx-input class="mx5-w120" 
-                        *placeholder="请输入姓名"
-                        *show-delete="true"
-                        *value="{{=userName}}"
-                        mx-change="observe({key:'userName'})"/>
-                    <mx-input class="mx5-w320 mx5-ml20" 
-                        *placeholder="请输入地址"
-                        *show-delete="true"
-                        *value="{{=userAddr}}"
-                        mx-change="observe({key:'userAddr'})"/>
+                    <mx-slot use="user-name"/>
+                    <mx-slot use="user-addr"/>
                 </div>
                 <div class="mx5-mt10">
                     <mx-btn *content="保存" mx-click="save()"/>
                 </div>
-            </mx-source>
+            </div>
         </div>
-        <div class="eg-desc flw50 mx5-blc">
-            <div class="eg-title">JS Code</div>
-            <mx-copy class="desc-oper" 
-                *copy-node="{{=$viewId}}_text_2" 
-                mx-success="@:{done}({id:2})">
-                <span class="desc-tip" mx-html="{{=text2}}"></span>
-                <i class="mx5-iconfont desc-icon">&#xe610;</i>
-            </mx-copy>
-            <mx-source whole="true" id="{{=$viewId}}_text_2">
-                import View from 'magix5-gallery/views/pages/base/demo';
-                import Dialog from '../../../gallery/mx-dialog/index';
-                export default View.extend<{
-                    saveState(): void
-                }>({
-                    tmpl: '@:1.html',
-                    init() {
-                        this.observeExit('信息尚未保存，确定离开吗?', () => {
-                            return this['@:{view.state}'] != JSON.stringify(this.get());
-                        });
-                    },
-                    exitConfirm(msg, resolve, reject) {
-                        this.confirm(msg, resolve, reject);
-                    },
-                    saveState() {
-                        this['@:{view.state}'] = JSON.stringify(this.get());
-                    },
-                    render() {
-                        this.digest({
-                            userName: '',
-                            userAddr: ''
-                        });
-                        this.saveState();
-                    },
-                    'save<click>'() {
-                        this.saveState();
-                    },
-                    'observe<change>'(e) {
-                        this.set({
-                            [e.params.key]: e.value
-                        });
-                    }
-                }).merge(Dialog);
-            </mx-source>
+        <div class="mx5-clearfix">
+            <div class="eg-desc flw50">
+                <div class="eg-title">HTML Code</div>
+                <mx-copy class="desc-oper" 
+                    *copy-node="{{=$viewId}}_text_1" 
+                    mx-success="@:{done}({id:1})">
+                    <span class="desc-tip" mx-html="{{=text1}}"></span>
+                    <i class="mx5-iconfont desc-icon">&#xe610;</i>
+                </mx-copy>
+                <mx-source whole="true" id="{{=$viewId}}_text_1">
+                    <div>
+                        <mx-input class="mx5-w120" 
+                            *placeholder="请输入姓名"
+                            *show-delete="true"
+                            *value="{{=userName}}"
+                            mx-change="observe({key:'userName'})"/>
+                        <mx-input class="mx5-w320 mx5-ml20" 
+                            *placeholder="请输入地址"
+                            *show-delete="true"
+                            *value="{{=userAddr}}"
+                            mx-change="observe({key:'userAddr'})"/>
+                    </div>
+                    <div class="mx5-mt10">
+                        <mx-btn *content="保存" mx-click="save()"/>
+                    </div>
+                </mx-source>
+            </div>
+            <div class="eg-desc flw50 mx5-blc">
+                <div class="eg-title">JS Code</div>
+                <mx-copy class="desc-oper" 
+                    *copy-node="{{=$viewId}}_text_2" 
+                    mx-success="@:{done}({id:2})">
+                    <span class="desc-tip" mx-html="{{=text2}}"></span>
+                    <i class="mx5-iconfont desc-icon">&#xe610;</i>
+                </mx-copy>
+                <mx-source whole="true" id="{{=$viewId}}_text_2">
+                    import View from 'magix5-gallery/views/pages/base/demo';
+                    import Dialog from '../../../gallery/mx-dialog/index';
+                    export default View.extend<{
+                        saveState(): void
+                    }>({
+                        tmpl: '@:1.html',
+                        init() {
+                            this.observeExit('信息尚未保存，确定离开吗?', () => {
+                                return this['@:{view.state}'] != JSON.stringify(this.get());
+                            });
+                        },
+                        exitConfirm(msg, resolve, reject) {
+                            this.confirm(msg, resolve, reject);
+                        },
+                        saveState() {
+                            this['@:{view.state}'] = JSON.stringify(this.get());
+                        },
+                        render() {
+                            this.digest({
+                                userName: '',
+                                userAddr: ''
+                            });
+                            this.saveState();
+                        },
+                        'save<click>'() {
+                            this.saveState();
+                        },
+                        'observe<change>'(e) {
+                            this.set({
+                                [e.params.key]: e.value
+                            });
+                        }
+                    }).merge(Dialog);
+                </mx-source>
+            </div>
         </div>
     </div>
-</div>
+{{/if}}

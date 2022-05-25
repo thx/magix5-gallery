@@ -2,8 +2,10 @@
     <span class="mx5-fs16">弹框关闭测试</span>
 </div>
 <div class="mx5-dialog-body">
+    <div>关闭弹框或改变路由时是否提示：{{=needTip}}</div>
     <mx-input class="mx5-w120" 
         *placeholder="请输入姓名"
+        *autocomplete="off"
         *show-delete="true"
         *value="{{=userName}}"
         mx-change="observe({key:'userName'})"/>
@@ -12,8 +14,15 @@
         *show-delete="true"
         *value="{{=userAddr}}"
         mx-change="observe({key:'userAddr'})"/>
+    <!-- <div class="mx5-clearfix mx5-mb10">
+        <div class="mx5-clearfix mx5-vmt">
+            <div class="mx5-fl">再嵌入其它提示view:</div>
+            <mx-vframe class="mx5-fl mx5-ml20" src="./1" *use="addr" *from="dialog" />
+        </div>
+    </div> -->
 </div>
 <div class="mx5-dialog-footer">
     <mx-btn mx-click="save()" *content="保存并关闭"/>
+    <mx-btn class="mx5-ml20" mx-click="saveState()" *content="保存"/>
     <mx-btn class="mx5-ml20" mx-click="cancel()" *content="关闭"/>
 </div>    
