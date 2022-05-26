@@ -176,7 +176,7 @@ export default {
                 subs: [
                     {
                         name: 'mx-dialog 对话框',
-                        tip:'Magix.View上挂载mxDialog（新开浮层），alert（提醒），confirm（二次确认），点击空白处自动关闭浮层',
+                        tip: 'Magix.View上挂载mxDialog（新开浮层），alert（提醒），confirm（二次确认），点击空白处自动关闭浮层',
                         path: '/dialog/index'
                     },
                     {
@@ -192,6 +192,9 @@ export default {
                         name: 'mx-im.dd 智能客服-钉钉',
                         tip: '<a class="mx5-color-brand" href="https://open-doc.dingtalk.com/docs/doc.htm?spm=a219a.7386797.0.0.WN76gC&treeId=176&articleId=106086&docType=1" target="_blank"  rel="noopener noreferrer">钉钉PC端统一跳转协议</a>',
                         path: '/im/dingding'
+                    }, {
+                        name: '退出提醒',
+                        path: '/exit/index'
                     }
                 ]
             },

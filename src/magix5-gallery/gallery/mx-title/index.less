@@ -1,25 +1,30 @@
-.content {
-    font-size: 20px;
-}
-
-.tip {
-    margin-left: 16px;
-    font-size: 12px;
-    color: #999;
-}
-
-.title {
-    margin-bottom: 24px;
+.title--first,
+.title--second {
     white-space: nowrap;
     word-wrap: normal;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
-.second {
+.title--first {
+    margin-bottom: 24px;
+
+    .content {
+        font-size: 20px;
+    }
+}
+
+.title--second {
     margin-bottom: 16px;
 
     .content {
         font-size: 16px;
     }
+}
+
+
+.tip {
+    margin-left: 16px;
+    font-size: 12px;
+    color: #999;
 }

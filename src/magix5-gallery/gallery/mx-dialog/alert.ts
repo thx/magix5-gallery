@@ -26,7 +26,7 @@ export default View.extend({
     },
     '@:{enter}<click>'() {
         let me = this;
-        me['@:{dialog}'].close();
+        me['@:{dialog}'].close(true);
         if (me['@:{fn.enter.callback}']) {
             toTry(me['@:{fn.enter.callback}']);
         }

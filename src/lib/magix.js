@@ -777,13 +777,19 @@ define('magix5', () => {
     let Router_Bind = () => {
         let lastHash = Router_Parse().srcHash;
         let newHash, suspend;
-        AddEventListener(Doc_Window, 'hashchange', Router_Tip_Hashchange = (e, loc) => {
+        AddEventListener(Doc_Window, 'hashchange', Router_Tip_Hashchange = (e, loc, resolve) => {
             if (suspend) {
                 return;
             }
             loc = Router_Parse();
             newHash = loc.srcHash;
             if (newHash != lastHash) {
+                resolve = () => {
+                    lastHash = newHash;
+                    suspend = Empty;
+                    Router_UpdateHash(newHash);
+                    Router_Diff();
+                };
                 e = {
                     '@:{exit-tip#from}': View_Exit_From_Router,
                     '@:{exit-tip#mutual}': View_Exit_From_Vframe,
@@ -791,18 +797,20 @@ define('magix5', () => {
                         suspend = Empty;
                         Router_UpdateHash(lastHash);
                     },
-                    resolve() {
-                        lastHash = newHash;
-                        suspend = Empty;
-                        Router_UpdateHash(newHash);
-                        Router_Diff();
-                    },
+                    resolve,
                     stop() {
                         suspend = 1;
                     }
                 };
                 Router.fire(Change, e);
-                View_RunExitList(e);
+                if (suspend) {
+                    if (View_Exit_Idle) {
+                        View_RunExitList(e);
+                    }
+                }
+                else {
+                    resolve();
+                }
             }
         });
         AddEventListener(Doc_Window, 'beforeunload', Router_Tip_Beforeunload = (e, te, msg) => {
@@ -810,6 +818,9 @@ define('magix5', () => {
             te = {};
             Router.fire(Page_Unload, te);
             if ((msg = te['@:{page-tip#msg}'])) {
+                if (IsFunction(msg)) {
+                    msg = msg();
+                }
                 if (e)
                     e.returnValue = msg;
                 return msg;
@@ -840,7 +851,7 @@ define('magix5', () => {
     };
     let Router_LLoc = Router_Init_Loc;
     let Router_TrimHashReg = /(?:^.*?\/\/[^/]+|#.*$)/g;
-    let Router_TrimQueryReg = /^[^#]*#?!?/;
+    let Router_TrimQueryReg = /^[^#]*#?/;
     let Router_PNR_Routers, Router_PNR_UnmatchView, Router_PNR_DefaultView, Router_PNR_DefaultPath;
     let Router_PNR_Rewrite;
     let Router_PNR_Rebuild;
@@ -1412,18 +1423,29 @@ define('magix5', () => {
             }
         },
         async exit(resolve, reject, stop = Noop) {
+            let suspend;
             let e = {
                 '@:{exit-tip#from}': View_Exit_From_Vframe,
                 '@:{exit-tip#mutual}': View_Exit_From_Router,
                 resolve,
                 reject,
-                stop,
+                stop() {
+                    suspend = 1;
+                    stop();
+                },
             }, vfs = [], vf;
             Vframe_CollectVframes(this, vfs);
             for (vf of vfs) {
                 await vf.invoke('@:{~view#exit.listener}', e);
             }
-            View_RunExitList(e);
+            if (suspend) {
+                if (View_Exit_Idle) {
+                    View_RunExitList(e);
+                }
+            }
+            else {
+                resolve();
+            }
         }
     });
     /*
@@ -2864,19 +2886,23 @@ define('magix5', () => {
     let View_Exit_From_Router = '@:{tip-mutual#from.router}';
     let View_Exit_From_Vframe = '@:{tip-mutual#from.vframe}';
     let View_ExitList = [];
+    let View_Exit_Idle = 1;
     let View_RunExitList = (e, idx = 0) => {
+        View_Exit_Idle = 0;
         let head = View_ExitList[idx];
         if (head) {
             let [view, msg] = head;
             view.exitConfirm(msg, () => {
                 View_RunExitList(e, idx + 1);
             }, () => {
+                View_Exit_Idle = 1;
                 View_ExitList.length = 0;
                 View_ExitList[e['@:{exit-tip#from}']] = 0;
                 e.reject();
             });
         }
         else {
+            View_Exit_Idle = 1;
             View_ExitList.length = 0;
             View_ExitList[e['@:{exit-tip#from}']] = 0;
             e.resolve();
@@ -2934,6 +2960,9 @@ define('magix5', () => {
                     Router.off(Change, changeListener);
                     Router.off(Page_Unload, unloadListener);
                 });
+            }
+            else if (DEBUG) {
+                console.error('observeExit has already been called and can only be called once.');
             }
         },
         observeLocation(params, isObservePath) {

@@ -2,10 +2,11 @@
     "compilerOptions": {
         "baseUrl": "./",
         "target": "es2018",
-        "experimentalDecorators":true,
+        "experimentalDecorators": true,
         "lib": [
             "es5",
             "es2015",
+            "ES2016",
             "dom",
             "DOM.Iterable",
             "ESNext.AsyncIterable",

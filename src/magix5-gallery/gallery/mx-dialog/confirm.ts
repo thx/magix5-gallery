@@ -11,7 +11,6 @@ export default View.extend({
         me['@:{string.body}'] = extra.body;
         me['@:{string.title}'] = extra.title || '提示';
         me['@:{fn.enter.callback}'] = extra.enter;
-        me['@:{fn.calcel.callback}'] = extra.cancel;
     },
     async render() {
         let me = this;
@@ -26,7 +25,7 @@ export default View.extend({
     },
     '@:{enter}<click>'() {
         let me = this;
-        me['@:{dialog}'].close();
+        me['@:{dialog}'].close(true);
         if (me['@:{fn.enter.callback}']) {
             toTry(me['@:{fn.enter.callback}']);
         }
@@ -34,8 +33,5 @@ export default View.extend({
     '@:{cancel}<click>'() {
         let me = this;
         me['@:{dialog}'].close();
-        if (me['@:{fn.calcel.callback}']) {
-            toTry(me['@:{fn.calcel.callback}']);
-        }
     }
 });

@@ -12,7 +12,7 @@ interface DialogOptions {
     left?: string
     top?: string
     dialog: {
-        close: () => void
+        close: (cancel?: boolean) => void
     }
 };
 let DialogZIndex = 800;
@@ -38,7 +38,9 @@ export default View.extend({
             // if (DialogZIndex == 500) {
             //     app.classList.remove('@:index.less:blur');
             // }
-            dispatch(root, '@:{dialog.hard.close}');
+            dispatch(root, '@:{dialog.hard.close}', {
+                cancel: this.get('cancel')
+            });
             root.parentNode.removeChild(root);
         });
         if (!has(extra, 'closable')) {
@@ -63,7 +65,8 @@ export default View.extend({
             scrollNode.focus();
         }
     },
-    '@:{close.anim}'() {
+    '@:{close.anim}'(data) {
+        this.set(data);
         let id = this.id,
             n;
         n = node<HTMLElement>('mx5_dialog_scroll_' + id);
@@ -73,6 +76,11 @@ export default View.extend({
     },
     '@:{close}<click>'() {
         dispatch(this.root, '@:{dialog.soft.close}');
+    },
+    '@:{close.by.outside}<click>'(e) {
+        if (e.eventTarget == e.target) {
+            dispatch(this.root, '@:{dialog.soft.close}');
+        }
     },
     '$doc<keyup>'(e) {
         if (e.code == 'Escape') { //esc
@@ -88,15 +96,21 @@ export default View.extend({
         document.body.insertAdjacentHTML('beforeend', '<div id="' + id + '"/>');
         let n = node<HTMLElement>(id);
         let vf = view.owner.mount(n, '@:moduleId', options);
-        let whenClose = async () => {
+        let whenClose = async e => {
             dispatch(n, '@:{dialog.soft.start.close}', {
-                async close() {
+                close() {
                     if (!n['@:{is.closing}']) {
                         n['@:{is.closing}'] = 1;
-                        vf.invoke('@:{close.anim}');
-                        detach(n, '@:{dialog.soft.close}', whenClose);
-                        await delay(200);
-                        vf.unmount();
+                        vf.exit(async () => {
+                            vf.invoke('@:{close.anim}', {
+                                cancel: e.ignoreCancelCallback
+                            });
+                            detach(n, '@:{dialog.soft.close}', whenClose);
+                            await delay(200);
+                            vf.unmount();
+                        }, () => {
+                            delete n['@:{is.closing}'];
+                        });
                     }
                 }
             });
@@ -108,14 +122,16 @@ export default View.extend({
         this.confirm(content, enterCallback, null, title, 'alert');
     },
     confirm(content, enterCallback, cancelCallback, title, view = 'confirm') {
+        /*
+            cancelCallback放在关闭中触发，即通过右上角或快捷键关闭时，均需要调用cancelCallback
+         */
         this.mxDialog('@:./' + view, {
             body: content,
-            cancel: cancelCallback,
             enter: enterCallback,
             title: title,
             modal: true,
             width: 350
-        });
+        }).afterClose(cancelCallback);
     },
     mxDialog(view, options) {
         let me = this;
@@ -129,19 +145,21 @@ export default View.extend({
         }, options) as DialogOptions;
         if (!dOptions.width) dOptions.width = 550;
         dOptions.dialog = {
-            close() {
+            close(cancel) {
                 if (dlg) {
-                    dispatch(dlg, '@:{dialog.soft.close}');
+                    dispatch(dlg, '@:{dialog.soft.close}', {
+                        ignoreCancelCallback: cancel
+                    });
                 }
             }
         };
         dlg = me['@:{dialog.show}'](me, dOptions);
         let beforeCloseCallback,
             afterCloseCallback;
-        let closeWatcher = () => {
-            //delete me[key];
+        let closeWatcher = e => {
             detach(dlg, '@:{dialog.hard.close}', closeWatcher);
-            if (afterCloseCallback) {
+            if (!e.cancel &&
+                afterCloseCallback) {
                 afterCloseCallback();
             }
         };

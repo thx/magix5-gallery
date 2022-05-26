@@ -194,6 +194,10 @@ instance.invoke('to',2);
                     value: 'active',
                     text: '当前第几帧，从0开始',
                     type: 'number'
+                },{
+                    value: 'total',
+                    text: '总共多少帧',
+                    type: 'number'
                 }]
             }],
             lefts: [{

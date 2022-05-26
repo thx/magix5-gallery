@@ -1,6 +1,7 @@
 import Magix from 'magix5';
 
-let { View, applyStyle, dispatch, mark, inside } = Magix;
+let { View, applyStyle, dispatch, mark, inside,
+    delay } = Magix;
 applyStyle('@:./index.less');
 
 export default View.extend({
@@ -109,7 +110,7 @@ export default View.extend({
         let toPanelMark = mark(this, '@:{to.panel}');
         let carouselRoot = this.root;
 
-        let toPanel = () => {
+        let toPanel = async () => {
             if (!immediate) {
                 // 防止快速重复点击
                 this['@:{animating}'] = true;
@@ -169,22 +170,21 @@ export default View.extend({
                             value = style[i + 1];
                         panelsRootStyle[key] = value;
                     }
-                    setTimeout(() => {
-                        // 动画完成之后再纠正
-                        if (toPanelMark()) {
-                            for (let i = 0; i < len; i++) {
-                                let style = panels[i].style;
-                                if (vertical) {
-                                    style.top = height * i + 'px';
-                                } else {
-                                    style.left = width * i + 'px';
-                                }
+                    await delay(dt);
+                    // 动画完成之后再纠正
+                    if (toPanelMark()) {
+                        for (let i = 0; i < len; i++) {
+                            let style = panels[i].style;
+                            if (vertical) {
+                                style.top = height * i + 'px';
+                            } else {
+                                style.left = width * i + 'px';
                             }
-                            panelsRootStyle.transition = '';
-                            panelsRootStyle.transform = `translate3d(${vertical ? `0,${(0 - active * height)}px` : `${(0 - active * width)}px,0`},0)`;
-                            this['@:{animating}'] = false;
                         }
-                    }, dt);
+                        panelsRootStyle.transition = '';
+                        panelsRootStyle.transform = `translate3d(${vertical ? `0,${(0 - active * height)}px` : `${(0 - active * width)}px,0`},0)`;
+                        this['@:{animating}'] = false;
+                    }
                     break;
 
                 case 'fade':
@@ -203,17 +203,16 @@ export default View.extend({
                             style.opacity = 0;
                         }
                     }
-
-                    setTimeout(() => {
-                        if (toPanelMark()) {
-                            this['@:{animating}'] = false;
-                        }
-                    }, dt);
+                    await delay(dt);
+                    if (toPanelMark()) {
+                        this['@:{animating}'] = false;
+                    }
                     break;
             }
 
             if (!immediate) {
                 dispatch(this.root, 'change', {
+                    total: len,
                     active
                 });
             }

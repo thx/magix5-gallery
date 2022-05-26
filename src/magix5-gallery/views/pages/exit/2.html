@@ -1,0 +1,138 @@
+<div class="example">
+    <div class="eg-content">
+        <div class="mx5-mb20 mx5-clearfix">
+            如果view出现在弹出框中，也是可以实现离开提示的，可以点击下方按钮打开弹出框查看示例(开发者只关心在需要提示的view中调用相关api完成提醒即可，无须关心view是出现在普通页面中还是弹出框中，magix5及组件已为您完成了封装)
+        </div>
+        <div class="mx5-clearfix mx5-mb10">
+            <mx-btn *content="打开表单弹出框" mx-click="open()"/>
+        </div>
+    </div>
+    <div class="mx5-clearfix">
+        <div class="eg-desc flw50">
+            <div class="eg-title">HTML Code</div>
+            <mx-copy class="desc-oper" 
+                *copy-node="{{=$viewId}}_text_1" 
+                mx-success="@:{done}({id:1})">
+                <span class="desc-tip" mx-html="{{=text1}}"></span>
+                <i class="mx5-iconfont desc-icon">&#xe610;</i>
+            </mx-copy>
+            <mx-source whole="true" id="{{=$viewId}}_text_1">
+                <mx-btn *content="打开表单弹出框" mx-click="open()"/>
+            </mx-source>
+        </div>
+        <div class="eg-desc flw50 mx5-blc">
+            <div class="eg-title">JS Code</div>
+            <mx-copy class="desc-oper" 
+                *copy-node="{{=$viewId}}_text_2" 
+                mx-success="@:{done}({id:2})">
+                <span class="desc-tip" mx-html="{{=text2}}"></span>
+                <i class="mx5-iconfont desc-icon">&#xe610;</i>
+            </mx-copy>
+            <mx-source whole="true" id="{{=$viewId}}_text_2">
+            import View from 'magix5-gallery/views/pages/base/demo';
+            import Dialog from '../../../gallery/mx-dialog/index';
+
+            export default View.extend({
+                tmpl: '@:2.html',
+                render() {
+                    this.digest();
+                },
+                'open<click>'() {
+                    this.mxDialog('@:./dialog', {
+                        width: 800
+                    });
+                }
+            }).merge(Dialog);
+            </mx-source>
+        </div>
+    </div>
+    <div class="mx5-clearfix">
+        <div class="eg-desc flw50">
+            <div class="eg-title">HTML Code</div>
+            <mx-copy class="desc-oper" 
+                *copy-node="{{=$viewId}}_text_3" 
+                mx-success="@:{done}({id:3})">
+                <span class="desc-tip" mx-html="{{=text3}}"></span>
+                <i class="mx5-iconfont desc-icon">&#xe610;</i>
+            </mx-copy>
+            <mx-source whole="true" id="{{=$viewId}}_text_3">
+                <div class="mx5-dialog-header">
+                    <span class="mx5-fs16">弹框关闭测试</span>
+                </div>
+                <div class="mx5-dialog-body">
+                    <mx-input class="mx5-w120" 
+                        *placeholder="请输入姓名"
+                        *show-delete="true"
+                        *value="{{=userName}}"
+                        mx-change="observe({key:'userName'})"/>
+                    <mx-input class="mx5-w320 mx5-ml20" 
+                        *placeholder="请输入地址"
+                        *show-delete="true"
+                        *value="{{=userAddr}}"
+                        mx-change="observe({key:'userAddr'})"/>
+                </div>
+                <div class="mx5-dialog-footer">
+                    <mx-btn mx-click="save()" *content="保存并关闭"/>
+                    <mx-btn class="mx5-ml20" mx-click="cancel()" *content="关闭"/>
+                </div>                    
+            </mx-source>
+        </div>
+        <div class="eg-desc flw50 mx5-blc">
+            <div class="eg-title">JS Code</div>
+            <mx-copy class="desc-oper" 
+                *copy-node="{{=$viewId}}_text_4" 
+                mx-success="@:{done}({id:4})">
+                <span class="desc-tip" mx-html="{{=text4}}"></span>
+                <i class="mx5-iconfont desc-icon">&#xe610;</i>
+            </mx-copy>
+            <mx-source whole="true" id="{{=$viewId}}_text_4">
+                import Magix5 from 'magix5';
+                import Dialog from '../../../gallery/mx-dialog/index';
+                let { View } = Magix5;
+                export default View.extend<{
+                    saveState(): void
+                }>({
+                    tmpl: '@:./dialog.html',
+                    init(options) {
+                        this['@:{options}'] = options;
+                        this.observeExit('信息尚未保存，确定关闭弹框吗?', () => {
+                            return this['@:{view.state}'] != JSON.stringify(this.get());
+                        });
+                    },
+                    exitConfirm(msg, resolve, reject) {
+                        this.confirm(msg, resolve, reject);
+                    },
+                    saveState() {
+                        this['@:{view.state}'] = JSON.stringify(this.get());
+                    },
+                    render() {
+                        this.digest({
+                            userName: '',
+                            userAddr: ''
+                        });
+                        this.saveState();
+                    },
+                    'save<click>'() {
+                        this.saveState();
+                        let viewOptions = this['@:{options}'];
+                        if (viewOptions.dialog) {
+                            viewOptions.dialog.close();
+                        }
+                    },
+                    'observe<change>'(e) {
+                        this.set({
+                            [e.params.key]: e.value
+                        });
+                    },
+                    'cancel<click>'(event) {
+                        event.preventDefault();
+                        let viewOptions = this['@:{options}'];
+                        if (viewOptions.dialog) {
+                            viewOptions.dialog.close();
+                        }
+                    },
+                }).merge(Dialog);
+            </mx-source>
+        </div>
+    </div>
+</div>

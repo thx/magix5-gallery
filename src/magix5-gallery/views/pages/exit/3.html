@@ -1,0 +1,15 @@
+<div class="example">
+    <div class="eg-content">
+        <div class="mx5-mb20 mx5-clearfix">
+            <ul>
+                <li>Q:如果页面中同时存在多个view需要进行提示，会如何表现？</li>
+                <li>A:Magix5将会把所有view调用observeExit方法时进行排队处理(通常靠近根节点的优先进入队列)，然后再依次调用这些view提供的退出逻辑</li>
+                <li class="mx5-mt5">Q:多个view需要提示时，如何退出及中断退出？</li>
+                <li>A:只有所有view都允许退出时，整个页面或弹出框才会退出。任意一个view中断了退出流程，则中止，防止数据丢失</li>
+                <li class="mx5-mt5">Q:开发者需要关注哪些API及注意事项？</li>
+                <li>A:开发人员需要在view的init方法里，调用this.observeExit方法对view的退出进行拦截，该方法只能在init里调用一次，第一个参数为提示内容，该参数将会透传到exitConfirm方法里，第二个参数为函数，返回falsy不提示，其它则提示</li>
+                <li>A:开发人员还需要实现exitConfirm方法来决定如何展示退出的交互界面，该方法通常在整个项目的基类里面实现，来保证整个项目的交互统一。第一个参数为observeExit的第一个参数，第二个resolve为用户决定继续退出时调用，第三个reject为用户拒绝退出时调用。resolve或reject必须被调用</li>
+            </ul>
+        </div>
+    </div>
+</div>
