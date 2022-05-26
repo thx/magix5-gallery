@@ -4,10 +4,11 @@
  */
 import Magix5 from 'magix5';
 import View from '../mx-base/view';
+Magix5.applyStyle('@:index.less');
 
 export default View.extend({
     tmpl: '@:index.html',
-    init(options) {
+    init() {
         let that = this;
 
         that.set({
@@ -26,21 +27,29 @@ export default View.extend({
         });
     },
     assign(options) {
+        // 多选还是单选
+        let multiple = (options.multiple + '' === 'true'),
+            needAll = (options.needAll + '' !== 'false'),
+            needGroup = (options.needGroup + '' === 'true');
+
         let textKey = options.textKey || 'text',
             valueKey = options.valueKey || 'value',
             parentKey = options.parentKey || 'pValue';
-        let list = JSON.parse(JSON.stringify(options.list || []));
+        let list = JSON.parse(JSON.stringify(options.list || [])),
+            originList = options.list || [];
         if (typeof list[0] === 'object') {
-            // 本身是个对象（支持分组）
+            // 本身是个对象
+            // 存在分组的情况
             list = list.map(item => {
-                return Magix5.mix(item, {
+                return {
+                    ...item,
                     text: item[textKey],
                     value: item[valueKey],
-                    pValue: item[parentKey]
-                });
+                    pValue: item[parentKey],
+                }
             })
         } else {
-            // 直接value列表（不支持分组）
+            // 直接value列表（无分组）
             list = list.map(value => {
                 return {
                     text: value,
@@ -49,25 +58,16 @@ export default View.extend({
             })
         };
 
-        // 可选项数目
-        let len = list.length;
-
-        // 多选还是单选
-        let multiple = (options.multiple + '' === 'true');
-
-        // 多选情况下是否需要全选，分组全选功能
-        let needAll = (options.needAll + '' !== 'false'),
-            needGroup = (options.needGroup + '' === 'true');
-
         // 多选上下限范围
         let min = +options.min || 0,
             max = +options.max || 0;
-        if ((max > 0) && (min > max)) { min = max; };
-
+        if ((max > 0) && (min > max)) {
+            min = max;
+        }
         // 多选是否要求连续选择
         let continuous = (options.continuous + '' === 'true');
 
-        // 单选：如果有空提示文案，默认补上一个value为空的选项
+        // 单选：如果有空提示文案，默认补上一个选项
         if (!multiple && options.emptyText) {
             list.unshift({
                 text: options.emptyText,
@@ -93,7 +93,7 @@ export default View.extend({
                 p.list = groupMap[p.value] || [];
                 delete groupMap[p.value];
                 if (p.list.length == 0) {
-                    p.splice(i--, 1);
+                    parents.splice(i--, 1);
                 }
             }
             hasGroups = (parents.length > 0);
@@ -113,27 +113,27 @@ export default View.extend({
         }
 
         // 已选中数据 数组 or 字符串
-        let selected = [];
-        if (Magix5.isArray(options.selected)) {
+        let selected = [], bakType = '';
+        if (Array.isArray(options.selected)) {
             // 数组，保留初始数据状态，双向绑定原样返回
-            this['@:{bak.type}'] = 'array';
+            bakType = 'array';
             selected = options.selected;
         } else {
             // 字符串
             selected = (options.selected === undefined || options.selected === null) ? [] : (options.selected + '').split(',');
         }
 
-        // 过滤掉未提供选项，或提供的选项不在列表里
         let map = Magix5.toMap(list, 'value');
         let selectedItems = [];
         selected.forEach(value => {
+            //未提供选项，或提供的选项不在列表里
             if (map[value]) {
                 selectedItems.push(map[value]);
             }
         });
 
-        // 单选默认选中可选第一个
         if (!multiple && (selectedItems.length == 0)) {
+            // 单选默认选中可选第一个
             for (let i = 0; i < list.length; i++) {
                 if (!list[i].disabled) {
                     selectedItems = [list[i]];
@@ -143,74 +143,78 @@ export default View.extend({
         }
 
         // 多选：数据量超过20个，默认一行显示4个，若手动指定over=false，一行一个
-        let over = (multiple && len > 20 && (options.over + '' !== 'false'));
+        let over = (multiple && originList.length > 20 && options.over + '' !== 'false');
 
-        // 是否禁用
+        // 多选显示模式，text文案，tag可操作标签
+        let mode = options.mode || 'text';
+
+        // 禁用
         let disabled = (options.disabled + '' === 'true');
 
         // trigger方式，click，hover，默认click
         let triggerType = options.triggerType || 'click';
 
-        // 其他样式
-        let height = options.height ? (options.height + 'px') : 'var(--mx5-trigger-max-height)';
-
         this.set({
             triggerType,
-            len,
+            bakType,
+            disabled,
+            mode,
+            tip: options.tip,
+            name: options.name || '', // 前缀
+            over,
+            multiple,
+            needAll,
+            needGroup, // 分组全选功能
+            min,
+            max,
+            continuous,
+            emptyText: options.emptyText || '请选择', // 空状态文案
+            searchbox: (options.searchbox + '') === 'true',
+            hasGroups,
+            parents,
+            originList,
             originSelectedValues: selected,
             selectedItems,
-            contentData: {
-                disabled,
-                prefix: options.prefix || '', // 前缀
-                emptyText: options.emptyText || '请选择', // 空状态文案
-                search: (options.search + '') === 'true',
-                over,
-                tip: options.tip,
-                hasGroups,
-                parents,
-                multiple,
-                needAll,
-                needGroup, // 分组全选功能
-                min,
-                max,
-                continuous,
-                submitChecker: options.submitChecker, // 提交前自定义校验函数
-                height,
-            },
+            height: (options.height || 280),
+            submitChecker: options.submitChecker, // 提交前自定义校验函数
         });
     },
     render() {
         this.digest();
 
-        // 判断初始化的selected是否改动了，有可选项时trigger
-        let { originSelectedValues, selectedItems, len, show } = this.get();
-        let values = selectedItems.map(item => item.value + '');
+        // 判断初始化的selected是否改动了
+        let { originSelectedValues, selectedItems, originList, expand } = this.get();
+        let values = [];
+        selectedItems.forEach(item => { values.push(item.value + ''); });
         originSelectedValues = originSelectedValues.map(v => v + '');
-        let fire = (len > 0) && (originSelectedValues.sort().join(',') !== values.sort().join(','));
+        let fire = (originList.length > 0) && (originSelectedValues.sort().join(',') !== values.sort().join(','));
         this['@:{val}'](fire);
         if (fire) {
+            // 为0时不trigger
             console.warn(`${this.owner.pId}：dropdown默认选中第一个，初始值和selected不一致，请自查！！！`);
         }
 
-        // 展开的情况下外部digest，再次刷新下下拉列表，防止此时数据更新
-        if (show) {
+        if (expand) {
+            // 展开的情况下外部digest，再次刷新下下拉列表，防止此时数据更新
             this['@:{show}'](true);
         }
     },
 
     '@:{val}'(fire) {
-        let { selectedItems, contentData } = this.get();
+        let { selectedItems, operationType, operationItem, emptyText, bakType } = this.get();
         let texts = [], values = [];
         selectedItems.forEach(item => {
+            item.error = false;
             texts.push(item.text);
             values.push(item.value);
-        });
+        })
+
         this.digest({
-            selectedText: texts.join(',') || contentData.emptyText
-        });
+            selectedText: texts.join(',') || emptyText
+        })
 
         let val;
-        if (this['@:{bak.type}'] == 'array') {
+        if (bakType == 'array') {
             // 初始化为数组
             val = values;
         } else {
@@ -218,28 +222,37 @@ export default View.extend({
             val = values.join(',');
         }
 
+        // this.root.value = val;
         if (fire) {
-            // 组件包装事件则不往root.value写值，统一事件处理
-            Magix5.dispatch(this.root, 'change', {
+            let d = {
                 selected: val,
                 values,
                 texts,
                 value: values.join(','),
-                text: texts.join(',')
-            });
+                text: texts.join(','),
+            }
+            if (operationType && operationItem) {
+                Magix5.mix(d, {
+                    operationType,
+                    operationItem,
+                })
+            }
+
+            Magix5.dispatch(this.root, 'change', d);
         }
     },
 
     '@:{init}'() {
         let that = this;
-        let { popId, triggerType, contentData, hideDelay } = that.get();
+
+        let { popId, triggerType, hideDelay, over } = that.get();
         let popNode;
         if (!Magix5.node(popId)) {
             let triggerWidth = this.root.clientWidth;
 
             // 多选大尺寸展现样式上稍有差异
-            let minWidth = contentData.over ? Math.max(triggerWidth, 600) : triggerWidth;
-            let maxWidth = contentData.over ? minWidth : minWidth * 2;
+            let minWidth = over ? Math.max(triggerWidth, 600) : triggerWidth;
+            let maxWidth = over ? minWidth : Math.max(minWidth * 2.5, 180);
 
             popNode = document.createElement('div');
             popNode.id = popId;
@@ -298,8 +311,8 @@ export default View.extend({
         let that = this;
 
         // 初始化
-        if (!that['init.node']) {
-            that['init.node'] = true;
+        if (!that.get('posInt')) {
+            that.set({ posInt: true });
             that['@:{init}']();
         }
 
@@ -307,11 +320,11 @@ export default View.extend({
         that.digest({ show: true });
 
         // 每次展开重新渲染内容
-        let { popId, selectedItems, contentData } = that.get();
+        let { popId, selectedItems } = that.get();
         let popNode = Magix5.node(popId);
+        debugger
         that['@:{pop.vframe}'] = that.owner.mount(popNode, '@:./content', {
             selectedItems,
-            contentData,
         });
     },
 
@@ -334,8 +347,8 @@ export default View.extend({
         let that = this;
         let { triggerType } = that.get();
         if (triggerType == 'click') {
-            let { contentData, animation } = that.get();
-            if (contentData.disabled || (animation == 'expand')) {
+            let { disabled, animation } = that.get();
+            if (disabled || (animation == 'expand')) {
                 return;
             };
 
@@ -345,13 +358,6 @@ export default View.extend({
             // 展开 or 收起
             that[that.get('show') ? '@:{hide}' : '@:{show}']();
         }
-    },
-
-    /**
-     * 动画结束移除标记
-     */
-    '$[data-animation="trigger"]<animationend>'(e) {
-        this.digest({ animation: null });
     },
 
     /**
@@ -389,6 +395,13 @@ export default View.extend({
                 that['@:{hide}']();
             }, hideDelay);
         }
+    },
+
+    /**
+    * 动画结束移除标记
+    */
+    '$[data-animation="trigger"]<animationend>'(e) {
+        this.digest({ animation: null });
     },
 
     '@:{clear.timers}'() {
