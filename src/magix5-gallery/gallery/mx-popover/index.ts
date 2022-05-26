@@ -66,6 +66,7 @@ export default View.extend({
         let auto = options.auto + '' === 'true';
 
         this.set({
+            init: false,
             showDelay,
             hideDelay,
             type,
@@ -94,41 +95,47 @@ export default View.extend({
         if (!Magix5.node(popId)) {
             popNode = document.createElement('div');
             popNode.id = popId;
-            popNode.className = `@:index.less:mx5-popover--${type} @:index.less:mx5-popover--${posConfigs.placement}`;
             popNode.setAttribute('style', `width: ${posConfigs.width}px;`);
             document.body.appendChild(popNode);
+
+            let watchOver = e => {
+                if (Magix5.inside(e.relatedTarget, e.currentTarget)) {
+                    return;
+                }
+                that['@:{clear.timers}']();
+            }
+            let watchOut = e => {
+                if (Magix5.inside(e.relatedTarget, e.currentTarget)) {
+                    return;
+                }
+                that['@:{hide}']();
+            }
+
+            Magix5.attach(popNode, 'mouseover', watchOver);
+            Magix5.attach(popNode, 'mouseout', watchOut);
+
+            that.on('destroy', () => {
+                Magix5.detach(popNode, 'mouseover', watchOver);
+                Magix5.detach(popNode, 'mouseout', watchOut);
+
+                // 移除节点
+                that.owner.unmount(popNode);
+                popNode.remove();
+            });
+        } else {
+            popNode = document.getElementById(popId);
         }
 
-        let watchOver = e => {
-            if (Magix5.inside(e.relatedTarget, e.currentTarget)) {
-                return;
-            }
-            that['@:{clear.timers}']();
-        }
-        let watchOut = e => {
-            if (Magix5.inside(e.relatedTarget, e.currentTarget)) {
-                return;
-            }
-            that['@:{hide}']();
-        }
-        Magix5.attach(popNode, 'mouseover', watchOver);
-        Magix5.attach(popNode, 'mouseout', watchOut);
-        that.on('destroy', () => {
-            Magix5.detach(popNode, 'mouseover', watchOver);
-            Magix5.detach(popNode, 'mouseout', watchOut);
-
-            // 移除节点
-            that.owner.unmount(popNode);
-            popNode.remove();
-        });
+        // 每次初始化重置样式
+        popNode.className = `@:index.less:mx5-popover--${type} @:index.less:mx5-popover--${posConfigs.placement}`;
     },
 
     '@:{show}'() {
         let that = this;
         that['@:{clear.timers}']();
         that['@:{dealy.show.timer}'] = setTimeout(() => {
-            if (!that['init.node']) {
-                that['init.node'] = true;
+            if (!that.get('init')) {
+                that.set({ init: true });
                 that['@:{init}']();
             }
 
