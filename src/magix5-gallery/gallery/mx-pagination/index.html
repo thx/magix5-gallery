@@ -6,7 +6,7 @@
             <mx-dropdown class="pager-dropdown"
                 *list="{{#sizeStrs}}"
                 *selected="{{=size}}"
-                mx-change="@{change.size}()"
+                mx-change="@:{change.size}()"
                 data-spm-click="{{=spm}}?{{=spm}}dpd"/>
         {{else}}
             &nbsp;{{=size}}条/页&nbsp;
@@ -67,7 +67,7 @@
         mx-focusin="@:{stop.propagation}()"
         mx-focusout="@:{stop.propagation}()"
         data-spm-click="{{=spm}}?{{=spm}}ji"/>&nbsp;页</span>
-    <mx-btn class="pager-btn" mx-click="@{jump}()" data-spm-click="{{=spm}}?{{=spm}}jt"  content="确定"/>
+    <mx-btn class="pager-btn" mx-click="@:{jump}()" data-spm-click="{{=spm}}?{{=spm}}jt"  content="确定"/>
     {{/if}}
 </mx-slot>
 
@@ -151,7 +151,7 @@
                 mx-focusout="@:{stop.propagation}()"
                 data-spm-click="{{=spm}}?{{=spm}}ji"/>
             <span class="mx5-mr10" mx-html="{{=tipJumpUnit}}"></span>
-            <mx-btn *size="small" *content="跳转" mx-click="@{jump}()" data-spm-click="{{=spm}}?{{=spm}}jt" />
+            <mx-btn *size="small" *content="跳转" mx-click="@:{jump}()" data-spm-click="{{=spm}}?{{=spm}}jt" />
         </span>
         {{/if}}
     </div>

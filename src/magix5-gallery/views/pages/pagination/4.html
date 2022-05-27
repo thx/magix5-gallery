@@ -1,32 +1,30 @@
 <div class="example">
     <div class="eg-content">
-        <div class="mx5-mb20 mx5-clearfix">
-            <div class="mx5-fl mx5-color-9">以下示例：</div>
-            <div class="mx5-fl">
-                <div>居中对齐，默认右对齐</div>
-            </div>
+        <div class="eg-content-tip">
+            <div class="eg-content-tip-prefix">以下示例：</div>
+            <div>翻页器默认右对齐，若部分极简版本需要居中对齐或者左对齐，可产考如下实现</div>
         </div>
-        <mx-pagination class="mx5-text-center mx5-mb40"
-            *jump="false"
-            *simplify="true"
-            *hide-total="true"
-            *total="100" 
-            *size="40" 
-            *page="2"/>
+
+        <div class="mx5-mb20 mx5-color-9">居中对齐实现</div>
+        <div class="mx5-mb40">
+            <mx-pagination style="display: flex; justify-content: center;"
+                *simplify="true"
+                *hide-jump="true"
+                *hide-total="true"
+                *total="100" 
+                *size="40" 
+                *page="2"/>
+        </div>
             
-        <div class="mx5-mb20 mx5-clearfix">
-            <div class="mx5-fl mx5-color-9">以下示例：</div>
-            <div class="mx5-fl">
-                <div>左对齐，默认右对齐</div>
-            </div>
+        <div class="mx5-mb20 mx5-color-9">左对齐实现</div>
+        <div class="mx5-mb40">
+            <mx-pagination style="display: flex; justify-content: flex-start;"
+                *mini="true"
+                *hide-total="true"
+                *total="100" 
+                *size="40" 
+                *page="2"/>
         </div>
-        <mx-pagination class="mx5-text-left mx5-mb40"
-            *jump="false"
-            *simplify="true"
-            *hide-total="true"
-            *total="100" 
-            *size="40" 
-            *page="2"/>
     </div>
     <div class="eg-desc">
         <div class="eg-title">居中对齐 HTML Code</div>
@@ -37,7 +35,8 @@
             <i class="mx5-iconfont desc-icon">&#xe610;</i>
         </mx-copy>
         <mx-source whole="true" id="{{=$viewId}}_text_1">
-            <mx-pagination class="mx5-text-center" *jump="false" *simplify="true" *hide-total="true" *total="100"  *size="40"  *page="2"/>
+            <mx-pagination style="display: flex; justify-content: center;" 
+                *simplify="true" *hide-jump="true" *hide-total="true" *total="100"  *size="40"  *page="2"/>
         </mx-source>
     </div>
     <div class="eg-desc">
@@ -49,7 +48,8 @@
             <i class="mx5-iconfont desc-icon">&#xe610;</i>
         </mx-copy>
         <mx-source whole="true" id="{{=$viewId}}_text_2">
-            <mx-pagination class="mx5-text-left" *jump="false" *simplify="true" *hide-total="true" *total="100"  *size="40"  *page="2"/>
+            <mx-pagination style="display: flex; justify-content: flex-start;" 
+                *mini="true" *hide-total="true" *total="100"  *size="40"  *page="2"/>
         </mx-source>
     </div>
 </div>

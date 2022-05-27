@@ -1,30 +1,24 @@
 <div class="example">
     <div class="mx5-clearfix">
         <div class="eg-content flw50">
-            <div class="mx5-mb20 mx5-clearfix">
-                <div class="mx5-fl mx5-color-9">以下示例：</div>
-                <div class="mx5-fl">
-                    <div>顺序翻页显示总条数</div>
-                </div>
+            <div class="eg-content-tip">
+                <div class="eg-content-tip-prefix">以下示例：</div>
+                <div>顺序翻页显示总条数</div>
             </div>
             <mx-pagination 
                 *mini="true"
-                *jump="false"
                 *total="100" 
                 *size="40" 
                 *page="1" />
         </div>
         <div class="eg-content flw50 mx5-blc">
-            <div class="mx5-mb20 mx5-clearfix">
-                <div class="mx5-fl mx5-color-9">以下示例：</div>
-                <div class="mx5-fl">
-                    <div>顺序翻页不显示总条数</div>
-                </div>
+            <div class="eg-content-tip">
+                <div class="eg-content-tip-prefix">以下示例：</div>
+                <div>顺序翻页不显示总条数</div>
             </div>
             <mx-pagination class="mx5-text-right"
-                *hide-total="true"
                 *mini="true"
-                *jump="false"
+                *hide-total="true"
                 *total="100" 
                 *size="40" 
                 *page="1" />
@@ -42,7 +36,6 @@
             <mx-source whole="true" id="{{=$viewId}}_text_1">
                 <mx-pagination 
                     *mini="true"
-                    *jump="false"
                     *total="100" 
                     *size="40" 
                     *page="1" />
@@ -58,9 +51,8 @@
             </mx-copy>
             <mx-source whole="true" id="{{=$viewId}}_text_2">
                 <mx-pagination 
-                    *hide-total="true"
                     *mini="true"
-                    *jump="false"
+                    *hide-total="true"
                     *total="100" 
                     *size="40" 
                     *page="1" />

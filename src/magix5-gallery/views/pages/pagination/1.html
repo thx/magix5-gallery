@@ -14,7 +14,7 @@
             *size="{{=size}}" 
             *page="{{=page}}"
             mx-change="change()" />
-
+    
         <mx-pagination class="mx5-mb40"
             *step="3"
             *sizes-change="false"
@@ -60,27 +60,29 @@
                 <i class="mx5-iconfont desc-icon">&#xe610;</i>
             </mx-copy>
             <mx-source whole="true" id="{{=$viewId}}_text_2">
-                import Magix5 from 'magix5';
-                export default Magix5.View.extend({
-                    tmpl: '@:index.html',
-                    render() {
-                        this.digest({
-                            total: 600,
-                            sizes: [20, 40, 50],
-                            page: 1,
-                            size: 40,
-                        });
-                    },
-                    'change<change>'(e) {
-                        // e.page 当前第几页
-                        // e.size 每页多少条
-                        // e.offset 偏移量
-                        this.digest({
-                            page: e.page,
-                            size: e.size
-                        })
-                    }
-                });
+import Magix5 from 'magix5';
+import View from 'magix5-gallery/views/pages/base/demo';
+
+export default View.extend({
+    tmpl: '@:index.html',
+    render() {
+        this.digest({
+            total: 400000,
+            sizes: [20, 40, 50],
+            page: 1,
+            size: 40,
+        });
+    },
+    'change<change>'(e) {
+        // e.page 当前第几页
+        // e.size 每页多少条
+        // e.offset 偏移量
+        this.digest({
+            page: e.page,
+            size: e.size
+        })
+    }
+});
             </mx-source>
         </div>
     </div>
