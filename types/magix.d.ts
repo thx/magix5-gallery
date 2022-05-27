@@ -10,7 +10,7 @@ declare namespace Magix5 {
     /**
      * 鼠标事件
      */
-    interface MagixMouseEvent extends MouseEvent {
+    interface MagixPointerEvent extends PointerEvent {
         params: {
             [key: string]: any
         },
@@ -28,7 +28,7 @@ declare namespace Magix5 {
     /**
      * 混合鼠标及键盘的事件对象
      */
-    interface MagixMixedEvent extends MouseEvent, KeyboardEvent {
+    interface MagixMixedEvent extends PointerEvent, KeyboardEvent {
         params: {
             [key: string]: any
         },
@@ -721,7 +721,12 @@ declare namespace Magix5 {
          * 获取设置的数据，当key未传递时，返回整个数据对象
          * @param key 设置时的数据key
          */
-        get<TReturnType = any>(key?: string): TReturnType
+        /**
+         * 获取设置的数据，当key未传递时，返回整个数据对象
+         * @param key 数据key，如果未传递则返回整个数据对象
+         * @param defaultValue 默认值，如果传递了该参数且从view中获取到的数据类型如果与defaultValue不一致，则使用defaultValue
+         */
+        get<TReturnType = any>(key?: string, defaultValue?: any): TReturnType
         /**
          * 设置数据
          * @param data 数据对象，如{a:20,b:30}

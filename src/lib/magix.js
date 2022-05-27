@@ -39,6 +39,7 @@ define('magix5', () => {
         关于spliter
         出于安全考虑，使用不可见字符\u0000，然而，window手机上ie11有这样的一个问题：'\u0000'+"abc",结果却是一个空字符串，好奇特。
      */
+    let Undefined = void Counter;
     let Spliter = '\x1e';
     let Prototype = 'prototype';
     let Params = 'params';
@@ -194,6 +195,27 @@ define('magix5', () => {
             }
         }
         return params;
+    };
+    let FetchDataByExpr = (key, dValue, from) => {
+        if (key) {
+            let tks = IsArray(key) ? key.slice() : (key + Empty).split('.'), tk;
+            while ((tk = tks.shift()) &&
+                from) {
+                from = from[tk];
+            }
+            if (tk) {
+                from = Undefined;
+            }
+        }
+        let type;
+        if (dValue !== Undefined &&
+            (type = Type(dValue)) != Type(from)) {
+            if (DEBUG) {
+                console.warn('type neq:' + key + ' is not a(n) ' + type);
+            }
+            from = dValue;
+        }
+        return from;
     };
     let CacheSort = (a, b) => b['@:{cache-item#fre}'] - a['@:{cache-item#fre}'];
     //let CacheCounter = 0;
@@ -2978,12 +3000,8 @@ define('magix5', () => {
                 loc['@:{view-router#observe.params}'] = (params + Empty).split(Comma);
             }
         },
-        get(key, result) {
-            result = this['@:{view.updater.data}'];
-            if (key) {
-                result = result[key];
-            }
-            return result;
+        get(key, dValue) {
+            return FetchDataByExpr(key, dValue, this['@:{view.updater.data}']);
         },
         set(newData) {
             let me = this, oldData = me['@:{view.updater.data}'], keys = me['@:{view.updater.keys}'];
@@ -3066,7 +3084,6 @@ define('magix5', () => {
             return ParseExpr(origin, this.owner['@:{vframe.ref.data}']);
         }
     });
-    let Undefined = void Counter;
     /*
         一个请求send后，应该取消吗？
         参见xmlhttprequest的实现
@@ -3114,7 +3131,6 @@ define('magix5', () => {
     }
     Assign(Bag[Prototype], {
         get(key, dValue) {
-            let me = this;
             //let alen = arguments.length;
             /*
                 目前只处理了key中不包含.的情况，如果key中包含.则下面的简单的通过split('.')的方案就不行了，需要改为：
@@ -3131,29 +3147,7 @@ define('magix5', () => {
     
                 或者key本身就是数组
              */
-            let attrs = me['@:{bag#attrs}'];
-            if (key) {
-                let tks = IsArray(key) ? key.slice() : (key + Empty).split('.'), tk;
-                while ((tk = tks.shift()) &&
-                    attrs) {
-                    attrs = attrs[tk];
-                }
-                if (tk) {
-                    attrs = Undefined;
-                }
-            }
-            let type;
-            if (dValue !== Undefined &&
-                (type = Type(dValue)) != Type(attrs)) {
-                if (DEBUG) {
-                    console.warn('type neq:' + key + ' is not a(n) ' + type);
-                }
-                attrs = dValue;
-            }
-            if (DEBUG && me['@:{bag#meta.info}'] && me['@:{bag#meta.info}']['@:{meta#cache.key}']) { //缓存中的接口不让修改数据
-                attrs = Safeguard(attrs);
-            }
-            return attrs;
+            return FetchDataByExpr(key, dValue, this['@:{bag#attrs}']);
         },
         set(data) {
             Assign(this['@:{bag#attrs}'], data);

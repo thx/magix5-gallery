@@ -8,12 +8,11 @@ export default View.extend({
 	init() {
 		// 所有路由均映射到当前view上，在这里监听路由变化
 		this.observeLocation({
-			path: true
+			path: true,
 		});
 	},
 	async render() {
 		window.scrollTo(0, 0);
-
 		let that = this;
 
 		// 当前路径
