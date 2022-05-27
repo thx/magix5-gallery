@@ -32,7 +32,7 @@ module.exports = {
         }
         //根据当前token，生成排除子token中mx-slot外的其它节点成字符串
         let restHTML = builder.buildInnerHTML(currentToken, baseConfig.exceptSlot);
-        let popover = attrsKV['*icon-tip'] ? (`<mx-popover class="mx5-iconfont mx5-iconfont-tip" style="margin-left: 4px;" *content="${attrsKV['*icon-tip']}">&#xe72f;</mx-popover>`) : '';
+        let popover = attrsKV['*icon-tip'] ? (`<mx-popover class="mx5-iconfont mx5-iconfont-tip" *content="${attrsKV['*icon-tip']}">&#xe72f;</mx-popover>`) : '';
         return `<div ${borderTest} ${baseConfig.processAttrs(attrsKV, styles.join(';'), {
             '*content': 1,
             '*icon-tip': 1,
@@ -62,7 +62,7 @@ module.exports = {
         }, 'mx5-clearfix')}>
             <div style="float: left; display: inline-flex; height: var(--mx5-input-height); overflow: hidden; align-items: center; justify-content: center;">
                 <span class="mx5-layout-title" mx-html="${attrsKV['*content']}"></span>
-                ${attrsKV['*icon-tip'] ? (`<mx-popover class="mx5-iconfont mx5-iconfont-tip" style="margin-left: 4px;" *content="${attrsKV['*icon-tip']}">&#xe72f;</mx-popover>`) : ''}
+                ${attrsKV['*icon-tip'] ? (`<mx-popover class="mx5-iconfont mx5-iconfont-tip" *content="${attrsKV['*icon-tip']}">&#xe72f;</mx-popover>`) : ''}
                 ${attrsKV['*tip'] ? (`<span style="margin-left: 16px; color: #999; font-size: 12px;" mx-html="${attrsKV['*tip']}"></span>`) : ''}
             </div>
             ${attrsKV['*link'] ? (`<a href="${attrsKV['*link']}" target="_blank" class="mx5-layout-title-link" rel="noopener noreferrer">${attrsKV['*link-text'] || '查看详情'}</a>`) : ''}

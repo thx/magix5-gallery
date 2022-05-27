@@ -1,171 +1,228 @@
-.prefix,
-.suffix,
-.input,
-.search-icon,
-.delete-icon {
-    display: inline-block;
-    box-sizing: border-box;
-    font-size: var(--mx5-font-size);
-    background-color: transparent;
-    vertical-align: middle;
-    line-height: var(--mx5-input-small-height);
-}
-
-.prefix {
-    white-space: nowrap;
-    padding-left: var(--mx5-trigger-h-gap);
-    color: #666;
-}
-
-.suffix {
-    white-space: nowrap;
-    padding-right: var(--mx5-trigger-h-gap);
-    color: #999;
-}
-
-/* width: 0;  fix flex中input 150px */
-.input,
-.input:hover,
-.input:focus {
+.mx5-input {
     flex: 1;
+    position: relative;
+    z-index: 2;
+    display: inline-block;
     width: 0;
-    padding: 0 var(--mx5-trigger-h-gap);
-    color: var(--mx5-font-color);
+    max-width: 100%;
+    height: var(--input-height);
+    line-height: calc(var(--input-height) - 2px);
+    margin-right: 1px;
+    margin-left: 1px;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-right: calc(var(--mx5-trigger-h-gap) - 1px);
+    padding-left: calc(var(--mx5-trigger-h-gap) - 1px);
     outline: none;
     border: 0 none;
     box-shadow: none;
+    background-color: transparent;
+    font-size: var(--mx5-trigger-font-size);
+    background-image: none;
+    box-sizing: border-box;
+    color: #333;
+    transition: border-color var(--mx5-duration), background-color var(--mx5-duration), box-shadow var(--mx5-duration);
 }
 
-.search-icon,
-.delete-icon {
-    padding-right: var(--mx5-trigger-h-gap);
-    user-select: none;
-    color: var(--mx5-trigger-icon-color);
-    font-size: 16px;
-    transition: color var(--mx5-animation-duration);
-}
-
-.delete-icon {
-    cursor: pointer;
-
-    &:hover {
-        color: var(--mx5-trigger-icon-color-hover);
-    }
-}
-
-.input-border {
+.mx5-input-border {
     position: absolute;
     left: 0;
     right: 0;
     top: 0;
     bottom: 0;
-    z-index: -1;
+    z-index: 1;
     border-width: 1px;
     border-style: solid;
     border-radius: var(--mx5-border-radius);
-    border-color: var(--mx5-trigger-border-color);
-    background-color: var(--mx5-trigger-bg-color);
-    transition: border-color var(--mx5-animation-duration) ease-out,
-        background-color var(--mx5-animation-duration) ease-out;
     pointer-events: none;
+    background-color: var(--mx5-bg-highlight);
+    border-color: var(--mx5-border-highlight);
+    box-shadow: var(--mx5-border-highlight-shadow);
+    transition: all var(--mx5-duration);
+    overflow: hidden;
+
+    .mx5-input-focus {
+        opacity: 0;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        z-index: -99999;
+        width: 0;
+        padding: 0;
+        border-radius: 100%;
+        background-color: var(--mx5-color-brand);
+        transform: translateX(-50%) translateY(-50%);
+        pointer-events: none;
+    }
 }
 
-.input-focus {
-    opacity: 0;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    z-index: -1;
-    width: 0;
-    padding: 0;
-    border-radius: 100%;
-    background-color: var(--mx5-color-brand);
-    transform: translateX(-50%) translateY(-50%);
-    pointer-events: none;
+/* 展示功能点 or 操作功能点 */
+.mx5-input-prefix-icon,
+.mx5-input-prefix-text,
+.mx5-input-suffix-text,
+.mx5-input-suffix-oper {
+    position: relative;
+    z-index: 3;
+    transition: all var(--mx5-duration);
 }
+
+.mx5-input-prefix-icon {
+    margin-left: var(--mx5-trigger-h-gap);
+    color: var(--mx5-trigger-prefix-icon);
+}
+
+.mx5-input-prefix-text {
+    margin-left: var(--mx5-trigger-h-gap);
+    color: var(--mx5-trigger-prefix-text);
+}
+
+.mx5-input-suffix-text {
+    margin-right: var(--mx5-trigger-h-gap);
+    color: var(--mx5-trigger-prefix-text);
+}
+
+/* 操作功能点 */
+.mx5-input-suffix-oper {
+    margin-right: var(--mx5-trigger-h-gap);
+    color: var(--mx5-input-arrow-color);
+    cursor: pointer;
+    user-select: none;
+
+    &:hover {
+        color: var(--mx5-input-arrow-color-hover);
+    }
+}
+
+.mx5-input-suffix-search {
+    position: relative;
+    z-index: 3;
+    width: 40px;
+    height: var(--mx5-input-height);
+    color: #fff;
+    cursor: pointer;
+    user-select: none;
+    transition: all var(--mx5-duration);
+    border-top-right-radius: var(--mx5-border-radius);
+    border-bottom-right-radius: var(--mx5-border-radius);
+    background-color: var(--mx5-color-brand);
+    background-image: linear-gradient(-90deg, var(--mx5-color-brand) 0%, var(--mx5-color-brand-gradient) 100%);
+    text-align: center;
+    line-height: var(--mx5-input-height);
+    transition: all var(--mx5-duration);
+}
+
+.mx5-input-wrapper {
+    flex: 1;
+    display: inline-flex;
+    align-items: center;
+    position: relative;
+    height: var(--mx5-input-height);
+
+    &:hover {
+        .mx5-input {
+            border: 0 none;
+            box-shadow: none;
+            background-color: transparent;
+
+            &~.mx5-input-border {
+                border-color: var(--mx5-border-highlight-hover);
+                background-color: var(--mx5-bg-highlight-hover);
+                box-shadow: var(--mx5-border-highlight-shadow-hover);
+            }
+        }
+    }
+
+    .mx5-input:focus {
+        border: 0 none;
+        box-shadow: none;
+        background-color: transparent;
+
+        &~.mx5-input-border {
+            border-color: var(--mx5-border-highlight-active);
+            background-color: var(--mx5-bg-highlight-active);
+            box-shadow: var(--mx5-border-highlight-shadow-active);
+
+            .mx5-input-focus {
+                z-index: 10;
+                animation: mx5-trigger-expand var(--mx5-comp-expand-amin-timer) var(--mx5-comp-expand-amin-ease);
+                animation-fill-mode: backwards;
+            }
+        }
+    }
+}
+
+.mx5-input-searches-dd {
+    :global(.mx5-trigger) {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+    &:hover :global(.mx5-trigger) {
+        border-right-color: var(--mx5-border-highlight-hover);
+    }
+
+    :global(.mx5-trigger-show),
+    :global(.mx5-trigger-show):hover {
+        z-index: 5;
+        border-right-color: var(--mx5-border-highlight-active);
+    }
+}
+
+.mx5-input-searches-wrapper {
+    z-index: 4;
+    margin-left: -1px;
+
+    .mx5-input-border {
+        border-left-color: var(--mx5-input-gap-border);
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+}
+
 
 [mx5-view*="mx-input/index"] {
     position: relative;
     display: inline-flex;
-    min-width: var(--mx5-trigger-min-width);
-    height: var(--mx5-input-height);
-    align-items: center;
-    vertical-align: middle;
     max-width: 100%;
-    font-size: 0;
-    overflow: hidden;
+    min-width: var(--mx5-trigger-min-width, 96px);
+    vertical-align: middle;
 
+    &[mx5-view*="size=small"],
     &[mx5-view*="small=true"] {
-        min-width: var(--mx5-trigger-small-min-width);
-        height: var(--mx5-input-small-height);
+        --mx5-input-height: var(--mx5-input-small-height);
+        --mx5-border-radius: var(--mx5-border-small-radius);
+        --mx5-trigger-v-gap: var(--mx5-trigger-small-v-gap);
+        --mx5-trigger-h-gap: var(--mx5-trigger-small-h-gap);
+        --mx5-trigger-min-width: var(--mx5-trigger-small-min-width);
+        --mx5-trigger-font-size: var(--mx5-trigger-small-font-size);
+    }
+
+    &[mx5-view*="size=large"] {
+        --mx5-input-height: var(--mx5-input-large-height);
+        --mx5-border-radius: var(--mx5-border-large-radius);
+        --mx5-trigger-v-gap: var(--mx5-trigger-large-v-gap);
+        --mx5-trigger-h-gap: var(--mx5-trigger-large-h-gap);
+        --mx5-trigger-min-width: var(--mx5-trigger-large-min-width);
+        --mx5-trigger-font-size: var(--mx5-trigger-large-font-size);
     }
 
     &:hover {
-        .input-border {
-            border-color: var(--mx5-trigger-border-color-hover);
-            background-color: var(--mx5-trigger-bg-color-hover);
-        }
-
-        /* delete 不需要高亮 https://work.aone.alibaba-inc.com/issue/33906120 */
-        .search-icon {
-            color: var(--mx5-trigger-icon-color-hover);
-        }
-    }
-
-    .input:focus {
-        caret-color: var(--mx5-color-brand);
-
-        &~.input-border {
-            border-color: var(--mx5-trigger-border-color-hover);
-            background-color: var(--mx5-trigger-bg-color-hover);
-        }
-
-        &~.input-focus {
-            z-index: 10;
-            animation: mx5-trigger-expand var(--mx5-animation-expand-timer) var(--mx5-animation-expand-ease);
-            animation-fill-mode: backwards;
-        }
-
-        /* delete 不需要高亮 https://work.aone.alibaba-inc.com/issue/33906120 */
-        &~.search-icon {
-            color: var(--mx5-trigger-icon-color-hover);
+        .mx5-input-searches-wrapper {
+            .mx5-input-border {
+                border-left-color: var(--mx5-border-highlight-hover);
+            }
         }
     }
 
     &[mx5-view*="disabled=true"] {
+        opacity: var(--mx5-comp-disabled-opacity);
         cursor: not-allowed;
 
-        &::after {
-            opacity: .6;
-            content: ' ';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #fff;
-            border-radius: var(--mx5-border-radius);
-            z-index: 1;
-        }
-
-        .prefix,
-        .suffix,
-        .input,
-        .input-border {
+        .mx5-input-searches-dd,
+        .mx5-input-wrapper,
+        >* {
             pointer-events: none;
-        }
-
-        .search-icon,
-        .delete-icon {
-            pointer-events: none;
-            color: var(--mx5-trigger-icon-color);
-        }
-
-        &:hover {
-            .input-border {
-                border-color: var(--mx5-trigger-border-color);
-                background-color: var(--mx5-trigger-bg-color);
-            }
+            user-select: none;
         }
     }
 }

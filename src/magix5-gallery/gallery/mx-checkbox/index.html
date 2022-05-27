@@ -1,26 +1,24 @@
 {{if text}}
-<label class="checkbox-label">
-    <input class="checkbox {{if indeterminate}} indeterminate {{/if}}" type="checkbox" 
-        checked="{{=checked}}?"
-        disabled="{{=disabled}}?"
-        name="{{=name}}"
-        value="{{=value}}"
-        mx-change="@:{change}()"/>
-    {{if text}}
-    <span class="checkbox-text" mx-html="{{=text}}"></span>
-    {{/if}}
-    {{if tagContent}}
-    <span class="checkbox-tag mx5-tag {{if disabled}} mx5-tag-disabled {{/if}}" 
-        style="background-color: {{=tagColor}}; border: 1px solid {{=tagColor}};">
-        <span class="mx5-tag-name" mx-html="{{=tagContent}}"></span>
-    </span>
-    {{/if}}
+    <label class="mx5-checkbox-label">
+        <input class="mx5-checkbox {{if indeterminate}} mx5-checkbox-indeterminate {{/if}}" type="checkbox" 
+            checked="{{=checked}}?"
+            disabled="{{=disabled}}?"
+            name="{{=name}}"
+            value="{{=value}}"
+            mx-change="@:{change}()"/>
+        <span mx-html="{{=text}}"></span>
+        {{if tagContent}}
+        <span class="mx5-checkbox-tag mx5-tag" 
+            style="{{if tagColor}} background-color: {{=tagColor}}; border: 1px solid {{=tagColor}}; {{/if}}">
+            <span class="mx5-tag-name" mx-html="{{=tagContent}}"></span>
+        </span>
+        {{/if}}
+    </label>
     {{if tip}}
-    <mx-popover class="checkbox-pop mx5-iconfont mx5-iconfont-tip" *content="{{=tip}}">&#xe72f;</mx-popover>
+    <mx-popover class="mx5-iconfont mx5-checkbox-pop" *content="{{=tip}}">&#xe72f;</mx-popover>
     {{/if}}
-</label>
 {{else}}
-<input class="checkbox {{if indeterminate}} indeterminate {{/if}}" type="checkbox" 
+<input class="mx5-checkbox {{if indeterminate}} mx5-checkbox-indeterminate {{/if}}" type="checkbox" 
     checked="{{=checked}}?"
     disabled="{{=disabled}}?"
     name="{{=name}}"

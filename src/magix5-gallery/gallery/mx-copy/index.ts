@@ -1,6 +1,7 @@
 import Magix5 from 'magix5';
 import View from '../mx-base/view';
 import * as Clipboard from './clipboard';
+Magix5.applyStyle('@:index.less');
 
 export default View.extend({
     init(options) {

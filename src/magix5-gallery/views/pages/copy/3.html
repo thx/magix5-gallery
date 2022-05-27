@@ -1,25 +1,23 @@
 <div class="example">
     <div class="eg-content">
-        <div class="mx5-mb20 mx5-clearfix">
-            <div class="mx5-fl mx5-color-9">以下示例：</div>
-            <div class="mx5-fl">
-                <div>被复制内容需要根据操作动态判断，则可配置 text-fn 传入一个 function 处理</div>
-                <div class="mx5-color-brand">注意：text-fn 暂不支持包含异步处理逻辑</div>
-            </div>
+        <div class="eg-content-tip">
+            <div class="eg-content-tip-prefix">以下示例：</div>
+            <div>被复制内容需要根据操作动态判断，则可配置 text-fn 传入一个 function 处理</div>
+            <div class="mx5-color-brand">注意：text-fn 暂不支持包含异步处理逻辑</div>
         </div>
         <div class="mx5-mb20 mx5-clearfix">
             <mx-copy class="mx5-mr10"
                 *text-fn="{{#textFn}}" 
                 mx-success="copy()"
                 mx-error="copy()">
-                <mx-btn *content="复制1"/>
+                <mx-btn *content="复制1" *mode="primary"/>
             </mx-copy>
     
             <mx-copy 
                 *text-fn="{{#textFn}}" 
                 mx-success="copy()"
                 mx-error="copy()">
-                <mx-btn *content="复制2"/>
+                <mx-btn *content="复制2" *mode="primary"/>
             </mx-copy>
     
             {{if successText}}
@@ -45,14 +43,14 @@
                     *text-fn="{{#textFn}}" 
                     mx-success="copy()"
                     mx-error="copy()">
-                    <mx-btn *content="复制1"/>
+                    <mx-btn *content="复制1" *mode="primary"/>
                 </mx-copy>
     
                 <mx-copy 
                     *text-fn="{{#textFn}}" 
                     mx-success="copy()"
                     mx-error="copy()">
-                    <mx-btn *content="复制2"/>
+                    <mx-btn *content="复制2" *mode="primary"/>
                 </mx-copy>
     
                 {{if successText}}

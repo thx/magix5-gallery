@@ -16,8 +16,9 @@ export default View.extend({
     },
 
     assign(options) {
-        let showDelay = options.showDelay || 100,
-            hideDelay = options.hideDelay || 200;
+        let { constants } = this.get();
+        let showDelay = options.showDelay || constants.showDelay,
+            hideDelay = options.hideDelay || constants.hideDelay;
 
         // type(样式)：dark 深底色，white 白底色
         let type = options.type || 'white';
@@ -66,6 +67,7 @@ export default View.extend({
         let auto = options.auto + '' === 'true';
 
         this.set({
+            init: false, // 入参改动是重置trigger样式
             showDelay,
             hideDelay,
             type,
@@ -78,7 +80,6 @@ export default View.extend({
     },
 
     render() {
-        // await this.digest();
         this.digest();
 
         // 默认展开显示框
@@ -94,48 +95,58 @@ export default View.extend({
         if (!Magix5.node(popId)) {
             popNode = document.createElement('div');
             popNode.id = popId;
-            popNode.className = `@:index.less:mx5-popover--${type} @:index.less:mx5-popover--${posConfigs.placement}`;
-            popNode.setAttribute('style', `width: ${posConfigs.width}px;`);
             document.body.appendChild(popNode);
+
+            let watchOver = e => {
+                if (Magix5.inside(e.relatedTarget, e.currentTarget)) {
+                    return;
+                }
+                that['@:{clear.timers}']();
+            }
+            let watchOut = e => {
+                if (Magix5.inside(e.relatedTarget, e.currentTarget)) {
+                    return;
+                }
+                that['@:{hide}']();
+            }
+
+            Magix5.attach(popNode, 'mouseover', watchOver);
+            Magix5.attach(popNode, 'mouseout', watchOut);
+
+            that.on('destroy', () => {
+                Magix5.detach(popNode, 'mouseover', watchOver);
+                Magix5.detach(popNode, 'mouseout', watchOut);
+
+                // 移除节点
+                that.owner.unmount(popNode);
+                popNode.remove();
+            });
+        } else {
+            popNode = Magix5.node<HTMLElement>(popId);
         }
 
-        let watchOver = e => {
-            if (Magix5.inside(e.relatedTarget, e.currentTarget)) {
-                return;
-            }
-            that['@:{clear.timers}']();
-        }
-        let watchOut = e => {
-            if (Magix5.inside(e.relatedTarget, e.currentTarget)) {
-                return;
-            }
-            that['@:{hide}']();
-        }
-        Magix5.attach(popNode, 'mouseover', watchOver);
-        Magix5.attach(popNode, 'mouseout', watchOut);
-        that.on('destroy', () => {
-            Magix5.detach(popNode, 'mouseover', watchOver);
-            Magix5.detach(popNode, 'mouseout', watchOut);
-
-            // 移除节点
-            that.owner.unmount(popNode);
-            popNode.remove();
-        });
+        // 每次初始化重置样式
+        popNode.className = `@:index.less:mx5-popover--${type} @:index.less:mx5-popover--${posConfigs.placement}`;
+        popNode.setAttribute('style', `width: ${posConfigs.width}px;`);
     },
 
     '@:{show}'() {
         let that = this;
         that['@:{clear.timers}']();
         that['@:{dealy.show.timer}'] = setTimeout(() => {
-            if (!that['init.node']) {
-                that['init.node'] = true;
+            if (!that.get('init')) {
+                that.set({ init: true });
                 that['@:{init}']();
             }
 
             if (that.get('show')) {
                 return;
             }
-            that.set({ show: true });
+
+            // trigger样式更新
+            that.set({
+                show: true
+            });
 
             // 每次展开重新渲染内容
             let { popId, content, view, viewData, posConfigs } = that.get();
@@ -157,7 +168,11 @@ export default View.extend({
                 return;
             }
 
-            that.set({ show: false });
+            // trigger样式更新
+            that.set({
+                show: false
+            });
+
             // 内容隐藏
             let vf = that['@:{pop.vframe}'];
             if (vf) {

@@ -28,13 +28,33 @@ export default View.extend({
             type: 'array',
             def: '[10,20,30,40]'
         }, {
-            value: 'jump',
-            text: '是否有快捷跳转',
-            type: 'boolean',
-            def: 'true'
+            value: 'step',
+            text: '页码过多时，中间显示多少条页码',
+            type: 'number',
+            def: '5'
         }, {
             value: 'simplify',
-            text: '只有翻页器，没有汇总数据版本',
+            text: '只有翻页器，没有汇总数据版本，默认对应<br/>hide-jump=false<br/>hide-detail-total=true<br/>hide-total=false',
+            type: 'boolean',
+            def: 'false'
+        }, {
+            value: 'mini',
+            text: '顺序翻页版本，默认对应<br/>hide-jump=true<br/>hide-detail-total=true<br/>hide-total=false',
+            type: 'boolean',
+            def: 'false'
+        }, {
+            value: 'hide-jump',
+            text: '是否隐藏快捷跳转',
+            type: 'boolean',
+            def: 'false'
+        }, {
+            value: 'hide-detail-total',
+            text: '是否隐藏左侧详情汇总',
+            type: 'boolean',
+            def: 'false'
+        }, {
+            value: 'hide-total',
+            text: '是否隐藏右侧极简汇总',
             type: 'boolean',
             def: 'false'
         }, {
@@ -42,22 +62,7 @@ export default View.extend({
             text: '是否可切换分页数',
             type: 'boolean',
             def: 'true'
-        }, {
-            value: 'mini',
-            text: '顺序翻页版本',
-            type: 'boolean',
-            def: 'false'
-        }, {
-            value: 'step',
-            text: '页码过多时，中间显示多少条页码',
-            type: 'number',
-            def: '5'
-        }, {
-            value: 'mode',
-            text: '展现样式<br/>mode=square：方形版<br/>mode=circle：圆形版',
-            type: 'string',
-            def: 'square'
-        }]
+        }];
 
         let events = [{
             type: 'change',
@@ -79,26 +84,20 @@ export default View.extend({
 
         let columns = [{
             text: '完整版',
-            path: 1
+            path: 1,
         }, {
             text: '精简版',
-            path: 2
+            path: 2,
         }, {
             text: '顺序翻页',
-            path: 3
+            path: 3,
         }, {
             text: 'offset or page',
-            path: 5
+            path: 5,
         }, {
             text: '对齐方式',
-            path: 4
+            path: 4,
         }];
-
-        // {
-        //     text: '各种展现样式',
-        //     path: 6
-        // }
-
 
         this.set({
             apis,

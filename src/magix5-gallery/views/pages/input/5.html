@@ -1,0 +1,40 @@
+<div class="example">
+    <div class="eg-content">
+        <div class="eg-content-tip">
+            <div class="eg-content-tip-prefix">以下示例：</div>
+            <div>配置maxlength表示可输入字符上限，<span class="mx5-color-brand">注意此处仅做计数样式，校验逻辑依然见mx-form</span></div>
+        </div>
+    
+        <div class="mx5-mb20">
+            <span class="mx5-color-9 mx5-inline-block mx5-w120">计数</span>
+            <mx-input class="mx5-w200" 
+                *maxlength="4" 
+                *placeholder="最多四个字符"  
+                *value="{{=value1}}" 
+                mx-change="change({index:1})"/>
+            <span class="mx5-ml20"><span class="mx5-color-9">当前输入：</span>{{=value1}}</span>
+        </div>
+        <div class="mx5-mb20">
+            <span class="mx5-color-9 mx5-inline-block mx5-w120">计数 + 一键移除</span>
+            <mx-input class="mx5-w200" 
+                *maxlength="4" 
+                *suffix="delete" 
+                *placeholder="最多四个字符"  
+                *value="{{=value2}}"
+                mx-change="change({index:2})"/>
+            <span class="mx5-ml20"><span class="mx5-color-9">当前输入：</span>{{=value2}}</span>
+        </div>
+    </div>
+    <div class="eg-desc">
+        <div class="eg-title">HTML Code</div>
+        <mx-copy class="desc-oper" 
+            *copy-node="{{=$viewId}}_text_1" 
+            mx-success="@:{done}({id:1})">
+            <span class="desc-tip" mx-html="{{=text1}}"></span>
+            <i class="mx5-iconfont desc-icon">&#xe610;</i>
+        </mx-copy>
+        <mx-source whole="true" id="{{=$viewId}}_text_1">
+            <mx-input class="mx5-w200" *type="search" *placeholder="请输入"/>
+        </mx-source>
+    </div>
+</div>

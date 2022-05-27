@@ -5,7 +5,14 @@ export default View.extend({
     tmpl: '@:3.html',
     render() {
         this.digest({
-            value: '',
+            value1: '',
+            value2: '',
+            value3: '',
+        })
+    },
+    'change<change>'(e) {
+        this.digest({
+            [`value${e.params.index}`]: e.value
         })
     }
 })

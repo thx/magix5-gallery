@@ -1,14 +1,24 @@
 <div class="example">
     <div class="eg-content">
-        <div class="mx5-mb20">
-            <div class="mx5-mb20 mx5-clearfix">
-                <div class="mx5-fl mx5-color-9">以下示例：</div>
-                <div class="mx5-fl">
-                    <div>分组 + 单选</div>
-                    <div>单选默认选中第一个</div>
-                </div>
-            </div>
-            
+        <div class="eg-content-tip">
+            <div class="eg-content-tip-prefix">以下示例：</div>
+            <div class="mx5-mb10">自定义展示字段text-key，提交值value-key</div>
+            <mx-dropdown 
+                *text-key="name"
+                *value-key="id"
+                *selected="2"
+                *list="{{#[{id:1,name:'选择1'},{id:2,name:'选择2'}]}}"
+                mx-change="change()"/>
+        </div>
+        <div class="eg-content-tip">
+            <div class="eg-content-tip-prefix">当前选中：</div>
+            <div class="mx5-mb10">支持text-key = value-key</div>
+            <mx-dropdown
+                *text-key="id"
+                *value-key="id"
+                *selected="2"
+                *list="{{#[{id:1},{id:2}]}}" 
+                mx-change="change()"/>
         </div>
     </div>
     <div class="eg-desc">
@@ -20,7 +30,19 @@
             <i class="mx5-iconfont desc-icon">&#xe610;</i>
         </mx-copy>
         <mx-source whole="true" id="{{=$viewId}}_text_1">
-            
+            <mx-dropdown 
+                *text-key="name"
+                *value-key="id"
+                *selected="2"
+                *list="{{#[{id:1,name:'选择1'},{id:2,name:'选择2'}]}}"
+                mx-change="change()"/>
+
+            <mx-dropdown
+                *text-key="id"
+                *value-key="id"
+                *selected="2"
+                *list="{{#[{id:1},{id:2}]}}" 
+                mx-change="change()"/>
         </mx-source>
     </div>
 </div>    

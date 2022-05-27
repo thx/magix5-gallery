@@ -158,7 +158,12 @@ export default Magix5.View.extend({
         let spm = attrs['data-spm-click']?.value || null;
 
         this.set({
-            spm
+            spm,
+            constants: {
+                showDelay: 100,
+                hideDelay: 200,
+                searchDelay: 200,
+            }
         });
     },
     '@:{mx.style.offset}'(target) {

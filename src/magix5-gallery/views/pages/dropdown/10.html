@@ -1,25 +1,31 @@
 <div class="example">
     <div class="eg-content">
-        <div class="mx5-mb20">
-            <div class="mx5-mb20 mx5-clearfix">
-                <div class="mx5-fl mx5-color-9">以下示例：</div>
-                <div class="mx5-fl">
-                    <div>支持配置prefix添加前缀</div>
-                    <div>选择提示信息为 tip || text</div>
-                </div>
-            </div>
-            <mx-dropdown class="mx5-w200" 
-                *prefix="数字"
-                *list="{{#[{
-                    text: 1,
-                    value: 1,
-                    tip: '数字1'
-                },{
-                    text: 2,
-                    value: 2,
-                    tip: '数字2'
-                }]}}" 
-                selected="2" />
+        <div class="eg-content-tip mx5-pb20">
+            <div class="eg-content-tip-prefix">以下示例：</div>
+            <div class="mx5-mb10">配置size=small展示为小尺寸</div>
+            <mx-dropdown 
+                *size="small"
+                *list="{{#[1,2,3]}}" 
+                *selected="{{=selected1}}"
+                mx-change="change({index: 1})"/>
+        </div>
+        <div class="eg-content-tip mx5-pb20">
+            <div class="eg-content-tip-prefix">以下示例：</div>
+            <div class="mx5-mb10">配置size=normal展示为正常尺寸</div>
+            <mx-dropdown 
+                *size="normal"
+                *list="{{#[1,2,3]}}" 
+                *selected="{{=selected2}}"
+                mx-change="change({index: 2})"/>
+        </div>
+        <div class="eg-content-tip">
+            <div class="eg-content-tip-prefix">以下示例：</div>
+            <div class="mx5-mb10">配置size=large展示为大尺寸</div>
+            <mx-dropdown 
+                *size="large"
+                *list="{{#[1,2,3]}}" 
+                *selected="{{=selected3}}"
+                mx-change="change({index: 3})"/>
         </div>
     </div>
     <div class="eg-desc">
@@ -31,18 +37,23 @@
             <i class="mx5-iconfont desc-icon">&#xe610;</i>
         </mx-copy>
         <mx-source whole="true" id="{{=$viewId}}_text_1">
-            <mx-dropdown class="mx5-w200" 
-                *prefix="数字"
-                *list="{{#[{
-                    text: 1,
-                    value: 1,
-                    tip: '数字1'
-                },{
-                    text: 2,
-                    value: 2,
-                    tip: '数字2'
-                }]}}" 
-                selected="2" />
+            <!-- 小尺寸  -->
+            <mx-dropdown 
+                <mx-source-origin><span class="mx5-color-brand">*size="small"</span></mx-source-origin>
+                *list="{{#[1,2,3]}}" 
+                *selected="{{=selected}}" />
+
+            <!-- 常规尺寸 -->
+            <mx-dropdown 
+                <mx-source-origin><span class="mx5-color-brand">*size="normal"</span></mx-source-origin>
+                *list="{{#[1,2,3]}}" 
+                *selected="{{=selected}}" />
+
+            <!-- 大尺寸 -->
+            <mx-dropdown 
+                <mx-source-origin><span class="mx5-color-brand">*size="large"</span></mx-source-origin>
+                *list="{{#[1,2,3]}}" 
+                *selected="{{=selected}}" />
         </mx-source>
     </div>
 </div>

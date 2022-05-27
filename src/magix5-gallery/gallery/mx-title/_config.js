@@ -9,13 +9,16 @@ let ignores = {
 module.exports = {
     'mx-title'(i, builder) {
         let { attrsKV, content, tokensMap, id } = i;
+
+        // 需要考虑mode为变量的情况，如<mx-title *mode="{{=mode}}"/>
         let mode = attrsKV['*mode'] || 'first';
-        //需要考虑mode为变量的情况，如<mx-title *mode="{{=mode}}"/>
-        let modeClass = `@:./index.less:title--${mode}`
-        //从tokensMap中拿出当前节点原始token
+        let modeClass = `@:./index.less:title--${mode}`;
+
+        // 从tokensMap中拿出当前节点原始token
         let currentToken = tokensMap[id];
         let tipSlotValue = baseConfig.getSlotInnerHTMLByName(currentToken, 'tip', builder);
-        //优先使用属性*content的内容
+
+        // 优先使用属性*content的内容
         if (attrsKV['*content']) {
             content = attrsKV['*content'];
         } else {

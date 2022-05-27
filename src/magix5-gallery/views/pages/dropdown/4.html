@@ -1,20 +1,62 @@
 <div class="example">
     <div class="eg-content">
-        <div class="mx5-mb20">
-            <div class="mx5-mb20 mx5-clearfix">
-                <div class="mx5-fl mx5-color-9">以下示例：</div>
-                <div class="mx5-fl">
-                    <div>小尺寸展示</div>
-                </div>
+        <div class="eg-content-tip mx5-pb20">
+            <div class="eg-content-tip-prefix">以下示例：</div>
+            <div>单选部分选项禁用</div>
+            <div class="color-brand">默认选中非禁用第一个</div>
+            <div class="mx5-mb10">配置disabledTip，hover显示禁用原因</div>
+            <div>
+                <mx-dropdown class="mx5-w200" 
+                    *parents="{{#[{
+                        value:1,
+                        text:'第一组'
+                    },{
+                        value:2,
+                        text:'第二组'
+                    }]}}"
+                    *list="{{#[{
+                        value:1,
+                        text:'禁用1，hover原因',
+                        disabled: true,
+                        disabledTip: '显示禁用原因',
+                        pValue: 1
+                    },{
+                        value: 2,
+                        text:'选项2',
+                        pValue: 1
+                    },{
+                        value: 3,
+                        text:'禁用3',
+                        disabled: true,
+                        pValue: 2
+                    },{
+                        value: 4,
+                        text:'选项4',
+                        pValue: 1
+                    },{
+                        value: 5,
+                        text:'选项5',
+                        pValue: 2
+                    }]}}" 
+                    *selected="{{=selected}}"
+                    mx-change="change()"/>
+    
+                <span class="mx5-color-9 mx5-ml20">当前选中：</span>
+                <span>{{=selected}}</span>
             </div>
-            <mx-dropdown class="mx5-w100"
-                *small="true"
+        </div>
+
+        <div class="eg-content-tip">
+            <div class="eg-content-tip-prefix">以下示例：</div>
+            <div class="mx5-mb10">整体禁用</div>
+            <mx-dropdown class="mx5-w200" 
+                *disabled="true"
                 *list="{{#[1,2,3]}}" 
-                *selected="2" />
+                *selected="2"/>
         </div>
     </div>
     <div class="eg-desc">
-        <div class="eg-title">HTML Code</div>
+        <div class="eg-title">部分禁用</div>
         <mx-copy class="desc-oper" 
             *copy-node="{{=$viewId}}_text_1" 
             mx-success="@:{done}({id:1})">
@@ -22,10 +64,55 @@
             <i class="mx5-iconfont desc-icon">&#xe610;</i>
         </mx-copy>
         <mx-source whole="true" id="{{=$viewId}}_text_1">
-            <mx-dropdown class="mx5-w100"
-                *small="true"
+            <mx-dropdown class="mx5-w200" 
+                *parents="{{#[{
+                    value:1,
+                    text:'第一组'
+                },{
+                    value:2,
+                    text:'第二组'
+                }]}}"
+                *list="{{#[{
+                    value:1,
+                    text:'禁用1，hover原因',
+                    disabled: true,
+                    disabledTip: '显示禁用原因',
+                    pValue: 1
+                },{
+                    value: 2,
+                    text:'选项2',
+                    pValue: 1
+                },{
+                    value: 3,
+                    text:'禁用3',
+                    disabled: true,
+                    pValue: 2
+                },{
+                    value: 4,
+                    text:'选项4',
+                    pValue: 1
+                },{
+                    value: 5,
+                    text:'选项5',
+                    pValue: 2
+                }]}}" 
+                *selected="{{=selected}}"
+                mx-change="change()"/>
+        </mx-source>
+    </div>
+    <div class="eg-desc">
+        <div class="eg-title">整体禁用</div>
+        <mx-copy class="desc-oper" 
+            *copy-node="{{=$viewId}}_text_2" 
+            mx-success="@:{done}({id:2})">
+            <span class="desc-tip" mx-html="{{=text2}}"></span>
+            <i class="mx5-iconfont desc-icon">&#xe610;</i>
+        </mx-copy>
+        <mx-source whole="true" id="{{=$viewId}}_text_2">
+            <mx-dropdown class="mx5-w200" 
+                *disabled="true"
                 *list="{{#[1,2,3]}}" 
-                *selected="2" />
+                *selected="2"/>
         </mx-source>
     </div>
 </div>

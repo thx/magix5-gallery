@@ -1,0 +1,90 @@
+<div class="example">
+    <div class="eg-content">
+        <div class="eg-content-tip">
+            <div class="eg-content-tip-prefix">以下示例：</div>
+            <div>mx-配置size展示不同的尺寸</div>
+        </div>
+
+        <div class="mx5-mb40">
+            <span class="mx5-color-9 mx5-inline-block mx5-w120">小尺寸</span>
+            
+            <!-- 【前缀】搜索框 -->
+            <mx-input class="mx5-w160 mx5-mr20" *size="small" *prefix="search" *placeholder="请输入"  *value="{{=value}}" />
+                
+            <!-- 【后缀】强调搜索框-->
+            <mx-input class="mx5-w160 mx5-mr20" *size="small" *suffix="search" *placeholder="请输入"  *value="{{=value}}"/>
+
+            <!-- 【后缀】一键移除 -->
+            <mx-input class="mx5-w160 mx5-mr20" *size="small" *suffix="delete" *placeholder="请输入"  *value="{{=value}}"/>
+
+            <mx-input class="mx5-w200"
+                *size="small"
+                *search-list="{{#searchList}}"
+                *search-value="{{=searchValue1}}"
+                *prefix="search"
+                *placeholder="请输入"  
+                *value="{{=value1}}"/>
+        </div>
+
+        <div class="mx5-mb40">
+            <span class="mx5-color-9 mx5-inline-block mx5-w120">常规尺寸(默认)</span>
+            
+            <!-- 【前缀】搜索框 -->
+            <mx-input class="mx5-w160 mx5-mr20" *prefix="search" *placeholder="请输入"  *value="{{=value}}" />
+                
+            <!-- 【后缀】强调搜索框-->
+            <mx-input class="mx5-w160 mx5-mr20" *suffix="search" *placeholder="请输入"  *value="{{=value}}"/>
+
+            <!-- 【后缀】一键移除 -->
+            <mx-input class="mx5-w160 mx5-mr20" *suffix="delete" *placeholder="请输入"  *value="{{=value}}"/>
+
+            <mx-input class="mx5-w200"
+                *search-list="{{#searchList}}"
+                *search-value="{{=searchValue1}}"
+                *prefix="search"
+                *placeholder="请输入"  
+                *value="{{=value1}}"/>
+        </div>
+
+        <div class="mx5-mb20">
+            <span class="mx5-color-9 mx5-inline-block mx5-w120">大尺寸</span>
+
+            <!-- 【前缀】搜索框 -->
+            <mx-input class="mx5-w160 mx5-mr20" *size="large" *prefix="search" *placeholder="请输入"  *value="{{=value}}" />
+                
+            <!-- 【后缀】强调搜索框-->
+            <mx-input class="mx5-w160 mx5-mr20" *size="large" *suffix="search" *placeholder="请输入"  *value="{{=value}}"/>
+
+            <!-- 【后缀】一键移除 -->
+            <mx-input class="mx5-w160 mx5-mr20" *size="large" *suffix="delete" *placeholder="请输入"  *value="{{=value}}"/>
+
+            <mx-input class="mx5-w200"
+                *size="large"
+                *search-list="{{#searchList}}"
+                *search-value="{{=searchValue1}}"
+                *prefix="search"
+                *placeholder="请输入"  
+                *value="{{=value1}}"/>
+        </div>
+    </div>
+    <div class="eg-desc">
+        <div class="eg-title">HTML Code</div>
+        <mx-copy class="desc-oper" 
+            *copy-node="{{=$viewId}}_text_1" 
+            mx-success="@:{done}({id:1})">
+            <span class="desc-tip" mx-html="{{=text1}}"></span>
+            <i class="mx5-iconfont desc-icon">&#xe610;</i>
+        </mx-copy>
+        <mx-source whole="true" id="{{=$viewId}}_text_1">
+            <!-- 正常尺寸 -->
+            <mx-input class="mx5-w200" *placeholder="请输入"  *value="{{=value}}" />
+            <mx-input class="mx5-w200" *size="normal" *placeholder="请输入"  *value="{{=value}}" />
+
+            <!-- 小尺寸 -->
+            <mx-input class="mx5-w200" *size="small" *placeholder="请输入"  *value="{{=value}}" />
+
+            <!-- 大尺寸 -->
+            <mx-input class="mx5-w200" *size="large" *placeholder="请输入"  *value="{{=value}}" />
+        </mx-source>
+    </div>
+</div>

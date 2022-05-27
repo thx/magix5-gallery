@@ -7,8 +7,6 @@ export default View.extend({
         this.digest({
             value1: '',
             value2: '',
-            value3: '',
-            value4: '',
         })
     },
     'change<change>'(e) {

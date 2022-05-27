@@ -1,6 +1,23 @@
-<div class="mx5-trigger {{if show}} mx5-trigger-open {{/if}}" 
+<div id="toggle_{{=$viewId}}" 
+    class="{{if (mode == 'tag' && multiple && selectedItems.length > 0)}} tag-trigger {{/if}} mx5-trigger {{if show}} mx5-trigger-show {{/if}}"
     data-animation="trigger" mx5-animation="{{=animation}}??">
-    {{if contentData.prefix}}<span class="mx5-color-9" mx-html="{{=contentData.prefix}}："></span>{{/if}}
-    <span class="mx5-trigger-label" mx-html="{{=selectedText}}"></span>
+    {{if (mode == 'tag' && multiple && selectedItems.length > 0)}}
+    <div class="tags-outer">
+        {{if name}}<span class="prefix-name" mx-html="{{=name}}："></span>{{/if}}
+        <span class="tag-wrapper">
+            {{each selectedItems as item index}}
+            <span class="custom-tag mx5-trigger-tag {{if item.error}} mx5-trigger-tag-error {{/if}}" mx-contextmenu="prevent()">
+                {{=item.text}}
+                <i class="mx5-iconfont mx5-trigger-tag-delete" mx-click="@:{delete}({index:{{=index}}})">&#xe603;</i>
+            </span>
+            {{/each}}
+        </span>
+    </div>
+    {{else}}
+    <span class="mx5-trigger-label">
+        {{if name}}<span class="prefix-name" mx-html="{{=name}}："></span>{{/if}}
+        <span class="selected-text" mx-html="{{=selectedText}}"></span>
+    </span>
+    {{/if}}
     <i class="mx5-iconfont mx5-trigger-arrow">&#xe6c1;</i>
 </div>

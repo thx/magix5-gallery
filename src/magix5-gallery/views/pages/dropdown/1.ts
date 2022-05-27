@@ -4,24 +4,23 @@ import View from 'magix5-gallery/views/pages/base/demo';
 export default View.extend({
     tmpl: '@:1.html',
     render() {
-        let list = [{
-            value: 1,
-            text: 'test'
-        }, {
-            value: 2,
-            text: 'TestABC'
-        }, {
-            value: 3,
-            text: 'Another'
-        }];
         this.digest({
-            list,
-            selected: list[1].value
+            selected: 2,
+            list: [{
+                value: 1,
+                text: 'test'
+            }, {
+                value: 2,
+                text: 'TestABC'
+            }, {
+                value: 3,
+                text: 'Another'
+            }]
         })
     },
-    'change<change>'(e) {
+    'change<change>'(event) {
         this.digest({
-            selected: e.selected
+            selected: event.selected
         })
     }
 })

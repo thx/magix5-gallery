@@ -1,0 +1,126 @@
+<div class="example">
+    <div class="eg-content">
+        <div class="eg-content-tip">
+            <div class="eg-content-tip-prefix">以下示例：</div>
+            <div>包含部分选中态的完成示例</div>
+        </div>
+    
+        {{each list as group groupIndex}}
+        <div class="mx5-clearfix">
+            <mx-checkbox class="mx5-fl mx5-mr20 mx5-mb20" 
+                *value="{{=group.value}}"
+                *text="组{{=group.value}}"
+                *checked="{{=(group.type==3)}}" 
+                *indeterminate="{{=(group.type==2)}}" 
+                mx-change="toggle({groupIndex:'{{=groupIndex}}',subIndex:'all'})"/>
+        </div>
+        <div class="mx5-clearfix">
+            {{each group.subs as sub subIndex}}
+            <mx-checkbox class="mx5-fl mx5-mr20 mx5-mb20"
+                *value="{{=sub.value}}"
+                *text="{{=sub.value}}"
+                *checked="{{=sub.checked}}" 
+                mx-change="toggle({groupIndex:'{{=groupIndex}}',subIndex:'{{=subIndex}}'})"/>
+            {{/each}}
+        </div>
+        {{/each}}
+    </div>
+    <div class="eg-desc">
+        <div class="eg-title">HTML Code</div>
+        <mx-copy class="desc-oper" 
+            *copy-node="{{=$viewId}}_text_1" 
+            mx-success="@:{done}({id:1})">
+            <span class="desc-tip" mx-html="{{=text1}}"></span>
+            <i class="mx5-iconfont desc-icon">&#xe610;</i>
+        </mx-copy>
+        <mx-source whole="true" id="{{=$viewId}}_text_1">
+{{each list as group groupIndex}}
+<div class="mx5-clearfix">
+    <mx-checkbox class="mx5-fl mx5-mr20 mx5-mb20" 
+        *value="{{=group.value}}"
+        *text="组{{=group.value}}"
+        *checked="{{=(group.type==3)}}" 
+        *indeterminate="{{=(group.type==2)}}" 
+        mx-change="toggle({groupIndex:'{{=groupIndex}}',subIndex:'all'})"/>
+</div>
+<div class="mx5-clearfix">
+    {{each group.subs as sub subIndex}}
+    <mx-checkbox class="mx5-fl mx5-mr20 mx5-mb20"
+        *value="{{=sub.value}}"
+        *text="{{=sub.value}}"
+        *checked="{{=sub.checked}}" 
+        mx-change="toggle({groupIndex:'{{=groupIndex}}',subIndex:'{{=subIndex}}'})"/>
+    {{/each}}
+</div>
+{{/each}}
+        </mx-source>
+    </div>
+    <div class="eg-desc">
+        <div class="eg-title">JS Code</div>
+        <mx-copy class="desc-oper" 
+            *copy-node="{{=$viewId}}_text_2" 
+            mx-success="@:{done}({id:2})">
+            <span class="desc-tip" mx-html="{{=text2}}"></span>
+            <i class="mx5-iconfont desc-icon">&#xe610;</i>
+        </mx-copy>
+        <mx-source whole="true" id="{{=$viewId}}_text_2">
+import Magix5 from 'magix5';
+import View from 'magix5-gallery/view';
+export default View.extend({
+    tmpl: '@:index.html',
+    render() {
+        let list = [{
+            value: 1,
+            subs: [{
+                value: 11
+            }, {
+                value: 12
+            }, {
+                value: 13
+            }]
+        }, {
+            value: 2,
+            subs: [{
+                value: 21
+            }, {
+                value: 22
+            }, {
+                value: 23
+            }]
+        }]
+        this.digest({
+            list
+        });
+    },
+    'toggle<change>'(e) {
+        let checked = e.target.checked;
+        let { groupIndex, subIndex } = e.params;
+
+        let list = this.get('list');
+        list.forEach((group, gi) => {
+            let checkes = [];
+            group.subs.forEach((sub, si) => {
+                if ((groupIndex == gi) &&
+                    (subIndex == 'all' || subIndex == si)) {
+                    sub.checked = checked;
+                }
+
+                if (sub.checked) {
+                    checkes.push(sub.value);
+                }
+            })
+
+            // 1：全不选
+            // 2：部分选
+            // 3：全选
+            group.type = (checkes.length > 0) ? ((checkes.length == group.subs.length) ? 3 : 2) : 1;
+        })
+
+        this.digest({
+            list
+        })
+    }
+});
+        </mx-source>
+    </div>
+</div>
