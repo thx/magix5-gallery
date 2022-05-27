@@ -1,15 +1,15 @@
 <div class="example">
     <div class="eg-content">
-        <div class="mx5-mb20">
-            <div class="mx5-mb20 mx5-clearfix">
-                <div class="mx5-fl mx5-color-9">以下示例：</div>
-                <div class="mx5-fl">
-                    <div>单选，支持搜索，搜索包括搜索value和text（不区分大小写）</div>
-                    <div>下拉框显示区域会根据屏幕可视范围进行修正</div>
-                </div>
-            </div>
+        <div class="eg-content-tip">
+            <div class="eg-content-tip-prefix">以下示例：</div>
+            <div>单选，支持搜索，搜索包括搜索value和text（不区分大小写）</div>
+            <div>下拉框显示区域会根据屏幕可视范围进行修正</div>
+        </div>
+        <div class="eg-content-tip">
+            <div class="eg-content-tip-prefix">当前选中：</div>
+            <div class="mx5-h40">{{=selected}}</div>
             <mx-dropdown class="mx5-w200" 
-                *search="true"
+                *searchbox="true"
                 *selected="{{=selected}}"
                 *list="{{#list}}"
                 mx-change="change()" />
@@ -25,7 +25,7 @@
         </mx-copy>
         <mx-source whole="true" id="{{=$viewId}}_text_1">
             <mx-dropdown class="mx5-w200" 
-                *search="true"
+                *searchbox="true"
                 *selected="{{=selected}}"
                 *list="{{#list}}"
                 mx-change="change()" />

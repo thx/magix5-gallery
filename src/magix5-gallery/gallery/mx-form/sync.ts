@@ -143,7 +143,7 @@ export default {
         });
     },
     isValid() {
-        debugger;
+        // debugger;
     },
     '$[mx5-ctrl]<change,focusout,input>'(e: Magix5.MagixMixedEvent) {
         let { eventTarget, type } = e;

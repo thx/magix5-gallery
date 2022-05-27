@@ -1,30 +1,49 @@
 <div class="example">
     <div class="eg-content">
-        <div class="mx5-mb20">
-            <div class="mx5-mb10 mx5-clearfix">
-                <div class="mx5-fl mx5-color-9">以下示例：</div>
-                <div class="mx5-fl">
-                    <div>选项包含图片内容</div>
-                </div>
-            </div>
-            <div class="mx5-mb40">
-                <!-- 选项包含图片内容 -->
-                <mx-dropdown class="mx5-w200" 
-                    *selected="{{=selected1}}}"
-                    *list="{{#list1}}" />
-            </div>
-            <div class="mx5-mb10 mx5-clearfix">
-                <div class="mx5-fl mx5-color-9">以下示例：</div>
-                <div class="mx5-fl">
-                    <div>选项包含其他html，如icon</div>
-                </div>
-            </div>
-            <div class="mx5-mb20">
-                <!-- 选项包含其他html，如icon -->
-                <mx-dropdown class="mx5-w200" 
-                    *selected="{{=selected2}}"
-                    *list="{{#list2}}" />
-            </div>
+        <div class="eg-content-tip">
+            <div class="eg-content-tip-prefix">以下示例：</div>
+            <div>分组 + 单选</div>
+            <div>单选默认选中第一个</div>
+        </div>
+        <div class="eg-content-tip">
+            <div class="eg-content-tip-prefix">补充说明：</div>
+            <div>未命中分组的选项，添加到选项最前方</div>
+            <div>配置empty-text会默认最前方补充一个value=''的选项</div>
+        </div>
+        <div class="eg-content-tip">
+            <div class="eg-content-tip-prefix">当前选中：</div>
+            <div class="mx5-h40">{{=selected}}</div>
+            <mx-dropdown class="mx5-w200" 
+                *parents="{{#[{
+                    value:1,
+                    text:'第一组'
+                },{
+                    value:2,
+                    text:'第二组'
+                }]}}"
+                *list="{{#[{
+                    value: 1,
+                    text:'test',
+                    pValue: 1
+                },{
+                    value: 2,
+                    text:'TestABC',
+                    pValue: 1
+                },{
+                    value: 3,
+                    text:'Another',
+                    pValue: 2
+                },{
+                    value: 4,
+                    text:'选项4',
+                    pValue: 1
+                },{
+                    value: 5,
+                    text:'选项5',
+                    pValue: 2
+                }]}}" 
+                *selected="{{=selected}}"
+                mx-change="change()"/>
         </div>
     </div>
     <div class="eg-desc">
@@ -36,57 +55,37 @@
             <i class="mx5-iconfont desc-icon">&#xe610;</i>
         </mx-copy>
         <mx-source whole="true" id="{{=$viewId}}_text_1">
-            <!-- 选项包含图片内容 -->
             <mx-dropdown class="mx5-w200" 
-                *selected="{{=selected1}}}"
-                *list="{{#list1}}" />
-    
-            <!-- 选项包含其他html，如icon -->
-            <mx-dropdown class="mx5-w200" 
-                *selected="{{=selected2}}"
-                *list="{{#list2}}" />
-        </mx-source>
-    </div>
-    <div class="eg-desc">
-        <div class="eg-title">JS Code</div>
-        <mx-copy class="desc-oper" 
-            *copy-node="{{=$viewId}}_text_2" 
-            mx-success="@:{done}({id:2})">
-            <span class="desc-tip" mx-html="{{=text2}}"></span>
-            <i class="mx5-iconfont desc-icon">&#xe610;</i>
-        </mx-copy>
-        <mx-source whole="true" id="{{=$viewId}}_text_2">
-            import Magix5 from 'magix5';
-            export default Magix5.View.extend({
-                tmpl: '@:index.html',
-                render() {
-                    let list1 = [{
-                        value: 1,
-                        text: '<img style="width: 50px; height: 50px; margin: 8px 4px 8px 0;" src="https://img.alicdn.com/bao/uploaded/i2/13498885/O1CN01yAamtY2FVNaDTQjt2_!!0-saturn_solar.jpg"/>2019夏装新款韩版女装宽松打底潮上衣短袖T恤OM80147婏'
-                    }, {
-                        value: 2,
-                        text: '<img style="width: 50px; height: 50px; margin: 8px 4px 8px 0;" src="https://img.alicdn.com/bao/uploaded/i3/13498885/O1CN01Zo87cQ2FVNaHt6Bt2_!!0-saturn_solar.jpg"/>韩都衣舍2019夏装新款女装韩版显瘦打底衫圆领套头T恤IG8397僥'
-                    }];
-    
-                    let list2 = [{
-                        value: 1,
-                        text: '<span class="mx5-color-error">红色</span>测试信息'
-                    }, {
-                        value: 2,
-                        text: 'logo'
-                    }, {
-                        value: 3,
-                        text: '123456'
-                    }];
-    
-                    this.digest({
-                        list1,
-                        selected1: list1[0].value,
-                        list2,
-                        selected2: list2[0].value,
-                    })
-                }
-            })
+                *parents="{{#[{
+                    value:1,
+                    text:'第一组'
+                },{
+                    value:2,
+                    text:'第二组'
+                }]}}"
+                *list="{{#[{
+                    value: 1,
+                    text:'test',
+                    pValue: 1
+                },{
+                    value: 2,
+                    text:'TestABC',
+                    pValue: 1
+                },{
+                    value: 3,
+                    text:'Another',
+                    pValue: 2
+                },{
+                    value: 4,
+                    text:'选项4',
+                    pValue: 1
+                },{
+                    value: 5,
+                    text:'选项5',
+                    pValue: 2
+                }]}}" 
+                *selected="{{=selected}}"
+                mx-change="change()"/>
         </mx-source>
     </div>
 </div>

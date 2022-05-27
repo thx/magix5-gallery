@@ -16,8 +16,9 @@ export default View.extend({
     },
 
     assign(options) {
-        let showDelay = options.showDelay || 100,
-            hideDelay = options.hideDelay || 200;
+        let { constants } = this.get();
+        let showDelay = options.showDelay || constants.showDelay,
+            hideDelay = options.hideDelay || constants.hideDelay;
 
         // type(样式)：dark 深底色，white 白底色
         let type = options.type || 'white';
@@ -66,7 +67,7 @@ export default View.extend({
         let auto = options.auto + '' === 'true';
 
         this.set({
-            init: false,
+            init: false, // 入参改动是重置trigger样式
             showDelay,
             hideDelay,
             type,
@@ -79,7 +80,6 @@ export default View.extend({
     },
 
     render() {
-        // await this.digest();
         this.digest();
 
         // 默认展开显示框
@@ -95,7 +95,6 @@ export default View.extend({
         if (!Magix5.node(popId)) {
             popNode = document.createElement('div');
             popNode.id = popId;
-            popNode.setAttribute('style', `width: ${posConfigs.width}px;`);
             document.body.appendChild(popNode);
 
             let watchOver = e => {
@@ -123,11 +122,12 @@ export default View.extend({
                 popNode.remove();
             });
         } else {
-            popNode = document.getElementById(popId);
+            popNode = Magix5.node<HTMLElement>(popId);
         }
 
         // 每次初始化重置样式
         popNode.className = `@:index.less:mx5-popover--${type} @:index.less:mx5-popover--${posConfigs.placement}`;
+        popNode.setAttribute('style', `width: ${posConfigs.width}px;`);
     },
 
     '@:{show}'() {
@@ -142,7 +142,11 @@ export default View.extend({
             if (that.get('show')) {
                 return;
             }
-            that.set({ show: true });
+
+            // trigger样式更新
+            that.set({
+                show: true
+            });
 
             // 每次展开重新渲染内容
             let { popId, content, view, viewData, posConfigs } = that.get();
@@ -164,7 +168,11 @@ export default View.extend({
                 return;
             }
 
-            that.set({ show: false });
+            // trigger样式更新
+            that.set({
+                show: false
+            });
+
             // 内容隐藏
             let vf = that['@:{pop.vframe}'];
             if (vf) {

@@ -1,128 +1,63 @@
-<!-- 搜索框 -->
-{{if search}}
-<div class="mx5-output-search">
+<!-- {{if searchbox}}
+<div class="mx-output-search">
     <mx-input 
-        style="{{if over}} width: 200px; {{else}} width: 100%; {{/if}}"
-        *search="true"
-        *placeholder="{{=texts.search}}"
-        *value="{{=(keyword || '')}}"
-        mx-change="@:{search}()"
-        data-spm-click="{{=spm}}?{{=spm}}search" />
+        style="width: 100%;"
+        search="true"
+        placeholder="搜索关键词"
+        value="{{=keyword}}"
+        mx-keyup="@{search}()"
+        mx-paste="@{search}()"
+        mx-change="@{stop}()"
+        mx-focusin="@{stop}()"
+        mx-focusout="@{stop}()"
+        {{if spm}} data-spm-click="{{=spm}}_s" {{/if}}/>
 </div>
-{{/if}}
+{{/if}} -->
 
 {{if !allHide}}
-    {{if multiple}} 
-        <!-- {{if (needAll || max > 0)}} 
-        <div class="oper-wrapper has-group clearfix">
-            {{if needAll}}
-            <a class="oper" href="javascript:;" mx-click="@:{check.all}({checked:true})" data-spm-click="{{=spm}}?{{=spm}}a">{{=texts.select}}</a>
-            <a class="oper" href="javascript:;" mx-click="@:{check.all}({checked:false})" data-spm-click="{{=spm}}?{{=spm}}ua">{{=texts.unselect}}</a>
+<div class="mx5-output-list" style="{{if height}} max-height:{{=height}}px; {{/if}}">
+    {{each parents as parent parentIndex}}
+        {{if !parent.hide}}
+            {{if hasGroups}}
+            <div class="mx5-output-header" title="{{=parent.text}}" mx-html="{{=parent.text}}"></div>
             {{/if}}
-            {{if (max > 0)}}
-            <span><span class="color-9">已选：</span><span class="font-number bold">{{=selectedItems.length}} / {{=max}}</span></span>
-            {{/if}}
-        </div>
-        {{/if}}
-        <div class="mx5-output-list" style="max-height:{{=height}}px;">
-            {{each parents as parent parentIndex}}
-                {{if !parent.hide}}
-                    {{if (hasGroups && parent.text)}}
-                        {{if needGroup}}
-                        <div class="clearfix">
-                            <div class="mx5-output-item dropdown-group-item" title="{{=(parent.tip || parent.text)}}">
-                                <div class="mx5-output-item {{if (parent.disabled || ((max > 0) && (selectedItems.length >= max)))}} mx5-output-item-disabled {{/if}}">
-                                    <mx-checkbox class="custom-checkbox"
-                                        disabled="{{=(parent.disabled || ((max > 0) && (selectedItems.length >= max)))}}"
-                                        checked="{{=(parent.type == 3)}}"
-                                        indeterminate="{{=(parent.type == 2)}}"
-                                        value="{{=parent.value}}"
-                                        text="{{=parent.text}}"
-                                        mx-focusout="@:{stop.propagation}()"
-                                        mx-change="@:{check.parent}({parentIndex:'{{=parentIndex}}'})"
-                                        data-spm-click="{{=spm}}?{{=spm}}{{=parent.value}}" />
-                                </div>
-                            </div>
-                        </div>
-                        {{else}}
-                        <div class="mx5-output-header" title="{{=(parent.tip || parent.text)}}">{{!parent.text}}</div>
-                        {{/if}}
-                    {{/if}}
-                    <div class="clearfix dropdown-group-wrapper">
-                        {{each parent.list as item itemIndex}}
-                            {{if !item.hide}}
-                            <div class="mx5-output-item dropdown-group-item" title="{{=(item.tip || item.text)}}">
-                                {{if (item.disabled && item.disabledTip)}}
-                                <mx-popover class="mx5-output-item {{if item.disabled}} mx5-output-item-disabled {{/if}}"
-                                    content="&lt;div style='display: inline-flex; align-items: center;'&gt;&lt;i class='mc-iconfont color-red'&gt;&#38;&#35;xe6ad;&lt;/i&gt;&nbsp;{{=item.disabledTip}}&lt;/div&gt;"
-                                    placement="right" offset="{{#{left:-10}}}">
-                                    <mx-checkbox 
-                                        value="{{=item.value}}"
-                                        text="{{=item.text}}"
-                                        checked="{{=item.selected}}"
-                                        disabled="true"/>
-                                </mx-popover>
-                                {{else}}
-                                <div class="mx5-output-item {{if (item.disabled || (!item.selected && (max > 0) && (selectedItems.length >= max)))}} mx5-output-item-disabled {{/if}}">
-                                    <mx-checkbox class="custom-checkbox"
-                                        checked="{{=item.selected}}"
-                                        disabled="{{=(item.disabled || (!item.selected && (max > 0) && (selectedItems.length >= max)))}}"
-                                        value="{{=item.value}}"
-                                        text="{{=item.text}}"
-                                        mx-focusout="@:{stop.propagation}()"
-                                        mx-change="@:{check}({parentIndex:'{{=parentIndex}}',itemIndex:'{{=itemIndex}}'})"
-                                        data-spm-click="{{=spm}}?{{=spm}}{{=item.value}}" />
-                                </div>
+            {{each parent.list as item itemIndex}}
+                {{if !item.hide}}
+                <div class="mx5-output-item" title="{{=(item.tip || item.text)}}">
+                    {{if (item.disabled && item.disabledTip)}}
+                    <mx-popover class="mx5-output-link mx5-output-link-disabled"
+                        *content="<div class='mx5-vmt'><i class='mx5-iconfont mx5-color-error'>&#xe72a;</i>&nbsp;{{=item.disabledTip}}</div>"
+                        *placement="rc" 
+                        *offset="{{#{left:-10}}}" 
+                        mx-html="{{=item.text}}"></mx-popover>
+                    {{else}}
+                    <span class="mx5-output-link {{if item.selected}} mx5-output-link-active {{/if}} {{if item.disabled}} mx5-output-link-disabled {{/if}}" 
+                        mx-click="{{=(!item.disabled)}}?@:{select}({item:'{{#item}}'})" data-spm-click="{{=spm}}?{{=spm}}{{=item.value}}">
+                        <span mx-html="{{=item.text}}"></span>
+                        {{if (item.opers && item.opers.length)}}
+                        <span class="link-opers">
+                            {{each item.opers as oper}}
+                                {{if oper == 'delete'}}
+                                <i class="link-oper mx5-iconfont" title="移除" mx-click="@:{delete}({item:{{#item}}})">&#xe68d;</i>
                                 {{/if}}
-                            </div>  
-                            {{/if}}
-                        {{/each}}
-                    </div>
-                {{/if}}
-            {{/each}}
-        </div>
-        <div class="multiple-footer">
-            {{if tip}}
-            <div class="multiple-footer-tip">{{!tip}}</div>
-            {{/if}}
-            <div class="multiple-footer-content clearfix">
-                <mx-btn class="fl mr10" brand="true" small="true" mx-click="@:{submit}()" content="{{=texts.submit}}"/>
-                <mx-btn class="fl mr10" small="true" mx-click="@:{cancel}()" content="{{=texts.cancel}}"/>
-                {{if errMsg}}
-                <span class="fl footer-error"><i class="mc-iconfont">&#xe727;</i>&nbsp;{{!errMsg}}</span>
-                {{/if}}
-            </div>
-        </div> -->
-    {{else}}
-        <div class="mx5-output-list" style="max-height:{{=height}};">
-            {{each parents as parent parentIndex}}
-                {{if !parent.hide}}
-                    {{if (hasGroups && parent.text)}}
-                    <div class="mx5-output-header" title="{{=parent.text}}" mx-html="{{=parent.text}}"></div>
-                    {{/if}}
-                    {{each parent.list as item itemIndex}}
-                        {{if !item.hide}}
-                            {{if (item.disabled && item.disabledTip)}}
-                            <mx-popover class="mx5-output-item mx5-output-item-disabled"
-                                tag="div"
-                                *placement="rc" 
-                                *content="<div class='mx5-vmt'><i class='mx5-iconfont mx5-color-error'>&#xe727;</i>{{=item.disabledTip}}</div>"
-                                *offset="{{#{left:-10}}}" mx-html="{{=item.text}}"></mx-popover>
-                            {{else}}
-                            <div class="mx5-output-item {{if item.selected}} mx5-output-item-active {{/if}} {{if item.disabled}} mx5-output-item-disabled {{/if}}" 
-                                title="{{=(item.tip || item.text)}}"
-                                mx-click="{{=(!item.disabled)}}?@:{select}({item:'{{#item}}'})" data-spm-click="{{=spm}}?{{=spm}}{{=item.value}}" 
-                                mx-html="{{=item.text}}"></div>
-                            {{/if}}
+                                {{if oper == 'edit'}}
+                                <i class="link-oper mx5-iconfont" title="编辑" mx-click="@:{select}({item:{{#item}},operationType:'edit'})">&#xe698;</i>
+                                {{/if}}
+                            {{/each}}
+                        </span>
                         {{/if}}
-                    {{/each}}
+                    </span>
+                    {{/if}}
+                </div>  
                 {{/if}}
             {{/each}}
-        </div>
-        {{if tip}}
-        <div class="mx5-output-footer" mx-html="{{=tip}}"></div>
         {{/if}}
-    {{/if}}
+    {{/each}}
+</div>
 {{else}}
-    <div class="mx5-text-center mx5-color-9 mx5-pt20 mx5-pb20" mx-html="{{=texts.empty}}"></div>
+<mx-error type="empty-content" mode="small"/>
+{{/if}}
+
+{{if tip}}
+<div class="mx-output-footer" mx-html="{{=tip}}"></div>
 {{/if}}

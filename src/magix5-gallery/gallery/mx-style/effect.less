@@ -11,6 +11,18 @@
     }
 }
 
+@keyframes mx5-trigger-fade-out {
+    0% {
+        transform: translate(0, 0);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translate(0, calc(0px - var(--mx5-trigger-v-gap)));
+        opacity: 0;
+    }
+}
+
 .mx5-trigger-tag {
     display: inline-flex;
     align-items: center;
@@ -126,7 +138,7 @@
         }
     }
 
-    &.mx5-trigger-open {
+    &.mx5-trigger-show {
         border-color: var(--mx5-border-highlight-active);
         background-color: var(--mx5-bg-highlight-active);
         box-shadow: var(--mx5-border-highlight-shadow-active);
@@ -145,10 +157,11 @@
 
 .mx5-output {
     opacity: 0;
+    z-index: -999999;
+    pointer-events: none;
     position: absolute;
     left: 0;
     top: 100%;
-    z-index: -999999;
     min-width: 100%;
     max-width: 280%;
     margin-top: var(--mx5-trigger-v-gap);
@@ -157,12 +170,18 @@
     background-color: #fff;
     border: var(--mx5-comp-shadow-border);
     box-shadow: var(--mx5-comp-shadow);
-    pointer-events: none;
 
-    &.mx5-output-open {
+    &.mx5-output-show {
         z-index: 999999;
         pointer-events: auto;
         animation: mx5-trigger-fade-in var(--mx5-duration) ease-out;
+        animation-fill-mode: forwards;
+    }
+
+    &.mx5-output-hide {
+        z-index: -999999;
+        pointer-events: none;
+        animation: mx5-trigger-fade-out var(--mx5-duration) ease-out;
         animation-fill-mode: forwards;
     }
 }
@@ -320,8 +339,8 @@
         border-radius: 100%;
         transform: translateX(-50%) translateY(-50%);
         z-index: 10;
-        animation: mx5-trigger-expand var(--mx5-animation-expand-timer) var(--mx5-animation-expand-ease);
+        animation: mx5-trigger-expand var(--mx5-comp-expand-amin-timer) var(--mx5-comp-expand-amin-ease);
         animation-fill-mode: backwards;
-        background-color: var(--mx5-animation-expand-color);
+        background-color: var(--mx5-comp-expand-amin-color);
     }
 }

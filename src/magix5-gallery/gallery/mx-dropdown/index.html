@@ -1,5 +1,5 @@
 <div id="toggle_{{=$viewId}}" 
-    class="{{if (mode == 'tag' && multiple && selectedItems.length > 0)}} tag-trigger {{/if}} mx5-trigger {{if expand}} mx5-trigger-open {{/if}}"
+    class="{{if (mode == 'tag' && multiple && selectedItems.length > 0)}} tag-trigger {{/if}} mx5-trigger {{if show}} mx5-trigger-show {{/if}}"
     data-animation="trigger" mx5-animation="{{=animation}}??">
     {{if (mode == 'tag' && multiple && selectedItems.length > 0)}}
     <div class="tags-outer">
@@ -8,7 +8,7 @@
             {{each selectedItems as item index}}
             <span class="custom-tag mx5-trigger-tag {{if item.error}} mx5-trigger-tag-error {{/if}}" mx-contextmenu="prevent()">
                 {{=item.text}}
-                <i class="mc-iconfont mx5-trigger-tag-delete" mx-click="@{delete}({index:{{=index}}})">&#xe603;</i>
+                <i class="mx5-iconfont mx5-trigger-tag-delete" mx-click="@:{delete}({index:{{=index}}})">&#xe603;</i>
             </span>
             {{/each}}
         </span>

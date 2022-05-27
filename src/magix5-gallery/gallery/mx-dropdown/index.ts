@@ -10,14 +10,12 @@ export default View.extend({
     tmpl: '@:index.html',
     init() {
         let that = this;
-
         that.set({
             popId: `dropdown_${that.id}`,
-            showDelay: 100,
-            hideDelay: 200,
         })
 
         that.on('destroy', () => {
+            // 展开收起定时
             that['@:{clear.timers}']();
 
             // 动画
@@ -155,6 +153,7 @@ export default View.extend({
         let triggerType = options.triggerType || 'click';
 
         this.set({
+            init: false, // 入参改动是重置trigger样式
             triggerType,
             bakType,
             disabled,
@@ -244,138 +243,152 @@ export default View.extend({
 
     '@:{init}'() {
         let that = this;
-
-        let { popId, triggerType, hideDelay, over } = that.get();
+        let { popId, triggerType, over } = that.get();
         let popNode;
         if (!Magix5.node(popId)) {
-            let triggerWidth = this.root.clientWidth;
-
-            // 多选大尺寸展现样式上稍有差异
-            let minWidth = over ? Math.max(triggerWidth, 600) : triggerWidth;
-            let maxWidth = over ? minWidth : Math.max(minWidth * 2.5, 180);
-
             popNode = document.createElement('div');
             popNode.id = popId;
-            popNode.className = 'mx5-output';
-            popNode.setAttribute('style', `min-width: ${minWidth}px; max-width: ${maxWidth}px;`);
             document.body.appendChild(popNode);
-        }
 
-        let watchOver = e => {
-            if (Magix5.inside(e.relatedTarget, e.eventTarget)) {
-                return;
+            let watchOver = e => {
+                if (Magix5.inside(e.relatedTarget, e.eventTarget)) {
+                    return;
+                }
+                that['@:{clear.timers}']();
             }
-            that['@:{clear.timers}']();
-        }
-        let watchOut = e => {
-            if (Magix5.inside(e.relatedTarget, e.eventTarget)) {
-                return;
-            }
-            that['@:{clear.timers}']();
-            that['@:{dealy.hide.timer}'] = setTimeout(() => {
+            let watchOut = e => {
+                if (Magix5.inside(e.relatedTarget, e.eventTarget)) {
+                    return;
+                }
                 that['@:{hide}']();
-            }, hideDelay);
-        }
-        if (triggerType == 'hover') {
-            Magix5.attach(popNode, 'mouseover', watchOver);
-            Magix5.attach(popNode, 'mouseout', watchOut);
-        }
-
-        let watchSubmit = e => {
-            // 下拉框选中值
-            that.set({ ...e.data, show: false });
-            that['@:{val}'](true);
-        }
-        let watchCancel = e => {
-            // 关闭下拉框
-            that.digest({ show: false });
-        }
-        Magix5.attach(popNode, 'submit', watchSubmit);
-        Magix5.attach(popNode, 'cancel', watchCancel);
-
-        that.on('destroy', () => {
+            }
             if (triggerType == 'hover') {
+                Magix5.attach(popNode, 'mouseover', watchOver);
+                Magix5.attach(popNode, 'mouseout', watchOut);
+            }
+
+            let watchSubmit = e => {
+                // 下拉框选中值
+                that.set({ ...e.data, show: false });
+                that['@:{val}'](true);
+            }
+            let watchCancel = e => {
+                // 关闭下拉框
+                that.digest({ show: false });
+            }
+            Magix5.attach(popNode, 'submit', watchSubmit);
+            Magix5.attach(popNode, 'cancel', watchCancel);
+
+
+            that.on('destroy', () => {
                 Magix5.detach(popNode, 'mouseover', watchOver);
                 Magix5.detach(popNode, 'mouseout', watchOut);
-            }
-            Magix5.detach(popNode, 'submit', watchSubmit);
-            Magix5.detach(popNode, 'cancel', watchCancel);
+                Magix5.detach(popNode, 'submit', watchSubmit);
+                Magix5.detach(popNode, 'cancel', watchCancel);
 
-            // 移除节点
-            that.owner.unmount(popNode);
-            popNode.remove();
-        });
+                // 移除节点
+                that.owner.unmount(popNode);
+                popNode.remove();
+            });
+        } else {
+            popNode = Magix5.node<HTMLElement>(popId);
+        }
+
+        // 多选大尺寸展现样式上稍有差异
+        let triggerWidth = this.root.clientWidth;
+        let minWidth = over ? Math.max(triggerWidth, 600) : triggerWidth;
+        let maxWidth = over ? minWidth : Math.max(minWidth * 2.5, 180);
+        popNode.className = 'mx5-output';
+        popNode.setAttribute('style', `min-width: ${minWidth}px; max-width: ${maxWidth}px;`);
     },
 
     '@:{show}'(force) {
         let that = this;
+        let { constants } = that.get();
 
-        // 初始化
-        if (!that.get('posInt')) {
-            that.set({ posInt: true });
-            that['@:{init}']();
-        }
+        that['@:{clear.timers}']();
+        that['@:{dealy.show.timer}'] = setTimeout(() => {
+            // 初始化
+            if (!that.get('init')) {
+                that.set({
+                    init: true
+                });
+                that['@:{init}']();
+            }
 
-        if (that.get('show') && !force) { return; };
-        that.digest({ show: true });
+            if (that.get('show') && !force) {
+                return;
+            };
 
-        // 每次展开重新渲染内容
-        let { popId, selectedItems } = that.get();
-        let popNode = Magix5.node(popId);
-        debugger
-        that['@:{pop.vframe}'] = that.owner.mount(popNode, '@:./content', {
-            selectedItems,
-        });
+            // trigger样式更新
+            that.digest({
+                show: true
+            });
+
+            // 每次展开重新渲染内容
+            let data = this.get();
+            let popNode = Magix5.node<HTMLElement>(data.popId);
+            if (data.multiple) {
+                // 多选
+            } else {
+                // 单选
+                that['@:{pop.vframe}'] = that.owner.mount(popNode, '@:./content', data);
+            }
+        }, constants.showDelay);
     },
 
     '@:{hide}'() {
-        if (!this.get('show')) { return; }
-        this.digest({ show: false });
+        let that = this;
+        let { constants } = that.get();
 
-        // 内容隐藏
-        let vf = this['@:{pop.vframe}'];
-        if (vf) {
-            vf.invoke('@:{hide}');
-        }
+        that['@:{clear.timers}']();
+        that['@:{dealy.hide.timer}'] = setTimeout(() => {
+            if (!that.get('show')) {
+                return;
+            }
+
+            // trigger样式更新
+            that.digest({
+                show: false
+            });
+
+            // 内容隐藏
+            let vf = that['@:{pop.vframe}'];
+            if (vf) {
+                vf.invoke('@:{hide}');
+            }
+        }, constants.hideDelay);
     },
 
     /**
      * triggerType = click
-     * 点击则立即显示
      */
     async '$root<click>'(e) {
-        let that = this;
-        let { triggerType } = that.get();
-        if (triggerType == 'click') {
-            let { disabled, animation } = that.get();
-            if (disabled || (animation == 'expand')) {
+        if (this.get('triggerType') == 'click') {
+            if (this.get('disabled') || (this.get('animation') == 'expand')) {
                 return;
             };
 
             // 处理动画
-            await that.digest({ animation: 'expand' });
+            this.digest({
+                animation: 'expand'
+            });
 
             // 展开 or 收起
-            that[that.get('show') ? '@:{hide}' : '@:{show}']();
+            this[this.get('show') ? '@:{hide}' : '@:{show}']();
         }
     },
 
     /**
      * triggerType = hover
-     * hover显示加延迟
      */
     '$root<mouseover>'(e) {
         if (Magix5.inside(e.relatedTarget, e.eventTarget)) {
             return;
         }
 
-        let that = this;
-        let { triggerType, showDelay } = this.get();
-        if (triggerType == 'hover') {
-            that['@:{clear.timers}']();
-            that['@:{dealy.show.timer}'] = setTimeout(() => {
-                that['@:{show}']();
-            }, showDelay);
+        if (this.get('triggerType') == 'hover') {
+            this['@:{show}']();
         }
     },
 
@@ -387,13 +400,8 @@ export default View.extend({
             return;
         }
 
-        let that = this;
-        let { triggerType, hideDelay } = that.get();
-        if (triggerType == 'hover') {
-            that['@:{clear.timers}']();
-            that['@:{dealy.hide.timer}'] = setTimeout(() => {
-                that['@:{hide}']();
-            }, hideDelay);
+        if (this.get('triggerType') == 'hover') {
+            this['@:{hide}']();
         }
     },
 
@@ -401,22 +409,23 @@ export default View.extend({
     * 动画结束移除标记
     */
     '$[data-animation="trigger"]<animationend>'(e) {
-        this.digest({ animation: null });
+        this.digest({
+            animation: null
+        });
     },
 
     '@:{clear.timers}'() {
         let that = this;
-        ['@:{dealy.show.timer}', '@:{dealy.hide.timer}'].forEach(timerKey => {
-            if (that[timerKey]) {
-                clearTimeout(that[timerKey]);
+        ['@:{dealy.show.timer}', '@:{dealy.hide.timer}'].forEach(key => {
+            if (that[key]) {
+                clearTimeout(that[key]);
             }
         });
     },
 
     '$doc<mousedown,keyup>'(e) {
         let node = e.target;
-        let { popId } = this.get();
-        let inside = Magix5.inside(node, this.root) || Magix5.inside(node, Magix5.node(popId));
+        let inside = Magix5.inside(node, this.root) || Magix5.inside(node, Magix5.node(this.get('popId')));
         if (!inside) {
             this['@:{hide}']();
         }

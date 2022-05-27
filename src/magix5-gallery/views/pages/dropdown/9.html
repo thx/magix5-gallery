@@ -1,16 +1,26 @@
 <div class="example">
     <div class="eg-content">
-        <div class="mx5-mb20">
-            <div class="mx5-mb20 mx5-clearfix">
-                <div class="mx5-fl mx5-color-9">以下示例：</div>
-                <div class="mx5-fl">
-                    <div>单选 hover 展开选项列表</div>
-                </div>
-            </div>
+        <div class="eg-content-tip">
+            <div class="eg-content-tip-prefix">以下示例：</div>
+            <div>支持配置name添加前缀</div>
+            <div>选择提示信息为 tip || text</div>
+        </div>
+        <div class="eg-content-tip">
+            <div class="eg-content-tip-prefix">当前选中：</div>
+            <div class="mx5-h40">{{=selected}}</div>
             <mx-dropdown class="mx5-w200" 
-                *trigger-type="hover"
-                *list="{{#[1,2,3]}}" 
-                *selected="2"/>
+                *name="数字"
+                *list="{{#[{
+                    text: 1,
+                    value: 1,
+                    tip: '数字1'
+                },{
+                    text: 2,
+                    value: 2,
+                    tip: '数字2'
+                }]}}" 
+                *selected="{{=selected}}" 
+                mx-change="change()"/>
         </div>
     </div>
     <div class="eg-desc">
@@ -23,9 +33,18 @@
         </mx-copy>
         <mx-source whole="true" id="{{=$viewId}}_text_1">
             <mx-dropdown class="mx5-w200" 
-                *trigger-type="hover"
-                *list="{{#[1,2,3]}}" 
-                *selected="2"/>
+                *name="数字"
+                *list="{{#[{
+                    text: 1,
+                    value: 1,
+                    tip: '数字1'
+                },{
+                    text: 2,
+                    value: 2,
+                    tip: '数字2'
+                }]}}" 
+                *selected="{{=selected}}" 
+                mx-change="change()"/>
         </mx-source>
     </div>
 </div>

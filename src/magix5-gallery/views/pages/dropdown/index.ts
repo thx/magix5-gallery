@@ -31,10 +31,12 @@ export default View.extend({
 1. 简单数组[1,2,3]
 2. 对象数组，如[{
     value:1,
-    text:"a",
+    text: "a",
+    tip: "选项提示信息", 
     disabled: true/false,  //该选项是否禁用
-    disabledTip: '禁选原因，没有可不配',
+    disabledTip: '禁用原因，没有可不配',
     pValue: '', //可选个，父节点value值
+    opers: ['edit', 'delete'], // 支持操作项的下拉框
 }]</pre>`,
             type: 'array'
         }, {
@@ -74,7 +76,7 @@ export default View.extend({
             type: 'string',
             def: 'pValue'
         }, {
-            value: 'search',
+            value: 'searchbox',
             text: '是否开启搜索框',
             type: 'boolean',
             def: 'false'
@@ -82,27 +84,28 @@ export default View.extend({
             value: 'height',
             text: '下拉框最大高度',
             type: 'number',
-            def: '250'
+            def: '280'
         }, {
             value: 'empty-text',
             text: '没有选择时的提示文案<br/>单选：配置该值时，会对应添加一个value=\'\'的选项<br/>多选：当没有选中项时显示该文案',
             type: 'string',
             def: ''
         }, {
-            value: 'prefix',
-            text: '下拉框名称，展示为prefix：selected',
+            value: 'name',
+            text: '下拉框名称，展示位name：selected',
             type: 'string',
             def: ''
-        }, {
-            value: 'small',
-            text: '是否小尺寸展示',
-            type: 'boolean',
-            def: 'false'
         }, {
             value: 'disabled',
             text: '是否禁用',
             type: 'boolean',
             def: 'false'
+        }, {
+            value: 'mode',
+            text: '显示模式，可选值：<br/>text：纯文案<br/>tag：可操作标签',
+            type: 'string',
+            def: 'text',
+            isMulti: true,
         }, {
             value: 'submit-checker',
             text: '自定义提交校验函数',
@@ -137,6 +140,11 @@ export default View.extend({
             def: 'false',
             isMulti: true,
         }, {
+            value: 'size',
+            text: '展示尺寸<br/>small：小号<br/>normal：正常尺寸<br/>large：大号尺寸',
+            type: 'string',
+            def: 'normal'
+        }, {
             value: 'over',
             text: '数据量超过20个时，是否一行显示4个，默认true，若希望一行显示一个指定over=false即可',
             type: 'boolean',
@@ -157,53 +165,37 @@ export default View.extend({
         // 事件
         let events = [{
             type: 'change',
-            text: '选项改变时触发',
+            text: '',
             params: [{
                 value: 'values',
                 text: '当前选中value数组',
-                type: 'array',
-                isMulti: true,
+                type: 'array'
             }, {
                 value: 'texts',
                 text: '当前选中text数组',
-                type: 'array',
-                isMulti: true,
+                type: 'array'
             }, {
                 value: 'value',
                 text: '当前选中value值，等于values.join(",")',
-                type: 'string',
-                isMulti: true,
+                type: 'string'
             }, {
                 value: 'text',
                 text: '当前选中text值，等于texts.join(",")',
-                type: 'string',
-                isMulti: true,
+                type: 'string'
             }, {
                 value: 'selected',
                 text: '当前选中值，初始化为什么类型就保持什么类型，默认string',
-                type: 'string|array',
-                isMulti: true,
+                type: 'string|array'
             }, {
-                value: 'value',
-                text: '当前选中value值',
+                value: 'operationType',
+                text: '当选项包含操作项时，返回的操作项类型，当前支持的类型 edit || delete',
                 type: 'string'
             }, {
-                value: 'text',
-                text: '当前选中text值',
-                type: 'string'
-            }, {
-                value: 'selected',
-                text: '当前选中值，同value',
-                type: 'string'
+                value: 'operationItem',
+                text: '当选项包含操作项时，返回的当前操作项。<br/>如果为编辑，则为编辑的对象（当前选中 = 当前编辑）；<br/>如果为移除，则为被移除的对象（当前选中 != 当前编辑）；',
+                type: 'object'
             }]
         }];
-        for (let i = 0; i < events.length; i++) {
-            for (let j = 0; j < events[i].params.length; j++) {
-                if (events[i].params[j].isMulti && !isMulti) {
-                    events[i].params.splice(j--, 1);
-                }
-            }
-        };
 
         let lefts = [], rights = [];
         if (isMulti) {
@@ -211,37 +203,36 @@ export default View.extend({
         } else {
             lefts = [{
                 text: '搜索',
-                path: 1
+                path: 1,
             }, {
                 text: '分组',
-                path: 2
+                path: 3,
+            }, {
+                text: '包含编辑+移除',
+                path: 5,
             }, {
                 text: '选项包含html',
-                path: 3
-            }, {
-                text: '小尺寸展示',
-                path: 4
+                path: 7,
             }];
 
-            // {
-            //     text: '双向绑定',
-            //     path: 6
-            // }
             rights = [{
                 text: 'empty-text',
-                path: 5
+                path: 2,
             }, {
                 text: '部分or整体禁用',
-                path: 7
+                path: 4,
             }, {
                 text: '自定义key',
-                path: 8
+                path: 6,
             }, {
                 text: 'hover展开',
-                path: 9
+                path: 8,
+            }, {
+                text: '展示尺寸',
+                path: 10,
             }, {
                 text: '前缀+提示',
-                path: 10
+                path: 9,
             }]
         }
 
