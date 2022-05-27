@@ -1,132 +1,131 @@
 [mx5-view*="mx-tabs/box"] {
-  position: relative;
-  display: inline-block;
-  border-radius: var(--mx5-border-radius);
+    position: relative;
+    display: inline-block;
+    border-radius: var(--mx5-border-radius);
 
-  .box-list {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+    .box-list {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
 
-    .box-item-wrapper {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      padding-left: 1px;
+        .box-item-wrapper {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding-left: 1px;
 
-      .box-item {
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          position: relative;
-          min-width: var(--btn-min-width, 64px);
-          height: var(--input-height);
+            .box-item {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                position: relative;
+                min-width: var(--mx5-btn-min-width);
+                height: var(--mx5-input-height);
 
-          padding: 0 var(--btn-h-gap, 10px);
-          border: 1px solid var(--mx5-tab-box-border, var(--border-highlight));
-          border-radius: 0;
-          // 左右无边框
-          border-left-width: 0px;
-          border-right-width: 0px;
+                padding: 0 var(--mx5-btn-h-gap);
+                border: 1px solid var(--mx5-tab-box-border);
+                border-radius: 0;
+                // 左右无边框
+                border-left-width: 0px;
+                border-right-width: 0px;
 
-          background-color: var(--mx5-tab-box-bg, transparent);
-          color: var(--mx5-tab-box-color, #666);
-          font-size: var(--btn-font-size, 12px);
-          transition: all var(--duration);
-          cursor: pointer;
+                background-color: var(--mx5-tab-box-bg);
+                color: var(--mx5-tab-box-color);
+                font-size: var(--mx5-btn-font-size);
+                transition: all var(--mx5-duration);
+                cursor: pointer;
 
-          &:hover {
-              color: var(--mx5-tab-box-color-hover, #333);
-          }
-      }
+                &:hover {
+                    color: var(--mx5-tab-box-color-hover);
+                }
+            }
 
-      // 左边框
-      &::after {
-          content: ' ';
-          position: absolute;
-          top: 0;
-          left: 0;
-          bottom: 0;
-          width: 1px;
-          transition: all var(--duration);
-          pointer-events: none;
-          background-color: var(--mx5-tab-box-gap-border, var(--border-highlight));
-      }
+            // 左边框
+            &::after {
+                content: ' ';
+                position: absolute;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                width: 1px;
+                transition: all var(--mx5-duration);
+                pointer-events: none;
+                background-color: var(--mx5-tab-box-gap-border);
+            }
 
-      &:first-child {
-          padding-left: 0;
+            &:first-child {
+                padding-left: 0;
 
-          .box-item {
-              border-left: 1px solid var(--mx5-tab-box-border, var(--border-highlight));
-              border-top-left-radius: var(--border-radius);
-              border-bottom-left-radius: var(--border-radius);
-          }
+                .box-item {
+                    border-left: 1px solid var(--mx5-tab-box-border);
+                    border-top-left-radius: var(--mx5-border-radius);
+                    border-bottom-left-radius: var(--mx5-border-radius);
+                }
 
-          &::after {
-              content: unset;
-          }
-      }
+                &::after {
+                    content: unset;
+                }
+            }
 
-      &:last-child {
-          .box-item {
-              border-right: 1px solid var(--mx5-tab-box-border, var(--border-highlight));
-              border-top-right-radius: var(--border-radius);
-              border-bottom-right-radius: var(--border-radius);
-          }
-      }
+            &:last-child {
+                .box-item {
+                    border-right: 1px solid var(--mx5-tab-box-border);
+                    border-top-right-radius: var(--mx5-border-radius);
+                    border-bottom-right-radius: var(--mx5-border-radius);
+                }
+            }
 
-      /* active */
-      &.active-item {
-          z-index: 4;
+            /* active */
+            &.active-item {
+                z-index: 4;
 
-          .box-item {
-              border-color: var(--mx5-tab-box-border-active, var(--color-brand));
-              background-color: var(--mx5-tab-box-bg-active, var(--color-brand-opacity));
-              color: var(--mx5-tab-box-color-active, #333);
-          }
+                .box-item {
+                    border-color: var(--mx5-tab-box-border-active);
+                    background-color: var(--mx5-tab-box-bg-active);
+                    color: var(--mx5-tab-box-color-active);
+                }
 
-          &::after {
-              background-color: var(--mx5-tab-box-border-active, var(--color-brand));
-          }
-      }
+                &::after {
+                    background-color: var(--mx5-tab-box-border-active);
+                }
+            }
 
-      &.active-item-next {
-          &::after {
-              background-color: var(--mx5-tab-box-border-active, var(--color-brand));
-          }
-      }
+            &.active-item-next {
+                &::after {
+                    background-color: var(--mx5-tab-box-border-active);
+                }
+            }
 
-      /* disabled */
-      &.disabled {
-          cursor: not-allowed;
+            /* disabled */
+            &.disabled {
+                cursor: not-allowed;
 
-          .box-item {
-              opacity: var(--mx5-comp-disabled-opacity, .4);
-              pointer-events: none;
-          }
-      }
+                .box-item {
+                    opacity: var(--mx5-comp-disabled-opacity);
+                    pointer-events: none;
+                }
+            }
 
-      &.enabled+.disabled {
-          &::after {
-              opacity: 1;
-          }
-      }
+            &.enabled+.disabled {
+                &::after {
+                    opacity: 1;
+                }
+            }
 
-      &.disabled+.disabled {
-          &::after {
-              opacity: var(--mx5-comp-disabled-opacity, .4);
-          }
-      }
+            &.disabled+.disabled {
+                &::after {
+                    opacity: var(--mx5-comp-disabled-opacity);
+                }
+            }
 
-      &.active-item-prev.enabled+.disabled.active-item,
-      &.disabled.active-item+.active-item-next.enabled {
-          &::after {
-              opacity: 1;
-              background-color: var(--mx5-tab-box-gap-border, var(--border-highlight));
-          }
-      }
-  }
-  }
-
+            &.active-item-prev.enabled+.disabled.active-item,
+            &.disabled.active-item+.active-item-next.enabled {
+                &::after {
+                    opacity: 1;
+                    background-color: var(--mx5-tab-box-gap-border);
+                }
+            }
+        }
+    }
 }
