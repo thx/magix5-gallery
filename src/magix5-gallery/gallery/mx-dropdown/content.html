@@ -1,18 +1,14 @@
-<!-- {{if searchbox}}
-<div class="mx-output-search">
+{{if searchbox}}
+<div class="mx5-output-search">
     <mx-input 
         style="width: 100%;"
-        search="true"
-        placeholder="搜索关键词"
-        value="{{=keyword}}"
-        mx-keyup="@{search}()"
-        mx-paste="@{search}()"
-        mx-change="@{stop}()"
-        mx-focusin="@{stop}()"
-        mx-focusout="@{stop}()"
-        {{if spm}} data-spm-click="{{=spm}}_s" {{/if}}/>
+        *prefix="search"
+        *placeholder="搜索关键词"
+        *value="{{=keyword}}"
+        mx-change="@:{search}()"
+        data-spm-click="{{=spm}}?{{=spm}}_s" />
 </div>
-{{/if}} -->
+{{/if}}
 
 {{if !allHide}}
 <div class="mx5-output-list" style="{{if height}} max-height:{{=height}}px; {{/if}}">
@@ -55,7 +51,7 @@
     {{/each}}
 </div>
 {{else}}
-<mx-error type="empty-content" mode="small"/>
+<mx-error *type="empty-content" *mode="small"/>
 {{/if}}
 
 {{if tip}}

@@ -64,7 +64,9 @@ export default View.extend({
         let searchWidth = options.searchWidth || 'calc(var(--mx5-trigger-h-gap, 8px) * 2 + var(--mx5-trigger-arrow-size, 18px) + var(--mx5-trigger-font-size, 12px) * 2 + 2px)';
         let searchList = options.searchList || [];
         let searchValue = (options.searchValue === null || options.searchValue === undefined) ? (searchList[0] ? searchList[0].value : '') : options.searchValue;
-
+        
+        // 仿原生input塞下value值
+        this.root.value = value;
         this.set({
             type,
             value,
@@ -146,6 +148,10 @@ export default View.extend({
         if (searchList.length > 0) {
             Magix5.mix(d, { searchValue });
         }
+
+        // 仿原生input塞下value值
+        // 使用场景：mx-copy理直接取value值
+        this.root.value = value;
         Magix5.dispatch(this.root, 'change', d);
     }
 });

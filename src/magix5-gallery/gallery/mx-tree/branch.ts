@@ -22,7 +22,7 @@ export default View.extend({
         // 部分选中态
         // let { data } = that.get();
         // data.children.forEach((item, index) => {
-        //     let node = document.getElementById(`cb_${that.id}_${index}`);
+        //     let node = Magix5.node<HTMLInputElement>(`cb_${that.id}_${index}`);
         //     if (item.highlight) {
         //         // 滚动到可视范围之内
         //         if (node[0].scrollIntoViewIfNeeded) {

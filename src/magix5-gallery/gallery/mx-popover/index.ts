@@ -80,7 +80,8 @@ export default View.extend({
     },
 
     render() {
-        this.digest();
+        // 没有模板的组件不需要digest
+        // this.digest();
 
         // 默认展开显示框
         if (this.get('auto')) {

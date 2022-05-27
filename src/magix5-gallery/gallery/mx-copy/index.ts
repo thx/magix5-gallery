@@ -10,7 +10,7 @@ export default View.extend({
             // 复制另外一个节点
             configs = {
                 text(trigger) {
-                    let node = document.getElementById(options.copyNode);
+                    let node = Magix5.node<HTMLInputElement>(options.copyNode);
                     return (node ? (node.value || node.innerText || node.innerHTML) : '');
                 }
             };

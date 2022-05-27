@@ -35,6 +35,7 @@ export default View.extend({
         this.set({
             ...options,
             parents,
+            keyword: options.keyword || '',
         })
     },
 
@@ -147,7 +148,6 @@ export default View.extend({
         });
         this['@:{hide}']();
     },
-
 
     '@:{fn.search}'(val) {
         let that = this;

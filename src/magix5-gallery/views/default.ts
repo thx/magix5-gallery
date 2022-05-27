@@ -35,7 +35,7 @@ export default View.extend({
 		Magix5.mix(headers[curIndex], {
 			cur: true
 		})
-		
+
 		// 当前路径所属组展开
 		let list = headers[curIndex].paths;
 		let cur = {}, prev = {}, next = {};
@@ -82,19 +82,19 @@ export default View.extend({
 		});
 
 		// 当前选中项滚动到可视范围之内
-		let curNode = document.getElementsByClassName('@:default.less:cur-nav');
-		if (curNode && curNode.length) {
-			if (curNode[0].scrollIntoViewIfNeeded) {
-				curNode[0].scrollIntoViewIfNeeded();
-			} else if (curNode[0].scrollIntoView) {
-				curNode[0].scrollIntoView();
+		let curNode = document.querySelector('.@:default.less:cur-nav');
+		if (curNode) {
+			if (curNode.scrollIntoViewIfNeeded) {
+				curNode.scrollIntoViewIfNeeded();
+			} else if (curNode.scrollIntoView) {
+				curNode.scrollIntoView();
 			}
 		}
 	},
 
 	'$win<scroll>'(e) {
-		let bd = document.getElementsByClassName('@:default.less:base');
-		let { top } = bd[0].getBoundingClientRect() || {};
+		let bd = document.querySelector('.@:default.less:base');
+		let { top } = bd.getBoundingClientRect() || {};
 		if (top < 0) {
 			if (this.get('fixed')) { return; };
 			this.digest({ fixed: true });

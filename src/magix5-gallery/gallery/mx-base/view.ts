@@ -162,7 +162,7 @@ export default Magix5.View.extend({
             constants: {
                 showDelay: 100,
                 hideDelay: 200,
-                searchDelay: 200,
+                searchDelay: 250,
             }
         });
     },
