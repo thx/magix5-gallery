@@ -1,6 +1,6 @@
 <div id="toggle_{{=$viewId}}" 
     class="{{if (mode == 'tag' && multiple && selectedItems.length > 0)}} tag-trigger {{/if}} mx5-trigger {{if show}} mx5-trigger-show {{/if}}"
-    data-animation="trigger" mx5-animation="{{=animation}}??">
+    data-animation="trigger" mx5-animation="{{=animing}}?expand">
     {{if (mode == 'tag' && multiple && selectedItems.length > 0)}}
     <div class="tags-outer">
         {{if name}}<span class="prefix-name" mx-html="{{=name}}："></span>{{/if}}

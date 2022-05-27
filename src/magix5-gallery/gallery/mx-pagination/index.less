@@ -8,12 +8,17 @@
             --mx5-input-height: var(--mx5-input-small-height);
         }
     }
+
+    .jump-input {
+        --mx5-trigger-small-min-width: 40px;
+        --mx5-trigger-min-width: 40px;
+
+        input {
+            text-align: center;
+        }
+    }
 }
 
-.jump-input {
-    width: 40px;
-    text-align: center;
-}
 
 .pager {
     /* 防止display: inline-block; 间距 */
@@ -121,13 +126,12 @@
         &.num-ellipsis {
             opacity: var(--mx5-comp-disabled-opacity);
             cursor: not-allowed;
-            font-weight: bold;
         }
     }
 
     .num-order-icon {
-        font-weight: bold;
-        font-size: var(--mx5-font-size);
+        font-size: 12px;
+        transform: scale(.92);
         transition: border-color var(--mx5-duration), background-color var(--mx5-duration), color var(--mx5-duration);
         color: var(--mx5-pagination-color);
         cursor: pointer;

@@ -49,7 +49,7 @@ export default View.extend({
 
         let align = this['@:{get.css.var}']('--mx5-pagination-align', 'left');
         let alignRight = (align == 'right');
-
+        
         // 是否显示详细汇总信息
         let hideDetailTotal = false;
 
@@ -216,7 +216,8 @@ export default View.extend({
     },
     '@:{jump}<click>'(e) {
         e.stopPropagation();
-        let page = +(this.get('next'));
+        let node = Magix5.node<HTMLElement>(`${this.id}_jump_input`);
+        let page = +(node.value);
         if (!Number.isInteger(page)) {
             return;
         }

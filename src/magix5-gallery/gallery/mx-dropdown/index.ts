@@ -365,13 +365,13 @@ export default View.extend({
      */
     async '$root<click>'(e) {
         if (this.get('triggerType') == 'click') {
-            if (this.get('disabled') || (this.get('animation') == 'expand')) {
+            if (this.get('disabled') || (this.get('animing'))) {
                 return;
             };
 
             // 处理动画
             this.digest({
-                animation: 'expand'
+                animing: true
             });
 
             // 展开 or 收起
@@ -409,8 +409,9 @@ export default View.extend({
     * 动画结束移除标记
     */
     '$[data-animation="trigger"]<animationend>'(e) {
+        e.stopPropagation();
         this.digest({
-            animation: null
+            animing: false
         });
     },
 
