@@ -1,38 +1,105 @@
 <div class="example">
     <div class="eg-content">
-        <div class="mx5-mb20 mx5-clearfix">
-            <div class="mx5-fl mx5-color-9">以下示例：</div>
-            <div class="mx5-fl">
-                <div>禁用</div>
-            </div>
+        <div class="eg-content-tip">
+            <div class="eg-content-tip-prefix">以下示例：</div>
+            <div>分类型搜索，类型下拉框默认两个字符宽度，可自定义search-width（类型下拉框宽度）</div>
+            <div>设置search-value表示选中的搜索类型</div>
         </div>
     
         <div class="mx5-mb20">
-            <span class="mx5-vmt mx5-w100 mx5-color-9">大尺寸：</span>
-            <mx-input class="mx5-w100 mx5-mr20" *disabled="true" *placeholder="请输入"/>
-            <mx-input class="mx5-w100 mx5-mr20" *disabled="true" *type="search" *placeholder="请输入"/>
-            <mx-input class="mx5-w100 mx5-mr20" *disabled="true" *prefix="数字"/>
-            <mx-input class="mx5-w100 mx5-mr20" *disabled="true" *prefix="数字" *suffix="元" />
+            <mx-input class="mx5-w280"
+                *search-list="{{#searchList}}"
+                *search-value="{{=searchValue1}}"
+                *prefix="search"
+                *placeholder="请输入"  
+                *value="{{=value1}}"
+                mx-change="change({index:1})"/>
+
+            <span class="mx5-ml20 mx5-inline-block mx5-w200"><span class="mx5-color-9">搜索类型(*search-value)：</span>{{=searchValue1}}</span>
+            <span class="mx5-ml20 mx5-inline-block"><span class="mx5-color-9">搜索关键词(value)：</span>{{=value1}}</span>
         </div>
-    
         <div class="mx5-mb20">
-            <span class="mx5-vmt mx5-w100 mx5-color-9">小尺寸：</span>
-            <mx-input class="mx5-w100 mx5-mr20" *disabled="true" *small="true" *placeholder="请输入"/>
-            <mx-input class="mx5-w100 mx5-mr20" *disabled="true" *small="true" *type="search" *placeholder="请输入"/>
-            <mx-input class="mx5-w100 mx5-mr20" *disabled="true" *small="true" *prefix="数字"/>
-            <mx-input class="mx5-w100 mx5-mr20" *disabled="true" *small="true" *prefix="数字" *suffix="元" />
+            <mx-input class="mx5-w280"
+                *search-width="100px"
+                *search-list="{{#searchList}}"
+                *search-value="{{=searchValue2}}"
+                *prefix="search"
+                *placeholder="请输入"  
+                *value="{{=value2}}"
+                mx-change="change({index:2})"/>
+            
+            <span class="mx5-ml20 mx5-inline-block mx5-w200"><span class="mx5-color-9">搜索类型(search-value)：</span>{{=searchValue2}}</span>
+            <span class="mx5-ml20 mx5-inline-block"><span class="mx5-color-9">搜索关键词(value)：</span>{{=value2}}</span>
         </div>
     </div>
-    <div class="eg-desc">
-        <div class="eg-title">HTML Code</div>
-        <mx-copy class="desc-oper" 
-            *copy-node="{{=$viewId}}_text_1" 
-            mx-success="@:{done}({id:1})">
-            <span class="desc-tip" mx-html="{{=text1}}"></span>
-            <i class="mx5-iconfont desc-icon">&#xe610;</i>
-        </mx-copy>
-        <mx-source whole="true" id="{{=$viewId}}_text_1">
-            <mx-input class="mx5-w100" *disabled="true" *placeholder="请输入"/>
-        </mx-source>
+    <div class="mx5-clearfix">
+        <div class="eg-desc flw50">
+            <div class="eg-title">HTML Code</div>
+            <mx-copy class="desc-oper" 
+                *copy-node="{{=$viewId}}_text_1" 
+                mx-success="@:{done}({id:1})">
+                <span class="desc-tip" mx-html="{{=text1}}"></span>
+                <i class="mx5-iconfont desc-icon">&#xe610;</i>
+            </mx-copy>
+            <mx-source whole="true" id="{{=$viewId}}_text_1">
+                <!-- 默认类型宽度 -->
+                <mx-input class="mx5-w280"
+                    *search-list="{{#searchList}}"
+                    *search-value="{{=searchValue1}}"
+                    *prefix="search"
+                    *placeholder="请输入"  
+                    *value="{{=value1}}"
+                    mx-change="change({index:1})"/>
+
+                <!-- 自定义类型宽度 -->
+                <mx-input class="mx5-w280"
+                    *search-width="100px"
+                    *search-list="{{#searchList}}"
+                    *search-value="{{=searchValue2}}"
+                    *prefix="search"
+                    *placeholder="请输入"  
+                    *value="{{=value2}}"
+                    mx-change="change({index:2})"/>
+            </mx-source>
+        </div>
+        <div class="eg-desc flw50 mx5-blc">
+            <div class="eg-title">JS Code</div>
+            <mx-copy class="desc-oper" 
+                *copy-node="{{=$viewId}}_text_2" 
+                mx-success="@:{done}({id:2})">
+                <span class="desc-tip" mx-html="{{=text2}}"></span>
+                <i class="mx5-iconfont desc-icon">&#xe610;</i>
+            </mx-copy>
+            <mx-source whole="true" id="{{=$viewId}}_text_2">
+import Magix5 from 'magix5';
+import View from 'magix5-gallery/views/pages/base/demo';
+
+export default View.extend({
+    tmpl: '@:index.html',
+    render() {
+        this.digest({
+            searchList: [{
+                text: '计划',
+                value: 'campaign'
+            }, {
+                text: '单元',
+                value: 'adgroup'
+            }],
+            searchValue1: 'adgroup',
+            value1: '',
+            searchValue2: 'campaign',
+            value2: '',
+        })
+    },
+    'change<change>'(e) {
+        let index = e.params.index;
+        this.digest({
+            [`searchValue${index}`]: e.searchValue,
+            [`value${index}`]: e.value
+        })
+    }
+})
+            </mx-source>
+        </div>
     </div>
 </div>

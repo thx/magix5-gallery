@@ -1,16 +1,25 @@
 <div class="example">
     <div class="eg-content">
-        <div class="mx5-mb20 mx5-clearfix">
-            <div class="mx5-fl mx5-color-9">以下示例：</div>
-            <div class="mx5-fl">
-                <div>支持配置prefix前缀，suffix后缀</div>
-            </div>
+        <div class="eg-content-tip">
+            <div class="eg-content-tip-prefix">以下示例：</div>
+            <div>配置prefix="search"表示普通搜索框，纯语义提示</div>
+            <div>配置suffix="search"表示强调搜索框，点击触发change事件</div>
         </div>
     
         <div class="mx5-mb20">
-            <mx-input class="mx5-w200 mx5-mr20" *prefix="数字"/>
-            <mx-input class="mx5-w200 mx5-mr20" *prefix="数字" *suffix="元" />
-            <mx-input class="mx5-w200 mx5-mr20" *suffix="元" />
+            <span class="mx5-color-9 mx5-inline-block mx5-w120">普通搜索框</span>
+            <mx-input class="mx5-w200" *prefix="search" *placeholder="请输入"  *value="{{=value1}}" />
+            <span class="mx5-ml20"><span class="mx5-color-9">当前输入：</span>{{=value1}}</span>
+        </div>
+        <div class="mx5-mb20">
+            <span class="mx5-color-9 mx5-inline-block mx5-w120">强调搜索框</span>
+            <mx-input class="mx5-w200" *suffix="search" *placeholder="请输入"  *value="{{=value2}}" />
+            <span class="mx5-ml20"><span class="mx5-color-9">当前输入：</span>{{=value2}}</span>
+        </div>
+        <div class="mx5-mb20">
+            <span class="mx5-color-9 mx5-inline-block mx5-w120">一键删除搜索框</span>
+            <mx-input class="mx5-w200" *prefix="search" *suffix="delete" *placeholder="请输入"  *value="{{=value3}}" />
+            <span class="mx5-ml20"><span class="mx5-color-9">当前输入：</span>{{=value3}}</span>
         </div>
     </div>
     <div class="eg-desc">
@@ -22,7 +31,14 @@
             <i class="mx5-iconfont desc-icon">&#xe610;</i>
         </mx-copy>
         <mx-source whole="true" id="{{=$viewId}}_text_1">
-            <mx-input class="mx5-w200" *prefix="数字" *suffix="元" />
+<!-- 普通搜索框 -->
+<mx-input class="mx5-w200" *prefix="search" *placeholder="请输入"  *value="{{=value1}}" />
+
+<!-- 强调搜索框 -->
+<mx-input class="mx5-w200" *suffix="search" *placeholder="请输入"  *value="{{=value2}}" />
+
+<!-- 一键删除搜索框 -->
+<mx-input class="mx5-w200" *prefix="search" *suffix="delete" *placeholder="请输入"  *value="{{=value3}}" />
         </mx-source>
     </div>
 </div>

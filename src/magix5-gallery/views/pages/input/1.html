@@ -1,28 +1,26 @@
 <div class="example">
     <div class="eg-content">
-        <div class="mx5-mb20 mx5-clearfix">
-            <div class="mx5-fl mx5-color-9">以下示例：</div>
-            <div class="mx5-fl">
-                <div>大尺寸最小宽度64px，小尺寸最小宽度48px</div>
-            </div>
+        <div class="eg-content-tip">
+            <div class="eg-content-tip-prefix">以下示例：</div>
+            <div>mx-input包装了动效，快捷删除，搜索框，密码框，输入计数等功能</div>
+            <div>带一键移除功能的输入框，<span class="mx5-color-brand">当输入内容不为空时出现移除按钮</span></div>
         </div>
-        <div class="mx5-mb20 mx5-clearfix">
-            <div class="mx5-fl mx5-color-9">事件处理：</div>
-            <div class="mx5-fl">
-                <div>mx-input<span class="mx5-color-brand">对事件进行拦截包装</span>，仅在输入值改变之后抛出事件</div>
-            </div>
-        </div>
-    
         <div class="mx5-mb20">
-            <span class="mx5-vmt mx5-w100 mx5-color-9">大尺寸：</span>
-            <mx-input class="mx5-w120 mx5-mr20" *value="{{=value1}}" *placeholder="请输入" mx-change="change({index: 1})"/>
-            <mx-input class="mx5-w120 mx5-mr20" *value="{{=value2}}" *placeholder="带一键清空" *show-delete="true" mx-change="change({index: 2})"/>
+            <span class="mx5-color-9 mx5-inline-block mx5-w120">普通输入框</span>
+            <mx-input class="mx5-w200"
+                *placeholder="请输入整数" 
+                *value="{{=value1}}" 
+                mx-change="change({index:1})"/>
+            <span class="mx5-ml20"><span class="mx5-color-9">当前输入：</span>{{=value1}}</span>
         </div>
-    
         <div class="mx5-mb20">
-            <span class="mx5-vmt mx5-w100 mx5-color-9">小尺寸：</span>
-            <mx-input class="mx5-w120 mx5-mr20" *small="true" *value="{{=value3}}" *placeholder="请输入" mx-change="change({index: 3})"/>
-            <mx-input class="mx5-w120 mx5-mr20" *small="true" *value="{{=value4}}" *placeholder="带一键清空" *show-delete="true" mx-change="change({index: 4})"/>
+            <span class="mx5-color-9 mx5-inline-block mx5-w120">一键删除输入框</span>
+            <mx-input class="mx5-w200"
+                *suffix="delete"
+                *placeholder="请输入整数" 
+                *value="{{=value2}}" 
+                mx-change="change({index:2})"/>
+            <span class="mx5-ml20"><span class="mx5-color-9">当前输入：</span>{{=value2}}</span>
         </div>
     </div>
     <div class="mx5-clearfix">
@@ -35,12 +33,18 @@
                 <i class="mx5-iconfont desc-icon">&#xe610;</i>
             </mx-copy>
             <mx-source whole="true" id="{{=$viewId}}_text_1">
-                <mx-input class="mx5-w120" 
-                    *small="{{=small}}" 
-                    *placeholder="{{=placeholder}}"
-                    *show-delete="true"
-                    *value="{{=value}}"   
-                    mx-change="change()"/>
+                <!-- 普通输入框 -->
+                <mx-input class="mx5-w200"
+                    *placeholder="请输入整数" 
+                    *value="{{=value1}}" 
+                    mx-change="change({index:1})"/>
+
+                <!-- 一键删除输入框 -->
+                <mx-input class="mx5-w200"
+                    *suffix="delete"
+                    *placeholder="请输入整数" 
+                    *value="{{=value2}}" 
+                    mx-change="change({index:2})"/>
             </mx-source>
         </div>
         <div class="eg-desc flw50 mx5-blc">
@@ -52,21 +56,23 @@
                 <i class="mx5-iconfont desc-icon">&#xe610;</i>
             </mx-copy>
             <mx-source whole="true" id="{{=$viewId}}_text_2">
-                import Magix5 from 'magix5';
-    
-                export default Magix5.View.extend({
-                    tmpl: '@:index.html',
-                    render() {
-                        this.digest({
-                            value: '',
-                        })
-                    },
-                    'change<change>'(e) {
-                        this.digest({
-                            value: e.value
-                        })
-                    }
-                })
+import Magix5 from 'magix5';
+import View from 'magix5-gallery/views/pages/base/demo';
+
+export default View.extend({
+    tmpl: '@:index.html',
+    render() {
+        this.digest({
+            value1: '',
+            value2: '',
+        })
+    },
+    'change<change>'(e) {
+        this.digest({
+            [`value${e.params.index}`]: e.value
+        })
+    }
+})
             </mx-source>
         </div>
     </div>

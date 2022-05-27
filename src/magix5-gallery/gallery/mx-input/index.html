@@ -1,25 +1,56 @@
-{{if prefix}}
-<span class="prefix" mx-html="{{=prefix}}"></span>
+{{if (searchList.length > 0)}}
+<mx-dropdown class="mx5-input-searches-dd" 
+    style="width: {{=searchWidth}}; min-width: unset;"
+    *size="{{=size}}"
+    *list="{{#searchList}}" 
+    *selected="{{=searchValue}}"
+    mx-change="@:{change.search.type}()"/>
 {{/if}}
-<input class="input" id="{{=$viewId}}_input"
-    type="{{=displayType}}" 
-    placeholder="{{=placeholder}}??"
-    autocomplete="{{=autocomplete}}??"
-    value="{{=value}}" 
-    mx-keyup="@:{fire}()"
-    mx-focusout="@:{fire}()"
-    mx-change="@:{fire}()" />
 
-<!-- 动画占位 -->
-<span class="input-focus"></span>
+<div class="mx5-input-wrapper {{if (searchList.length > 0)}} mx5-input-searches-wrapper {{/if}}">
+    {{each prefixes as prefix}}
+        {{if (prefix == 'search')}}
+        <i class="mx5-input-prefix-icon mx5-iconfont mx5-fs14">&#xe6ef;</i>
+        {{else if (prefix == 'money')}}
+        <span class="mx5-input-prefix-icon mx5-fs14">¥</span>
+        {{else if (prefix == 'user')}}
+        <i class="mx5-input-prefix-icon mx5-iconfont mx5-fs14">&#xe639;</i>
+        {{else}}
+        <span class="mx5-input-prefix-text mx5-fs12" mx-html="{{=prefix}}"></span>
+        {{/if}}
+    {{/each}}
+    
+    <input class="mx5-input" id="{{=$viewId}}_input"
+        type="{{=type}}??" 
+        placeholder="{{=placeholder}}??"
+        autocomplete="{{=autocomplete}}??"
+        maxlength="{{=(maxlength > 0)}}?{{=maxlength}}"
+        value="{{=value}}" 
+        mx-keyup="@:{fire}()"
+        mx-focusout="@:{fire}()"
+        mx-change="@:{fire}()" />
 
-<!-- border样式占位符，为了直接使用css实现 -->
-<span class="input-border"></span>
+    <!-- input:focus时，border选中样式占位符，为了直接使用css实现 -->
+    <span class="mx5-input-border">
+        <!-- 扩散动画占位 -->
+        <span class="mx5-input-focus"></span>
+    </span>
 
-{{if (showDelete && value)}}
-    <i class="mx5-iconfont delete-icon" mx-click="@:{clear}()">&#xe727;</i>
-{{else if (type == 'search')}}
-    <i class="mx5-iconfont search-icon">&#xe6ef;</i>
-{{else if suffix}}
-    <span class="suffix" mx-html="{{=suffix}}"></span>
-{{/if}}
+    {{if (maxlength > 0)}}
+    <span class="mx5-input-suffix-text"><span class="{{if (value.length > maxlength)}} mx5-color-error {{else}} mx5-color-3 {{/if}}">{{=value.length}}</span>&nbsp;/&nbsp;{{=maxlength}}</span>
+    {{/if}}
+
+    {{each suffixes as suffix}}
+        {{if (suffix == 'delete')}}
+            {{if value}}
+            <i class="mx5-input-suffix-oper mx5-iconfont mx5-bold mx5-fs12" mx-click="@:{clear}()">&#xe603;</i>
+            {{/if}}
+        {{else if (suffix == 'search')}}
+            <i class="mx5-input-suffix-search mx5-iconfont mx5-fs14" mx-click="@:{fire}()">&#xe6ef;</i>
+        {{else if (suffix == 'password')}}
+            <i class="mx5-input-suffix-oper mx5-iconfont mx5-fs14" mx-click="@:{toggle.password}()">{{if (type == 'password')}}&#xe625;{{else}}&#xe628;{{/if}}</i>
+        {{else}}
+            <span class="mx5-input-suffix-text mx5-fs12" mx-html="{{=suffix}}"></span>
+        {{/if}}
+    {{/each}}
+</div>
