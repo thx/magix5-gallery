@@ -181,6 +181,7 @@ let FetchRootAndPrepare = () => {
                     }
                     return Promise.all(promises);
                 },
+                hashbang: '#',
                 ...innerBootConfigs
             });
             rootVframe = Magix.Vframe.get(rId);
@@ -335,7 +336,11 @@ export default View.extend({
             if (!portScript) {
                 throw new Error(`从${vInfo.from}的数据中，未能找到magix-ports的配置`);
             }
-            await LoadScript(portScript.source + '/entry.js', portProject);
+            let src = portScript.source;
+            if (!src.endsWith('/')) {
+                src += '/';
+            }
+            await LoadScript(portScript.source + 'entry.js', portProject);
             let seajs = window.seajs;
             let portsPromise = seajs && seajs.require(portProject);
             if (!portsPromise) {

@@ -7,7 +7,8 @@ Magix3.config({
         "source": "//g.alicdn.com/mm/feeds/20200812.212619.484/feeds"
     }, {
         "projectName": "magix-ports",
-        "source": "//dev.g.alicdn.com/mm/magix-ports/20220513.171722.564"
+        "source": "//g.alicdn.com/mm/magix-ports/20220513.171722.564",
+        //"source":"//dev.g.alicdn.com/mm/magix-ports/20220601.154517.884/"
     }]
 });
 Magix3.setPrepare([{

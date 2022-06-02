@@ -10,7 +10,8 @@ export default View.extend({
             viewId: this.id
         });
     },
-    render() {
+    async render() {
+        await Magix5.delay(2000);
         this.digest();
     }
 });

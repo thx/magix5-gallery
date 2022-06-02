@@ -149,7 +149,13 @@ const PreSetMap = {
     "yellowgreen": "#9acd32",
     "rebeccapurple": "#663399",
 }
+let camelizeRE = /-{1,}(\w)/g;
 
+let camelize = str => {
+    return str.replace(camelizeRE, (_, c) => {
+        return c ? c.toUpperCase() : '';
+    });
+};
 export default Magix5.View.extend({
     ctor() {
         let attrs = this.root ? this.root.attributes : {};
@@ -165,6 +171,14 @@ export default Magix5.View.extend({
                 searchDelay: 250,
             }
         });
+    },
+    /**
+     * 获取magix-composer编译后的slot名称
+     * @param name slot名称
+     * @returns string
+     */
+    '@:{get.slot.key}'(name) {
+        return camelize(`__slot-${name}`);
     },
     '@:{mx.style.offset}'(target) {
         let top = 0, left = 0;

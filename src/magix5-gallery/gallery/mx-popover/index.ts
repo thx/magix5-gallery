@@ -1,28 +1,33 @@
 
-import Magix5, { Vframe } from 'magix5';
+import Magix5 from 'magix5';
 import View from '../mx-base/view';
-Magix5.applyStyle('@:index.less');
+let { applyStyle, node, inside, attach, detach } = Magix5;
+applyStyle('@:index.less');
 
+let supportThemes = ['white', 'dark'];
+let supportPlacements = ['bl', 'br', 'bc',
+    'tl', 'tr', 'tc',
+    'rt', 'rb', 'rc',
+    'lt', 'lb', 'lc'];
+let delayTimers = ['@:{dealy.show.timer}', '@:{dealy.hide.timer}'];
 export default View.extend({
-    init(options) {
-        let that = this;
-        that.set({
-            popId: `popover_${that.id}`,
-        })
-
-        that.on('destroy', () => {
-            that['@:{clear.timers}']();
+    init() {
+        this.set({
+            popId: `popover_${this.id}`,
+        });
+        this.on('destroy', () => {
+            this['@:{clear.timers}']();
         });
     },
 
     assign(options) {
-        let { constants } = this.get();
+        let constants = this.get('constants');
         let showDelay = options.showDelay || constants.showDelay,
             hideDelay = options.hideDelay || constants.hideDelay;
 
         // type(样式)：dark 深底色，white 白底色
-        let type = options.type || 'white';
-        if (['white', 'dark'].indexOf(type) < 0) {
+        let type = options.type;
+        if (!supportThemes.includes(type)) {
             type = 'white';
         }
 
@@ -39,8 +44,8 @@ export default View.extend({
         // lt：left top 左侧，上对齐
         // lb：left bottom 左侧，下对齐
         // lc：left center 左侧，居中对齐
-        let placement = options.placement || 'bc';
-        if (['bl', 'br', 'bc', 'tl', 'tr', 'tc', 'rt', 'rb', 'rc', 'lt', 'lb', 'lc'].indexOf(placement) < 0) {
+        let placement = options.placement;
+        if (!supportPlacements.includes(placement)) {
             placement = 'bc';
         }
 
@@ -71,7 +76,11 @@ export default View.extend({
             showDelay,
             hideDelay,
             type,
-            posConfigs: { placement, width, top, left, offset, zIndex, transform },
+            posConfigs: {
+                placement,
+                width, top, left, offset,
+                zIndex, transform
+            },
             content,
             view,
             viewData,
@@ -90,119 +99,116 @@ export default View.extend({
     },
 
     '@:{init}'() {
-        let that = this;
-        let { popId, type, posConfigs } = that.get();
+        let { popId, type, posConfigs } = this.get();
         let popNode;
-        if (!Magix5.node(popId)) {
+        if (!node(popId)) {
             popNode = document.createElement('div');
             popNode.id = popId;
             document.body.appendChild(popNode);
 
             let watchOver = e => {
-                if (Magix5.inside(e.relatedTarget, e.currentTarget)) {
+                if (inside(e.relatedTarget, e.currentTarget)) {
                     return;
                 }
-                that['@:{clear.timers}']();
+                this['@:{clear.timers}']();
             }
             let watchOut = e => {
-                if (Magix5.inside(e.relatedTarget, e.currentTarget)) {
+                if (inside(e.relatedTarget, e.currentTarget)) {
                     return;
                 }
-                that['@:{hide}']();
+                this['@:{hide}']();
             }
 
-            Magix5.attach(popNode, 'mouseover', watchOver);
-            Magix5.attach(popNode, 'mouseout', watchOut);
+            attach(popNode, 'pointerover', watchOver);
+            attach(popNode, 'pointerout', watchOut);
 
-            that.on('destroy', () => {
-                Magix5.detach(popNode, 'mouseover', watchOver);
-                Magix5.detach(popNode, 'mouseout', watchOut);
+            this.on('destroy', () => {
+                detach(popNode, 'pointerover', watchOver);
+                detach(popNode, 'pointerout', watchOut);
 
                 // 移除节点
-                that.owner.unmount(popNode);
+                this.owner.unmount(popNode);
                 popNode.remove();
             });
         } else {
-            popNode = Magix5.node<HTMLElement>(popId);
+            popNode = node<HTMLElement>(popId);
         }
 
         // 每次初始化重置样式
         popNode.className = `@:index.less:mx5-popover--${type} @:index.less:mx5-popover--${posConfigs.placement}`;
-        popNode.setAttribute('style', `width: ${posConfigs.width}px;`);
+        popNode.style.width = `${posConfigs.width}px`;
     },
-
+    /**
+     * 展示
+     */
     '@:{show}'() {
-        let that = this;
-        that['@:{clear.timers}']();
-        that['@:{dealy.show.timer}'] = setTimeout(() => {
-            if (!that.get('init')) {
-                that.set({ init: true });
-                that['@:{init}']();
-            }
-
-            if (that.get('show')) {
-                return;
-            }
-
-            // trigger样式更新
-            that.set({
-                show: true
-            });
-
+        this['@:{clear.timers}']();
+        this['@:{dealy.show.timer}'] = setTimeout(() => {
             // 每次展开重新渲染内容
-            let { popId, content, view, viewData, posConfigs } = that.get();
-            let popNode = Magix5.node<HTMLElement>(popId);
-            that['@:{pop.vframe}'] = that.owner.mount(popNode, '@:./content', {
-                content,
-                view,
-                viewData,
-                posConfigs,
-            });
-        }, that.get('showDelay'));
+            let { popId, content,
+                show,
+                view, viewData, posConfigs
+            } = this.get();
+            if (!show) {
+                this['@:{init}']();
+                // trigger样式更新
+                this.set({
+                    show: true
+                });
+                //?每次展示都需要重新渲染vframe吗
+                let popNode = node<HTMLElement>(popId);
+                this['@:{pop.vframe}'] = this.owner.mount(popNode, '@:./content', {
+                    content,
+                    view,
+                    viewData,
+                    posConfigs,
+                });
+            }
+        }, this.get('showDelay'));
     },
-
+    /**
+     * 隐藏
+     */
     '@:{hide}'() {
-        let that = this;
-        that['@:{clear.timers}']();
-        that['@:{dealy.hide.timer}'] = setTimeout(() => {
-            if (!that.get('show')) {
-                return;
+        this['@:{clear.timers}']();
+        this['@:{dealy.hide.timer}'] = setTimeout(() => {
+            if (this.get('show')) {
+                // trigger样式更新
+                this.set({
+                    show: false
+                });
+                // 内容隐藏
+                let vf = this['@:{pop.vframe}'];
+                if (vf) {
+                    vf.invoke('@:{hide}');
+                }
             }
-
-            // trigger样式更新
-            that.set({
-                show: false
-            });
-
-            // 内容隐藏
-            let vf = that['@:{pop.vframe}'];
-            if (vf) {
-                vf.invoke('@:{hide}');
-            }
-        }, that.get('hideDelay'));
+        }, this.get('hideDelay'));
     },
-
+    /**
+     * 清理定时器
+     */
     '@:{clear.timers}'() {
-        let that = this;
-        ['@:{dealy.show.timer}', '@:{dealy.hide.timer}'].forEach(key => {
-            if (that[key]) {
-                clearTimeout(that[key]);
-            }
-        });
-    },
-
-    '$root<mouseover>'(e) {
-        if (Magix5.inside(e.relatedTarget, e.eventTarget)) {
-            return;
+        for (let timer of delayTimers) {
+            clearTimeout(this[timer]);
         }
-
-        this['@:{show}']();
     },
-
-    '$root<mouseout>'(e) {
-        if (Magix5.inside(e.relatedTarget, e.eventTarget)) {
-            return;
+    /**
+     * 从根节点移入
+     * @param e 指针事件对象
+     */
+    '$root<pointerover>'(e) {
+        if (!inside(e.relatedTarget, e.eventTarget)) {
+            this['@:{show}']();
         }
-        this['@:{hide}']();
+    },
+    /**
+     * 从根节点移出
+     * @param e 指针事件对象
+     */
+    '$root<pointerout>'(e) {
+        if (!inside(e.relatedTarget, e.eventTarget)) {
+            this['@:{hide}']();
+        }
     }
 });
