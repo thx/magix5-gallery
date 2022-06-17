@@ -278,11 +278,13 @@ export default View.extend({
     },
     '@:{hook.events}'() {
         let he = this.get('hookEvents');
-        if (he) {
+        if (he &&
+            window.jQuery) {
             let events = he.split(',');
             let root = window.jQuery(this.root);
             let transfer = e => {
                 //只拦jq封装的事件
+                //通过$().trigger出来的事件是没有originalEvent的
                 if (!e.originalEvent) {
                     //立即停止
                     e.stopPropagation();
@@ -340,7 +342,7 @@ export default View.extend({
             if (!src.endsWith('/')) {
                 src += '/';
             }
-            await LoadScript(portScript.source + 'entry.js', portProject);
+            await LoadScript(src + 'entry.js', portProject);
             let seajs = window.seajs;
             let portsPromise = seajs && seajs.require(portProject);
             if (!portsPromise) {

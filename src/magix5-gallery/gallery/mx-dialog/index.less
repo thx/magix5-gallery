@@ -1,5 +1,6 @@
-@backdrop-opacity: 0.4;
 @dialog-movement: 30px;
+@dialog-backdrop-light: #0000;
+@dialog-backdrop-dark: #0009;
 .full-fill {
     left: 0;
     top: 0;
@@ -46,8 +47,7 @@
 
 .dialog-backdrop {
     position: fixed;
-    background-color: #000;
-    opacity: @backdrop-opacity;
+    background: @dialog-backdrop-light;
 }
 
 // .blur {
@@ -64,10 +64,10 @@
 
 @keyframes fadein {
     from {
-        opacity: 0;
+        background: @dialog-backdrop-light;
     }
     to {
-        opacity: @backdrop-opacity;
+        background: @dialog-backdrop-dark;
     }
 }
 
@@ -78,10 +78,10 @@
 
 @keyframes fadeout {
     from {
-        opacity: @backdrop-opacity;
+        background: @dialog-backdrop-dark;
     }
     to {
-        opacity: 0;
+        background: @dialog-backdrop-light;
     }
 }
 
