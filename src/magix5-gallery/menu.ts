@@ -197,16 +197,7 @@ export default {
                         path: '/exit/index'
                     }
                 ]
-            },
-            // {
-            //     name: '实用功能',
-            //     subs: [
-            //         {
-            //             name: '离开提醒',
-            //             path: '/feature/exit'
-            //         }
-            //     ]
-            // }
+            }
         ]
     }]
 }

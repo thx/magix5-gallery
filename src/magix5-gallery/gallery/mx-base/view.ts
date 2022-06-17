@@ -198,7 +198,7 @@ export default Magix5.View.extend({
         let base = Math.abs(parseInt(fixFn(number), 10)) + '';
         let mod = base.length > 3 ? base.length % 3 : 0;
 
-        return negative + (mod ? base.substr(0, mod) + thousand : '') + base.substr(mod).replace(/(\d{3})(?=\d)/g, '$1' + thousand) + (precision ? decimal + fixFn(Math.abs(number)).split('.')[1] : '');
+        return negative + (mod ? base.substring(0, mod) + thousand : '') + base.substring(mod).replace(/(\d{3})(?=\d)/g, '$1' + thousand) + (precision ? decimal + fixFn(Math.abs(number)).split('.')[1] : '');
     },
     '@:{stop.propagation}<click,keyup,change,focusout>&{capture:true,passive:false}'(e) {
         e.stopPropagation();
