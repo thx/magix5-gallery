@@ -1,0 +1,72 @@
+<div class="example">
+    <div class="eg-content">
+        <div style="height: 60px">
+            <mx-vframe src="./state-test" *time="{{=time}}" *delay="2000">
+                delay 2000
+            </mx-vframe>
+            {{if show}}
+                <mx-vframe src="./state-test" *time="{{=time}}" *delay="1000">
+                    delay 1000
+                </mx-vframe>
+                <mx-vframe src="./state-test" *time="{{=time}}" *delay="3000">
+                    delay 3000
+                </mx-vframe>
+            <!-- {{else}}
+                这里展示测试使用的子view -->
+            {{/if}}
+        </div>
+        <div class="mx5-mb20">
+            {{if status}}
+                {{each status as s}}
+                    <div>{{=s}}</div>
+                {{/each}}
+            {{/if}}
+        </div>
+        <mx-btn mx-click="toggleChildren()">切换子view</mx-btn>
+    </div>
+    <div class="eg-desc">
+        <div class="eg-title">JS Code</div>
+        <mx-copy class="desc-oper" 
+            *copy-node="{{=$viewId}}_text_1" 
+            mx-success="@:{done}({id:1})">
+            <span class="desc-tip" mx-html="{{=text1}}"></span>
+            <i class="mx5-iconfont desc-icon">&#xe610;</i>
+        </mx-copy>
+        <mx-source whole="true" id="{{=$viewId}}_text_1">
+            import State from '../../../gallery/mx-inspector/state';
+            import View from './demo';
+            export default View.extend({
+                tmpl: '@:./state-1.html',
+                init() {
+                    let statusList = [];
+                    State.watch(this.root, () => {
+                        statusList.push(`${this.id} 自身及所有子view(如果有)渲染完成 ${this.get('time')}`);
+                        this.digest({
+                            status: statusList
+                        })
+                    }, () => {
+                        statusList.push(`${this.id} 有子view销毁 ${this.get('time')}`);
+                        this.digest({
+                            status: statusList
+                        });
+                    });
+                    this.on('destroy', () => {
+                        State.remove(this.root);
+                    });
+                },
+                render() {
+                    this.digest({
+                        show: true,
+                        time: Date.now()
+                    });
+                },
+                'toggleChildren<click>'() {
+                    this.digest({
+                        show: !this.get('show'),
+                        time: Date.now()
+                    });
+                }
+            });
+        </mx-source>
+    </div>
+</div>

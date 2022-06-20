@@ -1,5 +1,7 @@
 {{if !view}}
 <div class="mx5-popover-content" mx-html="{{=content}}"></div>
 {{else}}
-<div mx-view="{{=view}}" *data="{{#viewData}}"></div>
+<div mx-view="{{=view}}" *data="{{#viewData}}">
+    <mx-loading/>
+</div>
 {{/if}}

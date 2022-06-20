@@ -2626,6 +2626,7 @@ define('magix5', () => {
                                     }
                                 }
                             }
+                            updateChildren = !view['@:{view.template}'];
                             if (paramsChanged ||
                                 htmlChanged) {
                                 assign = view['@:{view.assign.fn}'];
@@ -2662,7 +2663,7 @@ define('magix5', () => {
                                 }
                                 //默认当一个组件有assign方法时，由该方法及该view上的render方法完成当前区域内的节点更新
                                 //而对于不渲染界面的控制类型的组件来讲，它本身更新后，有可能需要继续由magix更新内部的子节点，此时通过deep参数控制
-                                updateChildren = !view['@:{view.template}']; //uri.deep;
+                                //updateChildren = !view['@:{view.template}'];//uri.deep;
                                 // } else {
                                 //     unmountOld = 1;
                                 //     updateChildren = 1;
@@ -2672,9 +2673,7 @@ define('magix5', () => {
                                 //         }
                                 //     }
                                 // }
-                            } // else {
-                            // updateAttribute = 1;
-                            //}
+                            }
                         }
                         else {
                             updateChildren = 1;

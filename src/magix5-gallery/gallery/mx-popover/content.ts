@@ -11,20 +11,46 @@ export default View.extend({
             showClassName: transform ? '@:index.less:mx5-popover-anim-show' : '@:index.less:mx5-popover-direct-show',
             hideClassName: transform ? '@:index.less:mx5-popover-anim-hide' : '@:index.less:mx5-popover-direct-hide',
         });
+        let ro = new ResizeObserver(entries => {
+            let show = false;
+            for (let e of entries) {
+                if (e.contentRect.width > 0 &&
+                    e.contentRect.height > 0) {
+                    show = true;
+                }
+            }
+            if (show) {
+                // 每次show时重新定位
+                console.log(this.id, 'reset position');
+                this['@:{set.pos}']();
+            }
+        });
+        ro.observe(this.root);
+        this.on('destroy', () => {
+            ro.unobserve(this.root);
+        });
     },
     async render() {
         await this.digest();
 
-        // 每次show时重新定位
-        this['@:{set.pos}']();
+        let node = this.root; // 当前节点
+        let {
+            posConfigs: { zIndex: customZIndex },
+            showClassName, hideClassName
+        } = this.get();
+        node.style.zIndex = customZIndex;
+        node.classList.remove(hideClassName);
+        node.classList.add(showClassName);
     },
     '@:{set.pos}'() {
         let node = this.root; // 当前节点
         let parentNode = this.owner.parent().root; // 父节点
         let {
-            posConfigs: { top: customTop, left: customLeft, offset: customOffset, zIndex: customZIndex, placement },
-            showClassName, hideClassName
+            posConfigs: { top: customTop, left: customLeft, offset: customOffset, placement },
         } = this.get();
+
+
+        //debugger;
 
         let width = parentNode.offsetWidth,
             height = parentNode.offsetHeight,
@@ -116,14 +142,11 @@ export default View.extend({
 
         node.style.top = top + 'px';
         node.style.left = left + 'px';
-        node.style.zIndex = customZIndex;
-        node.classList.remove(hideClassName);
-        node.classList.add(showClassName);
     },
     '@:{hide}'() {
         let { showClassName, hideClassName } = this.get();
-        let node = this.root;
-        node.classList.remove(showClassName);
-        node.classList.add(hideClassName);
+        let { classList } = this.root;
+        classList.remove(showClassName);
+        classList.add(hideClassName);
     }
 });

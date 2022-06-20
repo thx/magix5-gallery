@@ -22,6 +22,10 @@ export default {
                     {
                         name: '兼容magix3',
                         path: '/base/magix3',
+                    },
+                    {
+                        name: `渲染状态监控`,
+                        path: '/base/state',
                     }
                 ]
             },

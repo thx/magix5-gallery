@@ -181,6 +181,7 @@ let FetchRootAndPrepare = () => {
                     }
                     return Promise.all(promises);
                 },
+                hashbang: '#',
                 ...innerBootConfigs
             });
             rootVframe = Magix.Vframe.get(rId);
@@ -277,11 +278,13 @@ export default View.extend({
     },
     '@:{hook.events}'() {
         let he = this.get('hookEvents');
-        if (he) {
+        if (he &&
+            window.jQuery) {
             let events = he.split(',');
             let root = window.jQuery(this.root);
             let transfer = e => {
                 //只拦jq封装的事件
+                //通过$().trigger出来的事件是没有originalEvent的
                 if (!e.originalEvent) {
                     //立即停止
                     e.stopPropagation();
@@ -335,7 +338,11 @@ export default View.extend({
             if (!portScript) {
                 throw new Error(`从${vInfo.from}的数据中，未能找到magix-ports的配置`);
             }
-            await LoadScript(portScript.source + '/entry.js', portProject);
+            let src = portScript.source;
+            if (!src.endsWith('/')) {
+                src += '/';
+            }
+            await LoadScript(src + 'entry.js', portProject);
             let seajs = window.seajs;
             let portsPromise = seajs && seajs.require(portProject);
             if (!portsPromise) {

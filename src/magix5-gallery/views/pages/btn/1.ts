@@ -7,4 +7,4 @@ export default View.extend({
     'test<click>'(e) {
         console.log('click')
     },
-})
+});

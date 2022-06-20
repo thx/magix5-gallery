@@ -1,5 +1,5 @@
 import Magix5 from 'magix5';
-let { has, mark, toMap, applyStyle, task, isObject, isArray } = Magix5;
+let { has, mark, toMap, applyStyle, task, isObject, isArray, isNumeric } = Magix5;
 applyStyle('@:./sync.less');
 let emptyObject = {};
 let errorSelector = '@:./sync.less:error-input';
@@ -62,6 +62,14 @@ let syncUIFromData = (view, rootData, e, check) => {
             let data = rootData;
             while (data && ps.length) {
                 let temp = ps.shift();
+                //处理root?.key?.[expr]的表达式
+                if (temp.endsWith('?')) {
+                    temp = temp.slice(0, -1);
+                    if (temp.startsWith('[') &&
+                        temp.endsWith(']')) {
+                        temp = temp.slice(1, -1);
+                    }
+                }
                 data = data[temp];
             }
             if (!ps.length) {
@@ -162,19 +170,53 @@ export default {
             let [p, f, a] = ctrl;
             // 绑定节点
             let ps = p.split('.');
+            let index = 0,
+                object = dataRoot;
             // 校验规则
-            let actions = f || emptyObject;
-            let key = ps.pop(),
-                temp,
+            let actions = f || emptyObject, key,
                 value,
-                rootKey = ps[0] || key;
-            let object = dataRoot;
-            let dataOfRootKey = dataRoot[rootKey],
+                rootKey;
+
+            let dataOfRootKey,
                 topLevel = true;
-            while (object && ps.length) {
-                temp = ps.shift();
-                object = object[temp];
-                topLevel = false;
+            //处理root?.key?.[expr]的表达式
+            //如果后跟[expr]的表达式，则根据expr是否为数字，推导前面的对象为数组或普通对象
+            for (let p of ps) {
+                let next = ps[index + 1];
+                if (p.endsWith('?')) {
+                    p = p.slice(0, -1);
+                    if (p.startsWith('[') &&
+                        p.endsWith(']')) {
+                        p = p.slice(1, -1);
+                    }
+                    if (next) {
+                        if (next.endsWith('?')) {
+                            next = next.slice(0, -1);
+                        }
+                        if (next.startsWith('[') &&
+                            next.endsWith(']')) {
+                            next = next.slice(1, -1);
+                            if (!object[p]) {
+                                object[p] = isNumeric(next) ? [] : {};
+                            }
+                        } else if (!object[p]) {
+                            object[p] = {};
+                        }
+                    }
+                } else if (p.startsWith('[') &&
+                    p.endsWith(']')) {
+                    p = p.slice(1, -1);
+                }
+                if (next) {
+                    object = object[p];
+                    topLevel = false;
+                }
+                key = p;
+                if (!rootKey) {
+                    rootKey = p;
+                    dataOfRootKey = dataRoot[p];
+                }
+                index++;
             }
             let targetAsSelect = eventTarget as HTMLSelectElement;
             let targetAsInput = eventTarget as HTMLInputElement;
