@@ -11,6 +11,7 @@ export default View.extend({
             showClassName: transform ? '@:index.less:mx5-popover-anim-show' : '@:index.less:mx5-popover-direct-show',
             hideClassName: transform ? '@:index.less:mx5-popover-anim-hide' : '@:index.less:mx5-popover-direct-hide',
         });
+
         let ro = new ResizeObserver(entries => {
             let show = false;
             for (let e of entries) {
@@ -33,12 +34,13 @@ export default View.extend({
     async render() {
         await this.digest();
 
-        let node = this.root; // 当前节点
+        // 当前节点
+        let node = this.root;
         let {
-            posConfigs: { zIndex: customZIndex },
+            posConfigs: { zIndex },
             showClassName, hideClassName
         } = this.get();
-        node.style.zIndex = customZIndex;
+        node.style.zIndex = zIndex;
         node.classList.remove(hideClassName);
         node.classList.add(showClassName);
     },
@@ -48,9 +50,6 @@ export default View.extend({
         let {
             posConfigs: { top: customTop, left: customLeft, offset: customOffset, placement },
         } = this.get();
-
-
-        //debugger;
 
         let width = parentNode.offsetWidth,
             height = parentNode.offsetHeight,

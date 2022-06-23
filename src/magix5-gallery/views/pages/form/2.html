@@ -1,0 +1,100 @@
+<div class="example">
+    <div class="mx5-clearfix">
+        <div class="eg-content flw50">
+            <div class="mx5-mb20 mx5-clearfix">
+                <div class="mx5-fl mx5-color-9">以下示例：</div>
+                <div class="mx5-fl">
+                    <div>左侧文字提示预留4个字的位置</div>
+                </div>
+            </div>
+            <form class="mx5-form" style="--mx5-form-label-size: 4;">
+                <div class="mx5-form-item">
+                    <div class="mx5-form-label">输入框</div>
+                    <div class="mx5-form-content">
+                        <mx-input class="mx5-w200"/>
+                    </div>
+                </div>
+                <div class="mx5-form-item">
+                    <div class="mx5-form-label">输入框</div>
+                    <div class="mx5-form-content">
+                        <mx-input class="mx5-w200"/>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="eg-content flw50 mx5-blc">
+            <div class="mx5-mb20 mx5-clearfix">
+                <div class="mx5-fl mx5-color-9">以下示例：</div>
+                <div class="mx5-fl">
+                    <div>左侧文字提示预留12个字的位置</div>
+                </div>
+            </div>
+            <form class="mx5-form" style="--mx5-form-label-size: 12;">
+                <div class="mx5-form-item">
+                    <div class="mx5-form-label">输入框</div>
+                    <div class="mx5-form-content">
+                        <mx-input class="mx5-w200"/>
+                    </div>
+                </div>
+                <div class="mx5-form-item">
+                    <div class="mx5-form-label">输入框</div>
+                    <div class="mx5-form-content">
+                        <mx-input class="mx5-w200"/>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="mx5-clearfix">
+        <div class="eg-desc flw50">
+            <div class="eg-title">HTML Code</div>
+            <mx-copy class="desc-oper" 
+                *copy-node="{{=$viewId}}_text_1" 
+                mx-success="@:{done}({id:1})">
+                <span class="desc-tip" mx-html="{{=text1}}"></span>
+                <i class="mx5-iconfont desc-icon">&#xe610;</i>
+            </mx-copy>
+            <mx-source whole="true" id="{{=$viewId}}_text_1">
+                <form class="mx5-form" <mx-source-origin><span class="mx5-color-brand">style="--mx5-form-label-size: 4;"</span></mx-source-origin>>
+                    <div class="mx5-form-item">
+                        <div class="mx5-form-label">输入框</div>
+                        <div class="mx5-form-content">
+                            <mx-input class="mx5-w200"/>
+                        </div>
+                    </div>
+                    <div class="mx5-form-item">
+                        <div class="mx5-form-label">输入框</div>
+                        <div class="mx5-form-content">
+                            <mx-input class="mx5-w200"/>
+                        </div>
+                    </div>
+                </form>
+            </mx-source>
+        </div>
+        <div class="eg-desc flw50 mx5-blc">
+            <div class="eg-title">HTML Code</div>
+            <mx-copy class="desc-oper" 
+                *copy-node="{{=$viewId}}_text_2" 
+                mx-success="@:{done}({id:2})">
+                <span class="desc-tip" mx-html="{{=text2}}"></span>
+                <i class="mx5-iconfont desc-icon">&#xe610;</i>
+            </mx-copy>
+            <mx-source whole="true" id="{{=$viewId}}_text_2">
+                <form class="mx5-form" <mx-source-origin><span class="mx5-color-brand">style="--mx5-form-label-size: 12;"</span></mx-source-origin>>
+                    <div class="mx5-form-item">
+                        <div class="mx5-form-label">输入框</div>
+                        <div class="mx5-form-content">
+                            <mx-input class="mx5-w200"/>
+                        </div>
+                    </div>
+                    <div class="mx5-form-item">
+                        <div class="mx5-form-label">输入框</div>
+                        <div class="mx5-form-content">
+                            <mx-input class="mx5-w200"/>
+                        </div>
+                    </div>
+                </form>
+            </mx-source>
+        </div>
+    </div>
+</div>

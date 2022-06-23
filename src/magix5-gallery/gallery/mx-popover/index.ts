@@ -153,11 +153,13 @@ export default View.extend({
             } = this.get();
             if (!show) {
                 this['@:{init}']();
+
                 // trigger样式更新
                 this.set({
                     show: true
                 });
-                //?每次展示都需要重新渲染vframe吗
+
+                // viewData可能会变，每次展示都需要重新渲染vframe
                 let popNode = node<HTMLElement>(popId);
                 this['@:{pop.vframe}'] = this.owner.mount(popNode, '@:./content', {
                     content,

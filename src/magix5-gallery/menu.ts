@@ -119,10 +119,10 @@ export default {
             {
                 name: '内容展示',
                 subs: [
-                    // {
-                    //     name: 'mx-form 表单',
-                    //     path: '/form/index',
-                    // },
+                    {
+                        name: 'mx-form 表单',
+                        path: '/form/index',
+                    },
                     // {
                     //     name: '表单支持的校验项',
                     //     fullName: 'mx-form 表单支持的校验项',
@@ -141,12 +141,12 @@ export default {
                     //     path: '/form/warn',
                     //     child: true,
                     // },
-                    // {
-                    //     name: '表单样式',
-                    //     fullName: 'mx-form 表单样式',
-                    //     path: '/form/style',
-                    //     child: true,
-                    // },
+                    {
+                        name: '表单样式',
+                        fullName: 'mx-form 表单样式',
+                        path: '/form/style',
+                        child: true,
+                    },
                     {
                         name: 'mx-effects.card 卡片',
                         path: '/effects/card',

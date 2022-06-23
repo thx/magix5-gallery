@@ -2,9 +2,9 @@
  * 下拉框追加到body
  * 支持多选 or 单选
  */
-import Magix5 from 'magix5';
+import Magix5, { applyStyle, node, inside, attach, detach, toMap, mix, dispatch } from 'magix5';
 import View from '../mx-base/view';
-Magix5.applyStyle('@:index.less');
+applyStyle('@:index.less');
 
 export default View.extend({
     tmpl: '@:index.html',
@@ -121,7 +121,7 @@ export default View.extend({
             selected = (options.selected === undefined || options.selected === null) ? [] : (options.selected + '').split(',');
         }
 
-        let map = Magix5.toMap(list, 'value');
+        let map = toMap(list, 'value');
         let selectedItems = [];
         selected.forEach(value => {
             //未提供选项，或提供的选项不在列表里
@@ -231,13 +231,13 @@ export default View.extend({
                 text: texts.join(','),
             }
             if (operationType && operationItem) {
-                Magix5.mix(d, {
+                mix(d, {
                     operationType,
                     operationItem,
                 })
             }
 
-            Magix5.dispatch(this.root, 'change', d);
+            dispatch(this.root, 'change', d);
         }
     },
 
@@ -245,26 +245,24 @@ export default View.extend({
         let that = this;
         let { popId, triggerType, over } = that.get();
         let popNode;
-        if (!Magix5.node(popId)) {
+        if (!node(popId)) {
             popNode = document.createElement('div');
             popNode.id = popId;
             document.body.appendChild(popNode);
 
             let watchOver = e => {
-                if (Magix5.inside(e.relatedTarget, e.eventTarget)) {
-                    return;
+                if (inside(e.relatedTarget, e.eventTarget)) {
+                    that['@:{clear.timers}']();
                 }
-                that['@:{clear.timers}']();
             }
             let watchOut = e => {
-                if (Magix5.inside(e.relatedTarget, e.eventTarget)) {
-                    return;
+                if (inside(e.relatedTarget, e.eventTarget)) {
+                    that['@:{hide}']();
                 }
-                that['@:{hide}']();
             }
             if (triggerType == 'hover') {
-                Magix5.attach(popNode, 'mouseover', watchOver);
-                Magix5.attach(popNode, 'mouseout', watchOut);
+                attach(popNode, 'pointerover', watchOver);
+                attach(popNode, 'pointerout', watchOut);
             }
 
             let watchSubmit = e => {
@@ -276,22 +274,21 @@ export default View.extend({
                 // 关闭下拉框
                 that.digest({ show: false });
             }
-            Magix5.attach(popNode, 'submit', watchSubmit);
-            Magix5.attach(popNode, 'cancel', watchCancel);
-
+            attach(popNode, 'submit', watchSubmit);
+            attach(popNode, 'cancel', watchCancel);
 
             that.on('destroy', () => {
-                Magix5.detach(popNode, 'mouseover', watchOver);
-                Magix5.detach(popNode, 'mouseout', watchOut);
-                Magix5.detach(popNode, 'submit', watchSubmit);
-                Magix5.detach(popNode, 'cancel', watchCancel);
+                detach(popNode, 'pointerover', watchOver);
+                detach(popNode, 'pointerout', watchOut);
+                detach(popNode, 'submit', watchSubmit);
+                detach(popNode, 'cancel', watchCancel);
 
                 // 移除节点
                 that.owner.unmount(popNode);
                 popNode.remove();
             });
         } else {
-            popNode = Magix5.node<HTMLElement>(popId);
+            popNode = node<HTMLElement>(popId);
         }
 
         // 多选大尺寸展现样式上稍有差异
@@ -327,7 +324,7 @@ export default View.extend({
 
             // 每次展开重新渲染内容
             let data = this.get();
-            let popNode = Magix5.node<HTMLElement>(data.popId);
+            let popNode = node<HTMLElement>(data.popId);
             if (data.multiple) {
                 // 多选
             } else {
@@ -382,26 +379,23 @@ export default View.extend({
     /**
      * triggerType = hover
      */
-    '$root<mouseover>'(e) {
-        if (Magix5.inside(e.relatedTarget, e.eventTarget)) {
-            return;
+    '$root<pointerover>'(e) {
+        if (inside(e.relatedTarget, e.eventTarget)) {
+            if (this.get('triggerType') == 'hover') {
+                this['@:{show}']();
+            }
         }
 
-        if (this.get('triggerType') == 'hover') {
-            this['@:{show}']();
-        }
     },
 
     /**
     * triggerType = hover
     */
-    '$root<mouseout>'(e) {
-        if (Magix5.inside(e.relatedTarget, e.eventTarget)) {
-            return;
-        }
-
-        if (this.get('triggerType') == 'hover') {
-            this['@:{hide}']();
+    '$root<pointerout>'(e) {
+        if (inside(e.relatedTarget, e.eventTarget)) {
+            if (this.get('triggerType') == 'hover') {
+                this['@:{hide}']();
+            }
         }
     },
 
@@ -425,9 +419,8 @@ export default View.extend({
     },
 
     '$doc<mousedown,keyup>'(e) {
-        let node = e.target;
-        let inside = Magix5.inside(node, this.root) || Magix5.inside(node, Magix5.node(this.get('popId')));
-        if (!inside) {
+        let target = e.target;
+        if (!inside(target, this.root) && !inside(target, node(this.get('popId')))) {
             this['@:{hide}']();
         }
     },

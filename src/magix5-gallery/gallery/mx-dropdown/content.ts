@@ -1,9 +1,9 @@
 /**
  * 下拉框单选
  */
-import Magix5 from 'magix5';
+import Magix5, { applyStyle, dispatch } from 'magix5';
 import View from '../mx-base/view';
-Magix5.applyStyle('@:index.less');
+applyStyle('@:index.less');
 
 export default View.extend({
     tmpl: '@:content.html',
@@ -88,7 +88,7 @@ export default View.extend({
         e.stopPropagation();
 
         let { item, operationType } = e.params;
-        Magix5.dispatch(this.root, 'submit', {
+        dispatch(this.root, 'submit', {
             data: {
                 selectedItems: [item],
                 operationType,
@@ -138,7 +138,7 @@ export default View.extend({
             parents
         });
 
-        Magix5.dispatch(this.root, 'submit', {
+        dispatch(this.root, 'submit', {
             data: {
                 parents,
                 selectedItems: [selectedItem],
