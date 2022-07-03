@@ -1,0 +1,26 @@
+<div class="example">
+    <div class="eg-content">
+        <div class="mx5-clearfix">
+            <span class="mx5-color-9">当前点击选中：</span>
+            <span>{{=(selected.title || '')}}</span>
+        </div>
+        <div class="mx5-pt40 mx5-pb20">
+            <mx-effects.card 
+                *list="{{#list}}"
+                *mode="flat-small-list" 
+                mx-select="select()"/>
+        </div>
+    </div>
+    <div class="eg-desc">
+        <div class="eg-title">HTML Code</div>
+        <mx-copy class="desc-oper" 
+            *copy-node="{{=$viewId}}_text_1" 
+            mx-success="@:{done}({id:1})">
+            <span class="desc-tip" mx-html="{{=text1}}"></span>
+            <i class="mx5-iconfont desc-icon">&#xe610;</i>
+        </mx-copy>
+        <mx-source whole="true" id="{{=$viewId}}_text_1">
+
+        </mx-source>
+    </div>
+</div>

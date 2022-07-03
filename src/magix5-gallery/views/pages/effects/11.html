@@ -16,15 +16,21 @@
                 </div>
             </div>
             {{/each}}
+
+            <div class="mx5-form-item">
+                <div class="mx5-form-label">当前选中：</div>
+                <div class="mx5-form-content">
+                    <span class="mx5-mr20" mx-html="卡片：{{=(selectedItem || '')}}"></span>
+                    <span mx-html="按钮：{{=(selectedBtn || '')}}"></span>
+                </div>
+            </div>
         </form>
         <div class="mx5-pt40 mx5-pb60">
             <mx-effects.card 
                 *list="{{#list}}"
                 *autoplay="false"
                 *mode="{{=selected['mode']}}" 
-                *line-number="{{=selected['line-number']}}"
-                *tip-line-number="{{=selected['tip-line-number']}}"
-                *text-align="{{=selected['text-align']}}" />
+                mx-select="select()"/>
         </div>
     </div>
     <div class="eg-desc">

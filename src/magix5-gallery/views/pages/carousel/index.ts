@@ -76,22 +76,22 @@ instance.invoke('to',2);
                 def: `<pre style="width: 340px;">
     {
         // 轮播点默认颜色，默认0.4，hover0.8，选中态1
-        '--mx-carousel-trigger-color': '#ffffff', 
+        '--mx5-carousel-trigger-color': '#ffffff', 
     
         // 轮播点显示位置与边界的距离
-        '--mx-carousel-trigger-gap': '12px',
+        '--mx5-carousel-trigger-gap': '12px',
     
         // 线型轮播点宽度
-        '--mx-carousel-line-width': '20px',
+        '--mx5-carousel-line-width': '20px',
     
         // 线型轮播点高度
-        '--mx-carousel-line-height': '5px',
+        '--mx5-carousel-line-height': '5px',
     
         // 线型轮播点距离
-        '--mx-carousel-line-gap': '2px',
+        '--mx5-carousel-line-gap': '2px',
     
         // 圆点轮播点大小，点与点的距离=该直径
-        '--mx-carousel-dot-size': '12px'
+        '--mx5-carousel-dot-size': '12px'
     }
     </pre>`
             }, {
@@ -101,22 +101,22 @@ instance.invoke('to',2);
                 def: `<pre style="width: 340px;">
     [{
         // 轮播点默认颜色，默认0.4，hover0.8，选中态1
-        '--mx-carousel-trigger-color': '#ffffff', 
+        '--mx5-carousel-trigger-color': '#ffffff', 
     
         // 轮播点显示位置与边界的距离
-        '--mx-carousel-trigger-gap': '12px',
+        '--mx5-carousel-trigger-gap': '12px',
     
         // 线型轮播点宽度
-        '--mx-carousel-line-width': '20px',
+        '--mx5-carousel-line-width': '20px',
     
         // 线型轮播点高度
-        '--mx-carousel-line-height': '5px',
+        '--mx5-carousel-line-height': '5px',
     
         // 线型轮播点距离
-        '--mx-carousel-line-gap': '2px',
+        '--mx5-carousel-line-gap': '2px',
     
         // 圆点轮播点大小，点与点的距离=该直径
-        '--mx-carousel-dot-size': '12px'
+        '--mx5-carousel-dot-size': '12px'
     }]
     </pre>`
             }, */{

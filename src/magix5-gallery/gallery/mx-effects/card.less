@@ -2,29 +2,37 @@
     float: left;
     display: block;
     position: relative;
-    height: var(--mx-effects-card-height);
-    margin-left: var(--mx-effects-card-h-gap);
+    height: var(--mx5-effects-card-height);
+    margin-left: var(--mx5-effects-card-h-gap);
     background: #fff;
-    border-radius: var(--mx-effects-card-radius);
+    border-radius: var(--mx5-effects-card-radius);
     cursor: pointer;
     transition: all var(--mx5-duration) ease-out;
-    background-color: var(--mx-effects-card-color-bg);
-    box-shadow: var(--mx-effects-card-shadow);
+    background-color: var(--mx5-effects-card-color-bg);
+    box-shadow: var(--mx5-effects-card-shadow);
 
     .card-img {
-        height: var(--mx-card-img-height);
+        height: var(--mx5-card-img-height);
         background-repeat: no-repeat;
         background-size: cover;
         background-position: center;
-        border-top-left-radius: var(--mx-effects-card-radius);
-        border-top-right-radius: var(--mx-effects-card-radius);
+        border-top-left-radius: var(--mx5-effects-card-radius);
+        border-top-right-radius: var(--mx5-effects-card-radius);
+    }
+
+    .card-tag-text {
+        position: absolute;
+        top: var(--mx5-card-gap-ver);
+        left: var(--mx5-card-gap-hor);
+        z-index: 3;
     }
 
     .card-tag-left {
         position: absolute;
         top: 0;
         left: 0;
-        border-top-left-radius: var(--mx-effects-card-radius);
+        z-index: 3;
+        border-top-left-radius: var(--mx5-effects-card-radius);
         overflow: hidden;
     }
 
@@ -32,12 +40,12 @@
         position: absolute;
         top: 0;
         right: 0;
-        border-top-right-radius: var(--mx-effects-card-radius);
+        border-top-right-radius: var(--mx5-effects-card-radius);
         overflow: hidden;
     }
 
     .card-info {
-        padding: var(--mx-card-gap-ver) var(--mx-card-gap-hor);
+        padding: var(--mx5-card-gap-ver) var(--mx5-card-gap-hor);
     }
 
     .card-icon,
@@ -53,42 +61,42 @@
 
     .card-title {
         position: relative;
-        height: calc(var(--mx-card-title-line-height) * var(--mx-card-title-line));
-        line-height: var(--mx-card-title-line-height);
-        font-size: var(--mx-effects-card-title-font-size);
-        color: var(--mx-card-title-color);
-        transition: color var(--mx5-duration), opacity var(--mx5-duration);
-        display: -webkit-box;
-        -webkit-line-clamp: var(--mx-card-title-line);
-        /* autoprefixer: off */
-        -webkit-box-orient: vertical;
-        /* autoprefixer: on */
-        text-overflow: ellipsis;
-        overflow: hidden;
+        display: flex;
+        height: calc(var(--mx5-card-title-line-height) * var(--mx5-card-title-line));
 
-        .card-title-tag-img {
-            position: absolute;
-            bottom: 4px;
-            right: 0;
-            height: calc(var(--mx-card-title-line-height) - 8px);
+        .card-title-text {
+            flex: 1;
+
+            .card-title-text-inner {
+                line-height: var(--mx5-card-title-line-height);
+                font-size: var(--mx5-effects-card-title-font-size);
+                color: var(--mx5-card-title-color);
+                transition: color var(--mx5-duration), opacity var(--mx5-duration);
+                display: -webkit-box;
+                -webkit-line-clamp: var(--mx5-card-title-line);
+                /* autoprefixer: off */
+                -webkit-box-orient: vertical;
+                /* autoprefixer: on */
+                text-overflow: ellipsis;
+                overflow: hidden;
+            }
         }
 
-        .card-title-tag-text {
-            position: absolute;
-            bottom: calc((var(--mx-card-title-line-height) - var(--mx-tag-height)) / 2);
-            right: 0;
+        .card-title-tag {
+            display: inline-flex;
+            align-items: center;
         }
     }
 
     .card-tip {
-        height: calc(var(--mx-card-tip-line-height) * var(--mx-card-tip-line));
-        line-height: var(--mx-card-tip-line-height);
-        margin-top: var(--mx-card-tip-top);
-        font-size: var(--mx-effects-card-tip-font-size);
+        height: calc(var(--mx5-card-tip-line-height) * var(--mx5-card-tip-line));
+        line-height: var(--mx5-card-tip-line-height);
+        margin-top: var(--mx5-card-tip-top);
+        font-size: var(--mx5-effects-card-tip-font-size);
         color: #666;
         transition: color var(--mx5-duration), opacity var(--mx5-duration);
         display: -webkit-box;
-        -webkit-line-clamp: var(--mx-card-tip-line);
+        -webkit-line-clamp: var(--mx5-card-tip-line);
         /* autoprefixer: off */
         -webkit-box-orient: vertical;
         /* autoprefixer: on */
@@ -100,22 +108,22 @@
         position: relative;
         display: table;
         width: 100%;
-        margin-top: var(--mx-card-quotae-top);
-        padding-top: var(--mx-card-quotae-top);
+        margin-top: var(--mx5-card-quotae-top);
+        padding-top: var(--mx5-card-quotae-top);
 
         .card-quotae {
             position: relative;
             display: table-cell;
             width: 100%;
-            height: var(--mx-card-quotae-height);
+            height: var(--mx5-card-quotae-height);
             vertical-align: middle;
             text-align: center;
         }
 
         .quotae-num,
         .quotae-text {
-            height: calc(var(--mx-card-quotae-height) / 2);
-            line-height: calc(var(--mx-card-quotae-height) / 2);
+            height: calc(var(--mx5-card-quotae-height) / 2);
+            line-height: calc(var(--mx5-card-quotae-height) / 2);
             white-space: nowrap;
             word-wrap: normal;
             text-align: center;
@@ -133,8 +141,8 @@
         }
 
         .card-quotae-tip {
-            height: var(--mx-card-quotae-height);
-            line-height: calc(var(--mx-card-quotae-height) / 2);
+            height: var(--mx5-card-quotae-height);
+            line-height: calc(var(--mx5-card-quotae-height) / 2);
             color: #666;
             text-align: left;
             display: -webkit-box;
@@ -151,38 +159,40 @@
             content: ' ';
             position: absolute;
             top: 0;
-            left: calc(0px - var(--mx-card-gap-hor));
-            right: calc(0px - var(--mx-card-gap-hor));
+            left: calc(0px - var(--mx5-card-gap-hor));
+            right: calc(0px - var(--mx5-card-gap-hor));
             height: 0;
-            border-top: 1px solid var(--mx-effects-card-color-border);
+            border-top: 1px solid var(--mx5-effects-card-color-border);
         }
     }
 
     .card-btn {
-        --mx5-btn-font-size: var(--mx-card-btn-font);
-        --mx5-input-height: var(--mx-card-btn-height);
-        display: flex;
-        margin-top: var(--mx-card-btn-top);
-        padding: 0 var(--mx-card-btn-h-gap);
-        background-color: transparent;
-        background-image: none;
-        border-color: var(--mx5-btn-brand);
-        color: var(--mx5-btn-brand);
-        transition: all var(--mx5-duration);
-        justify-content: center;
-        align-items: center;
+        --mx5-btn-border: var(--mx5-color-brand);
+        --mx5-btn-bg: transparent;
+        --mx5-btn-text: var(--mx5-color-brand);
+        --mx5-btn-border-hover: var(--mx5-color-brand);
+        --mx5-btn-bg-hover: var(--mx5-color-brand);
+        --mx5-btn-text-hover: #fff;
+        --mx5-btn-font-size: var(--mx5-card-btn-font);
+        --mx5-input-height: var(--mx5-card-btn-height);
+        width: 100%;
+        margin-top: var(--mx5-card-btn-top);
 
         .card-btn-icon {
-            font-size: 14px;
-            font-weight: bold;
+            font-size: 12px;
             margin-left: 4px;
+            transform: scale(0.9);
         }
     }
 
     &.highlight,
     &:hover {
         .card-title {
-            color: var(--mx-card-title-color);
+            .card-title-text {
+                .card-title-text-inner {
+                    color: var(--mx5-card-title-color);
+                }
+            }
         }
 
         .card-sub-title {
@@ -194,62 +204,54 @@
         }
 
         .card-btn {
-            border-color: var(--mx5-btn-brand);
-            background-color: var(--mx5-btn-brand);
-            color: var(--mx5-btn-brand-text);
+            --mx5-btn-border: var(--mx5-color-brand);
+            --mx5-btn-bg: var(--mx5-color-brand);
+            --mx5-btn-text: #fff;
         }
     }
 
     &:hover {
-        margin-top: calc(0px - var(--mx-effects-card-v-gap) / 3);
-
-        &.highlight {
-            .card-btn {
-                border-color: var(--mx5-btn-brand-hover);
-                background-color: var(--mx5-btn-brand-hover);
-                color: var(--mx5-btn-brand-text-hover);
-            }
-        }
+        margin-top: calc(0px - var(--mx5-effects-card-v-gap) / 3);
     }
 }
 
 .card-wrapper {
-    --mx-effects-card-height: calc(var(--mx-card-img-height) + var(--mx-card-gap-ver) * 2 + var(--mx-card-icon-height) + var(--mx-card-icon-bottom) + var(--mx-card-title-line-height) * var(--mx-card-title-line) + var(--mx-card-sub-title-height) + var(--mx-card-tip-top) + var(--mx-card-tip-line-height) * var(--mx-card-tip-line) + var(--mx-card-btn-top) + var(--mx-card-btn-height) + var(--mx-card-quotae-top) * 2 + var(--mx-card-quotae-height)) + var(--mx-card-btn-links-height) + var(--mx-card-link-line-height) * var(--mx-card-link-line);
-    height: calc(var(--mx-effects-card-height) + var(--mx-effects-card-v-gap) * 2);
-    margin-top: calc(0px - var(--mx-effects-card-v-gap));
-    margin-bottom: calc(0px - var(--mx-effects-card-v-gap));
-    margin-left: calc(0px - var(--mx-effects-card-h-gap));
-    margin-right: calc(0px - var(--mx-effects-card-h-gap));
+    --mx5-effects-card-height: calc(var(--mx5-card-img-height) + var(--mx5-card-gap-ver) * 2 + var(--mx5-card-icon-height) + var(--mx5-card-icon-bottom) + var(--mx5-card-title-line-height) * var(--mx5-card-title-line) + var(--mx5-card-sub-title-height) + var(--mx5-card-tip-top) + var(--mx5-card-tip-line-height) * var(--mx5-card-tip-line) + var(--mx5-card-btn-top) + var(--mx5-card-btn-height) + var(--mx5-card-quotae-top) * 2 + var(--mx5-card-quotae-height)) + var(--mx5-card-btn-links-height) + var(--mx5-card-link-line-height) * var(--mx5-card-link-line);
+    height: calc(var(--mx5-effects-card-height) + var(--mx5-effects-card-v-gap) * 2);
+    margin-top: calc(0px - var(--mx5-effects-card-v-gap));
+    margin-bottom: calc(0px - var(--mx5-effects-card-v-gap));
+    margin-left: calc(0px - var(--mx5-effects-card-h-gap));
+    margin-right: calc(0px - var(--mx5-effects-card-h-gap));
 
     .card-cont {
-        padding-top: var(--mx-effects-card-v-gap);
-        padding-bottom: var(--mx-effects-card-v-gap);
+        padding-top: var(--mx5-effects-card-v-gap);
+        padding-bottom: var(--mx5-effects-card-v-gap);
     }
 
     &.carousel-common-list,
     &.flat-common-list {
-        --mx-card-img-height: 200px;
-        --mx-card-title-line-height: 28px;
-        --mx-card-title-line: 1;
-        --mx-card-title-color: #333;
-        --mx-card-sub-title-height: 0px;
-        --mx-card-gap-ver: 16px;
-        --mx-card-gap-hor: 24px;
-        --mx-card-icon-height: 0px;
-        --mx-card-icon-bottom: 0px;
-        --mx-card-tip-line-height: 18px;
-        --mx-card-tip-line: 2;
-        --mx-card-tip-top: 8px;
-        --mx-card-btn-h-gap: var(--mx5-btn-h-gap);
-        --mx-card-btn-font: 14px;
-        --mx-card-btn-height: 40px;
-        --mx-card-btn-top: 16px;
-        --mx-card-btn-links-font: 0px;
-        --mx-card-btn-links-height: 0px;
-        --mx-card-quotae-top: 0px;
-        --mx-card-quotae-height: 0px;
-        --mx-card-link-line-height: 0px;
-        --mx-card-link-line: 0;
+        --mx5-card-img-height: 200px;
+        --mx5-card-title-line-height: 28px;
+        --mx5-card-title-line: 1;
+        --mx5-card-title-color: #333;
+        --mx5-card-sub-title-height: 0px;
+        --mx5-card-gap-ver: 16px;
+        --mx5-card-gap-hor: 24px;
+        --mx5-card-icon-height: 0px;
+        --mx5-card-icon-bottom: 0px;
+        --mx5-card-tip-line-height: 18px;
+        --mx5-card-tip-line: 2;
+        --mx5-card-tip-top: 8px;
+        --mx5-card-btn-h-gap: var(--mx5-btn-h-gap);
+        --mx5-card-btn-font: 14px;
+        --mx5-card-btn-height: 40px;
+        --mx5-card-btn-top: 16px;
+        --mx5-card-btn-links-font: 0px;
+        --mx5-card-btn-links-height: 0px;
+        --mx5-card-quotae-top: 0px;
+        --mx5-card-quotae-height: 0px;
+        --mx5-card-link-line-height: 0px;
+        --mx5-card-link-line: 0;
 
         .card-icon,
         .card-hover-icon,
@@ -261,71 +263,30 @@
         }
     }
 
-    &.carousel-small-icon,
-    &.flat-small-icon {
-        --mx-card-img-height: 0px;
-        --mx-card-title-line-height: 28px;
-        --mx-card-title-line: 1;
-        --mx-card-title-color: #333;
-        --mx-card-sub-title-height: 0px;
-        --mx-card-gap-ver: 16px;
-        --mx-card-gap-hor: 24px;
-        --mx-card-icon-height: 100px;
-        --mx-card-icon-bottom: 16px;
-        --mx-card-tip-line-height: 18px;
-        --mx-card-tip-line: 2;
-        --mx-card-tip-top: 8px;
-        --mx-card-btn-h-gap: var(--mx5-btn-small-h-gap);
-        --mx-card-btn-font: 12px;
-        --mx-card-btn-height: var(--mx5-input-height);
-        --mx-card-btn-top: 16px;
-        --mx-card-btn-links-font: 0px;
-        --mx-card-btn-links-height: 0px;
-        --mx-card-quotae-top: 0px;
-        --mx-card-quotae-height: 0px;
-        --mx-card-link-line-height: 0px;
-        --mx-card-link-line: 0;
-
-        .card-hover-icon,
-        .card-img,
-        .card-sub-title,
-        .card-btn-icon,
-        .card-btn-links,
-        .card-links {
-            display: none;
-        }
-
-        .card-icon {
-            width: var(--mx-card-icon-height);
-            height: var(--mx-card-icon-height);
-            margin: 0 auto var(--mx-card-icon-bottom);
-        }
-    }
-
     &.carousel-small-list,
     &.flat-small-list {
-        --mx-card-img-height: 132px;
-        --mx-card-title-line-height: 28px;
-        --mx-card-title-line: 1;
-        --mx-card-title-color: #333;
-        --mx-card-sub-title-height: 0px;
-        --mx-card-gap-ver: 16px;
-        --mx-card-gap-hor: 16px;
-        --mx-card-icon-height: 0px;
-        --mx-card-icon-bottom: 0px;
-        --mx-card-tip-line-height: 18px;
-        --mx-card-tip-line: 2;
-        --mx-card-tip-top: 8px;
-        --mx-card-btn-h-gap: var(--mx5-btn-small-h-gap);
-        --mx-card-btn-font: 12px;
-        --mx-card-btn-height: var(--mx5-input-height);
-        --mx-card-btn-top: 16px;
-        --mx-card-btn-links-font: 0px;
-        --mx-card-btn-links-height: 0px;
-        --mx-card-quotae-top: 0px;
-        --mx-card-quotae-height: 0px;
-        --mx-card-link-line-height: 0px;
-        --mx-card-link-line: 0;
+        --mx5-card-img-height: 132px;
+        --mx5-card-title-line-height: 28px;
+        --mx5-card-title-line: 1;
+        --mx5-card-title-color: #333;
+        --mx5-card-sub-title-height: 0px;
+        --mx5-card-gap-ver: 16px;
+        --mx5-card-gap-hor: 16px;
+        --mx5-card-icon-height: 0px;
+        --mx5-card-icon-bottom: 0px;
+        --mx5-card-tip-line-height: 18px;
+        --mx5-card-tip-line: 2;
+        --mx5-card-tip-top: 8px;
+        --mx5-card-btn-h-gap: var(--mx5-btn-small-h-gap);
+        --mx5-card-btn-font: 12px;
+        --mx5-card-btn-height: var(--mx5-input-height);
+        --mx5-card-btn-top: 16px;
+        --mx5-card-btn-links-font: 0px;
+        --mx5-card-btn-links-height: 0px;
+        --mx5-card-quotae-top: 0px;
+        --mx5-card-quotae-height: 0px;
+        --mx5-card-link-line-height: 0px;
+        --mx5-card-link-line: 0;
 
         .card-icon,
         .card-hover-icon,
@@ -339,28 +300,28 @@
 
     &.carousel-common-quota,
     &.flat-common-quota {
-        --mx-card-img-height: 200px;
-        --mx-card-title-line-height: 28px;
-        --mx-card-title-line: 1;
-        --mx-card-title-color: #333;
-        --mx-card-sub-title-height: 0px;
-        --mx-card-gap-ver: 16px;
-        --mx-card-gap-hor: 24px;
-        --mx-card-icon-height: 0px;
-        --mx-card-icon-bottom: 0px;
-        --mx-card-tip-line-height: 18px;
-        --mx-card-tip-line: 1;
-        --mx-card-tip-top: 0px;
-        --mx-card-btn-h-gap: var(--mx5-btn-h-gap);
-        --mx-card-btn-font: 14px;
-        --mx-card-btn-height: 40px;
-        --mx-card-btn-top: 16px;
-        --mx-card-btn-links-font: 0px;
-        --mx-card-btn-links-height: 0px;
-        --mx-card-quotae-top: 16px;
-        --mx-card-quotae-height: 42px;
-        --mx-card-link-line-height: 0px;
-        --mx-card-link-line: 0;
+        --mx5-card-img-height: 200px;
+        --mx5-card-title-line-height: 28px;
+        --mx5-card-title-line: 1;
+        --mx5-card-title-color: #333;
+        --mx5-card-sub-title-height: 0px;
+        --mx5-card-gap-ver: 16px;
+        --mx5-card-gap-hor: 24px;
+        --mx5-card-icon-height: 0px;
+        --mx5-card-icon-bottom: 0px;
+        --mx5-card-tip-line-height: 18px;
+        --mx5-card-tip-line: 1;
+        --mx5-card-tip-top: 0px;
+        --mx5-card-btn-h-gap: var(--mx5-btn-h-gap);
+        --mx5-card-btn-font: 14px;
+        --mx5-card-btn-height: 40px;
+        --mx5-card-btn-top: 16px;
+        --mx5-card-btn-links-font: 0px;
+        --mx5-card-btn-links-height: 0px;
+        --mx5-card-quotae-top: 16px;
+        --mx5-card-quotae-height: 42px;
+        --mx5-card-link-line-height: 0px;
+        --mx5-card-link-line: 0;
 
         .card-icon,
         .card-hover-icon,
@@ -374,28 +335,28 @@
 
     &.carousel-icon-list,
     &.flat-icon-list {
-        --mx-card-img-height: 0px;
-        --mx-card-title-line-height: 38px;
-        --mx-card-title-line: 1;
-        --mx-card-title-color: var(--mx5-color-brand);
-        --mx-card-sub-title-height: 38px;
-        --mx-card-gap-ver: 16px;
-        --mx-card-gap-hor: 24px;
-        --mx-card-icon-height: 0px;
-        --mx-card-icon-bottom: 0px;
-        --mx-card-tip-line-height: 20px;
-        --mx-card-tip-line: 2;
-        --mx-card-tip-top: 8px;
-        --mx-card-btn-h-gap: var(--mx5-btn-h-gap);
-        --mx-card-btn-font: 14px;
-        --mx-card-btn-height: 40px;
-        --mx-card-btn-top: 16px;
-        --mx-card-btn-links-font: 0px;
-        --mx-card-btn-links-height: 0px;
-        --mx-card-quotae-top: 0px;
-        --mx-card-quotae-height: 0px;
-        --mx-card-link-line-height: 0px;
-        --mx-card-link-line: 0;
+        --mx5-card-img-height: 0px;
+        --mx5-card-title-line-height: 38px;
+        --mx5-card-title-line: 1;
+        --mx5-card-title-color: var(--mx5-color-brand);
+        --mx5-card-sub-title-height: 38px;
+        --mx5-card-gap-ver: 16px;
+        --mx5-card-gap-hor: 24px;
+        --mx5-card-icon-height: 0px;
+        --mx5-card-icon-bottom: 0px;
+        --mx5-card-tip-line-height: 20px;
+        --mx5-card-tip-line: 2;
+        --mx5-card-tip-top: 8px;
+        --mx5-card-btn-h-gap: var(--mx5-btn-h-gap);
+        --mx5-card-btn-font: 14px;
+        --mx5-card-btn-height: 40px;
+        --mx5-card-btn-top: 16px;
+        --mx5-card-btn-links-font: 0px;
+        --mx5-card-btn-links-height: 0px;
+        --mx5-card-quotae-top: 0px;
+        --mx5-card-quotae-height: 0px;
+        --mx5-card-link-line-height: 0px;
+        --mx5-card-link-line: 0;
 
         .card-hover-icon,
         .card-img,
@@ -408,56 +369,53 @@
         .card-icon {
             position: absolute;
             z-index: 2;
-            top: calc(var(--mx-card-gap-ver) + 2px);
-            right: var(--mx-card-gap-hor);
-            width: calc(var(--mx-card-title-line-height) + var(--mx-card-sub-title-height) - 4px);
-            height: calc(var(--mx-card-title-line-height) + var(--mx-card-sub-title-height) - 4px);
+            top: calc(var(--mx5-card-gap-ver) + 2px);
+            right: var(--mx5-card-gap-hor);
+            width: calc(var(--mx5-card-title-line-height) + var(--mx5-card-sub-title-height) - 4px);
+            height: calc(var(--mx5-card-title-line-height) + var(--mx5-card-sub-title-height) - 4px);
+        }
+
+        .card-title,
+        .card-sub-title {
+            padding-right: calc(var(--mx5-card-title-line-height) + var(--mx5-card-sub-title-height) - 12px)
         }
 
         .card-sub-title {
-            height: var(--mx-card-sub-title-height);
-            line-height: var(--mx-card-sub-title-height);
-            font-size: var(--mx-effects-card-sub-title-font-size);
+            height: var(--mx5-card-sub-title-height);
+            line-height: var(--mx5-card-sub-title-height);
+            font-size: var(--mx5-effects-card-sub-title-font-size);
             white-space: nowrap;
             word-wrap: normal;
             overflow: hidden;
             text-overflow: ellipsis;
             color: #333;
         }
-
-        .with-icon {
-
-            .card-title,
-            .card-sub-title {
-                padding-right: calc(var(--mx-card-title-line-height) + var(--mx-card-sub-title-height) - 24px);
-            }
-        }
     }
 
     &.carousel-hover-list,
     &.flat-hover-list {
-        --mx-card-img-height: 0px;
-        --mx-card-title-line-height: 52px;
-        --mx-card-title-line: 1;
-        --mx-card-title-color: var(--mx5-color-brand);
-        --mx-card-sub-title-height: 0px;
-        --mx-card-gap-ver: 24px;
-        --mx-card-gap-hor: 24px;
-        --mx-card-icon-height: 0px;
-        --mx-card-icon-bottom: 0px;
-        --mx-card-tip-line-height: 20px;
-        --mx-card-tip-line: 2;
-        --mx-card-tip-top: 16px;
-        --mx-card-btn-h-gap: var(--mx5-btn-small-h-gap);
-        --mx-card-btn-font: var(--mx5-btn-small-font-size);
-        --mx-card-btn-height: var(--mx5-input-small-height);
-        --mx-card-btn-top: 16px;
-        --mx-card-btn-links-font: 0px;
-        --mx-card-btn-links-height: 0px;
-        --mx-card-quotae-top: 0px;
-        --mx-card-quotae-height: 0px;
-        --mx-card-link-line-height: 0px;
-        --mx-card-link-line: 0;
+        --mx5-card-img-height: 0px;
+        --mx5-card-title-line-height: 52px;
+        --mx5-card-title-line: 1;
+        --mx5-card-title-color: var(--mx5-color-brand);
+        --mx5-card-sub-title-height: 0px;
+        --mx5-card-gap-ver: 24px;
+        --mx5-card-gap-hor: 24px;
+        --mx5-card-icon-height: 0px;
+        --mx5-card-icon-bottom: 0px;
+        --mx5-card-tip-line-height: 20px;
+        --mx5-card-tip-line: 2;
+        --mx5-card-tip-top: 16px;
+        --mx5-card-btn-h-gap: var(--mx5-btn-small-h-gap);
+        --mx5-card-btn-font: var(--mx5-btn-small-font-size);
+        --mx5-card-btn-height: var(--mx5-input-small-height);
+        --mx5-card-btn-top: 16px;
+        --mx5-card-btn-links-font: 0px;
+        --mx5-card-btn-links-height: 0px;
+        --mx5-card-quotae-top: 0px;
+        --mx5-card-quotae-height: 0px;
+        --mx5-card-link-line-height: 0px;
+        --mx5-card-link-line: 0;
 
         .card {
             &::after {
@@ -469,7 +427,7 @@
                 z-index: 1;
                 width: 100%;
                 height: 100%;
-                border-radius: var(--mx-effects-card-radius);
+                border-radius: var(--mx5-effects-card-radius);
                 background-color: var(--mx5-color-brand);
                 background-image: linear-gradient(-145deg, var(--mx5-color-brand) 0%, var(--mx5-color-brand-gradient, var(--mx5-color-brand)) 100%);
                 transition: all var(--mx5-duration);
@@ -499,16 +457,10 @@
                 top: 50%;
                 width: 18px;
                 height: 2px;
-                margin-top: calc(var(--mx-effects-card-title-font-size) / 2 + 8px);
+                margin-top: calc(var(--mx5-effects-card-title-font-size) / 2 + 8px);
                 background-color: var(--mx5-color-brand);
                 border-radius: 4px;
                 transition: all var(--mx5-duration);
-            }
-        }
-
-        .with-icon {
-            .card-title {
-                padding-right: calc(var(--mx-card-title-line-height) + var(--mx-card-sub-title-height) - 8px);
             }
         }
 
@@ -519,10 +471,10 @@
             justify-content: center;
             position: absolute;
             z-index: 2;
-            top: calc(var(--mx-card-gap-ver) - 8px);
-            right: var(--mx-card-gap-hor);
-            width: calc(var(--mx-card-title-line-height) + var(--mx-card-sub-title-height) + 16px);
-            height: calc(var(--mx-card-title-line-height) + var(--mx-card-sub-title-height) + 16px);
+            top: calc(var(--mx5-card-gap-ver) - 8px);
+            right: var(--mx5-card-gap-hor);
+            width: calc(var(--mx5-card-title-line-height) + var(--mx5-card-sub-title-height) + 16px);
+            height: calc(var(--mx5-card-title-line-height) + var(--mx5-card-sub-title-height) + 16px);
             border-radius: 50%;
 
             >* {
@@ -551,13 +503,16 @@
         }
 
         .card-btn {
+            --mx5-btn-border: transparent;
+            --mx5-btn-bg: transparent;
+            --mx5-btn-text: #333;
+            --mx5-btn-border-hover: #fff;
+            --mx5-btn-bg-hover: #fff;
+            --mx5-btn-text-hover: var(--mx5-color-brand);
             position: relative;
-            left: calc(0px - var(--mx-card-btn-h-gap));
-            display: inline-flex;
-            border-color: transparent;
-            border-width: 0;
-            background-color: transparent;
-            color: #333;
+            left: calc(0px - var(--mx5-card-btn-h-gap));
+            width: unset;
+            transition: left var(--mx5-duration);
         }
 
         .card.highlight,
@@ -567,7 +522,11 @@
             }
 
             .card-title {
-                color: #fff;
+                .card-title-text {
+                    .card-title-text-inner {
+                        color: #fff;
+                    }
+                }
 
                 &::before {
                     background-color: #fff;
@@ -588,38 +547,38 @@
             }
 
             .card-btn {
+                --mx5-btn-border: #fff;
+                --mx5-btn-bg: #fff;
+                --mx5-btn-text: var(--mx5-color-brand);
                 left: 0;
-                border-color: transparent;
-                background-color: #fff;
-                color: var(--mx5-color-brand);
             }
         }
     }
 
     &.carousel-logo-list,
     &.flat-logo-list {
-        --mx-card-img-height: 0px;
-        --mx-card-title-line-height: calc(var(--mx-effects-card-title-font-size) + 16px);
-        --mx-card-title-line: 1;
-        --mx-card-title-color: #333;
-        --mx-card-sub-title-height: 0px;
-        --mx-card-gap-ver: 32px;
-        --mx-card-gap-hor: 32px;
-        --mx-card-icon-height: 30px;
-        --mx-card-icon-bottom: 16px;
-        --mx-card-tip-line-height: 20px;
-        --mx-card-tip-line: 3;
-        --mx-card-tip-top: 0px;
-        --mx-card-btn-h-gap: var(--mx5-btn-h-gap);
-        --mx-card-btn-font: 14px;
-        --mx-card-btn-height: 40px;
-        --mx-card-btn-top: 32px;
-        --mx-card-btn-links-font: 0px;
-        --mx-card-btn-links-height: 0px;
-        --mx-card-quotae-top: 0px;
-        --mx-card-quotae-height: 0px;
-        --mx-card-link-line-height: 0px;
-        --mx-card-link-line: 0;
+        --mx5-card-img-height: 0px;
+        --mx5-card-title-line-height: calc(var(--mx5-effects-card-title-font-size) + 16px);
+        --mx5-card-title-line: 1;
+        --mx5-card-title-color: #333;
+        --mx5-card-sub-title-height: 0px;
+        --mx5-card-gap-ver: 32px;
+        --mx5-card-gap-hor: 32px;
+        --mx5-card-icon-height: 30px;
+        --mx5-card-icon-bottom: 16px;
+        --mx5-card-tip-line-height: 20px;
+        --mx5-card-tip-line: 3;
+        --mx5-card-tip-top: 0px;
+        --mx5-card-btn-h-gap: var(--mx5-btn-h-gap);
+        --mx5-card-btn-font: 14px;
+        --mx5-card-btn-height: 40px;
+        --mx5-card-btn-top: 32px;
+        --mx5-card-btn-links-font: 0px;
+        --mx5-card-btn-links-height: 0px;
+        --mx5-card-quotae-top: 0px;
+        --mx5-card-quotae-height: 0px;
+        --mx5-card-link-line-height: 0px;
+        --mx5-card-link-line: 0;
 
         .card-hover-icon,
         .card-img,
@@ -630,40 +589,40 @@
         }
 
         .card-icon {
-            height: var(--mx-card-icon-height);
-            margin-bottom: var(--mx-card-icon-bottom);
+            height: var(--mx5-card-icon-height);
+            margin-bottom: var(--mx5-card-icon-bottom);
         }
 
         .card-btn {
-            display: inline-flex;
+            width: unset;
             min-width: 140px;
         }
     }
 
     &.carousel-btns-list,
     &.flat-btns-list {
-        --mx-card-img-height: 200px;
-        --mx-card-title-line-height: 28px;
-        --mx-card-title-line: 1;
-        --mx-card-title-color: #333;
-        --mx-card-sub-title-height: 0px;
-        --mx-card-gap-ver: 16px;
-        --mx-card-gap-hor: 24px;
-        --mx-card-icon-height: 0px;
-        --mx-card-icon-bottom: 0px;
-        --mx-card-tip-line-height: 18px;
-        --mx-card-tip-line: 2;
-        --mx-card-tip-top: 8px;
-        --mx-card-btn-h-gap: 0px;
-        --mx-card-btn-font: 0px;
-        --mx-card-btn-height: 0px;
-        --mx-card-btn-top: 0px;
-        --mx-card-btn-links-font: 14px;
-        --mx-card-btn-links-height: 40px;
-        --mx-card-quotae-top: 0px;
-        --mx-card-quotae-height: 0px;
-        --mx-card-link-line-height: 0px;
-        --mx-card-link-line: 0;
+        --mx5-card-img-height: 200px;
+        --mx5-card-title-line-height: 28px;
+        --mx5-card-title-line: 1;
+        --mx5-card-title-color: #333;
+        --mx5-card-sub-title-height: 0px;
+        --mx5-card-gap-ver: 16px;
+        --mx5-card-gap-hor: 24px;
+        --mx5-card-icon-height: 0px;
+        --mx5-card-icon-bottom: 0px;
+        --mx5-card-tip-line-height: 18px;
+        --mx5-card-tip-line: 2;
+        --mx5-card-tip-top: 8px;
+        --mx5-card-btn-h-gap: 0px;
+        --mx5-card-btn-font: 0px;
+        --mx5-card-btn-height: 0px;
+        --mx5-card-btn-top: 0px;
+        --mx5-card-btn-links-font: 14px;
+        --mx5-card-btn-links-height: 40px;
+        --mx5-card-quotae-top: 0px;
+        --mx5-card-quotae-height: 0px;
+        --mx5-card-link-line-height: 0px;
+        --mx5-card-link-line: 0;
 
         .card-icon,
         .card-hover-icon,
@@ -674,19 +633,19 @@
         }
 
         .card-btn-links {
-            height: var(--mx-card-btn-links-height);
-            border-top: 1px solid var(--mx-effects-card-color-border, var(--mx5-border-color));
+            height: var(--mx5-card-btn-links-height);
+            border-top: 1px solid var(--mx5-effects-card-color-border, var(--mx5-border-color));
 
             .card-btn-link {
                 float: left;
                 box-sizing: border-box;
-                height: var(--mx-card-btn-links-height);
+                height: var(--mx5-card-btn-links-height);
                 padding: 10px 0;
-                line-height: calc(var(--mx-card-btn-links-height) - 20px);
+                line-height: calc(var(--mx5-card-btn-links-height) - 20px);
                 text-align: center;
-                font-size: var(--mx-card-btn-links-font);
+                font-size: var(--mx5-card-btn-links-font);
                 color: var(--mx5-color-brand);
-                border-right: 1px solid var(--mx-effects-card-color-border, var(--mx5-border-color));
+                border-right: 1px solid var(--mx5-effects-card-color-border, var(--mx5-border-color));
 
                 &:last-child {
                     border-right: 0 none;
@@ -701,28 +660,28 @@
 
     &.carousel-links-list,
     &.flat-links-list {
-        --mx-card-img-height: 0px;
-        --mx-card-title-line-height: 42px;
-        --mx-card-title-line: 1;
-        --mx-card-title-color: #333;
-        --mx-card-sub-title-height: 0px;
-        --mx-card-gap-ver: 24px;
-        --mx-card-gap-hor: 24px;
-        --mx-card-icon-height: 80px;
-        --mx-card-icon-bottom: 8px;
-        --mx-card-tip-line-height: 0px;
-        --mx-card-tip-line: 0;
-        --mx-card-tip-top: 0px;
-        --mx-card-btn-h-gap: var(--mx5-btn-h-gap);
-        --mx-card-btn-font: 14px;
-        --mx-card-btn-height: 40px;
-        --mx-card-btn-top: 12px;
-        --mx-card-btn-links-font: 0px;
-        --mx-card-btn-links-height: 0px;
-        --mx-card-quotae-top: 0px;
-        --mx-card-quotae-height: 0px;
-        --mx-card-link-line-height: 30px;
-        --mx-card-link-line: 3;
+        --mx5-card-img-height: 0px;
+        --mx5-card-title-line-height: 42px;
+        --mx5-card-title-line: 1;
+        --mx5-card-title-color: #333;
+        --mx5-card-sub-title-height: 0px;
+        --mx5-card-gap-ver: 24px;
+        --mx5-card-gap-hor: 24px;
+        --mx5-card-icon-height: 80px;
+        --mx5-card-icon-bottom: 8px;
+        --mx5-card-tip-line-height: 0px;
+        --mx5-card-tip-line: 0;
+        --mx5-card-tip-top: 0px;
+        --mx5-card-btn-h-gap: var(--mx5-btn-h-gap);
+        --mx5-card-btn-font: 14px;
+        --mx5-card-btn-height: 40px;
+        --mx5-card-btn-top: 12px;
+        --mx5-card-btn-links-font: 0px;
+        --mx5-card-btn-links-height: 0px;
+        --mx5-card-quotae-top: 0px;
+        --mx5-card-quotae-height: 0px;
+        --mx5-card-link-line-height: 30px;
+        --mx5-card-link-line: 3;
 
         .card-hover-icon,
         .card-img,
@@ -735,47 +694,46 @@
 
         .card-icon {
             display: block;
-            height: var(--mx-card-icon-height);
-            margin: 0 auto var(--mx-card-icon-bottom);
+            height: var(--mx5-card-icon-height);
+            margin: 0 auto var(--mx5-card-icon-bottom);
             text-align: center;
         }
 
         .card-title {
-            text-align: center !important;
+            text-align: center;
         }
 
         .card-links {
-            height: calc(var(--mx-card-link-line-height) * var(--mx-card-link-line));
+            height: calc(var(--mx5-card-link-line-height) * var(--mx5-card-link-line));
             overflow: hidden;
 
             .card-link {
                 position: relative;
-                height: var(--mx-card-link-line-height);
+                display: block;
+                height: var(--mx5-card-link-line-height);
                 padding-right: 20px;
-                line-height: var(--mx-card-link-line-height);
+                line-height: var(--mx5-card-link-line-height);
                 white-space: nowrap;
                 word-wrap: normal;
                 overflow: hidden;
                 text-overflow: ellipsis;
+                color: #666;
+                transition: all var(--mx5-duration);
 
                 .card-link-arrow {
                     position: absolute;
                     top: 0;
                     right: 0;
                     width: 20px;
-                    height: var(--mx-card-link-line-height);
-                    line-height: var(--mx-card-link-line-height);
+                    height: var(--mx5-card-link-line-height);
+                    line-height: var(--mx5-card-link-line-height);
                     text-align: right;
-                }
-
-                >* {
-                    color: #666;
+                    font-size: 12px;
+                    transform: scale(.8);
                 }
 
                 &:hover {
-                    >* {
-                        color: var(--mx5-color-brand);
-                    }
+                    color: var(--mx5-color-brand);
                 }
             }
         }

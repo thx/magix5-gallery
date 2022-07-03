@@ -35,11 +35,11 @@ export default View.extend({
     }]
 }]
 </pre>
-<div class="nowrap">其他说明：</div>
-<div class="nowrap">link：配置链接点击卡片可跳转，点击卡片往外抛出事件，出参为当前对象</div>
-<div class="nowrap">quotaes：仅在mode=carousel-common-quota / flat-common-quota 下生效</div>
-<div class="nowrap">btns：多按钮配置，仅在mode=carousel-btns-list / flat-btns-list 下生效</div>
-<div class="nowrap">links：多链接配置，仅在mode=carousel-links-list / flat-links-list 下生效</div>`,
+<div class="mx5-nowrap mx5-mt10">其他说明：</div>
+<div class="mx5-nowrap">link：配置链接点击卡片可跳转，点击卡片往外抛出事件，出参为当前对象</div>
+<div class="mx5-nowrap">quotaes：仅在mode=carousel-common-quota / flat-common-quota 下生效</div>
+<div class="mx5-nowrap">btns：多按钮配置，仅在mode=carousel-btns-list / flat-btns-list 下生效</div>
+<div class="mx5-nowrap">links：多链接配置，仅在mode=carousel-links-list / flat-links-list 下生效</div>`,
             type: 'array',
             def: '[]'
         }, {
@@ -111,7 +111,34 @@ export default View.extend({
             columns: [{
                 text: '图文链接',
                 path: 6,
-            }],
+            },{
+                text: '图文指标',
+                path: 7,
+            },{
+                text: '点击事件+无按钮',
+                path: 8,
+            },{
+                text: '右侧icon卡片',
+                path: 9,
+            },{
+                text: '小logo卡片',
+                path: 10,
+            },{
+                text: '多按钮卡片',
+                path: 11,
+            },{
+                text: '多链接卡片',
+                path: 12,
+            },{
+                text: 'hover背景色卡片',
+                path: 13,
+            },{
+                text: '卡片打标',
+                path: 14,
+            },{
+                text: '默认高亮',
+                path: 15,
+            }]
         });
     },
 })
