@@ -1,6 +1,5 @@
-import Magix from 'magix5'
+import Magix5, { delay, View } from 'magix5'
 import Dialog from '../../../gallery/mx-dialog/index';
-let { delay, View } = Magix;
 module.exports = View.extend({
     tmpl: '@:./multi.html',
     init(e) {

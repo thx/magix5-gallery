@@ -60,7 +60,9 @@ if (typeof DEBUG == 'undefined')
 			})
 		};
 
-		let routes = {};
+		let routes = {
+			'/minisite/index': emptyView,
+		};
 		let { menus } = Menu.default;
 		menus.forEach(m => {
 			m.paths.forEach(p => {

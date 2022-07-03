@@ -1,0 +1,33 @@
+<div class="inner">
+    <div class="first clearfix">
+        <div class="first-cont" mx-view="./detail?data={{@data.right}}&biz={{@biz}}" data-spm="cee0d078e"></div>
+        <div class="first-cards">
+            <mx-effects.card mx-spm-ph="anything"
+                mode="flat-logo-list"
+                list="{{@firstLine}}" 
+                mx-select="selectCard()"  data-spm-click="gostr=/alimama_bp.3.1;locaid=d4af5lgcnt{{=data.spmIndex}}_card_logo_content"/>
+        </div>
+    </div>
+
+    <mx-effects.card mx-spm-ph="anything"
+        mode="flat-logo-list" 
+        list="{{@cardList}}" 
+        mx-select="selectCard()"  data-spm-click="gostr=/alimama_bp.3.1;locaid=d4af5lgcnt{{=data.spmIndex}}_card_logo_content"/>
+
+    {{if data.bottomLink && data.bottomLink.text}}
+    <div class="bottom-link">
+        {{if data.bottomLink.checkLogin && !biz.user}}
+        <!-- 未登录且需要校验登录 -->
+        <a mx-click="showLogin()" href="javascript:;" data-spm-click="gostr=/alimama_bp.3.1;locaid=dc2locnt{{=data.spmIndex}}_card_logo_content">
+            {{=data.bottomLink.text}}<i class="iconfont bottom-link-icon">&#xe63d;</i>
+        </a>
+        {{else}}
+        <!-- 已登录 / 不需要校验登录 -->
+        <a {{if data.bottomLink.outer}} target="_blank" {{/if}} href="{{=data.bottomLink.url}}" data-spm-click="gostr=/alimama_bp.3.1;locaid=d2fflocnt6{{=data.spmIndex}}_card_logo_content">
+            {{=data.bottomLink.text}}<i class="iconfont bottom-link-icon">&#xe63d;</i>
+        </a>
+        {{/if}}
+    </div>
+    {{/if}}
+</div>
+    

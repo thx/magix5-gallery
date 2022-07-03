@@ -1,4 +1,4 @@
-// import Magix from 'magix';
+// import Magix5 from 'magix5';
 // import Constant from './constant';
 // import Service from './services/service';
 

@@ -1,0 +1,192 @@
+/*奇偶灰底白底切换*/
+
+.content {
+    max-width: 100%;
+
+    &:nth-of-type(odd) {
+        background-color: #fff;
+    }
+
+    &:nth-of-type(even) {
+        background-color: #f7f8fa;
+    }
+}
+
+/* 标题上tab切换 */
+
+.custom-tab {
+    margin-top: 24px;
+    --font-size: 14px;
+    --input-height: 42px;
+    text-align: center;
+
+    [ref="@../../gallery/mx-tabs/box.less:box"] {
+        [ref="@../../gallery/mx-tabs/box.less:box-item"] {
+            min-width: 100px;
+        }
+    }
+}
+
+/*通用按钮*/
+
+.custom-btn {
+    padding: 0 36px;
+    --font-size: 14px;
+    --input-height: 42px;
+    --input-small-height: 32px;
+}
+
+.custom-cards-with-sub {
+    margin-top: 16px;
+    margin-bottom: 16px;
+}
+
+.custom-cards-no-sub {
+    margin-top: -16px;
+    margin-bottom: 16px;
+}
+
+.content-white {
+    background-color: #fff;
+}
+
+.content-grey {
+    background-color: #f7f8fa;
+}
+
+/*内容中间区域*/
+
+.inner {
+    width: 1120px;
+    max-width: 100%;
+    margin: 24px auto;
+
+    .inner-table {
+        table-layout: fixed;
+        width: 100%;
+    }
+}
+
+.bottom-link {
+    margin-top: 36px;
+    text-align: center;
+    font-size: 16px;
+
+    a {
+        color: #666;
+
+        &:hover {
+            color: var(--color-brand);
+        }
+    }
+
+    .bottom-link-icon {
+        margin-left: 10px;
+    }
+}
+
+.content,
+.inner {
+
+    img,
+    video {
+        max-width: 100%;
+        max-height: 100%;
+    }
+
+    video {
+        border-radius: var(--mx-effects-card-radius, 8px);
+    }
+}
+
+/*标题*/
+
+.title {
+    font-size: 34px;
+    text-align: center;
+    font-weight: 500;
+    line-height: 1.5;
+}
+
+/*子标题*/
+
+.sub-title {
+    margin-bottom: 32px;
+    font-size: 18px;
+    color: #666;
+    text-align: center;
+    line-height: 1.5;
+}
+
+/*内容标题*/
+
+.cont-title {
+    font-size: 20px;
+    color: #333;
+    line-height: 1.5;
+}
+
+/*内容子标题*/
+
+.cont-sub-title {
+    font-size: 16px;
+    color: #666;
+    line-height: 1.5;
+}
+
+.cont-title,
+.cont-sub-title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/*内容说明*/
+
+.cont-info {
+    font-size: 12px;
+    color: #999;
+    line-height: 20px;
+}
+
+@media screen and (max-width:768px) {
+    .title {
+        font-size: 20px;
+        padding-left: 24px;
+        padding-right: 24px;
+    }
+
+    .sub-title {
+        margin-bottom: 12px;
+        font-size: 12px;
+        padding-left: 24px;
+        padding-right: 24px;
+    }
+
+    .cont-title {
+        font-size: 16px;
+    }
+
+    .cont-sub-title {
+        font-size: 14px;
+    }
+
+    // 调整标题间距
+    .inner {
+        margin: 16px auto 40px auto;
+    }
+
+    .bottom-link {
+        margin-top: 48px;
+    }
+
+}
+
+.empty-login-view {
+    width: 350px;
+    height: 400px;
+    margin: 40px auto;
+    border-radius: var(--mx-effects-card-radius, 8px);
+    overflow: hidden;
+    box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.1);
+}

@@ -1,5 +1,4 @@
 import Magix from 'magix5';
-
 let { View, mark, guid, dispatch, delay, lowTaskFinale } = Magix;
 let promisePools = {};
 let versionsAPI = '//alimama.taobao.com/login/getOneSiteCdnList.json';

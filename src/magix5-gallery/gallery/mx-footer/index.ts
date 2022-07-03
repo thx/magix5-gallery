@@ -1,10 +1,10 @@
 /**
  * 版权信息：https://yuque.antfin-inc.com/fe-p2/sg5kfn/gxm1ua
  */
-import Magix from 'magix5';
+import Magix5, { applyStyle, mark } from 'magix5';
 import BaseView from '../mx-base/view';
-Magix.applyStyle('@:./index.less');
-let { mark } = Magix;
+applyStyle('@:./index.less');
+
 export default BaseView.extend({
     tmpl: '@:./index.html',
     assign(extra) {

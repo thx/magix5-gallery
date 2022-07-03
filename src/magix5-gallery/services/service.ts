@@ -1,10 +1,9 @@
 /*
     author:xinglie.lkf@taobao.com
  */
-import Magix from 'magix5';
+import Magix5, { guid, toUrl, dispatch } from 'magix5';
 import * as Jsvm from './jsvm';
 import * as Models from './models';
-let { guid, toUrl } = Magix;
 let CurrentHost = location.protocol + '//' + location.host;
 let xCfgsMap;
 let projectNamePlaceholderReg = /^\$\{([^}]+)\}/;
@@ -48,7 +47,7 @@ let jsonp = (sendUrl, options, callbackKey = 'callback') => {
 let send = (sendUrl, options) => {
     return fetch(sendUrl, options).then(res => {
         if (res.status == 403) {
-            Magix.dispatch(window, 'loginout');
+            dispatch(window, 'loginout');
             return;
         }
         if (res.ok) {
@@ -58,8 +57,8 @@ let send = (sendUrl, options) => {
     });
 };
 let sync = (bag, callback) => {
-    let UserInfo = Magix.config<UserInfo>('magix5-gallery.user') || <UserInfo>{};
-    let ApiHost = Magix.config<string>('magix5-gallery.api.host') || '';
+    let UserInfo = Magix5.config<UserInfo>('magix5-gallery.user') || <UserInfo>{};
+    let ApiHost = Magix5.config<string>('magix5-gallery.api.host') || '';
     let dataType = bag.get('dataType') || 'json';
     let data = bag.get('params') || {};
     let urlParams = bag.get('urlParams');
@@ -80,7 +79,7 @@ let sync = (bag, callback) => {
     url = url.replace(projectNamePlaceholderReg, (_, pname) => {
         if (!xCfgsMap) {
             if (window.crossConfigs) {
-                xCfgsMap = Magix.toMap(window.crossConfigs, 'projectName');
+                xCfgsMap = Magix5.toMap(window.crossConfigs, 'projectName');
             } else {
                 xCfgsMap = {};
             }
@@ -120,7 +119,7 @@ let sync = (bag, callback) => {
         url = ApiHost + url;
     }
 
-    url += '?r=' + Magix.guid()
+    url += '?r=' + guid();
 
     //url里的参数
     if (urlParams) {
@@ -158,7 +157,7 @@ let sync = (bag, callback) => {
         callback({ msg: ex.message || ex });
     });
 };
-let Service = Magix.Service.extend(sync);
+let Service = Magix5.Service.extend(sync);
 Service.add(Models);
 
 let exportObj = {

@@ -1,0 +1,55 @@
+<div class="footer-banner" style="background-color: {{=data.colorBg}}; background-image: url({{=data.img}});">
+    <div class="footer-banner-inner">
+        {{if data.alime && data.alime.def}}
+        <div class="mb40">
+            {{if data.alime.title}}
+            <div class="footer-infos">{{!data.alime.title}}</div>
+            {{/if}}
+            {{if data.alime.topTip}}
+            <div class="footer-link">{{!data.alime.topTip}}</div>
+            {{/if}}
+
+            {{if devInfo.pc}}
+                <div class="footer-btns">
+                    <a href="javascript:;" mx-click="showAlime({alime:{{@data.alime}}})" class="btn btn-brand custom-btn min-width-120" data-spm-click="gostr=/alimama_bp.3.1;locaid=d365e31ac{{=data.spmIndex}}_footer">
+                        {{if data.alime.btnLogo}}<img src="{{=data.alime.btnLogo}}" class="btn-img"/>{{/if}}{{!data.alime.btn}}
+                    </a>
+                </div>  
+            {{else}}
+                {{if data.alime.btnLogo}}<img src="{{=data.alime.btnLogo}}" class="alime-img"/>{{/if}}
+                <div class="footer-btns">
+                    <a class="btn btn-brand custom-btn min-width-120" data-spm-click="gostr=/alimama_bp.3.1;locaid=d365ewire{{=data.spmIndex}}_footer"
+                        href="https://ai.alimebot.taobao.com/intl/index.htm?from={{=alimeFrom}}" target="_blank">
+                        {{!data.alime.btn}}
+                    </a>
+                </div> 
+            {{/if}}
+            {{if data.alime.bottomTip}}
+            <div class="footer-link">{{!data.alime.bottomTip}}</div>
+            {{/if}}
+        </div>
+        {{/if}}
+
+        <!-- 是否显示登陆相关的信息 -->
+        {{if !data.hideLogin}}
+            {{if data.info}}
+            <div class="footer-infos">{{!data.info}}</div>
+            {{/if}}
+            <div class="footer-btns">
+                {{if biz.user}}
+                    {{if data.customEnter}}
+                    <a href="javascript:;" mx-click="enter()" class="btn btn-brand custom-btn footer-btn" data-spm-click="gostr=/alimama_bp.3.1;locaid=d991bcustom{{=data.spmIndex}}_footer">进入{{=biz.project}}</a>
+                    {{else}}
+                    <a href="{{=biz.domain}}" class="btn btn-brand custom-btn footer-btn" data-spm-click="gostr=/alimama_bp.3.1;locaid=d991bb3d4{{=data.spmIndex}}_footer">进入{{=biz.project}}</a>
+                    {{/if}}
+                {{else}}
+                <a href="javascript:;" class="btn btn-brand custom-btn footer-btn" mx-click="showLogin()" data-spm-click="gostr=/alimama_bp.3.1;locaid=d8e748f7e{{=data.spmIndex}}_footer">立即登录</a>
+                {{/if}}
+            </div>
+            <div class="footer-link">
+                <span>还没有淘宝账号？</span>
+                <a class="link-brand" href="https://reg.taobao.com/member/reg/fill_mobile.htm" target="_blank" data-spm-click="gostr=/alimama_bp.3.1;locaid=d534fd460{{=data.spmIndex}}_footer">立即注册&gt;</a>
+            </div>
+        {{/if}}
+    </div>
+</div>

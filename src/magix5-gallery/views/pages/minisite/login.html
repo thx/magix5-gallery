@@ -1,0 +1,69 @@
+<mx-carousel class="login-wrapper"
+    height="432" 
+    interval="5000"
+    autoplay="true"
+    dot-type="{{=(data.dotLoc || 'dot-in-left')}}"
+    dot-vars-list="{{@dotColorList}}">
+    {{each data.banners as banner bannerIndex}}
+    <mx-carousel.panel class="wrapper" style="{{if banner.bgColor}} background-color: {{=banner.bgColor}}; {{/if}} background-image: url({{=banner.img}});">
+        <div class="cont">
+            <div class="info-wrapper">
+                <a class="info-content {{if (banner.btnType == 'dark')}} info-content-dark {{/if}}" 
+                    {{if banner.link.url}} 
+                        href="{{=banner.link.url}}" {{if banner.link.outer}} target="_blank" {{/if}}
+                    {{else}} 
+                        href="javascript:;" 
+                    {{/if}}  
+                    data-spm-click="gostr=/alimama_bp.3.1;locaid=dd28d86c6{{=data.spmIndex}}_{{=bannerIndex}}_login_{{= banner.spmExtra ? ('_' + banner.spmExtra) : ''}}">
+                    {{if banner.title}}
+                    <div class="title info-title">{{!banner.title}}</div>
+                    {{/if}}
+                    {{if banner.subTitle}}
+                    <div class="cont-title info-sub-title">{{!banner.subTitle}}</div>
+                    {{/if}}
+                    {{if banner.info}}
+                    <div class="info-desc">{{!banner.info}}</div>
+                    {{/if}}
+                    {{if banner.link.text}}
+                    <div class="info-link">
+                        <span class="btn custom-btn login-btn" style="--mx-common-minisite-login-btn-text: {{=(banner.btnTextColor || 'var(--btn-brand)')}}; --mx-common-minisite-login-btn-bg: {{=(banner.btnBgColor || 'transparent')}}; --mx-common-minisite-login-btn-border: {{=(banner.btnBorderColor || 'var(--btn-brand)')}}; --mx-common-minisite-login-btn-text-hover: {{=(banner.btnHoverTextColor || 'var(--btn-brand-text)')}}; --mx-common-minisite-login-btn-bg-hover: {{=(banner.btnHoverBgColor || 'var(--btn-brand)')}}; --mx-common-minisite-login-btn-border-hover: {{=(banner.btnHoverBorderColor || 'var(--btn-brand)')}};">
+                            {{=banner.link.text}}<i class="iconfont info-link-icon">&#xe63d;</i>
+                        </span>
+                    </div>
+                    {{/if}}
+                </a>
+            </div>
+            {{if banner.list && banner.list.length}}
+                {{each banner.list as item itemIndex}}
+                <a class="pos ad-view {{if (itemIndex == 0)}} ad-view-top {{/if}} {{if (itemIndex == 1)}} ad-view-bottom {{/if}}" 
+                    {{if item.link.url}} 
+                        href="{{=item.link.url}}" {{if item.link.outer}} target="_blank" {{/if}}
+                    {{else}} 
+                        href="javascript:;" 
+                    {{/if}}
+                    style="background-image: url({{=item.img}});" data-spm-click="gostr=/alimama_bp.3.1;locaid=d87ee4a7a{{=data.spmIndex}}_{{=bannerIndex}}_{{=itemIndex}}_login_{{= banner.spmExtra ? ('_' + banner.spmExtra) : ''}}">
+                    {{if item.title}}
+                    <div class="pos-title">{{!item.title}}</div>
+                    {{/if}}
+                    {{if item.info}}
+                    <div class="pos-desc">{{!item.info}}</div>
+                    {{/if}}
+                </a>
+                {{/each}}
+            {{/if}}
+            {{if (data.hideLogin + '' !== 'true')}}
+            <div class="pos login-view">
+                {{if biz.userLogged}}
+                <!-- 已登录 -->
+                <div mx-view="{{=biz.loginView}}?biz={{@biz}}" data-spm="cf7687754"></div>
+                {{else}}
+                <!-- 未登陆：直接使用组件登陆框 -->
+                <div mx-view="@../../gallery/mx-dialog/login-iframe?data={{@loginFrameData}}" data-spm="c601d1c8f"></div>
+                {{/if}}
+            </div>
+            {{/if}}
+        </div>
+    </mx-carousel.panel>
+    {{/each}}
+</mx-carousel>
+

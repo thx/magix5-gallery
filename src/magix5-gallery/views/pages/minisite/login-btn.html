@@ -1,0 +1,7 @@
+{{if biz.needLogin}}
+    {{if biz.user}}
+    <a href="{{=biz.domain}}" class="btn btn-brand" data-spm-click="gostr=/alimama_bp.3.1;locaid=d2a1bf920{{=biz.bizCode}}_login_btn">进入{{=biz.project}}</a>
+    {{else}}
+    <mx-btn brand="true" mx-click="showLogin()" data-spm-click="gostr=/alimama_bp.3.1;locaid=db135f217{{=biz.bizCode}}_login_btn" content="立即登录"/>
+    {{/if}}
+{{/if}}

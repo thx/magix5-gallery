@@ -1,0 +1,16 @@
+<div class="inner">
+    {{if data.subTitle}}<div class="sub-title">{{!data.subTitle}}</div>{{/if}}
+    <div class="clearfix">
+        {{each data.list as item}}
+        <a style="width: {{=(100/data.lineNumber)}}%;" {{if item.link}} class="item item-link"  href="{{=item.link}}" target="_blank"  data-spm-click="gostr=/alimama_bp.3.1;locaid=d64e665c1{{=data.spmIndex}}_hover_list" {{else}} class="item"  href="javascript:;" {{/if}}>
+            <img class="img" src="{{=item.img}}" />
+            {{if item.title}}
+            <div class="cont-title img-title">{{!item.title}}</div>
+            {{/if}}
+            {{if item.info}}
+            <div class="cont-info img-info">{{!item.info}}</div>
+            {{/if}}
+        </a>
+        {{/each}}
+    </div>
+</div>

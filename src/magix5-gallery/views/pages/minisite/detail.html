@@ -1,0 +1,61 @@
+<div class="detail">
+    {{if data.subTitle}}
+    <div class="detail-tab">{{!data.subTitle}}</div>
+    {{/if}}
+    {{if data.title && data.titleTag}}
+    <div class="title detail-title detail-title-img">
+        <div class="title-img-text">{{!data.title}}</div>
+        <img class="title-img-tag" src="{{=data.titleTag}}">
+    </div>
+    {{else if data.title}}
+    <div class="title detail-title">{{!data.title}}</div>
+    {{/if}}
+    {{if data.info}}
+    <div class="cont-info detail-info">{{!data.info}}</div>
+    {{/if}}
+    {{if data.infoImgTitle}}
+    <div class="detail-info-img-title">{{!data.infoImgTitle}}</div>
+    {{/if}}
+    {{if data.infoImg}}
+    <div class="detail-info-img"><img src="{{=data.infoImg}}" /></div>
+    {{/if}}
+
+    {{if (data.quotaes && data.quotaes.length)}}
+    <table class="detail-quotae">
+        <tr>
+            {{each data.quotaes as q}}
+            <td style="width: {{=(100/data.quotaes.length)}}%;">
+                <div class="quotae-num">
+                    <span class="font-tahoma">{{!q.value}}</span>
+                    {{if q.unit}}<span class="quotae-unit">{{!q.unit}}</span>{{/if}}
+                </div>
+                <div class="quotae-text">{{!q.text}}</div>
+            </td>
+            {{/each}}
+        </tr>
+    </table>
+    {{/if}}
+
+    {{if data.btns && data.btns.length}}
+    <div class="detail-btns">
+        {{each data.btns as btn}}
+            {{if btn.checkLogin && !biz.user}}
+            <!-- 未登录且需要校验登录 -->
+            <a mx-click="showLogin()" href="javascript:;" class="btn btn-brand custom-btn detail-btn" data-spm-click="gostr=/alimama_bp.3.1;locaid=dc2e0e11b{{=data.spmIndex}}_detail">{{=btn.text}}</a>
+            {{else}}
+            <!-- 已登录 / 不需要校验登录 -->
+            <a {{if btn.outer}} target="_blank" {{/if}} href="{{=btn.link}}" class="btn btn-brand custom-btn detail-btn" data-spm-click="gostr=/alimama_bp.3.1;locaid=d2ff85a16{{=data.spmIndex}}_detail">{{=btn.text}}</a>
+            {{/if}}
+        {{/each}}
+    </div>
+    {{/if}}
+    
+    {{if data.link && data.link.text}}
+    <div class="detail-link">
+        <a href="{{=data.link.url}}" target="_blank" class="link-brand" data-spm-click="gostr=/alimama_bp.3.1;locaid=de29c1160{{=data.spmIndex}}_detail">
+            {{=data.link.text}}
+            <i class="iconfont detail-link-icon">&#xe63d;</i>
+        </a>
+    </div>
+    {{/if}}
+</div>
