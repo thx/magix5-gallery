@@ -1,9 +1,9 @@
 /**
  * 外bu可能直接嵌入某个模块，统一包装入口
  */
-import Magix5 from 'magix5';
-import View from 'common-minisite/view';
-Magix.applyStyle('@index.less');
+import Magix5, { applyStyle } from 'magix5';
+import View from 'magix5-gallery/view';
+applyStyle('@index.less');
 
 export default View.extend({
     tmpl: '@block.html',
@@ -38,20 +38,20 @@ export default View.extend({
         // 当前选中tab
         block.index = 0;
 
-        this.updater.set({
+        this.set({
             biz,
             block
         })
     },
     render() {
-        this.updater.digest();
+        this.digest();
     },
     'changeTab<change>'(e) {
         // e.value 当前选中的key值
         // e.text 当前选中的文案
-        let { block } = this.updater.get();
+        let { block } = this.get();
         block.index = e.value;
-        this.updater.digest({
+        this.digest({
             block
         })
     }

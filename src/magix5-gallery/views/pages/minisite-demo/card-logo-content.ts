@@ -1,13 +1,12 @@
-import Magix5 from 'magix5';
+import Magix5, { applyStyle, mix } from 'magix5';
 import View from './base';
-Magix.applyStyle('@index.less');
-Magix.applyStyle('@card-logo-content.less');
+applyStyle('@index.less');
+applyStyle('@card-logo-content.less');
 
 export default View.extend({
     tmpl: '@card-logo-content.html',
     assign(extra) {
         let that = this;
-        that.updater.snapshot();
 
         let info = $.extend(true, {}, extra);
         delete info.biz.navs; // 消除外部变化参数的影响
@@ -28,13 +27,9 @@ export default View.extend({
             return that.toCardItem(item, info.biz);
         })
 
-        that.updater.set(Magix.mix(info, {
+        that.set(mix(info, {
             firstLine,
             cardList
         }));
-
-        // altered是否有变化 true：有变化
-        let altered = that.updater.altered();
-        return altered;
     }
 });

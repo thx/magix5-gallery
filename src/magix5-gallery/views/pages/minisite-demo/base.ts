@@ -1,6 +1,5 @@
-import Magix5 from 'magix5';
-import * as $ from '$';
-import View from 'common-minisite/view';
+import Magix5, {mix} from 'magix5';
+import View from 'magix5-gallery/view';
 
 export default View.extend({
     init(extra) {
@@ -8,7 +7,6 @@ export default View.extend({
     },
     assign(extra) {
         let that = this;
-        that.updater.snapshot();
 
         let info = $.extend(true, {}, extra);
         delete info.biz.navs; // 消除外部变化参数的影响
@@ -20,13 +18,10 @@ export default View.extend({
         let cardList = (data.list || []).map(item => {
             return that.toCardItem(item, info.biz);
         })
-        that.updater.set(Magix.mix(info, {
+        that.set(mix(info, {
             cardList
         }));
 
-        // altered是否有变化 true：有变化
-        let altered = that.updater.altered();
-        return altered;
     },
 
     /**
@@ -79,11 +74,11 @@ export default View.extend({
     },
 
     render() {
-        this.updater.digest({});
+        this.digest({});
     },
 
     'selectCard<select>'(e) {
-        let { biz } = this.updater.get();
+        let { biz } = this.get();
         let originItem = e.item.originItem;
         let link = originItem.link || {};
         if (link.checkLogin && !biz.user) {
@@ -93,7 +88,7 @@ export default View.extend({
     },
 
     'showLogin<click>'(e) {
-        let { biz } = this.updater.get();
+        let { biz } = this.get();
         let { mainBizCode, bizCode, loginView } = biz;
 
         // mxLoginView

@@ -1,20 +1,20 @@
-import Magix5 from 'magix5';
+import Magix5, { applyStyle, Router, parseUrl } from 'magix5';
 import View from './base';
-Magix.applyStyle('@index.less');
-Magix.applyStyle('@footer-banner.less');
+applyStyle('@index.less');
+applyStyle('@footer-banner.less');
 
 export default View.extend({
     tmpl: '@footer-banner.html',
     render() {
-        let { data } = this.updater.get();
+        let { data } = this.get();
         let alimeFrom = this.getAlime(data.alime);
-        this.updater.digest({
+        this.digest({
             alimeFrom
         });
     },
     'showAlime<click>'(e) {
-        let { alimeFrom } = this.updater.get();
-        this.mxDialog('@./alime', {
+        let { alimeFrom } = this.get();
+        this.mxDialog('@:./alime', {
             from: alimeFrom,
         }, {
             width: 960,
@@ -33,10 +33,10 @@ export default View.extend({
             return;
         }
 
-        let { path, params } = Magix.Router.parse();
+        let { path, params } = Router.parse();
         let cur = def;
         for (let i = 0; i < links.length; i++) {
-            let hash = Magix.parseUrl(links[i].path);
+            let hash = parseUrl(links[i].path);
 
             // 比较路径
             let equal = (hash.path == path);

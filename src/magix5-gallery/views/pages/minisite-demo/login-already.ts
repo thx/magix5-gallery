@@ -1,7 +1,7 @@
-import Magix, { Router } from 'magix';
-import View from 'common-minisite/view';
-Magix.applyStyle('@index.less');
-Magix.applyStyle('@login-already.less');
+import Magix5, { Router, applyStyle, toMap } from 'magix5';
+import View from 'magix5-gallery/view';
+applyStyle('@index.less');
+applyStyle('@login-already.less');
 
 export default View.extend({
     tmpl: '@login-already.html',
@@ -9,14 +9,12 @@ export default View.extend({
         this.assign(extra);
     },
     assign(extra) {
-        this.updater.snapshot();
-
         let biz = $.extend(true, {}, extra.biz || extra.data?.biz);
         let userObj = biz.userObj || {};
         let meta = userObj.meta || {}, // 登录的用户信息
             apiInfo = userObj.apiInfo || {}; // 登陆准入校验
 
-        let unauthorizedMap = Magix.toMap(biz.unauthorizedList || [], 'errorCode') || {};
+        let unauthorizedMap = toMap(biz.unauthorizedList || [], 'errorCode') || {};
         let unauthorizedInfo = unauthorizedMap[apiInfo.errorCode] || {};
         let nickName = meta.nickName ? `Hi，${meta.nickName}` : '',
             message = (biz.unauthorized ? (apiInfo.msg || apiInfo.message || '对不起，您目前还没有权限') : '');
@@ -27,7 +25,7 @@ export default View.extend({
             forward = biz.domain;
         }
 
-        this.updater.set({
+        this.set({
             biz,
             unauthorizedInfo,
             nickName,
@@ -36,11 +34,11 @@ export default View.extend({
         });
 
         // altered是否有变化 true：有变化
-        let altered = this.updater.altered();
+        let altered = this.altered();
         return altered;
     },
     render() {
-        this.updater.digest();
+        this.digest();
     },
 
 });

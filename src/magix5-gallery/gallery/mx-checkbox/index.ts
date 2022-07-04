@@ -4,17 +4,17 @@ Magix5.applyStyle('@:index.less');
 
 export default View.extend({
     tmpl: '@:index.html',
-    assign(extra) {
+    assign(options) {
         this.set({
-            checked: (extra.checked + '') === 'true',
-            disabled: (extra.disabled + '') === 'true',
-            indeterminate: (extra.indeterminate + '') === 'true',
-            name: extra.name || '',
-            value: extra.value || '',
-            text: extra.text || '',
-            tip: extra.tip || '',
-            tagContent: extra.tagContent || '',
-            tagColor: extra.tagColor || 'var(--mx5-color-error)',
+            checked: (options.checked + '') === 'true',
+            disabled: (options.disabled + '') === 'true',
+            indeterminate: (options.indeterminate + '') === 'true',
+            name: options.name || '',
+            value: options.value || '',
+            text: options.text || '',
+            tip: options.tip || '',
+            tagContent: options.tagContent || '',
+            tagColor: options.tagColor || 'var(--mx5-color-error)',
         })
     },
     render() {

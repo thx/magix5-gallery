@@ -1,32 +1,24 @@
-import Magix5 from 'magix5';
-import View from 'common-minisite/view';
-const Router = Magix.Router;
-Magix.applyStyle('@index.less');
-Magix.applyStyle('@learn.less');
+import Magix5, { applyStyle, Router } from 'magix5';
+import View from 'magix5-gallery/view';
+applyStyle('@index.less');
+applyStyle('@learn.less');
 
 export default View.extend({
     tmpl: '@learn.html',
     init(extra) {
-        this.updater.snapshot();
         this.assign(extra);
 
         this.observeLocation(['courseId']);
     },
     assign(extra) {
-        this.updater.snapshot();
-
-        this.updater.set({
+        this.set({
             biz: extra.biz,
             data: extra.data
         });
-
-        // altered是否有变化 true：有变化
-        let altered = this.updater.altered();
-        return altered;
     },
     async render() {
         let that = this;
-        let { data } = that.updater.get();
+        let { data } = that.get();
         let courseGroups = data.list;
         courseGroups.forEach((g, gi) => {
             g.groupId = gi;
@@ -56,7 +48,7 @@ export default View.extend({
             that.getRec(curCourse.id)
         ])
 
-        that.updater.digest({
+        that.digest({
             courseGroups,
             curCourse,
             content,
@@ -86,7 +78,7 @@ export default View.extend({
 
     getRec(id) {
         let that = this;
-        let { devInfo, biz } = that.updater.get();
+        let { devInfo, biz } = that.get();
         return new Promise(resolve => {
             // 支持的书院映射
             let channelType = ({
@@ -151,7 +143,7 @@ export default View.extend({
 
     'toggle<click>'(e) {
         let { groupIndex } = e.params;
-        let { courseGroups } = this.updater.get();
+        let { courseGroups } = this.get();
         courseGroups.forEach((g, gi) => {
             if (gi == groupIndex) {
                 g.selected = !g.selected;
@@ -159,7 +151,7 @@ export default View.extend({
                 g.selected = false;
             }
         })
-        this.updater.digest({
+        this.digest({
             courseGroups
         })
     },

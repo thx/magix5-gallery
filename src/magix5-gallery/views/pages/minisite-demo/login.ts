@@ -1,13 +1,11 @@
-import Magix5 from 'magix5';
+import Magix5, { applyStyle, mix } from 'magix5';
 import View from './base';
-Magix.applyStyle('@index.less');
-Magix.applyStyle('@login.less');
+applyStyle('@index.less');
+applyStyle('@login.less');
 
 export default View.extend({
     tmpl: '@login.html',
     assign(extra) {
-        this.updater.snapshot();
-
         let info = $.extend(true, {}, extra);
 
         // 轮播点样式，默认为品牌色
@@ -18,20 +16,16 @@ export default View.extend({
             };
         })
 
-        this.updater.set(Magix.mix(info, {
+        this.set(mix(info, {
             loginFrameData: {
                 bizCode: info.biz.mainBizCode
             },
             dotColorList,
         }));
-
-        // altered是否有变化 true：有变化
-        let altered = this.updater.altered();
-        return altered;
     },
     render() {
         let that = this;
-        let { data, biz } = that.updater.get();
+        let { data, biz } = that.get();
         if (data.needFetchQianniu || data.banners[0].needFetchQianniu) {
             // 读取千牛配置的banner
             that.requester.unlogin_reach_findLoginMainPage_get({
@@ -43,14 +37,14 @@ export default View.extend({
                     content.spmExtra = 'isqianniu';
                     data.banners.unshift(content);
                 }
-                that.updater.digest({
+                that.digest({
                     data,
                 });
             }).catch(err => {
-                that.updater.digest();
+                that.digest();
             })
         } else {
-            that.updater.digest();
+            that.digest();
         }
     }
 });

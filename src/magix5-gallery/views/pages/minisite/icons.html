@@ -1,36 +1,36 @@
 
 {{if show}}
-<div class="items" id="items_{{=viewId}}"
-    style="left: {{=left}}px; bottom: {{=bottom}}px;" mx-mousedown="@{drag}()" data-spm-click="gostr=/alimama_bp.3.1;locaid=d4f31cc63">
+<div class="items" id="items_{{=$viewId}}"
+    style="left: {{=left}}px; bottom: {{=bottom}}px;" 
+    mx-mousedown="@:{drag}()" data-spm-click="gostr=/alimama_bp.3.1;locaid=d4f31cc63">
     {{each btns as item index}}
     <div class="item {{if item.highlight}} highlight {{/if}}">
         <!-- 小蜜 -->
         {{if item.from}}
             <div class="alime-img" 
-                mx-click="@{open.alime}({item:'{{@item}}'})" data-spm-click="gostr=/alimama_bp.4.1;locaid={{=item.from}}"></div>
+                mx-click="@:{open.alime}({item:'{{#item}}'})" data-spm-click="gostr=/alimama_bp.4.1;locaid={{=item.from}}"></div>
             <div class="item-inner alime-item-inner" 
-                mx-click="@{open.alime}({item:'{{@item}}'})" data-spm-click="gostr=/alimama_bp.4.1;locaid={{=item.from}}">
+                mx-click="@:{open.alime}({item:'{{#item}}'})" data-spm-click="gostr=/alimama_bp.4.1;locaid={{=item.from}}">
                 <span class="text">在线客服</span>
             </div>
         {{else if item.hover}}
             <!-- 扫码 -->
             {{if !draging}}
             <mx-popover class="item-inner" 
-                width="160"
-                content="<div style='display: flex; width: 100%; height: 200px; align-items: center; justify-content: center;' data-spm-click='gostr=/alimama_bp.4.1;locaid=d4267a494'><img style='max-width: 100%; max-height: 100%;' src='{{=item.hover}}' data-spm-click='gostr=/alimama_bp.4.1;locaid=d4267a493'/></div>"
-                placement="{{=placement}}" 
-                align="bottom"
-                offset="{{@{
+                *width="160"
+                *content="<div style='display: flex; width: 100%; height: 200px; align-items: center; justify-content: center;' data-spm-click='gostr=/alimama_bp.4.1;locaid=d4267a494'><img style='max-width: 100%; max-height: 100%;' src='{{=item.hover}}' data-spm-click='gostr=/alimama_bp.4.1;locaid=d4267a493'/></div>"
+                *placement="{{=placement}}" 
+                *offset="{{#{
                     top: 8,
-                    left: (placement == 'left') ? -12 : 12
+                    left: (placement == 'lb') ? -12 : 12
                 }}}">
-                <i class="iconfont icon">&#xe676;</i>
-                <span class="text">{{!item.text}}</span>
+                <i class="minisite-iconfont icon">&#xe676;</i>
+                <span class="text" mx-html="{{=item.text}}"></span>
             </mx-popover>
             {{else}}
             <div class="item-inner">
-                <i class="iconfont icon">&#xe676;</i>
-                <span class="text">{{!item.text}}</span>
+                <i class="minisite-iconfont icon">&#xe676;</i>
+                <span class="text" mx-html="{{=item.text}}"></span>
             </div>
             {{/if}}
         {{/if}}
@@ -39,8 +39,8 @@
 
     <div class="item">
         <div class="item-inner">
-            <i class="iconfont back-icon" 
-                mx-click="@{back}()" data-spm-click="gostr=/alimama_bp.3.1;locaid=de560dd16">&#xe614;</i>
+            <i class="minisite-iconfont back-icon" 
+                mx-click="@:{back}()" data-spm-click="gostr=/alimama_bp.3.1;locaid=de560dd16">&#xe614;</i>
         </div>
     </div>
 </div>

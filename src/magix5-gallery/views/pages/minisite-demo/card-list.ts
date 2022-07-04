@@ -3,16 +3,16 @@
  * 
  * 可展示位学习资源模块，数据来源可走万堂书院
  */
-import Magix5 from 'magix5';
+import Magix5, { applyStyle } from 'magix5';
 import View from './base';
-Magix.applyStyle('@index.less');
+applyStyle('@index.less');
 
 export default View.extend({
     tmpl: '@card-common.html',
     render() {
         let that = this;
         let cardType = 'carousel-common-list';
-        let { data, biz } = that.updater.get();
+        let { data, biz } = that.get();
 
         let channelType = ({
             subway: 'subway_login_recommend'
@@ -41,25 +41,25 @@ export default View.extend({
                                 outer: true
                             }
                         })
-                        that.updater.digest({
+                        that.digest({
                             cardList,
                             cardType
                         });
                     } else {
-                        that.updater.digest({
+                        that.digest({
                             cardType
                         });
                     }
                 },
                 error: function (xhr) {
                     // 解耦异常
-                    that.updater.digest({
+                    that.digest({
                         cardType
                     });
                 }
             });
         } else {
-            that.updater.digest({
+            that.digest({
                 cardType
             });
         }

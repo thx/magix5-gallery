@@ -7,24 +7,24 @@ applyStyle('@:./index.less');
 
 export default BaseView.extend({
     tmpl: '@:./index.html',
-    assign(extra) {
+    assign(options) {
         // 宽度范围修正
-        let width = extra.width || 1000;
+        let width = options.width || 1000;
         let maxWidth = window.innerWidth;
         if (+width > maxWidth) {
             width = maxWidth;
         }
 
         // 简易模式
-        let simple = (extra.mode === 'simple');
+        let simple = (options.mode === 'simple');
 
         // 对齐方式，默认居中对齐
-        let textAlign = extra.textAlign || 'center';
+        let textAlign = options.textAlign || 'center';
 
         this.set({
-            bizCode: extra.bizCode,
-            type: extra.type,
-            needProducts: (extra.products + '' === 'true'),// 是否需要产品线信息
+            bizCode: options.bizCode,
+            type: options.type,
+            needProducts: (options.products + '' === 'true'),// 是否需要产品线信息
             simple,
             width,
             textAlign

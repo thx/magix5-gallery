@@ -22,7 +22,7 @@
     ],
     "gitlabUrl": "http://gitlab.alibaba-inc.com/mm/magix5-gallery",
     "rapVersion": "2",
-    "rapProjectId": "",
+    "rapProjectId": 3871,
     "logkey": "alimama.99.dmp",
     "spma": "",
     "dataPlusConfigPath": "./src/magix5-gallery/dataplus/config.js",
