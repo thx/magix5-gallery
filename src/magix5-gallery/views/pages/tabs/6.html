@@ -1,0 +1,68 @@
+<div class="example">
+	<div class="eg-content">
+		{{each list as item}}
+        <div class="mx5-mb40">
+            <div class="mx5-color-9 mx5-mb10">小尺寸{{=item.text}}（mode={{=item.value}}）：</div>
+            <mx-tabs.box class="mx5-mr20"
+                *size="small"
+                *mode="{{=item.value}}"
+                *list="{{#data}}" />
+            <mx-tabs.box
+                *size="small"
+                disabled="true"
+                *mode="{{=item.value}}"
+                *list="{{#data}}" />
+        </div>
+        <div class="mx5-mb40">
+            <div class="mx5-color-9 mx5-mb10">常规尺寸{{=item.text}}（mode={{=item.value}}）：</div>
+            <mx-tabs.box class="mx5-mr20"
+                *size="normal"
+                *mode="{{=item.value}}"
+                *list="{{#data}}" />
+            <mx-tabs.box
+                *size="normal"
+                disabled="true"
+                *mode="{{=item.value}}"
+                *list="{{#data}}" />
+        </div>
+        <div class="mx5-mb40">
+            <div class="mx5-color-9 mx5-mb10">大尺寸{{=item.text}}（mode={{=item.value}}）：</div>
+            <mx-tabs.box class="mx5-mr20"
+                *size="large"
+                *mode="{{=item.value}}"
+                *list="{{#data}}" />
+            <mx-tabs.box
+                *size="large"
+                disabled="true"
+                *mode="{{=item.value}}"
+                *list="{{#data}}" />
+        </div>
+        {{/each}}
+	</div>
+	<div class="eg-desc">
+        <div class="eg-title">HTML Code</div>
+        <mx-copy class="desc-oper" *copy-node="{{=$viewId}}_text_1" mx-success="@:{done}({id:1})">
+            <span class="desc-tip" mx-html="{{=text1}}"></span>
+            <i class="mx5-iconfont desc-icon">&#xe610;</i>
+        </mx-copy>
+        <mx-source whole="true" id="{{=$viewId}}_text_1">
+<!-- 小尺寸投影版样式 -->
+<mx-tabs.box *size="small" *mode="shadow" *list="{{#list]}}" />
+
+<!-- 常规尺寸投影版样式 -->
+<mx-tabs.box *size="normal" *mode="shadow" *list="{{#list]}}" />
+
+<!-- 大尺寸投影版样式 -->
+<mx-tabs.box *size="large" *mode="shadow" *list="{{#list]}}" />
+
+<!-- 小尺寸分割线（默认样式）样式 -->
+<mx-tabs.box *size="small" *mode="spliter" *list="{{#list]}}" />
+
+<!-- 常规尺寸分割线（默认样式）样式 -->
+<mx-tabs.box *size="normal" *mode="spliter" *list="{{#list]}}" />
+
+<!-- 大尺寸分割线（默认样式）样式 -->
+<mx-tabs.box *size="large" *mode="spliter" *list="{{#list]}}" />
+        </mx-source>
+    </div>
+</div>

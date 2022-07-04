@@ -1,20 +1,27 @@
-<div class="box-list {{= mode === 'vertical' ? 'flex-direction-column' : 'flex-direction-row'}}">
-  {{each list as item index first last}}
-  <div class="{{= mode === 'vertical' ? 'box-item-wrapper-vertical' : 'box-item-wrapper'}}
-    {{= classesText(item,selected)}}
-    {{= item.disabled ? 'disabled' : 'enabled'}}
-    {{= item.value == selected ? 'active-item' : ''}}
-    {{if (list[index - 1] && list[index - 1].value == selected)}} active-item-next {{/if}}
-    {{if (list[index + 1] && list[index + 1].value == selected)}} active-item-prev {{/if}}"
-     mx-click="{{= !item.disabled}}?@:{select}({value:'{{= item.value}}'})">
-
+{{each list as item index}}
+<div class="box-wrapper
+    {{if (item.value == selected)}} selected {{/if}} 
+    {{if (list[index - 1] && list[index - 1].value == selected)}} selected-next {{/if}}
+    {{if (list[index + 1] && list[index + 1].value == selected)}} selected-prev {{/if}}
+    {{if item.disabled}} disabled {{else}} enabled {{/if}}"
+    mx-click="{{=(!item.disabled)}}?@:{select}({item:'{{#item}}'})"
+    data-spm-click="{{=spm}}?{{=spm}}_{{=index}}">
     <div class="box-item">
-      {{if mode === 'vertical'}}
-      {{else}}
-      <span>{{= item.text}}</span>
-      {{/if}}
+        {{=item.text}}
+        {{if item.tagContent}}
+        <span class="tag-content-wrapper" mx-html="{{=item.tagContent}}"></span>
+        {{else if item.tag}}
+        <mx-effects.icon class="mx5-ml5" 
+            *mode="solid" 
+            *type="error" 
+            *color="{{=item.color}}?" 
+            *content="{{=item.tag}}"/>
+        {{/if}}
+        {{if item.tip}}
+        <mx-popover class="mx5-iconfont mx5-iconfont-tip" 
+            *width="280" 
+            *content="{{=item.tip}}">&#xe72f;</mx-popover>
+        {{/if}}
     </div>
-
-  </div>
-  {{/each}}
 </div>
+{{/each}}

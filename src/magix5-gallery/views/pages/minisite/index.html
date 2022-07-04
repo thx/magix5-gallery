@@ -51,10 +51,8 @@
     </div>
     {{/each}}
 {{else}}
-    <div class="empty-login-view" mx-view="@../../gallery/mx-dialog/login-iframe?data={{@loginFrameData}}" data-spm="c601d1c8f"></div>
+    <div class="empty-login-view" mx-view="@:../../../gallery/mx-dialog/login-iframe?data={{#biz}}" data-spm="c601d1c8f"></div>
 {{/if}} -->
-
-<div class="empty-login-view" mx-view="@:../../../gallery/mx-dialog/login-iframe?data={{#biz}}" data-spm="c601d1c8f"></div>
 
 <mx-footer class="footer"
     *width="{{=width}}" 

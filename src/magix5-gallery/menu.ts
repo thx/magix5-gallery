@@ -110,6 +110,11 @@ export default {
                         path: '/pagination/index',
                     },
                     {
+                        name: 'mx-tabs 底边线tab分组',
+                        tip: '一般适用于一级导航，支持双向绑定',
+                        path: '/tabs/index',
+                    },
+                    {
                         name: 'mx-tabs.box 盒状tab分组',
                         tip: '一般适用于快捷筛选，支持双向绑定',
                         path: '/tabs/box',

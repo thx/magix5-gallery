@@ -2,13 +2,13 @@
 	<div class="eg-content">
 		<div class="eg-content-tip">
 			<div class="eg-content-tip-prefix">以下示例：</div>
-			<div>完整事件处理示例</div>
+			<div>支持直接关联adc树结构</div>
 		</div>
 		<div>
             <mx-tabs.box
-                *list="{{#list}}" 
-                *selected="{{=selected}}"
-                mx-change="changeTab()"/>
+				*adc-list="{{#list}}" 
+				*selected="{{=selected}}" 
+				mx-change="changeTab()"/>
             <span class="mx5-color-9 mx5-ml20">当前选中：</span>
             <span>{{=selected}}</span>
         </div>
@@ -22,8 +22,8 @@
 			</mx-copy>
 			<mx-source whole="true" id="{{=$viewId}}_text_1">
 <mx-tabs.box
-	*list="{{#list}}" 
-	*selected="{{=selected}}"
+	*adc-list="{{#list}}" 
+	*selected="{{=selected}}" 
 	mx-change="changeTab()"/>
 			</mx-source>
 		</div>
@@ -39,33 +39,46 @@ import View from 'magix5-gallery/view';
 
 export default View.extend({
     tmpl: '@:index.html',
-    render() {
+    async render() {
         let list = [{
-            value: 1,
-            text: '模块1'
+            code: 1,
+            name: '模块1'
         }, {
-            value: 2,
-            text: '模块2'
+            code: 2,
+            name: '模块2',
+            description: '模块2提示信息'
         }, {
-            value: 3,
-            text: '模块3'
+            code: 3,
+            name: '模块3',
+            properties: {
+                tag: 'NEW'
+            }
         }, {
-            value: 4,
-            text: '模块4'
+            code: 4,
+            name: '模块4',
+            properties: {
+                tag: 'HOT',
+                tagColor: 'green',
+            }
+        }, {
+            code: 5,
+            name: '模块5',
+            properties: {
+                disabled: true
+            }
         }];
-
-        this.digest({
+        await this.digest({
             list,
-            selected: list[0].value
+            selected: list[0].code,
         });
     },
-
     'changeTab<change>'(e) {
         this.digest({
             selected: e.selected
         })
     }
-})
+});
+
 			</mx-source>
 		</div>
 	</div>
