@@ -3,23 +3,27 @@
     <div class="edit-inner">
         {{each list as item index}}
         <a class="edit-item {{=(item.value == selected) ? 'edit-selected' : ''}}" 
-            {{if item.link}}
-                href="{{=item.link}}" target="_blank" rel="noopener noreferrer" 
-            {{else}} 
-                href="javascript:;" mx-click="@{select}({item:'{{@item}}'})"
-            {{/if}}
-            {{if spm}} data-spm-click="{{=spm}}{{=index}}" {{/if}}>
+            href="{{=(item.link ? item.link : 'javascript:;')}}" 
+            target="{{=item.link}}?_blank" 
+            rel="{{=item.link}}?noopener noreferrer"
+            mx-click="{{=(!item.disabled && !item.link)}}?@:{select}({item:'{{#item}}'})"
+            data-spm-click="{{=spm}}?{{=spm}}_{{=index}}">
             
-            <span class="edit-text">{{!item.text}}</span>
+            <span class="edit-text" mx-html="{{=item.text}}"></span>
 
             {{if item.tagContent}}
-            <span class="edit-tag">{{!item.tagContent}}</span>
+            <span class="edit-tag" mx-html="{{=item.tagContent}}"></span>
             {{else if item.tag}}
-            <mx-effects.icon class="edit-tag" type="error" color="{{=item.color}}" content="{{=item.tag}}"/>
+            <mx-effects.icon class="edit-tag" 
+                *type="error" 
+                *color="{{=item.color}}?" 
+                *content="{{=item.tag}}"/>
             {{/if}}
 
             {{if item.tip}}
-            <mx-popover class="mc-iconfont mc-tip-iconfont" tag="i" width="280" content="{{=item.tip}}">&#xe72f;</mx-popover>
+            <mx-popover class="mx5-iconfont mx5-iconfont-tip"
+                *width="280" 
+                *content="{{=item.tip}}">&#xe72f;</mx-popover>
             {{/if}}
         
             {{if editable}}
@@ -38,24 +42,27 @@
 <div class="items">
     {{each list as item index}}
     <a class="item {{if item.disabled}} item-disabled {{/if}} {{= (item.value == selected) ? 'selected' : ''}}" 
-        id="{{=viewId}}_{{=item.value}}"
-        {{if item.link}}
-            href="{{=item.link}}" target="_blank" rel="noopener noreferrer" 
-        {{else}} 
-            href="javascript:;" {{if !item.disabled}} mx-click="@{select}({item:'{{@item}}'})"  {{/if}} 
-        {{/if}}
-        {{if spm}} data-spm-click="{{=spm}}{{=index}}" {{/if}}>
+        href="{{=(item.link ? item.link : 'javascript:;')}}" 
+        target="{{=item.link}}?_blank" 
+        rel="{{=item.link}}?noopener noreferrer"
+        mx-click="{{=(!item.disabled && !item.link)}}?@:{select}({item:'{{#item}}'})"
+        data-spm-click="{{=spm}}?{{=spm}}_{{=index}}">
 
-        <span class="text">{{!item.text}}</span>
+        <span class="text" mx-html="{{=item.text}}"></span>
 
         {{if item.tagContent}}
-        <span class="tag-content">{{!item.tagContent}}</span>
+        <span class="tag-content" mx-html="{{=item.tagContent}}"></span>
         {{else if item.tag}}
-        <mx-effects.icon class="tag" type="error" color="{{=item.color}}" content="{{=item.tag}}"/>
+        <mx-effects.icon class="tag" 
+            *type="error" 
+            *color="{{=item.color}}?" 
+            *content="{{=item.tag}}"/>
         {{/if}}
 
         {{if item.tip}}
-        <mx-popover class="mc-iconfont mc-tip-iconfont" tag="i" width="280" content="{{=item.tip}}">&#xe72f;</mx-popover>
+        <mx-popover class="mx5-iconfont mx5-iconfont-tip"
+            *width="280" 
+            *content="{{=item.tip}}">&#xe72f;</mx-popover>
         {{/if}}
     </a>
     {{/each}}

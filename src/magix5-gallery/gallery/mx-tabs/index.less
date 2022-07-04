@@ -1,8 +1,8 @@
 [mx5-view*="mx-tabs/index"] {
     .items {
         position: relative;
-        padding-left: var(--mx-tab-first-v-gap, var(--mx-tab-h-gap));
-        border-bottom: 1px solid var(--mx-tab-border-color, var(--color-border));
+        padding-left: var(--mx5-tab-first-v-gap);
+        border-bottom: 1px solid var(--mx5-tab-border-color);
 
         .item,
         .item:link,
@@ -11,15 +11,16 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            height: calc(var(--input-height) + 2 * var(--mx-tab-v-gap));
-            margin-right: calc(var(--mx-tab-h-gap) * 2);
+            height: calc(var(--mx5-input-height) + 2 * var(--mx5-tab-v-gap));
+            margin-right: calc(var(--mx5-tab-h-gap) * 2);
+            cursor: pointer;
 
             .text {
                 display: inline-flex;
                 align-items: center;
-                font-size: var(--mx-tab-font-size, 16px);
-                color: var(--mx-tab-color, #666);
-                transition: color var(--duration) ease-out;
+                font-size: var(--mx5-tab-font-size);
+                color: var(--mx5-tab-color);
+                transition: color var(--mx5-duration) ease-out;
                 line-height: initial;
             }
 
@@ -27,7 +28,7 @@
                 position: absolute;
                 top: 50%;
                 left: 100%;
-                margin-top: calc(0px - var(--mx-tag-height) / 2 * 3);
+                margin-top: calc(0px - var(--mx5-tag-height) / 2 * 3);
                 margin-left: -4px;
             }
 
@@ -36,7 +37,7 @@
                 top: 50%;
                 left: 100%;
                 display: inline-block;
-                margin-top: calc(0px - 4px - var(--input-height) / 2);
+                margin-top: calc(0px - 4px - var(--mx5-input-height) / 2);
             }
 
             &:last-child {
@@ -49,8 +50,8 @@
                 position: absolute;
                 height: 0;
                 bottom: 0;
-                border-bottom: 2px solid var(--color-brand);
-                transition: all var(--duration);
+                border-bottom: 2px solid var(--mx5-color-brand);
+                transition: all var(--mx5-duration);
                 z-index: -99999;
             }
 
@@ -70,24 +71,24 @@
 
             &:hover {
                 .text {
-                    color: var(--mx-tab-color-hover, #333);
+                    color: var(--mx5-tab-color-hover);
                 }
             }
 
             &.selected {
                 .text {
-                    color: var(--mx-tab-color-active, var(--color-brand));
+                    color: var(--mx5-tab-color-active);
                 }
 
                 &::before {
                     z-index: auto;
-                    left: calc(0px - var(--mx-tab-first-v-gap, var(--mx-tab-h-gap)) / 2);
-                    width: calc(50% + var(--mx-tab-first-v-gap, var(--mx-tab-h-gap)) / 2);
+                    left: calc(0px - var(--mx5-tab-first-v-gap));
+                    width: calc(50% + var(--mx5-tab-first-v-gap));
                 }
 
                 &::after {
                     z-index: auto;
-                    width: calc(50% + var(--mx-tab-first-v-gap, var(--mx-tab-h-gap)) / 2);
+                    width: calc(50% + var(--mx5-tab-first-v-gap));
                 }
             }
 
@@ -99,7 +100,7 @@
                 .tag-content,
                 &::after,
                 &::before {
-                    opacity: var(--mx-comp-disabled-opacity, .4);
+                    opacity: var(--mx5-comp-disabled-opacity);
                     pointer-events: none;
                 }
             }
@@ -113,7 +114,7 @@
 }
 
 [mx5-view*="mx-tabs/index"][mx5-view*="mode=edit"] {
-    border-bottom: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--mx5-color-border);
     line-height: 0;
 
     .edit {
@@ -125,7 +126,7 @@
         .edit-inner {
             display: inline-block;
             max-width: 100%;
-            height: var(--input-height);
+            height: var(--mx5-input-height);
             white-space: nowrap;
             -ms-overflow-style: none;
             overflow: auto hidden;
@@ -150,25 +151,25 @@
         .edit-item:visited {
             position: relative;
             display: inline-flex;
-            height: var(--input-height);
+            height: var(--mx5-input-height);
             margin-right: 2px;
             padding-left: 12px;
             padding-right: 12px;
             align-items: center;
             justify-content: center;
-            border-radius: var(--border-radius) var(--border-radius) 0 0;
-            border-top: 1px solid var(--color-border);
-            border-right: 1px solid var(--color-border);
-            border-bottom: 1px solid var(--color-border);
-            border-left: 1px solid var(--color-border);
+            border-radius: var(--mx5-border-radius) var(--mx5-border-radius) 0 0;
+            border-top: 1px solid var(--mx5-color-border);
+            border-right: 1px solid var(--mx5-color-border);
+            border-bottom: 1px solid var(--mx5-color-border);
+            border-left: 1px solid var(--mx5-color-border);
             color: #666;
-            background-color: var(--color-bg);
-            transition: all var(--duration);
+            background-color: var(--mx5-color-bg);
+            transition: all var(--mx5-duration);
             cursor: pointer;
 
             .edit-icon {
                 color: #999;
-                transition: all var(--duration);
+                transition: all var(--mx5-duration);
             }
 
             .edit-tag {

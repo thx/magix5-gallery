@@ -1,0 +1,39 @@
+<div class="example">
+	<div class="eg-content">
+		<div class="eg-content-tip">
+			<div class="eg-content-tip-prefix">以下示例：</div>
+			<div>自定义 text-key 和 value-key</div>
+		</div>
+		<div>
+            <mx-tabs 
+                *list="{{#[{
+                    id: 1,
+                    name: '模块1'
+                }, {
+                    id: 2,
+                    name: '模块2'
+                }]}}" 
+                *value-key="id"
+                *text-key="name" />
+        </div>
+	</div>
+	<div class="eg-desc">
+        <div class="eg-title">HTML Code</div>
+        <mx-copy class="desc-oper" *copy-node="{{=$viewId}}_text_1" mx-success="@:{done}({id:1})">
+            <span class="desc-tip" mx-html="{{=text1}}"></span>
+            <i class="mx5-iconfont desc-icon">&#xe610;</i>
+        </mx-copy>
+        <mx-source whole="true" id="{{=$viewId}}_text_1">
+<mx-tabs 
+    *list="{{#[{
+        id: 1,
+        name: '模块1'
+    }, {
+        id: 2,
+        name: '模块2'
+    }]}}" 
+    *value-key="id"
+    *text-key="name" />
+        </mx-source>
+    </div>
+</div>

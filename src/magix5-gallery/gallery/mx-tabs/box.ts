@@ -7,21 +7,20 @@ applyStyle('@:box.less');
 
 export default View.extend({
     tmpl: '@:box.html',
-    assign(extra) {
-        // mx-disabled作为属性，动态更新不会触发view改变，兼容历史配置，建议使用disabled
-        let disabled = (extra.disabled + '' === 'true');
+    assign(options) {
+        let disabled = (options.disabled + '' === 'true');
 
-        let textKey = extra.textKey || 'text',
-            valueKey = extra.valueKey || 'value';
+        let textKey = options.textKey || 'text',
+            valueKey = options.valueKey || 'value';
 
         let list = [];
         let originList;
         try {
-            originList = (new Function('return ' + extra.list))();
+            originList = (new Function('return ' + options.list))();
         } catch (e) {
-            originList = extra.list || [];
+            originList = options.list || [];
         }
-        if (extra.adcList && extra.adcList.length > 0) {
+        if (options.adcList && options.adcList.length > 0) {
             // adc树结构
             // {
             //     code: "对应value",
@@ -34,7 +33,7 @@ export default View.extend({
             //         link: "外链地址",
             //     }
             // }
-            list = extra.adcList.map(item => {
+            list = options.adcList.map(item => {
                 return {
                     ...item,
                     value: item.code,
@@ -58,12 +57,12 @@ export default View.extend({
             });
         }
 
-        let selected = extra.selected || (list[0] || {})['value'];
+        let selected = options.selected || (list[0] || {})['value'];
 
         // box 类型
         //   spliter 分割线
         //   shadow 阴影效果的
-        let mode = extra.mode || 'spliter';
+        let mode = options.mode || 'spliter';
         if (['shadow', 'spliter', 'vertical'].indexOf(mode) < 0) {
             mode = 'spliter';
         }

@@ -1,0 +1,29 @@
+<div class="example">
+	<div class="eg-content">
+        <mx-tabs 
+            *list="{{#[{
+                value: 1,
+                text: '<i class="mx5-iconfont mx5-mr5">&#xe90d;</i>模块1'
+            }, {
+                value: 2,
+                text: '<i class="mx5-iconfont mx5-mr5">&#xe74e;</i>模块2'
+            }]}}" />
+	</div>
+	<div class="eg-desc">
+        <div class="eg-title">HTML Code</div>
+        <mx-copy class="desc-oper" *copy-node="{{=$viewId}}_text_1" mx-success="@:{done}({id:1})">
+            <span class="desc-tip" mx-html="{{=text1}}"></span>
+            <i class="mx5-iconfont desc-icon">&#xe610;</i>
+        </mx-copy>
+        <mx-source whole="true" id="{{=$viewId}}_text_1">
+<mx-tabs 
+    *list="{{#[{
+        value: 1,
+        text: '<i class="mx5-iconfont mx5-mr5">&#xe90d;</i>模块1'
+    }, {
+        value: 2,
+        text: '<i class="mx5-iconfont mx5-mr5">&#xe74e;</i>模块2'
+    }]}}" />
+        </mx-source>
+    </div>
+</div>

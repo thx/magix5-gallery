@@ -79,21 +79,37 @@ export default View.extend({
 
         let columns = [
             {
-                text: '事件处理',
-                path: 1,
+                text: '打标 + 事件处理',
+                path: 7,
+            },
+            // {
+            //     text: '同步校验阻断',
+            //     path: 8,
+            // },
+            {
+                text: '部分or整体禁用',
+                path: 8,
+            },
+            // {
+            //     text: '双向绑定',
+            //     path: 9,
+            // },
+            {
+                text: '自定义key',
+                path: 9,
             },
             {
-                text: '双向绑定',
-                path: 2,
+                text: '带icon',
+                path: 10,
             },
             {
-                text: '自定义textKey/valueKey',
-                path: 3,
+                text: '提示+外链',
+                path: 11,
             },
             {
-                text: '禁用状态',
-                path: 4,
-            },
+                text: 'adc-list',
+                path: 12,
+            }
         ];
 
         this.set({

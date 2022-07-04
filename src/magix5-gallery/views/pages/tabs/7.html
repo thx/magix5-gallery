@@ -1,0 +1,99 @@
+<div class="example">
+	<div class="eg-content">
+		<div class="eg-content-tip">
+			<div class="eg-content-tip-prefix">以下示例：</div>
+			<div>配置tagContent自定义右上角打标内容，配置tag展示右侧默认打标样式，优先级tagContent > tag</div>
+		</div>
+        <mx-tabs class="mx5-mb30"
+            *list="{{#list}}" 
+            *selected="{{=selected}}"
+            mx-change="changeTab()"/>
+        <div>
+            <mx-btn *mode="primary" *content="改变数据" mx-click="changeData()" />
+            <span class="mx5-ml20 mx5-color-9">当前选中：</span>
+            <span>{{=selected}}</span>
+        </div>
+	</div>
+	<div class="mx5-clearfix">
+		<div class="eg-desc flw50">
+			<div class="eg-title">HTML Code</div>
+			<mx-copy class="desc-oper" *copy-node="{{=$viewId}}_text_1" mx-success="@:{done}({id:1})">
+				<span class="desc-tip" mx-html="{{=text1}}"></span>
+				<i class="mx5-iconfont desc-icon">&#xe610;</i>
+			</mx-copy>
+			<mx-source whole="true" id="{{=$viewId}}_text_1">
+<mx-tabs class="mx5-mb30"
+    *list="{{#list}}" 
+    *selected="{{=selected}}"
+    mx-change="changeTab()"/>
+
+<mx-btn 
+    *mode="primary" 
+    *content="改变数据" 
+    mx-click="changeData()" />
+			</mx-source>
+		</div>
+		<div class="eg-desc flw50 mx5-blc">
+			<div class="eg-title">JS Code</div>
+			<mx-copy class="desc-oper" *copy-node="{{=$viewId}}_text_2" mx-success="@:{done}({id:2})">
+				<span class="desc-tip" mx-html="{{=text2}}"></span>
+				<i class="mx5-iconfont desc-icon">&#xe610;</i>
+			</mx-copy>
+			<mx-source whole="true" id="{{=$viewId}}_text_2">
+import Magix5 from 'magix5';
+import View from 'magix5-gallery/view';
+
+export default View.extend({
+    tmpl: '@:index.html',
+    render() {
+        let list = [{
+            value: 1,
+            text: '默认打标',
+            tag: 'NEW',
+        }, {
+            value: 2,
+            text: '自定义标颜色',
+            tag: 'NEW',
+            color: '#30ab66'
+        }, {
+            value: 3,
+            text: '无打标',
+        }, {
+            value: 4,
+            text: '自定义打标模块',
+            tagContent: '<img src="https://img.alicdn.com/tfs/TB1pvD4dkP2gK0jSZPxXXacQpXa-100-34.png" style="max-width: none; width: 50px;"/>',
+            tip: '自定义打标模块'
+        }];
+
+        this.digest({
+            list,
+            selected: list[1].value
+        });
+    },
+
+    'changeData<click>'(e) {
+        let list = [{
+            value: 4,
+            text: '新模块1',
+            tag: 'NEW'
+        }, {
+            value: 5,
+            text: '新模块2'
+        }];
+        let selected = list[0].value;
+        this.digest({
+            list,
+            selected
+        })
+    },
+
+    'changeTab<change>'(e) {
+        this.digest({
+            selected: e.selected
+        })
+    },
+})
+			</mx-source>
+		</div>
+	</div>
+</div>

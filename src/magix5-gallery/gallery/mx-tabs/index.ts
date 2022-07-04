@@ -1,35 +1,28 @@
 /**
  * 底边线tab切换
  */
-import Magix from 'magix';
-import * as $ from '$';
-import * as View from '../mx-util/view';
-Magix.applyStyle('@index.less');
+import Magix5, { applyStyle, dispatch } from 'magix5';
+import View from '../mx-base/view';
+applyStyle('@:index.less');
 
 export default View.extend({
-    tmpl: '@index.html',
-    init(extra) {
-        this.assign(extra);
-    },
-    assign(extra) {
-        let that = this;
-        that.updater.snapshot();
-
+    tmpl: '@:index.html',
+    assign(options) {
         // 整体禁用
-        let disabled = (extra.disabled + '' === 'true')
+        let disabled = (options.disabled + '' === 'true')
 
-        let textKey = extra.textKey || 'text',
-            valueKey = extra.valueKey || 'value';
+        let textKey = options.textKey || 'text',
+            valueKey = options.valueKey || 'value';
 
 
         let list = [];
         let originList;
         try {
-            originList = (new Function('return ' + extra.list))();
+            originList = (new Function('return ' + options.list))();
         } catch (e) {
-            originList = extra.list || [];
+            originList = options.list || [];
         }
-        if (extra.adcList && extra.adcList.length > 0) {
+        if (options.adcList && options.adcList.length > 0) {
             // adc树结构
             // {
             //     code: "对应value",
@@ -42,7 +35,7 @@ export default View.extend({
             //         link: "外链地址",
             //     }
             // }
-            list = extra.adcList.map(item => {
+            list = options.adcList.map(item => {
                 return {
                     ...item,
                     value: item.code,
@@ -67,24 +60,24 @@ export default View.extend({
         }
 
         // 选中值，包含0的情况
-        let selected = (extra.selected === null || extra.selected === undefined) ? (list[0]?.value || '') : extra.selected;
+        let selected = (options.selected === null || options.selected === undefined) ? (list[0]?.value || '') : options.selected;
 
         // 展示类型
         //    shrink 底边线收缩
         //    edit 可编辑样式
-        let mode = extra.mode, allowModeMap = { shrink: true, edit: true };
+        let mode = options.mode, allowModeMap = { shrink: true, edit: true };
         if (!allowModeMap[mode]) {
             mode = 'shrink';
         }
 
         // mode=edit时参数，是否支持编辑，默认true
-        let editable = (extra.editable + '' !== 'false');
+        let editable = (options.editable + '' !== 'false');
 
         // pipeline导航特有字段
-        let color = extra.color || '#FF0036';
-        let colorGradient = extra.colorGradient || color;
+        let color = options.color || '#FF0036';
+        let colorGradient = options.colorGradient || color;
 
-        that.updater.set({
+        this.set({
             mode,
             list,
             selected,
@@ -92,90 +85,78 @@ export default View.extend({
             colorGradient,
             editable,
         });
-
-        // 双向绑定
-        that['@{owner.node}'] = $('#' + that.id);
-        that['@{owner.node}'].val(selected);
-
-        // altered是否有变化 true：有变化
-        let altered = that.updater.altered();
-        return altered;
     },
 
     render() {
-        this.updater.digest();
+        this.digest();
     },
 
-    '@{remove}<click>'(e) {
-        // 阻断@{select}
-        e.stopPropagation();
-        let that = this;
-        let { selected, list } = that.updater.get();
-        let index = e.params.index;
-        let item = list[index];
+    // '@{remove}<click>'(e) {
+    //     // 阻断@:{select}
+    //     e.stopPropagation();
+    //     let that = this;
+    //     let { selected, list } = that.updater.get();
+    //     let index = e.params.index;
+    //     let item = list[index];
 
-        // 移除当前项
-        list.splice(index, 1);
+    //     // 移除当前项
+    //     list.splice(index, 1);
 
-        if (selected == item.value) {
-            // 当移除当前选中项时，更新到第一个
-            that['@{select}'](list[0]);
-        } else {
-            // list更新了，强制change
-            let item = {};
-            for (let i = 0; i < list.length; i++) {
-                if (list[i].value == selected) {
-                    item = list[i];
-                    break;
-                }
-            }
-            that['@{select}'](item, true);
-        }
-    },
+    //     if (selected == item.value) {
+    //         // 当移除当前选中项时，更新到第一个
+    //         that['@:{select}'](list[0]);
+    //     } else {
+    //         // list更新了，强制change
+    //         let item = {};
+    //         for (let i = 0; i < list.length; i++) {
+    //             if (list[i].value == selected) {
+    //                 item = list[i];
+    //                 break;
+    //             }
+    //         }
+    //         that['@:{select}'](item, true);
+    //     }
+    // },
 
-    '@{add}<click>'(e) {
-        let { list } = this.updater.get();
-        this['@{owner.node}'].trigger($.Event('add', {
-            list,
-        }));
-    },
+    // '@{add}<click>'(e) {
+    //     let { list } = this.updater.get();
+    //     this['@{owner.node}'].trigger($.Event('add', {
+    //         list,
+    //     }));
+    // },
 
-    '@{select}<click>'(e) {
+    '@:{select}<click>'(e) {
         let item = e.params.item;
         if (item.disabled) {
             return;
         }
-        this['@{select}'](item);
+        this['@:{select}'](item);
     },
 
-    '@{select}'(item, force) {
-        let that = this;
-
+    '@:{select}'(item, force) {
         // 兼容编辑场景list删空
         item = item || {};
         let value = (item.value === null || item.value === undefined) ? '' : item.value;
 
-        let { selected, list } = that.updater.get();
+        let { selected, list } = this.get();
         if (!force && (selected == value)) {
             return;
         }
 
-        let event = $.Event('change', {
+        let event = dispatch(this.root, 'change', {
             list, // 可编辑状态下，list会变更，此处也返回
             item,
             value,
             text: item.text,
-            selected: value
+            selected: value,
         });
-        that['@{owner.node}'].trigger(event);
-        if (!event.isDefaultPrevented()) {
-            // 支持外部同步校验，event.preventDefault()
-            that['@{owner.node}'].val(value);
-            that.updater.digest({
-                list,
-                selected: value,
-                hover: value
-            })
-        }
+        // if (!event.defaultPrevented) {
+        // 支持外部同步校验阻断change，event.preventDefault()
+        this.digest({
+            list,
+            selected: value,
+            hover: value
+        })
+        // }
     }
 });
