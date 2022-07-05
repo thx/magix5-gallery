@@ -1,19 +1,17 @@
 <div class="inner">
     {{if data.subTitle}}<div class="sub-title" mx-html="{{=data.subTitle}}"></div>{{/if}}
-    <div class="clearfix">
+    <div class="mx5-clearfix">
         {{each data.list as item i}}
         <div class="box-wrapper">
-            <div class="item">
-                <a class="item-link" 
-                    href="{{=(item.link ? item.link : 'javascript:;')}}" 
-                    target="{{=item.link}}?_blank" 
-                    data-spm-click="gostr=/alimama_bp.3.1;locaid=de2c238f8{{=data.spmIndex}}_box_list">
-                    <img class="img" src="{{=item.img}}" />
-                    <div class="cont-title item-title" mx-html="{{=item.title}}"></div>
-                    <div class="cont-sub-title item-sub-title" mx-html="{{=item.subTitle}}"></div>
-                    <div class="cont-info item-info" mx-html="{{=item.info}}"></div>
-                </a>
-            </div>
+            <a class="item" 
+                href="{{=(item.link ? item.link : 'javascript:;')}}" 
+                target="{{=item.link}}?_blank" 
+                data-spm-click="gostr=/alimama_bp.3.1;locaid=de2c238f8{{=data.spmIndex}}_box_list">
+                <img class="img" src="{{=item.img}}" />
+                <div class="cont-title item-title" mx-html="{{=item.title}}"></div>
+                <div class="cont-sub-title item-sub-title" mx-html="{{=item.subTitle}}"></div>
+                <div class="cont-info item-info" mx-html="{{=item.info}}"></div>
+            </a>
         </div>
         {{/each}}
     </div>

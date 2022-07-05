@@ -9,61 +9,64 @@
     &:nth-child(2n) {
         margin-right: 0px;
     }
-}
 
-.item {
-    position: relative;
-    box-shadow: 0 2px 6px 0 rgba(185, 185, 185, 0.5);
-    border-radius: var(--mx5-effects-card-radius);
-    background-color: #fff;
-    transition: all var(--mx5-duration);
-    vertical-align: top;
 
-    &:hover {
-        margin-top: -8px;
+    .img {
+        position: absolute;
+        top: 16px;
+        left: 24px;
+        width: 100px;
+        height: 100px;
     }
-}
 
-.img {
-    position: absolute;
-    top: 16px;
-    left: 24px;
-    width: 100px;
-    height: 100px;
-}
+    .item-title,
+    .item-sub-title,
+    .item-info {
+        width: 100%;
+        padding-left: 116px;
+        transition: all var(--mx5-duration);
+    }
 
-.item-title,
-.item-sub-title,
-.item-info {
-    width: 100%;
-    padding-left: 116px;
-    transition: all var(--mx5-duration);
-}
-
-.item-title {
-    margin-bottom: 5px;
-}
-
-.item-sub-title {
-    margin-bottom: 10px;
-}
-
-.item-info {
-    height: 80px;
-    display: -webkit-box;
-    -webkit-line-clamp: 4;
-    /* autoprefixer: off */
-    -webkit-box-orient: vertical;
-    /* autoprefixer: on */
-    text-overflow: ellipsis;
-    overflow: hidden;
-}
-
-.item-link:hover {
     .item-title {
-        color: var(--mx5-color-brand);
+        margin-bottom: 5px;
+    }
+
+    .item-sub-title {
+        margin-bottom: 10px;
+    }
+
+    .item-info {
+        height: 80px;
+        display: -webkit-box;
+        -webkit-line-clamp: 4;
+        /* autoprefixer: off */
+        -webkit-box-orient: vertical;
+        /* autoprefixer: on */
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+
+    .item {
+        position: relative;
+        display: block;
+        width: 100%;
+        height: 100%;
+        padding: var(--mx5-layout-body-v-gap) var(--mx5-layout-body-h-gap);
+        box-shadow: 0 2px 6px 0 rgba(185, 185, 185, 0.5);
+        border-radius: var(--mx5-effects-card-radius);
+        background-color: #fff;
+        transition: all var(--mx5-duration);
+
+        &:hover {
+            margin-top: -8px;
+
+            .item-title {
+                color: var(--mx5-color-brand);
+            }
+        }
     }
 }
+
 
 @media screen and (max-width:768px) {
     .box-wrapper {
