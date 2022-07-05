@@ -66,6 +66,11 @@ export default {
                         path: '/checkbox/index',
                     },
                     {
+                        name: 'mx-dropdown.box 按钮型选择',
+                        tip: '支持单选or多选；支持双向绑定',
+                        path: '/dropdown/box',
+                    },
+                    {
                         name: 'mx-error 空/异常状态',
                         tip: '各种异常情况提示页面（包含empty空状态，no access无权限等场景）',
                         path: '/error/index',

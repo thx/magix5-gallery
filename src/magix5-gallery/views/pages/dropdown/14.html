@@ -1,0 +1,169 @@
+<div class="example">
+	<div class="eg-content">
+		<div class="eg-content-tip">
+			<div class="eg-content-tip-prefix">以下示例：</div>
+            <div>单选，部分禁用，非选中项禁用</div>
+		</div>
+
+        <mx-dropdown.box class="mx5-mb40"
+            *list="{{#[{
+                value: 1,
+                text: '选项1',
+                disabled: true,
+            }, {
+                value: 2,
+                text: '选项2',
+            }, {
+                value: 3,
+                text: '选项3',
+            }, {
+                value: 4,
+                text: '选项4',
+            }]}}"
+            *selected="2" />
+
+        <div class="eg-content-tip">
+			<div class="eg-content-tip-prefix">以下示例：</div>
+            <div>混合模式，部分禁用</div>
+		</div>
+
+        <mx-dropdown.box class="mx5-mb40"
+            *mode="combine"
+            *list="{{#[{
+                value: 1,
+                text: '选项1',
+            }, {
+                value: 2,
+                text: '选项2',
+                disabled: true,
+            }, {
+                value: 3,
+                text: '选项3',
+                multiple: true,
+            }, {
+                value: 4,
+                text: '选项4',
+                multiple: true,
+                disabled: true,
+            }, {
+                value: 5,
+                text: '选项5',
+                multiple: true,
+            }, {
+                value: 6,
+                text: '选项6',
+                multiple: true,
+            }]}}"
+            *selected="2" />
+
+        <div class="eg-content-tip">
+			<div class="eg-content-tip-prefix">以下示例：</div>
+            <div>整体禁用</div>
+		</div>
+
+        <mx-dropdown.box class="mx5-mb40"
+            *disabled="true"
+            *mode="multiple"
+            *list="{{#[{
+                value: 1,
+                text: '选项1',
+            }, {
+                value: 2,
+                text: '选项2',
+            }, {
+                value: 3,
+                text: '选项3',
+            }]}}"
+            *selected="2" />
+	</div>
+	<div class="mx5-clearfix">
+		<div class="eg-desc flw33">
+			<div class="eg-title">HTML Code</div>
+			<mx-copy class="desc-oper" *copy-node="{{=$viewId}}_text_1" mx-success="@:{done}({id:1})">
+				<span class="desc-tip" mx-html="{{=text1}}"></span>
+				<i class="mx5-iconfont desc-icon">&#xe610;</i>
+			</mx-copy>
+			<mx-source whole="true" id="{{=$viewId}}_text_1">
+<!-- 单选，部分禁用，非选中项禁用 -->
+<mx-dropdown.box
+    *list="{{#[{
+        value: 1,
+        text: '选项1',
+        disabled: true,
+    }, {
+        value: 2,
+        text: '选项2',
+    }, {
+        value: 3,
+        text: '选项3',
+    }, {
+        value: 4,
+        text: '选项4',
+    }]}}"
+    *selected="2" />
+			</mx-source>
+		</div>
+		<div class="eg-desc flw33 mx5-blc mx5-brc">
+			<div class="eg-title">HTML Code</div>
+			<mx-copy class="desc-oper" *copy-node="{{=$viewId}}_text_2" mx-success="@:{done}({id:2})">
+				<span class="desc-tip" mx-html="{{=text2}}"></span>
+				<i class="mx5-iconfont desc-icon">&#xe610;</i>
+			</mx-copy>
+			<mx-source whole="true" id="{{=$viewId}}_text_2">
+<!-- 混合模式，部分禁用 -->
+<mx-dropdown.box 
+    *mode="combine"
+    *list="{{#[{
+        value: 1,
+        text: '选项1',
+    }, {
+        value: 2,
+        text: '选项2',
+        disabled: true,
+    }, {
+        value: 3,
+        text: '选项3',
+        multiple: true,
+    }, {
+        value: 4,
+        text: '选项4',
+        multiple: true,
+        disabled: true,
+    }, {
+        value: 5,
+        text: '选项5',
+        multiple: true,
+    }, {
+        value: 6,
+        text: '选项6',
+        multiple: true,
+    }]}}"
+    *selected="2" />
+			</mx-source>
+		</div>
+        <div class="eg-desc flw34">
+			<div class="eg-title">HTML Code</div>
+			<mx-copy class="desc-oper" *copy-node="{{=$viewId}}_text_3" mx-success="@:{done}({id:3})">
+				<span class="desc-tip" mx-html="{{=text3}}"></span>
+				<i class="mx5-iconfont desc-icon">&#xe610;</i>
+			</mx-copy>
+			<mx-source whole="true" id="{{=$viewId}}_text_3">
+<!-- 整体禁用 -->
+<mx-dropdown.box
+    *disabled="true"
+    *mode="multiple"
+    *list="{{#[{
+        value: 1,
+        text: '选项1',
+    }, {
+        value: 2,
+        text: '选项2',
+    }, {
+        value: 3,
+        text: '选项3',
+    }]}}"
+    *selected="2" />
+			</mx-source>
+		</div>
+	</div>
+</div>

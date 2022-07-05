@@ -92,7 +92,6 @@ export default View.extend({
 
         // 所有的区块配置
         let { navs, info, curValue } = await that['@:{get.block.info}'](biz);
-
         that.digest({
             biz,
             navs,
@@ -189,7 +188,7 @@ export default View.extend({
             let locParams = Router.parse().params;
             let curValue = locParams.curValue || defValue;
             let info = map[curValue];
-            if (!info || !info.blocks || !info.blocks.length) {
+            if (!info) {
                 Router.to({
                     curValue: defValue
                 })

@@ -1,0 +1,35 @@
+{{each list as item index}}
+<div class="
+    box-wrapper
+    {{if item.multiple}} multiple {{/if}}
+    {{if item.selected}} selected {{/if}} 
+    {{if (list[index - 1] && list[index - 1].selected)}} selected-next {{/if}}
+    {{if (list[index + 1] && list[index + 1].selected)}} selected-prev {{/if}}
+    {{if item.disabled}} disabled {{else}} enabled {{/if}}"
+    mx-click="{{=(!item.disabled)}}?@:{select}({item:'{{#item}}'})"
+    data-spm-click="{{=spm}}?{{=spm}}_{{=index}}">
+    <div class="box-item" style="min-width: {{=minWidth}};">
+        {{=item.text}}
+        {{if item.tagContent}}
+        <span class="tag-content-wrapper">{{!item.tagContent}}</span>
+        {{else if item.tag}}
+        <mx-effects.icon class="mx5-ml5"
+            *mode="solid" 
+            *type="error" 
+            *color="{{=item.color}}?" 
+            *content="{{=item.tag}}"/>
+        {{/if}}
+        {{if item.tip}}
+        <mx-popover class="mx5-iconfont mx5-iconfont-tip" 
+            *width="280" 
+            *content="{{=item.tip}}">&#xe72f;</mx-popover>
+        {{/if}}
+    </div>
+    {{if item.multiple}}
+        <div class="multiple-triangle"></div>
+        {{if item.selected}}
+        <div class="multiple-tick"></div>
+        {{/if}}
+    {{/if}}
+</div>
+{{/each}}

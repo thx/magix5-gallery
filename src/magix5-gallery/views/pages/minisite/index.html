@@ -9,34 +9,34 @@
     biz-code="{{=biz.mainBizCode}}"
     logo="{{=biz.logo}}"
     width="{{=width}}"
-    navs="{{@navs}}"
+    navs="{{#navs}}"
     cur="{{=curValue}}"
-    login="{{@biz.needLogin}}"
+    login="{{#biz.needLogin}}"
     user="{{=biz.user}}"
     logout-url="{{=biz.logoutUrl}}"
     right-view="@:./login-btn"
-    right-view-data="{{@biz}}"
+    right-view-data="{{#biz}}"
     right-ceiling-show="true"
     mx-navchange="changeNav()"
     mx-spm-ph="anything" data-spm-click="gostr=/alimama_bp.3.1;locaid=d3fc32db6{{=biz.bizCode}}"/> -->
 
-<!-- {{if (info && info.blocks && info.blocks.length)}}
+{{if (info && info.blocks && info.blocks.length)}}
     {{each info.blocks as block blockIndex}}
-    <div class="content clearfix" {{if block.bg}} style="background-color: {{=block.bg}};" {{/if}}>
-        {{if (block.type == 'custom-view')}}
-            <div class="clearfix" mx-view="{{=block.params}}?biz={{@biz}}" data-spm="ca010a0f5">
+    <div class="content mx5-clearfix" {{if block.bg}} style="background-color: {{=block.bg}};" {{/if}}>
+        <!-- {{if (block.type == 'custom-view')}}
+            <div class="mx5-clearfix" mx-view="{{=block.params}}?biz={{#biz}}" data-spm="ca010a0f5">
                 <mx-loading />
             </div>
-        {{else}}
-            {{if block.title}}
+        {{else}} -->
+            <!-- {{if block.title}}
             <div class="title mt32">{{=block.title}}</div>
-            {{/if}}
+            {{/if}} -->
 
-            {{if block.tabs.length > 1}}
+            <!-- {{if block.tabs.length > 1}}
             <div class="custom-tab">
                 <mx-tabs.box 
                     mode="hollow"
-                    list="{{@block.tabs}}" 
+                    list="{{#block.tabs}}" 
                     selected="{{=block.index}}"
                     value-key="index"
                     text-key="tabName"
@@ -44,15 +44,15 @@
             </div>
             {{/if}}
 
-            <div class="clearfix" mx-view="./{{=block.type}}?data={{@block.tabs[block.index]}}&biz={{@biz}}" data-spm="c149dee00">
+            <div class="mx5-clearfix" mx-view="./{{=block.type}}?data={{#block.tabs[block.index]}}&biz={{#biz}}" data-spm="c149dee00">
                 <mx-loading />
-            </div>
-        {{/if}}
+            </div> -->
+        <!-- {{/if}} -->
     </div>
     {{/each}}
 {{else}}
     <div class="empty-login-view" mx-view="@:../../../gallery/mx-dialog/login-iframe?data={{#biz}}" data-spm="c601d1c8f"></div>
-{{/if}} -->
+{{/if}}
 
 <mx-footer class="footer"
     *width="{{=width}}" 

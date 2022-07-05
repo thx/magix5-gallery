@@ -1,0 +1,73 @@
+<div class="example">
+	<div class="eg-content">
+		<div class="eg-content-tip">
+			<div class="eg-content-tip-prefix">以下示例：</div>
+            <div>多选（mode="multiple"），支持双向绑定，selected数组或者字符串逗号分隔都可以</div>
+		</div>
+		<div>
+            <mx-dropdown.box 
+                *mode="multiple"
+                *list="{{#list}}"
+                *selected="{{#selected}}" 
+                mx-change="change()"/>
+
+            <span class="mx5-color-9 mx5-ml20">当前选中：</span>
+            <span>{{=selected}}</span>
+        </div>
+	</div>
+	<div class="mx5-clearfix">
+		<div class="eg-desc flw34">
+			<div class="eg-title">HTML Code</div>
+			<mx-copy class="desc-oper" *copy-node="{{=$viewId}}_text_1" mx-success="@:{done}({id:1})">
+				<span class="desc-tip" mx-html="{{=text1}}"></span>
+				<i class="mx5-iconfont desc-icon">&#xe610;</i>
+			</mx-copy>
+			<mx-source whole="true" id="{{=$viewId}}_text_1">
+<mx-dropdown.box 
+    *mode="multiple"
+    *list="{{#list}}"
+    *selected="{{#selected}}" 
+    mx-change="change()"/>
+			</mx-source>
+		</div>
+		<div class="eg-desc flw66 mx5-blc">
+			<div class="eg-title">JS Code</div>
+			<mx-copy class="desc-oper" *copy-node="{{=$viewId}}_text_2" mx-success="@:{done}({id:2})">
+				<span class="desc-tip" mx-html="{{=text2}}"></span>
+				<i class="mx5-iconfont desc-icon">&#xe610;</i>
+			</mx-copy>
+			<mx-source whole="true" id="{{=$viewId}}_text_2">
+import Magix5 from 'magix5';
+import View from 'magix5-gallery/view';
+
+export default View.extend({
+    tmpl: '@:index.html',
+    render() {
+        this.digest({
+            list: [{
+                value: 1,
+                text: 'test'
+            }, {
+                value: 2,
+                text: 'TestABC'
+            }, {
+                value: 3,
+                text: 'Another'
+            }, {
+                value: 4,
+                text: '测试'
+            }],
+            selected: [2, 3],  // 数组或者字符串均可
+            // selected: '2,3',
+        });
+    },
+    'change<change>'(event) {
+        this.digest({
+            selected: event.selected
+        })
+    }
+})
+			</mx-source>
+		</div>
+	</div>
+</div>
