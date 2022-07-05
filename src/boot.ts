@@ -60,14 +60,28 @@ if (typeof DEBUG == 'undefined')
 			})
 		};
 
+		// routes:{
+		// 	'/index':'/path/to/view',
+		// 	'/home':{
+		// 		view:'/path/to/view',
+		// 		title:'标题'
+		// 	}
+		// }
 		let routes = {
-			'/minisite/index': emptyView,
+			'/minisite/index': {
+				view: emptyView,
+				viewData: {
+					bizCode: 'scaffold'
+				}
+			},
 		};
 		let { menus } = Menu.default;
 		menus.forEach(m => {
 			m.paths.forEach(p => {
 				p.subs.forEach(s => {
-					routes[s.path] = defaultView;
+					routes[s.path] = {
+						view: defaultView
+					};
 				})
 			})
 		})

@@ -23,31 +23,38 @@
 {{if (info && info.blocks && info.blocks.length)}}
     {{each info.blocks as block blockIndex}}
     <div class="content mx5-clearfix" {{if block.bg}} style="background-color: {{=block.bg}};" {{/if}}>
-        <!-- {{if (block.type == 'custom-view')}}
-            <div class="mx5-clearfix" mx-view="{{=block.params}}?biz={{#biz}}" data-spm="ca010a0f5">
-                <mx-loading />
-            </div>
-        {{else}} -->
-            <!-- {{if block.title}}
-            <div class="title mt32">{{=block.title}}</div>
-            {{/if}} -->
-
-            <!-- {{if block.tabs.length > 1}}
-            <div class="custom-tab">
-                <mx-tabs.box 
-                    mode="hollow"
-                    list="{{#block.tabs}}" 
-                    selected="{{=block.index}}"
-                    value-key="index"
-                    text-key="tabName"
-                    mx-change="changeTab({index:'{{=blockIndex}}'})" data-spm-click="gostr=/alimama_bp.3.1;locaid=d5ec77530{{=block.spmIndex}}"/>
-            </div>
-            {{/if}}
-
-            <div class="mx5-clearfix" mx-view="./{{=block.type}}?data={{#block.tabs[block.index]}}&biz={{#biz}}" data-spm="c149dee00">
+        {{if (block.type == 'custom-view')}}
+            <!-- 自定义view -->
+            <!-- <div class="mx5-clearfix" mx-view="{{=block.params}}?biz={{#biz}}" data-spm="ca010a0f5">
                 <mx-loading />
             </div> -->
-        <!-- {{/if}} -->
+        {{else}}
+            <!-- 通用登录页自带模板 -->
+
+            <!-- 主标题 -->
+            {{if block.title}}
+            <div class="title">{{=block.title}}</div>
+            {{/if}}
+
+            <!-- 可切换tab -->
+            {{if block.tabs.length > 1}}
+            <mx-dropdown.box 
+                *list="{{#block.tabs}}" 
+                *selected="{{=block.index}}"
+                *value-key="index"
+                *text-key="tabName"
+                mx-change="changeTab({index:'{{=blockIndex}}'})" data-spm-click="gostr=/alimama_bp.3.1;locaid=d5ec77530{{=block.spmIndex}}"/>
+            {{/if}}
+
+            <!-- 模板具体内容 -->
+            <div class="mx5-clearfix" 
+                mx-view="./{{=block.type}}" 
+                *data="{{#block.tabs[block.index]}}"
+                *biz="{{#biz}}"
+                data-spm="c149dee00">
+                <mx-loading />
+            </div>
+        {{/if}}
     </div>
     {{/each}}
 {{else}}

@@ -91,40 +91,6 @@ export default View.extend({
         this.digest();
     },
 
-    // '@{remove}<click>'(e) {
-    //     // 阻断@:{select}
-    //     e.stopPropagation();
-    //     let that = this;
-    //     let { selected, list } = that.updater.get();
-    //     let index = e.params.index;
-    //     let item = list[index];
-
-    //     // 移除当前项
-    //     list.splice(index, 1);
-
-    //     if (selected == item.value) {
-    //         // 当移除当前选中项时，更新到第一个
-    //         that['@:{select}'](list[0]);
-    //     } else {
-    //         // list更新了，强制change
-    //         let item = {};
-    //         for (let i = 0; i < list.length; i++) {
-    //             if (list[i].value == selected) {
-    //                 item = list[i];
-    //                 break;
-    //             }
-    //         }
-    //         that['@:{select}'](item, true);
-    //     }
-    // },
-
-    // '@{add}<click>'(e) {
-    //     let { list } = this.updater.get();
-    //     this['@{owner.node}'].trigger($.Event('add', {
-    //         list,
-    //     }));
-    // },
-
     '@:{select}<click>'(e) {
         let item = e.params.item;
         if (item.disabled) {

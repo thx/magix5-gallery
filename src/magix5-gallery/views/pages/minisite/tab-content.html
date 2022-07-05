@@ -1,0 +1,53 @@
+<div class="inner">
+    {{if devInfo.pc}}
+    <table class="inner-table">
+        <tr>
+            {{if data.img && !data.imgRight}}
+            <td width="54%">
+                <div class="pl24 pr24">
+                    <img src="{{=data.img}}" />
+                </div>
+            </td>
+            {{/if}}
+            {{if data.video && !data.videoRight}}
+            <td width="54%">
+                <div class="pl24 pr24 pt24 pb24">
+                    <video href="javascript:;" target="_blank" src="{{=data.video}}" controls data-spm-click="gostr=/alimama_bp.3.1;locaid=dbfe5984b{{=data.spmIndex}}_tab_content"></video>
+                </div>
+            </td>
+            {{/if}}
+            <td width="46%">
+                <div class="pl40 pr24">
+                    <div mx-view="./detail?data={{#data}}&biz={{#biz}}" data-spm="c81de2471"></div>
+                </div>
+            </td>
+            {{if data.img && data.imgRight}}
+            <td width="54%">
+                <div class="pl24 pr24">
+                    <img src="{{=data.img}}" />
+                </div>
+            </td>
+            {{/if}}
+            {{if data.video && data.videoRight}}
+            <td width="54%">
+                <div class="pl24 pr24 pt24 pb24">
+                    <video href="javascript:;" target="_blank" src="{{=data.video}}" controls data-spm-click="gostr=/alimama_bp.3.1;locaid=ddea91490{{=data.spmIndex}}_tab_content"></video>
+                </div>
+            </td>
+            {{/if}}
+        </tr>
+    </table>
+    {{else}}
+        <div mx-view="./detail?data={{#data}}&biz={{#biz}}" data-spm="c98f72719"></div>
+        {{if data.img}}
+        <div class="ml24 mr24">
+            <img src="{{=data.img}}" />
+        </div>
+        {{/if}}
+        {{if data.video}}
+        <div class="ml24 mr24 mt24 mb24">
+            <video href="javascript:;" target="_blank" src="{{=data.video}}" controls data-spm-click="gostr=/alimama_bp.3.1;locaid=ddea91490{{=data.spmIndex}}_tab_content"></video>
+        </div>
+        {{/if}}
+    {{/if}}
+</div>

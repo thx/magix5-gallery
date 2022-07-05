@@ -1,0 +1,26 @@
+<div class="inner">
+    {{if data.subTitle}}<div class="sub-title" mx-html="{{=data.subTitle}}"></div>{{/if}}
+
+    <!-- devInfo.pc默认轮播，无线默认不轮播 -->
+    <mx-effects.card class="{{if data.subTitle}} custom-cards-with-sub {{else}} custom-cards-no-sub {{/if}}"
+        *mode="{{=cardType}}" 
+        *list="{{#cardList}}" 
+        mx-select="selectCard()" mx-spm-ph="anything" data-spm-click="gostr=/alimama_bp.3.1;locaid={{=cardType}}{{=data.spmIndex}}_card_common"/>
+
+    {{if data.bottomLink && data.bottomLink.text}}
+    <div class="bottom-link">
+        {{if data.bottomLink.checkLogin && !biz.user}}
+        <!-- 未登录且需要校验登录 -->
+        <a mx-click="showLogin()" href="javascript:;" data-spm-click="gostr=/alimama_bp.3.1;locaid={{=cardType}}{{=data.spmIndex}}_card_common">
+            {{=data.bottomLink.text}}<i class="iconfont bottom-link-icon">&#xe63d;</i>
+        </a>
+        {{else}}
+        <!-- 已登录 / 不需要校验登录 -->
+        <a {{if data.bottomLink.outer}} target="_blank" {{/if}} href="{{=data.bottomLink.url}}" data-spm-click="gostr=/alimama_bp.3.1;locaid={{=cardType}}{{=data.spmIndex}}_card_common">
+            {{=data.bottomLink.text}}<i class="iconfont bottom-link-icon">&#xe63d;</i>
+        </a>
+        {{/if}}
+    </div>
+    {{/if}}
+</div>
+    

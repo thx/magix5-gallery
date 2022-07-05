@@ -1,0 +1,33 @@
+<div class="inner">
+    {{if devInfo.pc}}
+        <div class="pt24 pb24">
+            <table class="inner-table">
+                <tr>
+                    <td width="32%" class="pl24 pr24">
+                        <div mx-view="./detail?data={{@data.right}}&biz={{@biz}}" data-spm="cea7aa2c0"></div>
+                    </td>
+                    <td width="68%">
+                        <mx-effects.card mx-spm-ph="anything" 
+                            list="{{@cardList}}" 
+                            mode="carousel-small-icon"
+                            mx-select="selectCard()" 
+                            text-align="center"
+                            tip-line-number="{{=data.tipLineNumber}}" 
+                            line-number="{{=data.lineNumber}}"
+                            data-spm-click="gostr=/alimama_bp.3.1;locaid=d8b80aee9{{=data.spmIndex}}_card_content"/>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    {{else}}
+        <div mx-view="./detail?data={{@data.right}}&biz={{@biz}}" data-spm="c0cbfd339"></div>
+        <mx-effects.card class="mt16 mb48"
+            list="{{@cardList}}" 
+            mode="carousel-small-icon"
+            mx-select="selectCard()" 
+            text-align="center"
+            tip-line-number="{{=data.tipLineNumber}}" 
+            line-number="{{=data.lineNumber}}"
+            mx-spm-ph="anything" data-spm-click="gostr=/alimama_bp.3.1;locaid=d8b80aee9{{=data.spmIndex}}_card_content"/>
+    {{/if}}
+</div>

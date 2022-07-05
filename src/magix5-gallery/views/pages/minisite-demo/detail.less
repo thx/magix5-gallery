@@ -1,0 +1,97 @@
+/* 通用小标题+大标题+说明+按钮+链接模块 */
+
+.detail {
+    .detail-tab {
+        display: inline-block;
+        padding-bottom: 8px;
+        font-size: 16px;
+        border-bottom: 3px solid var(--color-brand);
+    }
+    .detail-title {
+        text-align: left;
+        margin-top: 16px;
+        &.detail-title-img {
+            display: flex;
+            justify-content: space-between;
+            .title-img-tag {
+                margin-top: 13px;
+                margin-left: 32px;
+                width: 48px;
+                height: 24px;
+            }
+        }
+    }
+    .detail-info {
+        margin-top: 32px;
+    }
+    .detail-info-img-title {
+        margin-top: 32px;
+        font-size: 14px;
+    }
+    .detail-info-img {
+        height: 80px;
+        padding-top: 16px;
+        img {
+            max-width: 100%;
+        }
+    }
+    .detail-quotae {
+        width: 100%;
+        margin-top: 24px;
+        .quotae-num {
+            height: 46px;
+            font-size: 30px;
+            color: var(--color-brand);
+            overflow: hidden;
+            .quotae-unit {
+                font-size: 16px;
+                margin-left: 4px;
+            }
+        }
+        .quotae-text {
+            height: 22px;
+            color: #999;
+            overflow: hidden;
+        }
+    }
+    .detail-btns {
+        margin-top: 24px;
+        .detail-btn {
+            min-width: 140px;
+            margin-right: 24px;
+            &:last-child {
+                margin-right: 0;
+            }
+        }
+    }
+    .detail-link {
+        margin-top: 24px;
+        font-size: 14px;
+        .detail-link-icon {
+            margin-left: 10px;
+            font-size: 12px;
+        }
+    }
+}
+
+@media screen and (max-width:768px) {
+    .detail {
+        text-align: center;
+        .detail-title {
+            text-align: center;
+            padding-left: 24px;
+            padding-right: 24px;
+            margin-top: 12px;
+        }
+        .detail-info {
+            margin-top: 16px;
+            margin-bottom: 16px;
+            padding-left: 24px;
+            padding-right: 24px;
+        }
+        .detail-info-img {
+            padding-left: 24px;
+            padding-right: 24px;
+        }
+    }
+}

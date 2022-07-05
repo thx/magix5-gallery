@@ -21,8 +21,8 @@ export default View.extend({
     assign(options) {
         let viewData = options.viewData || options || {};
 
-        // 测试用
         if (!viewData.bizCode) {
+            // 全量脚手架功能
             // 可配置定义：https://yuque.antfin-inc.com/yujia.yjq/yxrf9b/zvevxk#f2YaN
             viewData = {
                 bizCode: 'scaffold', // 产品线唯一标识，必填
@@ -96,7 +96,7 @@ export default View.extend({
             biz,
             navs,
             info,
-            curValue
+            curValue,
         });
 
         window.scrollTo(0, 0);
