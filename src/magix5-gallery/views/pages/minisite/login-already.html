@@ -1,0 +1,23 @@
+<div class="login-frame">
+    <div class="title">欢迎登录</div>
+    <div class="sub-title">{{=nickName}}</div>
+    <div class="img-wrapper">
+        <img class="img" src="{{=biz.portrait}}" />
+    </div>
+    {{if biz.unauthorized}}
+    <div class="msg" title="{{=message}}" mx-html="{{=message}}"></div>
+    {{else}}
+    <div class="clearfix">
+        <mx-btn class="custom-btn login-btn"
+            *mode="primary" 
+            *content="进入后台"
+            *link-href="{{=forward}}" />
+    </div>
+    {{/if}}
+    <div class="links mx5-clearfix">
+        {{if (biz.unauthorized && unauthorizedInfo.link && unauthorizedInfo.linkText)}}
+        <a href="{{=unauthorizedInfo.link}}" target="_blank" rel="noopener noreferrer" class="link-brand mx5-fl" data-spm-click="gostr=/alimama_bp.3.1;locaid=d4998c094">{{=unauthorizedInfo.linkText}}</a>
+        {{/if}}
+        <a href="{{=biz.logoutUrl}}" class="link-brand mx5-cursor-pointer mx5-fr" data-spm-click="gostr=/alimama_bp.3.1;locaid=d884b1ff2">退出账户</a>
+    </div>
+</div>

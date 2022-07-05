@@ -8,7 +8,7 @@
                     <a href="javascript:;" class="menu menu-group {{if group.selected}} menu-cur {{/if}}" 
                         mx-click="toggle({groupIndex: '{{=groupIndex}}'})" data-spm-click="gostr=/alimama_bp.3.1;locaid=d42cf5312{{=data.spmIndex}}_learn">
                         {{=group.groupTitle}}
-                        <i class="iconfont menu-icon {{if group.selected}} menu-icon-expand {{/if}}">&#xe692;</i>
+                        <i class="minisite-iconfont menu-icon {{if group.selected}} menu-icon-expand {{/if}}">&#xe692;</i>
                     </a>
                     {{each group.courses as course}}
                     <a href="javascript:;" class="menu {{if course.selected}} menu-cur {{/if}}" style="height: {{=(group.selected ? 36 : 0)}}px;"

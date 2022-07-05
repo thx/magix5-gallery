@@ -71,7 +71,10 @@ if (typeof DEBUG == 'undefined')
 			'/minisite/index': {
 				view: emptyView,
 				viewData: {
-					bizCode: 'scaffold'
+					bizCode: 'scaffold',
+					user: {
+						nickName: '用户名',
+					},
 				}
 			},
 		};

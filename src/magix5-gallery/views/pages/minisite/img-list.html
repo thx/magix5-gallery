@@ -6,9 +6,10 @@
             {{if data.arrow}}
             <img class="arrow" src="{{=data.arrow}}" />
             {{/if}}
-            {{if item.link}}
-            <a class="item-link" href="{{=item.link}}" target="_blank" data-spm-click="gostr=/alimama_bp.3.1;locaid=d64e665c1{{=data.spmIndex}}_img_list">
-            {{/if}}
+            <a class="item-link" 
+                href="{{=(item.link ? item.link : 'javascript:;')}}" 
+                target="{{=item.link}}?_blank" 
+                data-spm-click="gostr=/alimama_bp.3.1;locaid=d64e665c1{{=data.spmIndex}}_img_list">
                 <img class="img" src="{{=item.img}}" />
                 {{if item.title}}
                 <div class="cont-title img-title" mx-html="{{=item.title}}"></div>
@@ -16,9 +17,7 @@
                 {{if item.info}}
                 <div class="cont-info img-info" mx-html="{{=item.info}}"></div>
                 {{/if}}
-            {{if item.link}}
             </a>
-            {{/if}}
         </div>
         {{/each}}
     </div>

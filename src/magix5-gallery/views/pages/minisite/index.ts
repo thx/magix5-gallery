@@ -87,12 +87,19 @@ export default View.extend({
         // 当前产品配置
         let biz = mix(config[viewData.bizCode], viewData);
 
-        let siteInfo = await that['@:{get.site.info}'](biz);
+        let [siteInfo, devInfo] = await Promise.all([
+            that['@:{get.site.info}'](biz),
+            that['@:{get.dev.info}']()
+        ]);
+
+
         mix(biz, siteInfo);
 
         // 所有的区块配置
         let { navs, info, curValue } = await that['@:{get.block.info}'](biz);
+
         that.digest({
+            devInfo,
             biz,
             navs,
             info,
@@ -187,7 +194,10 @@ export default View.extend({
             // 当前模块
             let locParams = Router.parse().params;
             let curValue = locParams.curValue || defValue;
-            let info = map[curValue];
+
+            // 避免重复赋值
+            let info = JSON.parse(JSON.stringify(map[curValue]));
+
             if (!info) {
                 Router.to({
                     curValue: defValue
@@ -307,6 +317,31 @@ export default View.extend({
                 resolve({ navs, info, curValue });
             }
         });
+    },
+
+    /**
+     * 是否为移动端
+     * 768 ipad
+     * 375 手机
+     */
+    '@:{get.dev.info}'() {
+        return new Promise(resolve => {
+            let width = window.innerWidth;
+            if (document.documentElement && document.documentElement.clientWidth) {
+                width = document.documentElement.clientWidth;
+            } else if (document.body && document.body.clientWidth) {
+                width = document.body.clientWidth;
+            } else if (screen.width) {
+                width = screen.width;
+            };
+
+            resolve({
+                pc: width > 768,
+                pad: (width > 375 && width <= 768),
+                phone: (width <= 375),
+                width,
+            });
+        })
     },
 
     // 'changeNav<navchange>'(event) {

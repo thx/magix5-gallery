@@ -13,7 +13,7 @@
                     <div class="case clearfix">
                         <div class="case-img" style="background-image: url({{=item.img}});"></div>
                         <div class="case-cnt">
-                            <div class="case-cnt-inner" mx-view="./detail?data={{@item}}&biz={{@biz}}" data-spm="ccc8b9096"></div>
+                            <!-- <div class="case-cnt-inner" mx-view="./detail?data={{@item}}&biz={{@biz}}" data-spm="ccc8b9096"></div> -->
                         </div>
                     </div>
                 </mx-carousel.panel>
@@ -32,12 +32,12 @@
         {{if data.bottomLink.checkLogin && !biz.user}}
         <!-- 未登录且需要校验登录 -->
         <a mx-click="showLogin()" href="javascript:;" data-spm-click="gostr=/alimama_bp.3.1;locaid=dc2cases{{=data.spmIndex}}_card_case">
-            {{=data.bottomLink.text}}<i class="iconfont bottom-link-icon">&#xe63d;</i>
+            {{=data.bottomLink.text}}<i class="minisite-iconfont bottom-link-icon">&#xe63d;</i>
         </a>
         {{else}}
         <!-- 已登录 / 不需要校验登录 -->
         <a {{if data.bottomLink.outer}} target="_blank" {{/if}} href="{{=data.bottomLink.url}}" data-spm-click="gostr=/alimama_bp.3.1;locaid=d2ffcases{{=data.spmIndex}}_card_case">
-            {{=data.bottomLink.text}}<i class="iconfont bottom-link-icon">&#xe63d;</i>
+            {{=data.bottomLink.text}}<i class="minisite-iconfont bottom-link-icon">&#xe63d;</i>
         </a>
         {{/if}}
     </div>

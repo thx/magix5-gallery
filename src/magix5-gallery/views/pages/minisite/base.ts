@@ -2,9 +2,6 @@ import Magix5, { mix } from 'magix5';
 import View from 'magix5-gallery/view';
 
 export default View.extend({
-    init(extra) {
-        this.assign(extra);
-    },
     assign(extra) {
         let that = this;
 

@@ -8,7 +8,7 @@ export default View.extend({
     assign(extra) {
         let that = this;
 
-        let info = $.extend(true, {}, extra);
+        let info = JSON.parse(JSON.stringify(extra));
         delete info.biz.navs; // 消除外部变化参数的影响
 
         // 分组处理，支持轮播

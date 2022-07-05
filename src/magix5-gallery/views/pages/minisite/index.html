@@ -25,7 +25,7 @@
     <div class="content mx5-clearfix" {{if block.bg}} style="background-color: {{=block.bg}};" {{/if}}>
         {{if (block.type == 'custom-view')}}
             <!-- 自定义view -->
-            <!-- <div class="mx5-clearfix" mx-view="{{=block.params}}?biz={{#biz}}" data-spm="ca010a0f5">
+            <!-- <div class="mx5-clearfix" mx-view="{{=block.params}}" *biz="{{#biz}}" data-spm="ca010a0f5">
                 <mx-loading />
             </div> -->
         {{else}}
@@ -38,12 +38,14 @@
 
             <!-- 可切换tab -->
             {{if block.tabs.length > 1}}
-            <mx-dropdown.box 
-                *list="{{#block.tabs}}" 
-                *selected="{{=block.index}}"
-                *value-key="index"
-                *text-key="tabName"
-                mx-change="changeTab({index:'{{=blockIndex}}'})" data-spm-click="gostr=/alimama_bp.3.1;locaid=d5ec77530{{=block.spmIndex}}"/>
+            <div class="mx5-text-center">
+                <mx-dropdown.box class="custom-tab"
+                    *list="{{#block.tabs}}" 
+                    *selected="{{=block.index}}"
+                    *value-key="index"
+                    *text-key="tabName"
+                    mx-change="changeTab({index:'{{=blockIndex}}'})" data-spm-click="gostr=/alimama_bp.3.1;locaid=d5ec77530{{=block.spmIndex}}"/>
+            </div>
             {{/if}}
 
             <!-- 模板具体内容 -->
@@ -51,6 +53,7 @@
                 mx-view="./{{=block.type}}" 
                 *data="{{#block.tabs[block.index]}}"
                 *biz="{{#biz}}"
+                *dev-info="{{#devInfo}}"
                 data-spm="c149dee00">
                 <mx-loading />
             </div>
@@ -58,7 +61,7 @@
     </div>
     {{/each}}
 {{else}}
-    <div class="empty-login-view" mx-view="@:../../../gallery/mx-dialog/login-iframe?data={{#biz}}" data-spm="c601d1c8f"></div>
+    <div class="empty-login-view" mx-view="@:../../../gallery/mx-dialog/login-iframe" *data="{{#biz}}" data-spm="c601d1c8f"></div>
 {{/if}}
 
 <mx-footer class="footer"
@@ -67,4 +70,4 @@
     *biz-code="{{=biz.bizCode}}"/>
 
 <!-- 悬浮按钮 -->
-<div mx-view="@:./icons?biz={{#biz}}" data-spm="ce8449471"></div>
+<div mx-view="@:./icons" *biz="{{#biz}}" data-spm="ce8449471"></div>
