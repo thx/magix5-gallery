@@ -17,24 +17,32 @@
     max-width: 100%;
 
     &:nth-of-type(odd) {
-        background-color: #fff;
+        background-color: #f7f8fa;
     }
 
     &:nth-of-type(even) {
-        background-color: #f7f8fa;
+        background-color: #fff;
     }
 }
 
 /*内容中间区域*/
-.inner {
+.inner,
+.inner-small {
     width: 1120px;
     max-width: 100%;
-    margin: 24px auto;
 
     .inner-table {
         table-layout: fixed;
         width: 100%;
     }
+}
+
+.inner {
+    margin: 24px auto;
+}
+
+.inner-small {
+    margin: 12px auto;
 }
 
 .content,

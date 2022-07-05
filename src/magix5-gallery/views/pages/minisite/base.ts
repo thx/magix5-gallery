@@ -3,30 +3,23 @@ import View from 'magix5-gallery/view';
 
 export default View.extend({
     assign(extra) {
-        let that = this;
-
-        let info = JSON.parse(JSON.stringify(extra));
-        delete info.biz.navs; // 消除外部变化参数的影响
-
         // 分组处理，支持轮播
-        let data = info.data || {};
-        delete data.index;  // 消除外部变化参数的影响
-
+        let { data, biz } = extra;
         let cardList = (data.list || []).map(item => {
-            return that['@:{to.card.item}'](item, info.biz);
+            return this['@:{to.card.item}'](item, biz);
         })
-        that.set(mix(info, {
-            cardList
-        }));
+
+        this.set({
+            ...extra,
+            cardList,
+        });
 
     },
 
     /**
      * minisite实体转成卡片实体定义
      */
-    '@:{to.card.item}'(item, biz) {
-        biz = biz || {};
-
+    '@:{to.card.item}'(item, { user }) {
         // link定义
         // 1. link: {
         //     text  按钮文案
@@ -37,7 +30,7 @@ export default View.extend({
         // 2. link 跳转地址（不校验登录的外链打开）
 
         // 需要校验登录的情况，都为本页面跳转，无需配置跳转练级
-        let link = (item.link === Object(item.link)) ? item.link : {
+        let link = (Object.prototype.toString.apply(item.link) === '[object Object]') ? item.link : {
             text: '',
             checkLogin: false,
             url: item.link,
@@ -55,7 +48,7 @@ export default View.extend({
             subTitle: item.subTitle,
             tip: item.info,
             btn: link.text,
-            link: (link.checkLogin && !biz.user) ? '' : link.url, // 需要登录且未登录的情况下，不配链接
+            link: (link.checkLogin && (!user || !user.nickName)) ? '' : link.url, // 需要登录且未登录的情况下，不配链接
             outer: link.outer,
             quotaes: item.quotaes,  // 指标
             quotaeTip: item.quotaeTip, // 多指标，无指标的打底说明
@@ -66,25 +59,25 @@ export default View.extend({
                     outer: true
                 }
             }),
-            originItem: item
+            originItem: item,
         };
     },
 
     render() {
-        this.digest({});
+        this.digest();
     },
 
-    'selectCard<select>'(e) {
-        let { biz } = this.get();
+    '@:{select.card}<select>'(e) {
+        let { user } = this.get('biz') || {};
         let originItem = e.item.originItem;
         let link = originItem.link || {};
-        if (link.checkLogin && !biz.user) {
+        if (link.checkLogin && (!user || !user.nickName)) {
             // 未登录且需要校验登录
-            this['showLogin<click>']();
+            this['@:{show.login}<click>']();
         }
     },
 
-    'showLogin<click>'(e) {
+    '@:{show.login}<click>'(e) {
         let { biz } = this.get();
         let { mainBizCode, bizCode, loginView } = biz;
 
@@ -95,16 +88,16 @@ export default View.extend({
         //      当前配置：mxLoginView(viewOptions)
         //          viewOptions.bizCode：产品线定义，bizCode包装登陆框逻辑
         //          viewOptions：其他参数
-        if (biz.userLogged) {
-            this.mxLoginView(loginView, {
-                biz
-            });
-        } else {
-            // 兼容直接mount该view时只有bizCode的场景
-            this.mxLoginView({
-                bizCode: mainBizCode || bizCode
-            })
-        }
+        // if (biz.userLogged) {
+        //     this.mxLoginView(loginView, {
+        //         biz
+        //     });
+        // } else {
+        //     // 兼容直接mount该view时只有bizCode的场景
+        //     this.mxLoginView({
+        //         bizCode: mainBizCode || bizCode
+        //     })
+        // }
     }
 });
 

@@ -5,20 +5,20 @@
             <mx-effects.card mx-spm-ph="anything"
                 mode="flat-logo-list"
                 list="{{#firstLine}}" 
-                mx-select="selectCard()"  data-spm-click="gostr=/alimama_bp.3.1;locaid=d4af5lgcnt{{=data.spmIndex}}_card_logo_content"/>
+                mx-select="@:{select.card}()"  data-spm-click="gostr=/alimama_bp.3.1;locaid=d4af5lgcnt{{=data.spmIndex}}_card_logo_content"/>
         </div>
     </div>
 
     <mx-effects.card mx-spm-ph="anything"
         mode="flat-logo-list" 
         list="{{#cardList}}" 
-        mx-select="selectCard()"  data-spm-click="gostr=/alimama_bp.3.1;locaid=d4af5lgcnt{{=data.spmIndex}}_card_logo_content"/>
+        mx-select="@:{select.card}()"  data-spm-click="gostr=/alimama_bp.3.1;locaid=d4af5lgcnt{{=data.spmIndex}}_card_logo_content"/>
 
     {{if data.bottomLink && data.bottomLink.text}}
     <div class="bottom-link">
         {{if data.bottomLink.checkLogin && !biz.user}}
         <!-- 未登录且需要校验登录 -->
-        <a mx-click="showLogin()" href="javascript:;" data-spm-click="gostr=/alimama_bp.3.1;locaid=dc2locnt{{=data.spmIndex}}_card_logo_content">
+        <a mx-click="@:{show.login}()" href="javascript:;" data-spm-click="gostr=/alimama_bp.3.1;locaid=dc2locnt{{=data.spmIndex}}_card_logo_content">
             {{=data.bottomLink.text}}<i class="minisite-iconfont bottom-link-icon">&#xe63d;</i>
         </a>
         {{else}}

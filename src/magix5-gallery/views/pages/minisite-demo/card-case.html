@@ -31,7 +31,7 @@
     <div class="bottom-link">
         {{if data.bottomLink.checkLogin && !biz.user}}
         <!-- 未登录且需要校验登录 -->
-        <a mx-click="showLogin()" href="javascript:;" data-spm-click="gostr=/alimama_bp.3.1;locaid=dc2cases{{=data.spmIndex}}_card_case">
+        <a mx-click="@:{show.login}()" href="javascript:;" data-spm-click="gostr=/alimama_bp.3.1;locaid=dc2cases{{=data.spmIndex}}_card_case">
             {{=data.bottomLink.text}}<i class="minisite-iconfont bottom-link-icon">&#xe63d;</i>
         </a>
         {{else}}

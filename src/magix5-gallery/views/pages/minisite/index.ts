@@ -239,7 +239,7 @@ export default View.extend({
                             switch (b.type) {
                                 case 'login': // 三卡位+登陆框
                                     // 可能为单帧，可能为多帧
-                                    if (Object.prototype.toString.apply(d.banners) == '[object Array]') {
+                                    if (Object.prototype.toString.apply(d.banners) === '[object Array]') {
                                         // 多帧
                                         b.tabs = [d];
                                     } else {

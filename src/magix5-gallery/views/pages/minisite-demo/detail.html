@@ -41,7 +41,7 @@
         {{each data.btns as btn}}
             {{if btn.checkLogin && !biz.user}}
             <!-- 未登录且需要校验登录 -->
-            <a mx-click="showLogin()" href="javascript:;" class="btn btn-brand custom-btn detail-btn" data-spm-click="gostr=/alimama_bp.3.1;locaid=dc2e0e11b{{=data.spmIndex}}_detail">{{=btn.text}}</a>
+            <a mx-click="@:{show.login}()" href="javascript:;" class="btn btn-brand custom-btn detail-btn" data-spm-click="gostr=/alimama_bp.3.1;locaid=dc2e0e11b{{=data.spmIndex}}_detail">{{=btn.text}}</a>
             {{else}}
             <!-- 已登录 / 不需要校验登录 -->
             <a {{if btn.outer}} target="_blank" {{/if}} href="{{=btn.link}}" class="btn btn-brand custom-btn detail-btn" data-spm-click="gostr=/alimama_bp.3.1;locaid=d2ff85a16{{=data.spmIndex}}_detail">{{=btn.text}}</a>
