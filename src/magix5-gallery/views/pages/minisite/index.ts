@@ -78,27 +78,25 @@ export default View.extend({
         })
     },
     async render() {
-        let that = this;
-        let { viewData } = that.get();
+        let { viewData } = this.get();
 
         // 官网允许的bizCode配置
-        let config = await that['@:{get.config}']();
+        let config = await this['@:{get.config}']();
 
         // 当前产品配置
         let biz = mix(config[viewData.bizCode], viewData);
 
         let [siteInfo, devInfo] = await Promise.all([
-            that['@:{get.site.info}'](biz),
-            that['@:{get.dev.info}']()
+            this['@:{get.site.info}'](biz),
+            this['@:{get.dev.info}']()
         ]);
-
 
         mix(biz, siteInfo);
 
         // 所有的区块配置
-        let { navs, info, curValue } = await that['@:{get.block.info}'](biz);
+        let { navs, info, curValue } = await this['@:{get.block.info}'](biz);
 
-        that.digest({
+        this.digest({
             devInfo,
             biz,
             navs,
