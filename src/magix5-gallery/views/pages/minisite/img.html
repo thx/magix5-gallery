@@ -1,9 +1,9 @@
 {{if data.link}}
 <a href="{{=data.link}}" target="_blank" data-spm-click="gostr=/alimama_bp.3.1;locaid=ddd370987{{=data.spmIndex}}_img">
-{{/if}}
     <div class="banner" style="{{if data.bgColor}} background-color: {{=data.bgColor}}; {{/if}} background-image: url({{=data.img}}); background-size: auto {{=data.height}}px; height: {{=data.height}}px;"></div>
-{{if data.link}}
 </a>
+{{else}}
+<div class="banner" style="{{if data.bgColor}} background-color: {{=data.bgColor}}; {{/if}} background-image: url({{=data.img}}); background-size: auto {{=data.height}}px; height: {{=data.height}}px;"></div>
 {{/if}}
 
 

@@ -65,13 +65,6 @@ export default View.extend({
             portrait,
         })
 
-        // bizCode：a_b，比如feedFlow_new
-        // a：表示通用的平台bizCode，比如钻展是zszw，超级推荐是feedFlow，直通车是subway等等
-        // b：额外的平台补充内容，如需要区分已登录未登录(login/logout)场景，或者需要区分新老客场景（old/new）等等
-        // 导航定义的bizCode是站点的bizCode
-        // 已接入bizCode详见：https://yuque.antfin-inc.com/yujia.yjq/yxrf9b/udfatf
-        viewData.mainBizCode = viewData.bizCode.split('_')[0];
-
         this.set({
             width: 1280,
             viewData

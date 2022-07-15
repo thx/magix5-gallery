@@ -1,0 +1,32 @@
+<div class="mx5-clearfix">
+    <a class="banner" style="background-image: url({{=data.img}}); {{if data.bg}} background-color: {{=data.bg}}; {{/if}}" 
+        href="{{=data.link ? data.link : 'javascript:;'}}" 
+        target="{{=data.link}}?_blank" 
+        data-spm-click="gostr=/alimama_bp.3.1;locaid=ddd372f37{{=data.spmIndex}}_learn"></a>
+    <div class="inner learn-inner">
+        <mx-layout style="width: {{=(devInfo.pc ? '200px' : '120px')}};">
+            {{each courseGroups as group groupIndex}}
+                <a href="javascript:;" class="menu menu-group {{if group.selected}} menu-cur {{/if}}" 
+                    mx-click="@:{toggle}({groupIndex: '{{=groupIndex}}'})" data-spm-click="gostr=/alimama_bp.3.1;locaid=d42cf5312{{=data.spmIndex}}_learn">
+                    {{=group.groupTitle}}
+                    <i class="minisite-iconfont menu-icon {{if group.selected}} menu-icon-expand {{/if}}">&#xe692;</i>
+                </a>
+                {{each group.courses as course}}
+                <a href="javascript:;" class="menu {{if course.selected}} menu-cur {{/if}}" style="height: {{=(group.selected ? 36 : 0)}}px;"
+                    mx-click="@:{change}({courseId: '{{=course.courseId}}'})" data-spm-click="gostr=/alimama_bp.3.1;locaid=da50ef2bf{{=data.spmIndex}}_learn">{{=course.title}}</a>
+                {{/each}}
+            {{/each}}
+        </mx-layout>
+        <mx-layout class="learn-content">
+            <div mx-html="{{=content}}"></div>
+        </mx-layout>
+    </div>
+    {{if recs && (recs.length > 0)}}
+    <mx-layout class="mx5-clearfix inner learn-rec">
+        <div class="title">系列推荐</div>
+        <mx-effects.card class="mx5-mt8 mx5-mb16"
+            *mode="carousel-icon-list" 
+            *list="{{#recs}}" mx-spm-ph="anything" data-spm-click="gostr=/alimama_bp.3.1;locaid=daf00eacb{{=data.spmIndex}}_learn"/>
+    </mx-layout>
+    {{/if}}
+</div>
