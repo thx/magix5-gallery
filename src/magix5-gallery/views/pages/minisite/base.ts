@@ -8,6 +8,7 @@ export default View.extend({
         let cardList = (data.list || []).map(item => {
             return this['@:{to.card.item}'](item, biz);
         })
+
         this.set({
             ...extra,
             cardList,

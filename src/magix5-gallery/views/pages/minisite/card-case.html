@@ -1,19 +1,19 @@
 <div class="inner">
-    {{if data.subTitle}}<div class="sub-title">{{!data.subTitle}}</div>{{/if}}
+    {{if data.subTitle}}<div class="sub-title" mx-html="{{=data.subTitle}}"></div>{{/if}}
     <div class="outer-wrapper">
-        <div class="pr">
+        <div class="carousel-wrapper">
             <mx-carousel
-                height="498" 
-                autoplay="true"
-                prev-trigger="{{=viewId}}_prev"
-                next-trigger="{{=viewId}}_next"
-                dot-type="dot-out-center">
+                *height="498" 
+                *autoplay="true"
+                *prev-trigger="{{=$viewId}}_prev"
+                *next-trigger="{{=$viewId}}_next"
+                *dot-type="dot-out-center">
                 {{each data.list as item}}
                 <mx-carousel.panel class="inner-wrapper">
-                    <div class="case clearfix">
+                    <div class="case mx5-clearfix">
                         <div class="case-img" style="background-image: url({{=item.img}});"></div>
                         <div class="case-cnt">
-                            <!-- <div class="case-cnt-inner" mx-view="./detail?data={{@item}}&biz={{@biz}}" data-spm="ccc8b9096"></div> -->
+                            <div class="case-cnt-inner" mx-view="./detail" *data="{{#item}}" *biz="{{#biz}}" data-spm="ccc8b9096"></div>
                         </div>
                     </div>
                 </mx-carousel.panel>
@@ -21,8 +21,8 @@
             </mx-carousel>
     
             {{if (data.list && data.list.length > 1)}}
-            <div class="prev" id="{{=viewId}}_prev"><i class="icon iconfont">&#xe799;</i></div>
-            <div class="next" id="{{=viewId}}_next"><i class="icon iconfont">&#xe799;</i></div>
+            <div class="prev" id="{{=$viewId}}_prev"><i class="icon mx5-iconfont">&#xe799;</i></div>
+            <div class="next" id="{{=$viewId}}_next"><i class="icon mx5-iconfont">&#xe799;</i></div>
             {{/if}}
         </div>
     </div>

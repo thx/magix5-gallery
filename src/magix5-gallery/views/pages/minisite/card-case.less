@@ -3,6 +3,10 @@
     margin-right: -20px;
 }
 
+.carousel-wrapper {
+    position: relative;
+}
+
 .inner-wrapper {
     position: relative;
     padding-top: 8px;
@@ -45,16 +49,17 @@
 .next {
     position: absolute;
     top: 50%;
+    margin-top: -24px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     width: 48px;
     height: 48px;
-    margin-top: -24px;
-    line-height: 52px;
-    text-align: center;
     border-radius: 50%;
-    border: 1px solid var(--color-border);
+    border: 1px solid var(--mx5-border-color);
     background-color: #fff;
     z-index: 10;
-    transition: all var(--duration);
+    transition: all var(--mx5-duration);
     cursor: pointer;
 
     .icon {
