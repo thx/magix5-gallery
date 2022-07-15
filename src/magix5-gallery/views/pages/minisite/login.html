@@ -46,19 +46,19 @@
                 </a>
                 {{/each}}
             {{/if}}
-            {{if (biz.hideLogin + '' !== 'true' && data.hideLogin + '' !== 'true')}}
-            <div class="pos login-view">
-                {{if biz.userLogged}}
-                <!-- 已登录 -->
-                <div mx-view="{{=biz.loginView}}" *biz="{{#biz}}" data-spm="cf7687754"></div>
-                {{else}}
-                <!-- 未登陆：直接使用组件登陆框 -->
-                <div mx-view="@:../../../gallery/mx-dialog/login-iframe" *data="{{#biz}}" data-spm="c601d1c8f"></div>
-                {{/if}}
-            </div>
-            {{/if}}
         </div>
     </mx-carousel.panel>
     {{/each}}
 </mx-carousel>
+{{if (biz.hideLogin + '' !== 'true' && data.hideLogin + '' !== 'true')}}
+<div class="pos login-view">
+    {{if biz.userLogged}}
+    <!-- 已登录 -->
+    <div mx-view="{{=biz.loginView}}" *biz="{{#biz}}" data-spm="cf7687754"></div>
+    {{else}}
+    <!-- 未登陆：直接使用组件登陆框 -->
+    <div mx-view="@:../../../gallery/mx-dialog/login-iframe" *data="{{#biz}}" data-spm="c601d1c8f"></div>
+    {{/if}}
+</div>
+{{/if}}
 

@@ -1,17 +1,17 @@
 <div class="inner">
     <div class="first clearfix">
-        <!-- <div class="first-cont" mx-view="./detail?data={{#data.right}}&biz={{#biz}}" data-spm="cee0d078e"></div> -->
+        <div class="first-cont" mx-view="./detail" *data="{{#data.right}}" *biz="{{#biz}}" data-spm="cee0d078e"></div>
         <div class="first-cards">
             <mx-effects.card mx-spm-ph="anything"
-                mode="flat-logo-list"
-                list="{{#firstLine}}" 
+                *mode="flat-logo-list"
+                *list="{{#firstLine}}" 
                 mx-select="@:{select.card}()"  data-spm-click="gostr=/alimama_bp.3.1;locaid=d4af5lgcnt{{=data.spmIndex}}_card_logo_content"/>
         </div>
     </div>
 
     <mx-effects.card mx-spm-ph="anything"
-        mode="flat-logo-list" 
-        list="{{#cardList}}" 
+        *mode="flat-logo-list" 
+        *list="{{#cardList}}" 
         mx-select="@:{select.card}()"  data-spm-click="gostr=/alimama_bp.3.1;locaid=d4af5lgcnt{{=data.spmIndex}}_card_logo_content"/>
 
     {{if data.bottomLink && data.bottomLink.text}}

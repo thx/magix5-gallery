@@ -22,19 +22,21 @@
 
     {{if (data.quotaes && data.quotaes.length)}}
     <table class="detail-quotae">
-        <tr>
-            {{each data.quotaes as q}}
-            <td style="width: {{=(100/data.quotaes.length)}}%;">
-                <div class="quotae-num">
-                    <span class="mx5-font-tahoma" mx-html="{{=q.value}}"></span>
-                    {{if q.unit}}
-                    <span class="quotae-unit" mx-html="{{=q.unit}}"></span>
-                    {{/if}}
-                </div>
-                <div class="quotae-text" mx-html="{{=q.text}}"></div>
-            </td>
-            {{/each}}
-        </tr>
+        <tbody>
+            <tr>
+                {{each data.quotaes as q}}
+                <td style="width: {{=(100/data.quotaes.length)}}%;">
+                    <div class="quotae-num">
+                        <span class="mx5-font-tahoma" mx-html="{{=q.value}}"></span>
+                        {{if q.unit}}
+                        <span class="quotae-unit" mx-html="{{=q.unit}}"></span>
+                        {{/if}}
+                    </div>
+                    <div class="quotae-text" mx-html="{{=q.text}}"></div>
+                </td>
+                {{/each}}
+            </tr>
+        </tbody>
     </table>
     {{/if}}
 

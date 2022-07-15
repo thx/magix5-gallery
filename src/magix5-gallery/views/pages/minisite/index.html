@@ -26,6 +26,7 @@
         <div class="content mx5-clearfix"  style="{{=block.bg}}?background-color: {{=block.bg}};">
             {{if (block.type == 'custom-view')}}
                 <!-- 自定义view -->
+                <div class="mx5-clearfix mx5-pt24 mx5-pb24 mx5-text-center">自定义view占位符</div>
                 <!-- <div class="mx5-clearfix" mx-view="{{=block.params}}" *biz="{{#biz}}" data-spm="ca010a0f5">
                     <mx-loading />
                 </div> -->
@@ -34,18 +35,18 @@
 
                 <!-- 主标题 -->
                 {{if block.title}}
-                <div class="title">{{=block.title}}</div>
+                <div class="title mx5-mt32">{{=block.title}}</div>
                 {{/if}}
 
                 <!-- 可切换tab -->
                 {{if block.tabs.length > 1}}
-                <div class="mx5-text-center">
+                <div class="mx5-text-center mx5-mt24">
                     <mx-dropdown.box class="custom-tab"
                         *list="{{#block.tabs}}" 
                         *selected="{{=block.index}}"
                         *value-key="index"
                         *text-key="tabName"
-                        mx-change="changeTab({index:'{{=blockIndex}}'})" data-spm-click="gostr=/alimama_bp.3.1;locaid=d5ec77530{{=block.spmIndex}}"/>
+                        mx-change="@:{change.tab}({index:'{{=blockIndex}}'})" data-spm-click="gostr=/alimama_bp.3.1;locaid=d5ec77530{{=block.spmIndex}}"/>
                 </div>
                 {{/if}}
 

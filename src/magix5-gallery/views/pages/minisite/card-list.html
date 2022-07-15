@@ -1,7 +1,7 @@
 <div class="inner">
     {{if data.subTitle}}<div class="sub-title" mx-html="{{=data.subTitle}}"></div>{{/if}}
 
-    <mx-effects.card class="{{if data.subTitle}} custom-cards-with-sub {{else}} custom-cards-no-sub {{/if}}"
+    <mx-effects.card 
         *mode="{{=cardType}}" 
         *list="{{#cardList}}" 
         mx-select="@:{select.card}()" mx-spm-ph="anything" data-spm-click="gostr=/alimama_bp.3.1;locaid={{=cardType}}{{=data.spmIndex}}_card_common"/>

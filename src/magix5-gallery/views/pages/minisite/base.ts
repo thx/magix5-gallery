@@ -8,7 +8,6 @@ export default View.extend({
         let cardList = (data.list || []).map(item => {
             return this['@:{to.card.item}'](item, biz);
         })
-
         this.set({
             ...extra,
             cardList,
@@ -39,11 +38,11 @@ export default View.extend({
 
         return {
             img: item.img,
-            imgTag: item.imgTag, // 图片上打标图片地址
-            imgTagText: item.imgTagText, // 图片上打标图片文案
-            icon: item.icon,
+            leftTag: item.imgTag ? `<img style="height: 20px; margin-top: var(--mx5-card-gap-ver); margin-left: var(--mx5-card-gap-hor);" src="${item.imgTag}" />` : '', // 图片上打标图片地址
+            leftTagText: item.imgTagText, // 图片上打标图片文案
+            icon: item.icon ? `<img src="${item.icon}"/>` : '',
             title: item.title,
-            titleTag: item.tag,  // 标题旁打标图片地址
+            titleTag: item.tag ? `<img style="height: 20px;" src="${item.tag}" />` : '',  // 标题旁打标图片地址
             titleTagText: item.tagText, // 标题旁打标文案
             subTitle: item.subTitle,
             tip: item.info,

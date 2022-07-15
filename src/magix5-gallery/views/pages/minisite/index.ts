@@ -359,14 +359,14 @@ export default View.extend({
     //     Router.to(loc.path, params);
     // },
 
-    // 'changeTab<change>'(e) {
-    //     // e.value 当前选中的key值
-    //     // e.text 当前选中的文案
-    //     let { info } = this.get();
-    //     let { index } = e.params;
-    //     info.blocks[index].index = e.value;
-    //     this.digest({
-    //         info
-    //     })
-    // }
+    '@:{change.tab}<change>'(e) {
+        // e.value 当前选中的key值
+        // e.text 当前选中的文案
+        let { info } = this.get();
+        let { index } = e.params;
+        info.blocks[index].index = e.selected;
+        this.digest({
+            info
+        })
+    }
 });
