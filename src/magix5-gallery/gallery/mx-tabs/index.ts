@@ -116,13 +116,13 @@ export default View.extend({
             text: item.text,
             selected: value,
         });
-        // if (!event.defaultPrevented) {
-        // 支持外部同步校验阻断change，event.preventDefault()
-        this.digest({
-            list,
-            selected: value,
-            hover: value
-        })
-        // }
+        if (!event.defaultPrevented) {
+            // 支持外部同步校验阻断change，event.preventDefault()
+            this.digest({
+                list,
+                selected: value,
+                hover: value
+            })
+        }
     }
 });

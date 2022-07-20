@@ -96,12 +96,12 @@ export default View.extend({
             text: item.text,
             selected: item.value
         });
-        // if (!event.defaultPrevented) {
-        // 支持外部同步校验阻断change，event.preventDefault()
-        that.digest({
-            selected: item.value,
-            hover: item.value,
-        })
-        // }
+        if (!event.defaultPrevented) {
+            // 支持外部同步校验阻断change，event.preventDefault()
+            that.digest({
+                selected: item.value,
+                hover: item.value,
+            })
+        }
     }
 });

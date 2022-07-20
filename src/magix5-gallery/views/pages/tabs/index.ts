@@ -82,10 +82,10 @@ export default View.extend({
                 text: '打标 + 事件处理',
                 path: 7,
             },
-            // {
-            //     text: '同步校验阻断',
-            //     path: 8,
-            // },
+            {
+                text: '同步校验阻断',
+                path: 13,
+            },
             {
                 text: '部分or整体禁用',
                 path: 8,

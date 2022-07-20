@@ -97,10 +97,10 @@ export default View.extend({
             //     text: '双向绑定',
             //     path: 8,
             // }, 
-            // {
-            //     text: '同步校验阻断',
-            //     path: 3,
-            // },
+            {
+                text: '同步校验阻断',
+                path: 14,
+            },
             {
                 text: '自定义key',
                 path: 3,

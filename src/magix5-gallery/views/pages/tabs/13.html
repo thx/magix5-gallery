@@ -1,0 +1,96 @@
+<div class="example">
+	<div class="eg-content">
+		<div class="eg-content-tip">
+			<div class="eg-content-tip-prefix">以下示例：</div>
+            <div>切换tab前有同步校验逻辑，<span class="mx5-color-brand">当输入一个非整数时不允许切换</span></div>
+            <div class="mx5-color-brand">该方式仅适用于同步校验场景</div>
+		</div>
+
+        <mx-tabs class="mx5-mb20"
+            *list="{{#list}}" 
+            *selected="{{=selected}}"
+            mx-change="changeTab()" />
+            
+        <form class="mx5-form">
+            <div class="mx5-form-item">
+                <div class="mx5-form-label">菜单{{=selected}}</div>
+                <div class="mx5-form-content">
+                    <mx-input class="w200" 
+                        *placeholder="请输入整数" 
+                        *value="{{=values[selected]}}" 
+                        mx-change="changeValue()"/>
+                    {{if error}}
+                    <div class="mx5-color-error">请输入整数</div>
+                    {{/if}}
+                </div>
+            </div>
+        </form>
+	</div>
+	<div class="mx5-clearfix">
+		<div class="eg-desc flw50">
+			<div class="eg-title">HTML Code</div>
+			<mx-copy class="desc-oper" *copy-node="{{=$viewId}}_text_1" mx-success="@:{done}({id:1})">
+				<span class="desc-tip" mx-html="{{=text1}}"></span>
+				<i class="mx5-iconfont desc-icon">&#xe610;</i>
+			</mx-copy>
+			<mx-source whole="true" id="{{=$viewId}}_text_1">
+<mx-tabs class="mx5-mb20"
+    *list="{{#list}}" 
+    *selected="{{=selected}}"
+    mx-change="changeTab()" />
+    
+<mx-input class="w200" 
+    *placeholder="请输入整数" 
+    *value="{{:values[selected]}}" />
+			</mx-source>
+		</div>
+		<div class="eg-desc flw50 mx5-blc">
+			<div class="eg-title">JS Code</div>
+			<mx-copy class="desc-oper" *copy-node="{{=$viewId}}_text_2" mx-success="@:{done}({id:2})">
+				<span class="desc-tip" mx-html="{{=text2}}"></span>
+				<i class="mx5-iconfont desc-icon">&#xe610;</i>
+			</mx-copy>
+			<mx-source whole="true" id="{{=$viewId}}_text_2">
+import Magix5, { isNumeric, View } from 'magix5';
+export default View.extend({
+    tmpl: '@:index.html',
+    render() {
+        let list = [{
+            value: 1,
+            text: '菜单1',
+        }, {
+            value: 2,
+            text: '菜单2',
+        }, {
+            value: 3,
+            text: '菜单3',
+        }];
+
+        let values = {};
+        list.forEach(item => {
+            values[item.value] = '';
+        })
+
+        this.digest({
+            selected: list[0].value,
+            list,
+            values,
+        });
+    },
+
+    'changeTab<change>'(e) {
+        let { selected, values } = this.get();
+        if (isNumeric(values[selected])) {
+            this.digest({
+                selected: e.value,
+            })
+        } else {
+            // 非数值类型阻断切换
+            e.preventDefault();
+        }
+    },
+})
+			</mx-source>
+		</div>
+	</div>
+</div>

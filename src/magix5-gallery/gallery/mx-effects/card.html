@@ -1,6 +1,116 @@
-<!-- <mx-slot name="card-inner" fn="item,spm">
-    
-</mx-slot> -->
+<mx-slot name="card-inner" fn="item">
+    <!-- a标签不可重复包裹a标签，卡片的点击外链事件处理 -->
+    <div mx-click="@:{select}({item:'{{#item}}'})" 
+        data-spm-click="{{=spm}}?{{=(spm + '_' + groupIndex + '_' + index)}}"
+        class="card {{if item.highlight}} highlight {{/if}}" 
+        style="width: calc((100% - var(--mx5-effects-card-h-gap, 24px) * {{=(lineNumber + 1)}}) / {{=lineNumber}});" >
+
+        <!-- 左侧打标 -->
+        {{if item.leftTag}}
+        <span class="card-tag-left" mx-html="{{=item.leftTag}}"></span>
+        {{else if item.leftTagText}}
+        <mx-effects.icon class="card-tag-text" 
+            *type="highlight" 
+            *mode="solid" 
+            *content="{{=item.leftTagText}}"/>
+        {{/if}}
+
+        <!-- 右侧打标 -->
+        {{if item.rightTag}}
+        <span class="card-tag-right" mx-html="{{=item.rightTag}}"></span>
+        {{/if}}
+
+        <!-- 图片 -->
+        {{if item.img}}
+        <div class="card-img" style="background-image: url({{=item.img}})"></div>
+        {{/if}}
+
+        <div class="card-info" style="text-align: {{=textAlign}};">
+            {{if item.icon}}
+            <div class="card-icon" mx-html="{{=item.icon}}"></div>
+            <div class="card-hover-icon" mx-html="{{=(item.iconHover || item.icon)}}"></div>
+            {{/if}}
+        
+            <!-- 标题 -->
+            <div class="card-title">
+                <div class="card-title-text">
+                    <div class="card-title-text-inner" mx-html="{{=item.title}}"></div>
+                </div>
+                <div class="card-title-tag">
+                    {{if item.titleTag}}
+                    <span mx-html="{{=item.titleTag}}"></span>
+                    {{else if item.titleTagText}}
+                    <mx-effects.icon *type="highlight" *content="{{=item.titleTagText}}"/>
+                    {{/if}}
+                </div>
+            </div>
+
+            <!-- 副标题（始终保留位置） -->
+            {{if item.subTitle}}
+            <div class="card-sub-title" mx-html="{{=item.subTitle}}"></div>
+            {{/if}}
+
+            <!-- 提示信息（始终保留位置） -->
+            {{if item.tip}}
+            <div class="card-tip" title="{{=item.tip}}" mx-html="{{=item.tip}}"></div>
+            {{/if}}
+
+            {{if (mode.indexOf('-quota') > -1)}}
+            <div class="card-quotaes">
+                {{if (item.quotaes && item.quotaes.length)}}
+                    {{each item.quotaes as q}}
+                    <div class="card-quotae" style="width: {{=(100/item.quotaes.length)}}%;">
+                        <div class="quotae-num" mx-html="{{=q.value}}"></div>
+                        <div class="quotae-text" mx-html="{{=q.text}}"></div>
+                    </div>
+                    {{/each}}
+                {{else}}
+                    {{if item.quotaeTip}}
+                    <div class="card-quotae-tip" mx-html="{{=item.quotaeTip}}"></div>
+                    {{/if}}
+                {{/if}}
+            </div>
+            {{/if}}
+
+            <!-- 多链接 -->
+            {{if (mode.indexOf('-links-list') > -1)}}
+                <div class="card-links">
+                    {{each item.links as link linkIndex}}
+                    <a href="{{=(link.link ? link.link : 'javascript:;')}}" 
+                        target="{{=(link.link && (link.outer + '' !== 'false'))}}?_blank" 
+                        rel="{{=(link.link && (link.outer + '' !== 'false'))}}?noopener noreferrer"
+                        data-spm-click="{{=spm}}?{{=(spm + '_' + groupIndex + '_' + index + '_link_' + linkIndex)}}"
+                        class="card-link">{{=link.title}}<i class="mx5-iconfont card-link-arrow">&#xe6c3;</i></a>
+                    {{/each}}
+                </div>
+                {{if hasBtn}}
+                <mx-btn class="card-btn"
+                    *link-href="{{=(item.link ? item.link : 'javascript:;')}}" 
+                    *link-target="{{=((item.link && (item.outer + '' !== 'false'))) ? '_blank' : '_self' }}">{{=item.btn}}<i class="mx5-iconfont card-btn-icon">&#xe6c3;</i></mx-btn>
+                {{/if}}
+            {{else}}
+                <!-- 按钮（整张卡片可点，纯显示样式） -->
+                {{if hasBtn}}
+                <mx-btn class="card-btn">{{=item.btn}}<i class="mx5-iconfont card-btn-icon">&#xe6c3;</i></mx-btn>
+                {{/if}}
+            {{/if}}
+        </div>
+
+        <!-- 多按钮 -->
+        {{if ((mode.indexOf('-btns-list') > -1) && item.btns && item.btns.length)}}
+        <div class="card-btn-links">
+            {{each item.btns as btn btnIndex}}
+            <a href="{{=(btn.link ? btn.link : 'javascript:;')}}" 
+                target="{{=(btn.link && (btn.outer + '' !== 'false'))}}?_blank" 
+                rel="{{=(btn.link && (btn.outer + '' !== 'false'))}}?noopener noreferrer"
+                data-spm-click="{{=spm}}?{{=(spm + '_' + groupIndex + '_' + index + '_btn_' + btnIndex)}}"
+                mx-click="@:{btn.select}({item:'{{#item}}',btn:'{{#btn}}'})" 
+                class="card-btn-link" style="width: {{=(100 / item.btns.length)}}%;" mx-html="{{=btn.btn}}"></a>
+            {{/each}}
+        </div>
+        {{/if}}
+    </div>
+</mx-slot>
 
 {{if (groups.length > 0)}}
     {{each groups as group groupIndex}}
@@ -13,118 +123,7 @@
         ">
         <div class="card-cont mx5-clearfix">
             {{each group.list as item index}}
-            <!-- <mx-slot use="card-inner" params="item,(spm ? (spm + '_' + groupIndex + '_' + index) : '')"/> -->
-
-            <!-- a标签不可重复包裹a标签，卡片的点击外链事件处理 -->
-            <div mx-click="@:{select}({item:'{{#item}}'})" 
-               data-spm-click="{{=spm}}?{{=(spm + '_' + groupIndex + '_' + index)}}"
-               class="card {{if item.highlight}} highlight {{/if}}" style="width: calc((100% - var(--mx5-effects-card-h-gap, 24px) * {{=(lineNumber + 1)}}) / {{=lineNumber}});" >
-
-                <!-- 左侧打标 -->
-                {{if item.leftTag}}
-                <span class="card-tag-left" mx-html="{{=item.leftTag}}"></span>
-                {{else if item.leftTagText}}
-                <mx-effects.icon class="card-tag-text" 
-                    *type="highlight" 
-                    *mode="solid" 
-                    *content="{{=item.leftTagText}}"/>
-                {{/if}}
-
-                <!-- 右侧打标 -->
-                {{if item.rightTag}}
-                <span class="card-tag-right" mx-html="{{=item.rightTag}}"></span>
-                {{/if}}
-
-                <!-- 图片 -->
-                {{if item.img}}
-                <div class="card-img" style="background-image: url({{=item.img}})"></div>
-                {{/if}}
-
-                <div class="card-info" style="text-align: {{=textAlign}};">
-                    {{if item.icon}}
-                    <div class="card-icon" mx-html="{{=item.icon}}"></div>
-                    <div class="card-hover-icon" mx-html="{{=(item.iconHover || item.icon)}}"></div>
-                    {{/if}}
-                
-                    <!-- 标题 -->
-                    <div class="card-title">
-                        <div class="card-title-text">
-                            <div class="card-title-text-inner" mx-html="{{=item.title}}"></div>
-                        </div>
-                        <div class="card-title-tag">
-                            {{if item.titleTag}}
-                            <span mx-html="{{=item.titleTag}}"></span>
-                            {{else if item.titleTagText}}
-                            <mx-effects.icon *type="highlight" *content="{{=item.titleTagText}}"/>
-                            {{/if}}
-                        </div>
-                    </div>
-
-                    <!-- 副标题（始终保留位置） -->
-                    {{if item.subTitle}}
-                    <div class="card-sub-title" mx-html="{{=item.subTitle}}"></div>
-                    {{/if}}
-
-                    <!-- 提示信息（始终保留位置） -->
-                    {{if item.tip}}
-                    <div class="card-tip" title="{{=item.tip}}" mx-html="{{=item.tip}}"></div>
-                    {{/if}}
-
-                    {{if (mode.indexOf('-quota') > -1)}}
-                    <div class="card-quotaes">
-                        {{if (item.quotaes && item.quotaes.length)}}
-                            {{each item.quotaes as q}}
-                            <div class="card-quotae" style="width: {{=(100/item.quotaes.length)}}%;">
-                                <div class="quotae-num" mx-html="{{=q.value}}"></div>
-                                <div class="quotae-text" mx-html="{{=q.text}}"></div>
-                            </div>
-                            {{/each}}
-                        {{else}}
-                            {{if item.quotaeTip}}
-                            <div class="card-quotae-tip" mx-html="{{=item.quotaeTip}}"></div>
-                            {{/if}}
-                        {{/if}}
-                    </div>
-                    {{/if}}
-
-                    <!-- 多链接 -->
-                    {{if (mode.indexOf('-links-list') > -1)}}
-                        <div class="card-links">
-                            {{each item.links as link linkIndex}}
-                            <a href="{{=(link.link ? link.link : 'javascript:;')}}" 
-                            target="{{=(link.link && (link.outer + '' !== 'false'))}}?_blank" 
-                            rel="{{=(link.link && (link.outer + '' !== 'false'))}}?noopener noreferrer"
-                            data-spm-click="{{=spm}}?{{=(spm + '_' + groupIndex + '_' + index + '_link_' + linkIndex)}}"
-                            class="card-link">{{=link.title}}<i class="mx5-iconfont card-link-arrow">&#xe6c3;</i></a>
-                            {{/each}}
-                        </div>
-                        {{if hasBtn}}
-                        <mx-btn class="card-btn"
-                            *link-href="{{=(item.link ? item.link : 'javascript:;')}}" 
-                            *link-target="{{=((item.link && (item.outer + '' !== 'false'))) ? '_blank' : '_self' }}">{{=item.btn}}<i class="mx5-iconfont card-btn-icon">&#xe6c3;</i></mx-btn>
-                        {{/if}}
-                    {{else}}
-                        <!-- 按钮（整张卡片可点，纯显示样式） -->
-                        {{if hasBtn}}
-                        <mx-btn class="card-btn">{{=item.btn}}<i class="mx5-iconfont card-btn-icon">&#xe6c3;</i></mx-btn>
-                        {{/if}}
-                    {{/if}}
-                </div>
-
-                <!-- 多按钮 -->
-                {{if ((mode.indexOf('-btns-list') > -1) && item.btns && item.btns.length)}}
-                <div class="card-btn-links">
-                    {{each item.btns as btn btnIndex}}
-                    <a href="{{=(btn.link ? btn.link : 'javascript:;')}}" 
-                       target="{{=(btn.link && (btn.outer + '' !== 'false'))}}?_blank" 
-                       rel="{{=(btn.link && (btn.outer + '' !== 'false'))}}?noopener noreferrer"
-                       data-spm-click="{{=spm}}?{{=(spm + '_' + groupIndex + '_' + index + '_btn_' + btnIndex)}}"
-                       mx-click="@:{btn.select}({item:'{{#item}}',btn:'{{#btn}}'})" 
-                       class="card-btn-link" style="width: {{=(100 / item.btns.length)}}%;" mx-html="{{=btn.btn}}"></a>
-                    {{/each}}
-                </div>
-                {{/if}}
-            </div>
+            <mx-slot use="card-inner" params="{{=item}}"/>
             {{/each}}
         </div>
     </div>
