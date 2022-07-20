@@ -2,8 +2,8 @@
 version:5.1.0 Licensed MIT
 author:kooboy_li@163.com
 loader:umd
-enables:mxevent,richVframe,xml,async,service,wait,lang,router,routerHash,routerTip,richView,recast,require,xview,taskComplete,taskIdle,spreadMxViewParams,removeStyle,taskCancel,eventVframe,richVframeInvokeCancel,waitSelector,remold,rewrite,rebuild,load,state,batchDOMEvent,richVframeDescendants,preloadViews,esmoduleCheck,checkReset,innerView
-optionals:base,catchHTMLError,routerState,routerTipLockUrl,routerForceState,customTags,checkAttr,webc,lockSubWhenBusy
+enables:mxevent,richVframe,xml,service,wait,lang,router,routerHash,routerTip,richView,recast,require,xview,taskComplete,taskIdle,spreadMxViewParams,removeStyle,taskCancel,eventVframe,richVframeInvokeCancel,waitSelector,remold,rewrite,rebuild,load,state,batchDOMEvent,richVframeDescendants,preloadViews,esmoduleCheck,checkReset,innerView,inspector,base
+optionals:catchHTMLError,routerState,routerTipLockUrl,routerForceState,customTags,checkAttr,webc,lockSubWhenBusy
 */
 //magix-composer#snippet;
 //magix-composer#exclude = loader;
@@ -52,7 +52,7 @@ define('magix5', () => {
     // let MX_TO = MX_PREFIX + 'to';
     let MX_MAIN = MX_PREFIX + 'main';
     let MX_RESET = MX_PREFIX + 'reset';
-    let MX_SUB = MX_PREFIX + 'nest';
+    let MX_NEST = MX_PREFIX + 'nest';
     let GUID = (prefix) => (prefix || Tag_Static_Key) + Counter++;
     let GetById = id => Doc_Document.getElementById(id);
     let SetInnerHTML = (n, html) => n.innerHTML = html;
@@ -92,7 +92,7 @@ define('magix5', () => {
     let Mark = (me, key, host, m, k) => {
         k = Spliter + '@:{mark#object}';
         if (me[k] != 0) {
-            host = me[k] || (me[k] = {});
+            host = me[k]||(me[k] = {});
             if (!Has(host, key)) {
                 host[key] = Date_Now();
             }
@@ -291,8 +291,9 @@ define('magix5', () => {
         let e = new Event(type, EventDefaultOptions);
         Assign(e, data);
         element.dispatchEvent(e);
+        return e;
     };
-    let AttachEventHandlers = [];
+    let AttachEventHead, AttachEventTail;
     let EventListen = (element, ...args) => element.addEventListener(...args);
     let EventUnlisten = (element, ...args) => element.removeEventListener(...args);
     let AddEventListener = (element, type, fn, eventOptions, viewId, view) => {
@@ -301,6 +302,7 @@ define('magix5', () => {
             '@:{dom#real.fn}': fn,
             '@:{dom#type}': type,
             '@:{dom#element}': element,
+            '@:{dom#mod}': eventOptions,
             '@:{dom#event.proxy}'(e) {
                 if (viewId) {
                     ToTry(fn, e, view);
@@ -310,20 +312,36 @@ define('magix5', () => {
                 }
             }
         };
-        AttachEventHandlers.push(h);
+        if (!AttachEventHead) {
+            AttachEventHead = h;
+        }
+        if (AttachEventTail) {
+            AttachEventTail['@:{dom#next}'] = h;
+        }
+        AttachEventTail = h;
         EventListen(element, type, h['@:{dom#event.proxy}'], eventOptions);
     };
     let RemoveEventListener = (element, type, cb, eventOptions, viewId) => {
-        for (let c, i = AttachEventHandlers.length; i--;) {
-            c = AttachEventHandlers[i];
-            if (c['@:{dom#type}'] == type &&
-                c['@:{dom#view.id}'] == viewId &&
-                c['@:{dom#element}'] == element &&
-                c['@:{dom#real.fn}'] == cb) {
-                AttachEventHandlers.splice(i, 1);
-                EventUnlisten(element, type, c['@:{dom#event.proxy}'], eventOptions);
+        let head = AttachEventHead, prev;
+        while (head) {
+            if (head['@:{dom#type}'] == type &&
+                head['@:{dom#view.id}'] == viewId &&
+                head['@:{dom#element}'] == element &&
+                head['@:{dom#real.fn}'] == cb) {
+                EventUnlisten(element, type, head['@:{dom#event.proxy}'], eventOptions);
+                if (prev) {
+                    prev['@:{dom#next}'] = head['@:{dom#next}'];
+                }
+                if (AttachEventHead == head) {
+                    AttachEventHead = head['@:{dom#next}'];
+                }
+                if (AttachEventTail == head) {
+                    AttachEventTail = prev;
+                }
                 break;
             }
+            prev = head;
+            head = head['@:{dom#next}'];
         }
     };
     let ToObjectCache = new MxCache();
@@ -659,7 +677,7 @@ define('magix5', () => {
             }
             let key = prefix + '\x01' + setter;
             let p = data['\x01_sf_\x01'];
-            if (p && p.proxy) {
+            if (p?.proxy) {
                 data = p.entity;
             }
             let list = ProxiesPool.get(data);
@@ -715,24 +733,30 @@ define('magix5', () => {
     }
     let MxEvent = {
         fire(name, data) {
-            let key = Spliter + name, me = this, list = me[key], idx = 0, len, t;
-            if (!data)
-                data = {};
+            let key = Spliter + name, me = this, 
+            /*list = me[key],
+            idx = 0, len, t*/
+            head = me[key];
+            data =data||(data= {});
             data.type = name;
-            if (list) {
-                for (len = list.length; idx < len; idx++) {
-                    t = list[idx];
-                    if (t['@:{mx-event#fn}']) {
-                        t['@:{mx-event#processing}'] = 1;
-                        ToTry(t['@:{mx-event#fn}'], data, me);
-                        if (!t['@:{mx-event#fn}']) {
-                            list.splice(idx--, 1);
-                            len--;
-                        }
-                        t['@:{mx-event#processing}'] = Null;
-                    }
-                }
+            while (head) {
+                ToTry(head['@:{mx-event#fn}'], data, me);
+                head = head['@:{mx-event#next}'];
             }
+            // if (list) {
+            //     for (len = list.length; idx < len; idx++) {
+            //         t = list[idx];
+            //         if (t['@:{mx-event#fn}']) {
+            //             t['@:{mx-event#processing}'] = 1;
+            //             ToTry(t['@:{mx-event#fn}'], data, me);
+            //             if (!t['@:{mx-event#fn}']) {
+            //                 list.splice(idx--, 1);
+            //                 len--;
+            //             }
+            //             t['@:{mx-event#processing}'] = Null;
+            //         }
+            //     }
+            // }
             return data;
             // if (!cancel) {
             //     list = me[`on${name}`];
@@ -743,40 +767,81 @@ define('magix5', () => {
         on(name, fn, priority = 0) {
             let me = this;
             let key = Spliter + name;
-            let list = me[key] || (me[key] = []), added, len, i, definition = {
+            let definition = {
                 '@:{mx-event#fn}': fn,
                 '@:{mx-event#priority}': priority
             };
-            for (i = 0, len = list.length; i < len; i++) {
-                if (list[i]['@:{mx-event#priority}'] < priority) {
-                    list.splice(i, 0, definition);
-                    added = 1;
-                    break;
-                }
-            }
-            if (!added) {
-                list.push(definition);
-            }
+            // let list = me[key] || (me[key] = []),
+            //     added,
+            //     len, i;
+            // for (i = 0, len = list.length; i < len; i++) {
+            //     if (list[i]['@:{mx-event#priority}'] < priority) {
+            //         list.splice(i, 0, definition);
+            //         added = 1;
+            //         break;
+            //     }
+            // }
+            // if (!added) {
+            //     list.push(definition);
+            // }
             // return me;
-        },
-        off(name, fn) {
-            let key = Spliter + name, me = this, list = me[key], t;
-            if (fn) {
-                if (list &&
-                    (t = list.length)) {
-                    for (; t--;) {
-                        key = list[t];
-                        if (key['@:{mx-event#fn}'] == fn) {
-                            if (key['@:{mx-event#processing}']) {
-                                key['@:{mx-event#fn}'] = Null;
-                            }
-                            else {
-                                list.splice(t, 1);
-                            }
-                            break;
+            let head = me[key], prev;
+            if (head) {
+                while (head) {
+                    if (head['@:{mx-event#priority}'] < priority) {
+                        definition['@:{mx-event#next}'] = head;
+                        if (prev) {
+                            prev['@:{mx-event#next}'] = definition;
                         }
+                        else {
+                            me[key] = definition;
+                        }
+                        break;
                     }
+                    prev = head;
+                    head = head['@:{mx-event#next}'];
                 }
+                if (!head) {
+                    prev['@:{mx-event#next}'] = definition;
+                }
+            }
+            else {
+                me[key] = definition;
+            }
+        },
+        off(name, fn, priority = 0) {
+            let key = Spliter + name, me = this;
+            if (fn) {
+                let prev, head = me[key];
+                while (head) {
+                    if (head['@:{mx-event#fn}'] == fn &&
+                        head['@:{mx-event#priority}'] == priority) {
+                        if (prev) {
+                            prev['@:{mx-event#next}'] = head['@:{mx-event#next}'];
+                        }
+                        else {
+                            me[key] = head['@:{mx-event#next}'];
+                        }
+                        break;
+                    }
+                    prev = head;
+                    head = head['@:{mx-event#next}'];
+                }
+                // let list = me[key],t;
+                // if (list &&
+                //     (t = list.length)) {
+                //     for (; t--;) {
+                //         key = list[t];
+                //         if (key['@:{mx-event#fn}'] == fn) {
+                //             if (key['@:{mx-event#processing}']) {
+                //                 key['@:{mx-event#fn}'] = Null;
+                //             } else {
+                //                 list.splice(t, 1);
+                //             }
+                //             break;
+                //         }
+                //     }
+                // }
             }
             else {
                 me[key] = Null;
@@ -799,7 +864,7 @@ define('magix5', () => {
     let Router_Bind = () => {
         let lastHash = Router_Parse().srcHash;
         let newHash, suspend;
-        AddEventListener(Doc_Window, 'hashchange', Router_Tip_Hashchange = (e, loc, resolve) => {
+        EventListen(Doc_Window, 'hashchange', Router_Tip_Hashchange = (e, loc, resolve) => {
             if (suspend) {
                 return;
             }
@@ -835,7 +900,7 @@ define('magix5', () => {
                 }
             }
         });
-        AddEventListener(Doc_Window, 'beforeunload', Router_Tip_Beforeunload = (e, te, msg) => {
+        EventListen(Doc_Window, 'beforeunload', Router_Tip_Beforeunload = (e, te, msg) => {
             e = e || Doc_Window.event;
             te = {};
             Router.fire(Page_Unload, te);
@@ -848,13 +913,13 @@ define('magix5', () => {
                 return msg;
             }
         });
-        AddEventListener(Doc_Window, 'popstate', Router_Tip_Hashchange);
+        EventListen(Doc_Window, 'popstate', Router_Tip_Hashchange);
         Router_Diff();
     };
     let Router_Unbind = () => {
-        RemoveEventListener(Doc_Window, 'hashchange', Router_Tip_Hashchange);
-        RemoveEventListener(Doc_Window, 'beforeunload', Router_Tip_Beforeunload);
-        RemoveEventListener(Doc_Window, 'popstate', Router_Tip_Hashchange);
+        EventUnlisten(Doc_Window, 'hashchange', Router_Tip_Hashchange);
+        EventUnlisten(Doc_Window, 'beforeunload', Router_Tip_Beforeunload);
+        EventUnlisten(Doc_Window, 'popstate', Router_Tip_Hashchange);
         Router_LLoc = Router_Init_Loc;
     };
     let Changed = 'changed';
@@ -1016,9 +1081,8 @@ define('magix5', () => {
         parse: Router_Parse,
         diff: Router_Diff,
         to(pn, params, replace, silent) {
-            if (!params &&
-                IsObject(pn)) {
-                params = pn;
+            if (IsObject(pn)) {
+                params = Assign(pn, params);
                 pn = Empty;
             }
             let temp = ParseUri(pn);
@@ -1196,12 +1260,12 @@ define('magix5', () => {
     let Vframe_RunInvokes = (vf, list, name, resolve, view, fn, args) => {
         list = vf['@:{vframe.invoke.list}']; //invokeList
         view = vf['@:{vframe.view.entity}'];
-        while (list.length) {
-            [name, args, resolve] = list.shift();
+        for ([name, args, resolve] of list) {
             if (name) {
                 CallFunction(resolve, (fn = view[name]) && ToTry(fn, args, view));
             }
         }
+        list.length = 0;
     };
     let Vframe_CollectVframes = (start, vfs, onlyChild) => {
         let children = start.children(), child, vf;
@@ -1717,8 +1781,7 @@ define('magix5', () => {
                     if (vframe) {
                         vframe = Vframe_Vframes[vframe];
                         view = vframe && vframe['@:{vframe.view.entity}'];
-                        if (view &&
-                            view['@:{view.events.object}'][type]) {
+                        if (view?.['@:{view.events.object}']?.[type]) {
                             arr.length = 0;
                         }
                     }
@@ -1896,12 +1959,12 @@ define('magix5', () => {
             //该功能有性能问题，考虑下线
             if (vf.pId &&
                 !view['@:{view.rendered}'] &&
-                GetAttribute(root, MX_SUB) != Null) {
+                GetAttribute(root, MX_NEST) != Null) {
                 Vframe_UnmountZone(Vframe_Vframes[vf.pId], root, 1);
             }
             ready = () => {
-                view['@:{view.updater.vdom}'] = vdom;
                 if (view['@:{view.sign}']) {
+                    view['@:{view.updater.vdom}'] = vdom;
                     tmpl = ref['@:{updater-ref#changed}'] || !view['@:{view.rendered}'];
                     if (tmpl) {
                         CallFunction(View_EndUpdate, view);
@@ -1910,40 +1973,29 @@ define('magix5', () => {
                         CallFunction(vdom['@:{view.render.short}'], Empty_Array, vdom);
                         //CallFunction(View_CheckAssign, [vdom]);
                     }
-                }
-                if (view['@:{view.async.count}'] > 1) {
-                    view['@:{view.async.count}'] = 1;
-                    ref['@:{updater-ref#node.props}'].length = 0;
-                    CallFunction(Updater_Digest, [view, 1]);
-                    //Updater_Digest(view, 1);
-                }
-                else {
-                    view['@:{view.async.count}'] = 0;
-                    /*
-                        在dom diff patch时，如果已渲染的vframe有变化，则会在vom tree上先派发created事件，同时传递inner标志，vom tree处理alter事件派发状态，未进入created事件派发状态
-            
-                        patch完成后，需要设置vframe hold fire created事件，因为带有assign方法的view在调用render后，vom tree处于就绪状态，此时会导致提前派发created事件，应该hold，统一在endUpdate中派发
-            
-                        有可能不需要endUpdate，所以hold fire要视情况而定
-                    */
-                    for ([vdom, viewId, refData] of ref["@:{updater-ref#node.props}"]) {
-                        if (vdom[viewId] != refData) {
-                            vdom[viewId] = refData;
+                    if (view['@:{view.async.count}'] > 1) {
+                        view['@:{view.async.count}'] = 1;
+                        ref['@:{updater-ref#node.props}'].length = 0;
+                        CallFunction(Updater_Digest, [view, 1]);
+                        //Updater_Digest(view, 1);
+                    }
+                    else {
+                        view['@:{view.async.count}'] = 0;
+                        for ([vdom, viewId, refData] of ref["@:{updater-ref#node.props}"]) {
+                            if (vdom[viewId] != refData) {
+                                vdom[viewId] = refData;
+                            }
                         }
+                        view.fire('domready');
+                        keys = view['@:{view.async.resolves}'];
+                        for (vdom of keys) {
+                            vdom();
+                        }
+                        keys.length = 0;
                     }
-                    view.fire('domready');
-                    keys = view['@:{view.async.resolves}'];
-                    for (vdom of keys) {
-                        vdom();
-                    }
-                    keys.length = 0;
                 }
             };
-            // Updater_Ready_List.push({
-            //     '@:{ready#callback}': ready
-            // });
             CallFunction(V_SetChildNodes, [root, view['@:{view.updater.vdom}'], vdom, ref, vf, keys, view, ready]);
-            //V_SetChildNodes(view.root, view['@:{view.updater.vdom}'], vdom, ref, vf, keys, view, ready);
         }
     };
     let Q_TEXTAREA = 'textarea';
@@ -2145,7 +2197,8 @@ define('magix5', () => {
                     }
                 }
             }
-            else if (!lastVDOM || oMap[key] != value) {
+            else if (!lastVDOM ||
+                oMap[key] != value) {
                 changed = 1;
                 if (key == MX_MAIN) {
                     value = ref['@:{updater-ref#view.id}'];
@@ -2348,8 +2401,7 @@ define('magix5', () => {
                     //             reused[oc['@:{v#node.compare.key}']]--;
                     //         }
                     //         
-                    //         ref['@:{updater-ref#async.count}']++;
-                    //         CallFunction(V_SetNode, [compareKey, realNode, oc, nc, ref, vframe, keys, view, ready]);
+                    //         V_SetNode(compareKey, realNode, oc, nc, ref, vframe, keys);
                     //         
                     //     } else if (oc) {//有旧节点，则更新
                     //         if (keyedNodes[oc['@:{v#node.compare.key}']] &&
@@ -2359,8 +2411,7 @@ define('magix5', () => {
                     //             realNode.insertBefore(V_CreateNode(nc, realNode), nodes[i]);
                     //             oldRangeStart--;
                     //         } else {
-                    //             ref['@:{updater-ref#async.count}']++;
-                    //             CallFunction(V_SetNode, [nodes[i], realNode, oc, nc, ref, vframe, keys, view, ready]);
+                    //             V_SetNode(nodes[i], realNode, oc, nc, ref, vframe, keys);
                     //             
                     //         }
                     //     } else {//添加新的节点
@@ -2626,7 +2677,10 @@ define('magix5', () => {
                                     }
                                 }
                             }
+                            //无模板的组件默认需要继续更新子节点
                             updateChildren = !view['@:{view.template}'];
+                            //如果组件有模板，子节点由组件完成
+                            //如果组件没有模板，且发生了变化，则更新子节点
                             if (paramsChanged ||
                                 htmlChanged) {
                                 assign = view['@:{view.assign.fn}'];
@@ -2673,6 +2727,10 @@ define('magix5', () => {
                                 //         }
                                 //     }
                                 // }
+                                //如果组件无模板，需要更新子节点，再看下有没嵌套的vframe，无vframe可以跳过更新，减少diff工作
+                            }
+                            else if (updateChildren) {
+                                updateChildren = newAMap[MX_NEST];
                             }
                         }
                         else {
@@ -2774,7 +2832,7 @@ define('magix5', () => {
                     ctors.push(fn);
                     continue;
                 }
-                else if (View_EvtMethodReg.test(p)) {
+                if (View_EvtMethodReg.test(p)) {
                     if (exist) {
                         fn = processMixinsSameEvent(exist, fn);
                     }
@@ -2996,7 +3054,7 @@ define('magix5', () => {
             }
             loc['@:{view-router#observe.path}'] = isObservePath;
             if (params) {
-                loc['@:{view-router#observe.params}'] = (params + Empty).split(Comma);
+                loc['@:{view-router#observe.params}'] = IsArray(params) ? params : params.split(Comma);
             }
         },
         get(key, dValue) {
@@ -3403,6 +3461,230 @@ define('magix5', () => {
         Assign(NService, Service_Manager);
         return Extend(NService, Service);
     };
+    function Base() { }
+    Assign(Base[Prototype], MxEvent);
+    Base.extend = function extend(props, statics) {
+        let me = this;
+        let ctor = props && props.ctor;
+        function X(...a) {
+            let t = this;
+            me.apply(t, a);
+            if (ctor)
+                ctor.apply(t, a);
+        }
+        X.extend = extend;
+        Assign(X, statics);
+        return Extend(X, me, props);
+    };
+    /**
+     * 组件基类
+     * @name Base
+     * @constructor
+     * @borrows Event.fire as #fire
+     * @borrows Event.on as #on
+     * @borrows Event.off as #off
+     * @beta
+     * @module base
+     * @example
+     * let T = Magix.Base.extend({
+     *     hi:function(){
+     *         this.fire('hi');
+     *     }
+     * });
+     * let t = new T();
+     * t.onhi=function(e){
+     *     console.log(e);
+     * };
+     * t.hi();
+     */
+    let Inspector = {
+        /**
+         * 监听vframe的变化，包括添加或删除
+         * @param callback 回调
+         */
+        onVframeChange(callback) {
+            Vframe.on('add', callback);
+            Vframe.on('remove', callback);
+        },
+        /**
+         * 移除监听vframe的变化
+         * @param callback 回调
+         */
+        offVframeChange(callback) {
+            Vframe.off('add', callback);
+            Vframe.off('remove', callback);
+        },
+        /**
+         * 获取根vframe
+         * @returns 根vframe
+         */
+        getVframeRoot() {
+            return Vframe_RootVframe;
+        },
+        /**
+         * 获取子vframe对象集合
+         * @param vframe vframe对象
+         * @returns 子vframe对象集合
+         */
+        getVframeChildren(vframe) {
+            return vframe && vframe.children();
+        },
+        /**
+         * 获取所有后代vframe集合
+         * @param vframe vframe对象
+         * @returns 所有后代vframe的对象集合
+         */
+        getVframeDescendants(vframe) {
+            return vframe && vframe.descendants();
+        },
+        /**
+         * 获取祖先vframe对象
+         * @param vframe vframe对象
+         * @param level 向上查找的级别，默认1级
+         * @returns 查找祖先vframe
+         */
+        getVframeParent(vframe, level) {
+            return vframe && vframe.parent(level);
+        },
+        /**
+         * 根据id查询vframe对象
+         * @param id id字符串
+         * @returns vframe对象
+         */
+        getVframeById(id) {
+            return Vframe.byId(id);
+        },
+        /**
+         * 根据节点查询vframe对象
+         * @param node 节点对象
+         * @returns vframe对象
+         */
+        getVframeByNode(node) {
+            return Vframe.byNode(node);
+        },
+        /**
+         * 从vframe上获取实例
+         * @param vframeId vframe id
+         * @returns 返回view实例
+         */
+        getView(vframeId) {
+            let vf = Vframe_Vframes[vframeId];
+            return vf && vf['@:{vframe.view.entity}'];
+        },
+        /**
+         * 获取view上的数据
+         * @param view view实例
+         * @returns view上的数据
+         */
+        getViewData(view) {
+            return view && view['@:{view.updater.data}'];
+        },
+        /**
+         * 获取view上的事件
+         * @param view view实例
+         * @returns view上的事件
+         */
+        getViewEvents(view) {
+            return view && view['@:{view.events.object}'];
+        },
+        /**
+         * 获取选择器事件
+         * @param view view实例
+         * @returns 选择器事件对象
+         */
+        getViewIneffectiveEvents(view) {
+            return view && view['@:{view.selector.events.object}'];
+        },
+        /**
+         * 获取直接绑定的事件列表
+         * @param view view实例
+         * @returns 全局事件
+         */
+        getViewHostEvents(view) {
+            let events = [];
+            let list = view && view['@:{view.events.list}'];
+            if (list) {
+                for (let e of list) {
+                    let n = e['@:{xevent#name}'];
+                    let mod = e['@:{xevent#modifier}'];
+                    let host = e['@:{xevent#element}'];
+                    events.push({
+                        type: n,
+                        host: host == Doc_Window ? 'window' : 'document',
+                        option: mod
+                    });
+                }
+            }
+            return events;
+        },
+        /**
+         * 获取当前通过view绑定的所有事件
+         * @returns 事件列表
+         */
+        getWholeEvents() {
+            let events = [];
+            let e = AttachEventHead;
+            while (e) {
+                let n = e['@:{dom#type}'];
+                let mod = e['@:{dom#mod}'];
+                let host = e['@:{dom#element}'];
+                let viewId = e['@:{dom#view.id}'];
+                events.push({
+                    type: n,
+                    host: host == Doc_Window ? 'window' : (host == Doc_Document ? 'document' : 'body'),
+                    option: mod,
+                    viewId,
+                });
+                e = e['@:{dom#next}'];
+            }
+            return events;
+        },
+        /**
+         * 获取body上绑定的所有事件，排除低效事件后剩余的是高效事件
+         * @returns body事件对象
+         */
+        getBodyEvents() {
+            return Body_RootEvents;
+        },
+        /**
+         * 获取特殊的选择器事件，如果某个事件类型在这个对象里，则是一个低效事件
+         * @returns 选择器事件
+         */
+        getBodyIneffectiveEvents() {
+            return Body_SearchSelectorEvents;
+        },
+        /**
+         * 获取事件类型的配置项
+         * @param type 事件类型
+         * @returns 返回事件配置项对象
+         */
+        getBodyEventOption(type) {
+            return Body_RootEvents_Flags[type];
+        },
+        /**
+         * 获取路径与view的映射对象
+         * @returns 路由对象
+         */
+        getRouterMap() {
+            return Router_PNR_Routers;
+        },
+        /**
+         * 检测配置项中passive是否为true
+         * @param option 配置项
+         * @returns passive是否为true
+         */
+        isPassiveEvent(option) {
+            return option && option[Body_Passive_True_Flag];
+        },
+        /**
+         * 检测配置项中capture是否为true
+         * @param option 配置项
+         * @returns capture是否为true
+         */
+        isCaptureEvent(option) {
+            return option && option[Body_Capture_True_Flag];
+        }
+    };
     let Magix_Booted = 0;
     let TaskCompleteCheck = (schedule, callback) => {
         let taskCount = 0, taskCheck = (...args) => {
@@ -3455,7 +3737,7 @@ define('magix5', () => {
         isNumber: IsNumber,
         isPrimitive: IsPrimitive,
         isNumeric: o => !isNaN(parseFloat(o)) && isFinite(o),
-        waitSelector(selector, timeout, context) {
+        find(selector, timeout, context) {
             context = context || document;
             timeout = timeout || 30 * Thousand;
             let target, check, failed, timer = Timeout(() => failed = 1, timeout);
@@ -3478,12 +3760,12 @@ define('magix5', () => {
         },
         attach: EventListen,
         detach: EventUnlisten,
-        attachAll(targets, ...args) {
+        attachEach(targets, ...args) {
             for (let t of targets) {
                 EventListen(t, ...args);
             }
         },
-        detachAll(targets, ...args) {
+        detachEach(targets, ...args) {
             for (let t of targets) {
                 EventUnlisten(t, ...args);
             }
@@ -3505,10 +3787,12 @@ define('magix5', () => {
         Cache: MxCache,
         View,
         Vframe,
+        Inspector,
         State,
         Service,
         Event: MxEvent,
         Router,
+        Base,
         mark: Mark,
         keys: Keys,
         unmark: Unmark,

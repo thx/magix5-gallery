@@ -18,7 +18,7 @@ module.exports = {
         let cmd = builder.readCmd(border);//目前仅支持简单的变量表达式，如{{=expr}}
         if (cmd.succeed) {//成功读取变量
             //因为style属性固定出现，内容使用if控制语句即可动态控制
-            styles.push(`{{if ${cmd.content}}}border-bottom: 1px solid var(--mx5-layout-title-border-color){{/if}}`);
+            styles.push(`{{if ${cmd.content}}}border-bottom: 1px solid var(--mx5-border-color){{/if}}`);
             //data-border属性根据条件是否出现，不固定的属性使用条件语句
             //动态属性需要buildCmd重构下指令
             //a="{{=b}}??"
@@ -28,7 +28,7 @@ module.exports = {
             borderTest += ` data-border3="${rebuildCmd}??border3"`//不为null或undefined
 
         } else if ((border + '') !== 'false') {//字面量
-            styles.push('border-bottom: 1px solid var(--mx5-layout-title-border-color)');
+            styles.push('border-bottom: 1px solid var(--mx5-border-color)');
         }
         //根据当前token，生成排除子token中mx-slot外的其它节点成字符串
         let restHTML = builder.buildInnerHTML(currentToken, baseConfig.exceptSlot);
@@ -49,7 +49,7 @@ module.exports = {
             'padding: var(--mx5-layout-title-v-gap) var(--mx5-layout-title-h-gap)'
         ];
         if ((attrsKV['*border'] + '') !== 'false') {
-            styles.push('border-bottom: 1px solid var(--mx5-layout-title-border-color)');
+            styles.push('border-bottom: 1px solid var(--mx5-border-color)');
         }
 
         let tmpl = `<div ${baseConfig.processAttrs(attrsKV, styles.join(';'), {

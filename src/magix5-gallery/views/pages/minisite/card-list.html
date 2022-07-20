@@ -15,7 +15,7 @@
         </a>
         {{else}}
         <!-- 已登录 / 不需要校验登录 -->
-        <a {{if data.bottomLink.outer}} target="_blank" {{/if}} href="{{=data.bottomLink.url}}" data-spm-click="gostr=/alimama_bp.3.1;locaid={{=cardType}}{{=data.spmIndex}}_card_common">
+        <a rel="noopener noreferrer"  target="{{=data.bottomLink.outer}}?_blank" href="{{=data.bottomLink.url}}" data-spm-click="gostr=/alimama_bp.3.1;locaid={{=cardType}}{{=data.spmIndex}}_card_common">
             {{=data.bottomLink.text}}<i class="minisite-iconfont bottom-link-icon">&#xe63d;</i>
         </a>
         {{/if}}

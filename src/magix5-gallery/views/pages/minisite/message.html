@@ -1,7 +1,7 @@
 <div class="inner-small mx5-clearfix">
     {{each data.list as item}}
     <a class="message" style="width: {{=(100/data.lineNumber)}}%;"
-        href="{{=item.link}}" target="_blank" data-spm-click="gostr=/alimama_bp.3.1;locaid=d532105fd{{=data.spmIndex}}_message">
+        href="{{=item.link}}" rel="noopener noreferrer" target="_blank" data-spm-click="gostr=/alimama_bp.3.1;locaid=d532105fd{{=data.spmIndex}}_message">
         {{if item.title}}
         <div class="message-title">
             <span class="title-text" mx-html="{{=item.title}}"></span>

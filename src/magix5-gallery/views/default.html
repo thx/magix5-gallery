@@ -17,7 +17,7 @@
             <div class="title" mx-html="{{=item.name}}"></div>
             {{/if}}
             {{each item.subs as sub}}
-            <a class="{{if sub.child}} child {{else}} nav {{/if}} {{if (sub.path == path)}} cur-nav {{/if}}"
+            <a class="{{if sub.child}}child{{else}}nav{{/if}}{{if (sub.path == path)}} cur-nav{{/if}}"
                 href="#{{=sub.path}}" mx-html="{{=sub.name}}"></a>
             {{/each}}
         </div>
