@@ -8,6 +8,7 @@ export default View.extend({
         let cardList = (data.list || []).map(item => {
             return this['@:{to.card.item}'](item, biz);
         })
+
         this.set({
             ...extra,
             cardList,
@@ -78,7 +79,7 @@ export default View.extend({
 
     '@:{show.login}<click>'(e) {
         let { biz } = this.get();
-        let { mainBizCode, bizCode, loginView } = biz;
+        let { bizCode, loginView } = biz;
 
         // mxLoginView
         //      历史配置：mxLoginView(viewPath, viewOptions)
@@ -94,7 +95,7 @@ export default View.extend({
         // } else {
         //     // 兼容直接mount该view时只有bizCode的场景
         //     this.mxLoginView({
-        //         bizCode: mainBizCode || bizCode
+        //         bizCode,
         //     })
         // }
     }

@@ -1,0 +1,9 @@
+{{if (data.hideLogin + '' !== 'true')}}
+    <mx-btn     
+        *mode="primary" 
+        *content="立即登录"
+        *link-href="{{=biz.user}}?{{=biz.domain}}" 
+        *link-target="{{=biz.user}}?_blank"
+        mx-click="{{=(!biz.user)}}?@:{show.login}()" 
+        data-spm-click="gostr=/alimama_bp.3.1;locaid=d2a1bf920{{=biz.bizCode}}_login_btn" />
+{{/if}}

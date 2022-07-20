@@ -1,8 +1,9 @@
 import Magix5, { applyStyle } from 'magix5';
 import View from './base';
-applyStyle('@index.less');
-applyStyle('@learn.less');
+applyStyle('@:index.less');
+applyStyle('@:card-case.less');
 
 export default View.extend({
-    tmpl: '@img.html'
+    tmpl: '@:card-case.html'
 });
+
