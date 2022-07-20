@@ -1,0 +1,103 @@
+<div class="header header--{{=mode}}" 
+    style="height: {{=height}}px; {{if colorBg}} --mx5-header-color-bg: {{=colorBg}}; {{/if}} {{if colorText}} --mx5-header-color-text: {{=colorText}}; {{/if}} {{if color}} --mx5-header-color-brand: {{=color}}; {{/if}}">
+
+    <!-- 顶部妈妈产品相关外链 -->
+    {{if (links && list && list.length)}}
+    <div class="others">
+        <div class="others-inner" style="{{=width}}?max-width: {{=width}}px;">
+            <div class="item item-mama">
+                <a class="title-link" href="//www.alimama.com" target="_blank" rel="noopener noreferrer" data-spm-click="{{=spm}}?{{=spm}}mmh">阿里妈妈首页</a>
+            </div>
+            {{each list as item}}
+            <mx-popover class="item"  
+                *width="144" 
+                *content="{{=item.tip}}"
+                mx-focusin="@:{toggle.hover}()"
+                mx-focusout="@:{toggle.hover}()">
+                <span class="title-link">{{=item.text}}</span>
+                <i class="title-arrow mx5-iconfont">&#xe6c1;</i>
+            </mx-popover>
+            {{/each}}
+
+            <!-- 登陆信息 -->
+            {{if login}}
+            <div class="item">
+                {{if user}}
+                <span class="title-text">你好，{{=user}}，</span>
+                <a class="mx5-link-brand" href="{{=logoutUrl}}" data-spm-click="{{=spm}}?{{=spm}}lgo" >退出</a>
+                {{else}}
+                <span class="title-text">亲，请</span>
+                <a class="mx5-link-brand" href="javascript:;" mx-click="@:{show.login}()" data-spm-click="{{=spm}}?{{=spm}}lgi">登录</a>
+                {{/if}}
+            </div>
+            {{/if}}
+        </div>
+    </div>
+    {{/if}}
+
+    <div class="front {{if fixed}} fixed {{/if}}" style="{{=styles}}">
+        <div class="front-inner clearfix" style="{{=width}}?max-width: {{=width}}px;">
+            {{if logo}}
+            <div class="front-item logo">
+                <a data-nav="header_logo" 
+                    href="{{=logoNav[linkKey]}}?{{=logoNav[linkKey]}}" 
+                    target="{{=(logoNav[outerKey] + '' === 'true')}}?_blank" 
+                    data-spm-click="{{=spm}}?{{=spm}}logo">
+                    <img src="{{=logo}}"/>
+                </a>
+            </div>
+            {{/if}}
+
+            <!-- {{if (navs && navs.length > 0 && devInfo.pc)}}
+                {{each navs as nav navIndex}}
+                    {{if nav.subs && nav.subs.length}}
+                    <mx-popover data-pop="{{=$viewId}}_{{=navIndex}}"
+                        class="front-item nav {{if (parentIndex == navIndex)}} nav-cur {{/if}}"
+                        *offset="{{#{ top: -10 }}}"
+                        *view="@:./sub"
+                        *data="{{#{
+                            parent: parent,
+                            child: child,
+                            valueKey: valueKey,
+                            textKey: textKey,
+                            linkKey: linkKey,
+                            outerKey: outerKey,
+                            spm: spm,
+                            nav: nav,
+                            color: color,
+                            colorOpacity: colorOpacity,
+                        }}}"
+                        mx-focusin="@:{toggle.hover}()"
+                        mx-focusout="@:{toggle.hover}()">
+                        <a class="nav-inner" data-nav="{{=nav[valueKey]}}" {{if nav[linkKey]}} {{=linkFn(nav)}} {{else}} href="javascript:;" mx-click="changeNav({nav:'{{#nav}}'})" {{/if}} {{if spm}} data-spm-click="{{=spm}}{{=nav[valueKey]}}" {{/if}}>
+                            {{=nav[textKey]}}
+                        </a>
+                        {{if nav.tag}}
+                        <mx-effects.icon class="nav-icon" {{if nav.tagColor}} color="{{=nav.tagColor}}" {{else}} type="error" {{/if}} content="{{=nav.tag}}"/>
+                        {{/if}}
+                        <i class="nav-arrow mx5-iconfont">&#xe6c1;</i>
+                    </mx-popover>
+                    {{else}}
+                    <div class="front-item nav {{if (parent == nav[valueKey])}} nav-cur {{/if}}"
+                        mx-focusin="@:{toggle.hover}()"
+                        mx-focusout="@:{toggle.hover}()">
+                        <a class="nav-inner" data-nav="{{=nav[valueKey]}}" {{if nav[linkKey]}} {{=linkFn(nav)}} {{else}} href="javascript:;" mx-click="changeNav({nav:'{{#nav}}'})" {{/if}} {{if spm}} data-spm-click="{{=spm}}{{=nav[valueKey]}}" {{/if}}>
+                            {{=nav[textKey]}}
+                        </a>
+                        {{if nav.tag}}
+                        <mx-effects.icon class="nav-icon" {{if nav.tagColor}} color="{{=nav.tagColor}}" {{else}} type="error" {{/if}} content="{{=nav.tag}}"/>
+                        {{/if}}
+                    </div>
+                    {{/if}}
+                {{/each}}
+            {{/if}} -->
+
+            <!-- 导航上右侧自定义view -->
+            {{if rightView}}
+            <div class="front-right" style="opacity: {{=(rightCeilingShow ? (fixed ? 1 : 0) : 1)}}">
+                <div class="right-inner" mx-view="{{=rightView}}" *data="{{#rightViewData}}"></div>
+            </div>
+            {{/if}}
+        </div>
+    </div>
+</div>

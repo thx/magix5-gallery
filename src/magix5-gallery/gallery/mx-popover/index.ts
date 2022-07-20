@@ -1,7 +1,6 @@
 
-import Magix5 from 'magix5';
+import Magix5, { applyStyle, node, inside, attach, detach, dispatch } from 'magix5';
 import View from '../mx-base/view';
-let { applyStyle, node, inside, attach, detach } = Magix5;
 applyStyle('@:index.less');
 
 let supportThemes = ['white', 'dark'];
@@ -167,6 +166,9 @@ export default View.extend({
                     viewData,
                     posConfigs,
                 });
+
+                // 通知外部变更
+                dispatch(this.root, 'focusin');
             }
         }, this.get('showDelay'));
     },
@@ -181,11 +183,15 @@ export default View.extend({
                 this.set({
                     show: false
                 });
+
                 // 内容隐藏
                 let vf = this['@:{pop.vframe}'];
                 if (vf) {
                     vf.invoke('@:{hide}');
                 }
+
+                // 通知外部变更
+                dispatch(this.root, 'focusout');
             }
         }, this.get('hideDelay'));
     },
