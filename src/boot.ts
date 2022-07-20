@@ -31,7 +31,7 @@ if (typeof DEBUG == 'undefined')
 		});
 
 		// 全局样式，不编译
-		Magix5.applyStyle(`as@:./magix5-gallery/gallery/mx-style/index.less`);
+		Magix5.applyStyle(`global@:./magix5-gallery/gallery/mx-style/index.less`);
 
 		// 变量覆盖 todo
 		// let varsString = `style@:./magix5-gallery/assets/group_override.less`;
